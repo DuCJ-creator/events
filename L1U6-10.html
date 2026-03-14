@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>L1 U6-10 Busy Bees</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f0f8ff;
+            margin: 0;
+            padding: 10px;
+            touch-action: manipulation;
+        }
+        #game-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 15px;
+            padding: 15px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+        #flower-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin: 0 auto 15px;
+        }
+        #flower {
+            width: 60px;
+            height: 60px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="%23FF69B4"/><circle cx="30" cy="30" r="15" fill="%23FFD700"/><circle cx="70" cy="30" r="15" fill="%23FFD700"/><circle cx="30" cy="70" r="15" fill="%23FFD700"/><circle cx="70" cy="70" r="15" fill="%23FFD700"/><circle cx="50" cy="50" r="10" fill="%238B4513"/></svg>');
+            background-size: contain;
+            position: relative;
+            transition: transform 0.3s;
+        }
+        #honey {
+            font-size: 24px;
+            margin-left: 10px;
+        }
+        #score {
+            font-size: 18px;
+            font-weight: bold;
+        }
+        #question {
+            font-size: 18px;
+            margin: 10px 0;
+            min-height: 50px;
+            word-break: break-word;
+            font-weight: bold;
+        }
+        #options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin: 15px 0;
+        }
+        .option {
+            padding: 10px 5px;
+            background-color: #FFD700;
+            color: #333;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s;
+            word-break: break-word;
+        }
+        .option:hover, .option:active {
+            background-color: #FFC000;
+        }
+        #bee {
+            width: 100px;
+            height: 80px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 100"><circle cx="60" cy="50" r="30" fill="%23FFD700" stroke="%23000" stroke-width="2"/><path d="M40,30 Q50,20 60,30 Q70,20 80,30" fill="none" stroke="%23000" stroke-width="2"/><path d="M40,70 Q50,80 60,70 Q70,80 80,70" fill="none" stroke="%23000" stroke-width="2"/><circle cx="45" cy="40" r="5" fill="%23000"/><circle cx="75" cy="40" r="5" fill="%23000"/><path d="M45,65 Q60,80 75,65" stroke="%23000" stroke-width="2" fill="none"/><path d="M30,20 Q40,10 50,20 Q60,10 70,20 Q80,10 90,20" stroke="%23000" stroke-width="2" fill="none" stroke-dasharray="5,3"/></svg>');
+            background-size: contain;
+            margin: 15px auto;
+            background-repeat: no-repeat;
+            transition: all 0.3s;
+            animation: fly 0.5s infinite alternate;
+        }
+        @keyframes fly {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-5px); }
+        }
+        .bee-eating {
+            transform: scale(1.1);
+            animation: eat 0.5s ease-in-out, fly 0.5s infinite alternate;
+        }
+        .bee-dead {
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 100"><circle cx="60" cy="50" r="30" fill="%23FFD700" stroke="%23000" stroke-width="2"/><path d="M40,30 Q50,20 60,30 Q70,20 80,30" fill="none" stroke="%23000" stroke-width="2"/><path d="M40,70 Q50,80 60,70 Q70,80 80,70" fill="none" stroke="%23000" stroke-width="2"/><path d="M40,40 L50,50 M50,40 L40,50" stroke="%23000" stroke-width="2"/><path d="M70,40 L80,50 M80,40 L70,50" stroke="%23000" stroke-width="2"/><path d="M45,65 Q60,80 75,65" stroke="%23000" stroke-width="2" fill="none"/></svg>') !important;
+            animation: none;
+        }
+        @keyframes eat {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+        #game-over {
+            display: none;
+            color: #8B4513;
+            font-size: 20px;
+            font-weight: bold;
+            margin: 15px 0;
+        }
+        #restart {
+            padding: 8px 16px;
+            background-color: #FFA500;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            margin: 10px auto;
+        }
+        #restart:hover, #restart:active {
+            background-color: #FF8C00;
+        }
+        #stop-btn {
+            padding: 8px 16px;
+            background-color: #f44336;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            margin: 10px auto;
+            display: none;
+        }
+        #stop-btn:hover, #stop-btn:active {
+            background-color: #d32f2f;
+        }
+        
+        @media (max-width: 480px) {
+            #game-container {
+                padding: 10px;
+            }
+            #flower {
+                width: 50px;
+                height: 50px;
+            }
+            #question {
+                font-size: 16px;
+            }
+            .option {
+                font-size: 13px;
+                padding: 8px 3px;
+            }
+            #bee {
+                width: 80px;
+                height: 70px;
+            }
+            #flower-container {
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="game-container">
+        <h1>L1 U6-10 Busy Bees</h1>
+        <div id="bee"></div>
+        <div id="flower-container">
+            <div id="flower"></div>
+            <div id="score">蜂蜜: 0</div>
+            <div id="honey">🍯</div>
+        </div>
+        <div id="question"></div>
+        <div id="options"></div>
+        <button id="stop-btn">停止遊戲</button>
+        <div id="game-over"></div>
+        <button id="restart">重新開始</button>
+    </div>
+
+    <script>
+        // 單字表
+        const vocabulary = parseVocabulary(`
+angry,adj,生氣的  
+beat,v,擊敗;敲擊  
+beat,n,心跳聲;滴答聲;拍子  
+behind,adv,在背後;向背後;遲;落後  
+behind,prep,在背後;向背後;遲;落後  
+brave,adj,勇敢的  
+camel,n,駱駝  
+Christmas,n,耶誕節  
+cold,adj,寒冷的  
+daughter,n,女兒  
+desk,n,書桌  
+early,adj,早的;提早的  
+English,adj,英格蘭的;英國的;英國人的;英語的  
+for,prep,為…做的;給  
+ground,v,使擱淺;使停飛;依靠;根據;基於  
+land,v,登陸  
+last,n,最後的人(或東西);最後;上回  
+letter,n,信;字母  
+light,v,點(火);點燃;照亮  
+look,n,看;瞥;臉色;眼神;表情  
+no,adj,沒有;不  
+nose,n,鼻子  
+note,v,注意;記下  
+number,v,編號;總數達到;共計  
+pull,v,拉  
+race,v,與...賽跑  
+sad,adj,難過的  
+save,v,救;省;存錢  
+taste,n,味道;滋味;體驗;風雅;得體;興趣  
+wish,n,希望;願望;祝福;祈頌  
+around,adv,到處;四處;周圍;附近;大約;差不多  
+around,prep,環繞  
+beautiful,adj,漂亮的  
+correct,v,改正;糾正  
+cover,n,封面  
+date,n,日期  
+dog,n,狗  
+fat,n,(動;植物)脂肪;油脂  
+feed,v,吃;餵養  
+first,adj,第一的  
+free,adv,免費地;無約束地;鬆開著;脫開著  
+girl,n,女孩  
+grand,adj,雄偉的;總的  
+horse,n,馬  
+hour,n,小時  
+long,adj,長的  
+mother,n,母親  
+name,n,名字  
+newspaper,n,報紙  
+once,n,一次;一回  
+perhaps,adv,或許;可能  
+rise,v,起身;升起  
+tomorrow,adv,明天  
+two,n,二  
+two,adj,二的  
+water,v,給...澆水;加水稀釋;流口水  
+worse,n,更糟的事  
+also,adv,也  
+bell,n,鈴;鐘  
+below,adv,在下面;到下面  
+below,prep,在下面;到下面  
+blood,n,血  
+chair,v,主持(會議);任(會議的)主席  
+chance,v,冒...的險;賭(錢);碰巧  
+cloud,v,陰雲密佈;變暗;變模糊;變混濁  
+cola,n,可樂  
+cook,n,廚師  
+early,adv,早;提早  
+east,n,東方  
+east,adj,東方的  
+gray,n,灰色 (美式拼寫)  
+gray,adj,灰色的 (美式拼寫)  
+home,adj,家庭的;國內的  
+key,adj,重要的;基本的;關鍵的  
+little,adj,很少的;小的  
+live,adj,活的;有生命的;燃著的;實況播送的  
+mother,v,生下;產生出;像母親般照顧  
+open,v,打開  
+out,adv,在外地  
+out,prep,在外地  
+pen,n,原子筆;墨水筆;畜欄  
+pie,n,派(食品)  
+pocket,v,侵吞;擊(球)落袋;忍受  
+pool,v,合辦;聯營  
+purple,n,紫色  
+purple,adj,紫色的  
+reason,v,推論;推理  
+serve,v,服務  
+service,v,維修;保養  
+size,n,大小;尺寸  
+smell,v,聞  
+soon,adv,即刻;不久  
+soul,n,靈魂  
+sun,v,曬;曝;曬太陽  
+tall,adj,高的  
+tie,v,綁;繫  
+weather,v,經受到;使風化;褪色;損壞  
+west,adv,向西方  
+white,n,白色  
+white,adj,白色的  
+cake,n,蛋糕  
+climb,v,爬  
+climb,n,攀登  
+dancer,n,舞蹈演員;舞蹈家  
+date,v,約會;註明日期  
+direct,adj,直接的  
+end,n,盡頭;結局  
+inside,n,內部;裡面;內幕  
+laugh,n,笑;笑聲  
+outside,adv,外面地  
+run,v,跑  
+season,n,季節  
+short,adj,矮的;短的  
+silver,n,銀  
+sorry,adj,抱歉;遺憾的  
+station,v,駐紮;部署;配置  
+stop,n,車站  
+such,adj,如此的  
+third,adj,第三  
+want,n,需要的東西;必需品;缺乏;匱乏  
+waste,n,浪費  
+wide,adv,張得(或開得)很大地;充分地  
+wife,n,妻子  
+wood,n,木材  
+auntie,n,aunt 的暱稱  
+between,adv,在中間;介乎兩者之間  
+between,prep,在中間;介乎兩者之間  
+body,n,身體  
+buy,v,買  
+buy,n,購買;便宜貨  
+cool,adj,涼快的;很棒的;酷  
+crow,n,鴉;烏鴉  
+cup,n,杯子  
+dance,n,舞會  
+downstairs,n,樓下  
+downstairs,adj,樓下的  
+downstairs,adv,在樓下  
+duck,n,鴨  
+guess,v,猜  
+hate,n,仇恨;憎恨;厭惡  
+heat,n,熱氣  
+keep,v,保留;保持  
+kitchen,n,廚房  
+lesson,n,課;教訓  
+lunch,v,吃午餐  
+may,v,可能  
+mouse,n,老鼠;滑鼠  
+name,v,給...取名;列舉  
+nature,n,自然  
+parent,n,雙親之一  
+pool,n,水池;美式撞球  
+price,v,給...定價  
+print,v,印刷;用印刷體寫  
+remember,v,記得  
+rule,n,規則  
+sharp,adv,整(指時刻);銳利地;機警地  
+sing,v,唱歌  
+skin,n,皮膚  
+sleep,n,睡眠;死亡;冬眠  
+sour,n,酸(的)東西  
+sour,adj,酸的  
+store,n,商店  
+toy,v,玩弄;戲耍;調情;調戲  
+twenty,n,二十  
+twenty,adj,二十的  
+week,n,星期  
+welcome,adj,受歡迎的;令人愉快的;被允許的  
+when,adv,何時  
+write,v,寫  
+        `);
+        
+        // 遊戲變數
+        let score = 0;
+        let currentQuestion = null;
+        let gameActive = false;
+        let wrongCount = 0;
+        let isAnswering = false;
+        let startTime = 0;
+        let endTime = 0;
+        
+        // DOM元素
+        const questionEl = document.getElementById('question');
+        const optionsEl = document.getElementById('options');
+        const scoreEl = document.getElementById('score');
+        const gameOverEl = document.getElementById('game-over');
+        const restartBtn = document.getElementById('restart');
+        const flowerEl = document.getElementById('flower');
+        const beeEl = document.getElementById('bee');
+        const honeyEl = document.getElementById('honey');
+        const stopBtn = document.getElementById('stop-btn');
+        
+        // 解析單字表
+        function parseVocabulary(text) {
+            const lines = text.split('\n');
+            const result = [];
+            
+            for (const line of lines) {
+                const trimmed = line.trim();
+                if (trimmed) {
+                    const parts = trimmed.split(',');
+                    if (parts.length >= 3) {
+                        result.push({
+                            word: parts[0].trim(),
+                            pos: parts[1].trim(),
+                            meaning: parts[2].trim()
+                        });
+                    }
+                }
+            }
+            
+            return result;
+        }
+        
+        // 開始遊戲
+        function startGame() {
+            score = 0;
+            wrongCount = 0;
+            gameActive = true;
+            startTime = Date.now();
+            gameOverEl.style.display = 'none';
+            restartBtn.style.display = 'none';
+            stopBtn.style.display = 'block';
+            beeEl.classList.remove('bee-dead');
+            updateScore();
+            nextQuestion();
+        }
+        
+        // 下一題
+        function nextQuestion() {
+            if (!gameActive) return;
+            
+            const correctIndex = Math.floor(Math.random() * vocabulary.length);
+            currentQuestion = vocabulary[correctIndex];
+            
+            questionEl.textContent = `${currentQuestion.word} [${currentQuestion.pos}]`;
+            
+            const options = [currentQuestion.meaning];
+            while (options.length < 4) {
+                const randomMeaning = vocabulary[Math.floor(Math.random() * vocabulary.length)].meaning;
+                if (!options.includes(randomMeaning)) {
+                    options.push(randomMeaning);
+                }
+            }
+            
+            shuffleArray(options);
+            
+            optionsEl.innerHTML = '';
+            options.forEach(option => {
+                const button = document.createElement('button');
+                button.className = 'option';
+                button.textContent = option;
+                button.addEventListener('click', function() {
+                    checkAnswer(option);
+                });
+                optionsEl.appendChild(button);
+            });
+            
+            flowerEl.style.transform = 'translateY(0)';
+            flowerEl.style.backgroundImage = 'url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'><circle cx=\'50\' cy=\'50\' r=\'40\' fill=\'%23FF69B4\'/><circle cx=\'30\' cy=\'30\' r=\'15\' fill=\'%23FFD700\'/><circle cx=\'70\' cy=\'30\' r=\'15\' fill=\'%23FFD700\'/><circle cx=\'30\' cy=\'70\' r=\'15\' fill=\'%23FFD700\'/><circle cx=\'70\' cy=\'70\' r=\'15\' fill=\'%23FFD700\'/><circle cx=\'50\' cy=\'50\' r=\'10\' fill=\'%238B4513\'/></svg>")';
+        }
+        
+        // 檢查答案
+        function checkAnswer(selectedMeaning) {
+            if (!gameActive || isAnswering) return;
+            
+            isAnswering = true;
+            
+            // 播放吃東西動畫
+            beeEl.classList.add('bee-eating');
+            setTimeout(() => {
+                beeEl.classList.remove('bee-eating');
+            }, 500);
+            
+            if (selectedMeaning === currentQuestion.meaning) {
+                // 正確答案
+                score++;
+                wrongCount = 0;
+                updateScore();
+                flowerEl.style.transform = 'translateY(-15px)';
+                setTimeout(() => {
+                    isAnswering = false;
+                    nextQuestion();
+                }, 400);
+            } else {
+                // 錯誤答案
+                wrongCount++;
+                const penalty = wrongCount;
+                
+                if (score >= penalty) {
+                    score -= penalty;
+                    updateScore();
+                    
+                    const penaltyMsg = document.createElement('div');
+                    penaltyMsg.textContent = `錯誤！扣 ${penalty} 分`;
+                    penaltyMsg.style.color = 'red';
+                    penaltyMsg.style.fontWeight = 'bold';
+                    penaltyMsg.style.marginTop = '5px';
+                    questionEl.appendChild(penaltyMsg);
+                    
+                    setTimeout(() => {
+                        if (questionEl.contains(penaltyMsg)) {
+                            questionEl.removeChild(penaltyMsg);
+                        }
+                    }, 1000);
+                    
+                    setTimeout(() => {
+                        isAnswering = false;
+                        nextQuestion();
+                    }, 1000);
+                } else {
+                    score = 0;
+                    updateScore();
+                    isAnswering = false;
+                    endGame();
+                }
+            }
+        }
+        
+        // 結束遊戲
+        function endGame() {
+            gameActive = false;
+            isAnswering = false;
+            endTime = Date.now();
+            const timeSpent = Math.floor((endTime - startTime) / 1000);
+            
+            gameOverEl.style.display = 'block';
+            gameOverEl.innerHTML = `
+                <div>花朵枯萎了！</div>
+                <div style="margin-top:10px;">獲得蜂蜜: <strong>${score}</strong></div>
+                <div>遊戲時間: <strong>${timeSpent}秒</strong></div>
+            `;
+            restartBtn.style.display = 'block';
+            stopBtn.style.display = 'none';
+            
+            flowerEl.style.transform = 'translateY(15px) rotate(45deg)';
+            flowerEl.style.backgroundImage = 'url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'><circle cx=\'50\' cy=\'50\' r=\'40\' fill=\'%238B4513\'/><circle cx=\'30\' cy=\'30\' r=\'15\' fill=\'%236B8E23\'/><circle cx=\'70\' cy=\'30\' r=\'15\' fill=\'%236B8E23\'/><circle cx=\'30\' cy=\'70\' r=\'15\' fill=\'%236B8E23\'/><circle cx=\'70\' cy=\'70\' r=\'15\' fill=\'%236B8E23\'/><circle cx=\'50\' cy=\'50\' r=\'10\' fill=\'%23000\'/></svg>")';
+            
+            setTimeout(() => {
+                beeEl.classList.add('bee-dead');
+            }, 300);
+            
+            questionEl.textContent = '';
+            optionsEl.innerHTML = '';
+        }
+        
+        // 停止遊戲按鈕事件
+        stopBtn.addEventListener('click', function() {
+            if (!gameActive) return;
+            
+            gameActive = false;
+            isAnswering = false;
+            endTime = Date.now();
+            const timeSpent = Math.floor((endTime - startTime) / 1000);
+            
+            gameOverEl.style.display = 'block';
+            gameOverEl.innerHTML = `
+                <div>遊戲已停止</div>
+                <div style="margin-top:10px;">獲得蜂蜜: <strong>${score}</strong></div>
+                <div>遊戲時間: <strong>${timeSpent}秒</strong></div>
+            `;
+            restartBtn.style.display = 'block';
+            stopBtn.style.display = 'none';
+            
+            flowerEl.style.transform = 'translateY(0)';
+            beeEl.classList.remove('bee-eating');
+            
+            questionEl.textContent = '';
+            optionsEl.innerHTML = '';
+        });
+        
+        // 更新分數
+        function updateScore() {
+            scoreEl.textContent = `蜂蜜: ${score}`;
+            honeyEl.textContent = '🍯'.repeat(Math.min(score, 5));
+        }
+        
+        // 重新開始遊戲
+        restartBtn.addEventListener('click', function() {
+            startGame();
+        });
+        
+        // 輔助函數：打亂陣列
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        // 初始化遊戲
+        startGame();
+    </script>
+</body>
+</html>
