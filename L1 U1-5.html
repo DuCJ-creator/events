@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>L1 U1-5 Angry Apple-Eaters</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f0f8ff;
+            margin: 0;
+            padding: 10px;
+            touch-action: manipulation;
+        }
+        #game-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 15px;
+            padding: 15px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+        #apple-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin: 0 auto 15px;
+        }
+        #apple {
+            width: 60px;
+            height: 60px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="%23FF0000" d="M50,5C30,5,20,25,20,45c0,20,10,40,30,40s30-20,30-40C80,25,70,5,50,5z"/><path fill="%238B4513" d="M50,0L45,20h10z"/></svg>');
+            background-size: contain;
+            position: relative;
+            transition: transform 0.3s;
+        }
+        #score {
+            font-size: 18px;
+            font-weight: bold;
+        }
+        #question {
+            font-size: 18px;
+            margin: 10px 0;
+            min-height: 50px;
+            word-break: break-word;
+            font-weight: bold;
+        }
+        #options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin: 15px 0;
+        }
+        .option {
+            padding: 10px 5px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s;
+            word-break: break-word;
+        }
+        .option:hover, .option:active {
+            background-color: #45a049;
+        }
+        #monster {
+            width: 100px;
+            height: 80px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 100"><circle cx="60" cy="50" r="40" fill="%2333ccff"/><circle cx="45" cy="40" r="5" fill="%23000"/><circle cx="75" cy="40" r="5" fill="%23000"/><path d="M45,65 Q60,80 75,65" stroke="%23000" stroke-width="3" fill="none"/><path d="M20,20 Q40,0 60,20 Q80,0 100,20" stroke="%2333ccff" stroke-width="10" fill="none"/></svg>');
+            background-size: contain;
+            margin: 15px auto;
+            background-repeat: no-repeat;
+            transition: all 0.3s;
+        }
+        .monster-eating {
+            transform: scale(1.1);
+            animation: eat 0.5s ease-in-out;
+        }
+        .monster-dead {
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 100"><circle cx="60" cy="50" r="40" fill="%2333ccff"/><path d="M40,40 L50,50 M50,40 L40,50" stroke="%23000" stroke-width="2"/><path d="M70,40 L80,50 M80,40 L70,50" stroke="%23000" stroke-width="2"/><path d="M45,65 Q60,80 75,65" stroke="%23000" stroke-width="3" fill="none"/><path d="M20,20 Q40,0 60,20 Q80,0 100,20" stroke="%2333ccff" stroke-width="10" fill="none"/></svg>') !important;
+        }
+        @keyframes eat {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+        #game-over {
+            display: none;
+            color: red;
+            font-size: 20px;
+            font-weight: bold;
+            margin: 15px 0;
+        }
+        #restart {
+            padding: 8px 16px;
+            background-color: #ff6600;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            margin: 10px auto;
+        }
+        #restart:hover, #restart:active {
+            background-color: #e65c00;
+        }
+        #stop-btn {
+            padding: 8px 16px;
+            background-color: #f44336;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            margin: 10px auto;
+            display: none; /* 改為使用 display 控制 */
+        }
+        #stop-btn:hover, #stop-btn:active {
+            background-color: #d32f2f;
+        }
+        #start-btn {
+            padding: 8px 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            margin: 10px auto;
+        }
+        #start-btn:hover, #start-btn:active {
+            background-color: #45a049;
+        }
+        #results {
+            display: none;
+            margin: 15px 0;
+            padding: 10px;
+            background-color: #f8f8f8;
+            border-radius: 8px;
+        }
+        
+        /* 手機版調整 */
+        @media (max-width: 480px) {
+            #game-container {
+                padding: 10px;
+            }
+            #apple {
+                width: 50px;
+                height: 50px;
+            }
+            #question {
+                font-size: 16px;
+            }
+            .option {
+                font-size: 13px;
+                padding: 8px 3px;
+            }
+            #monster {
+                width: 80px;
+                height: 70px;
+            }
+            #apple-container {
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="game-container">
+        <h1>L1 U1-5 Angry Apple-Eaters</h1>
+        <div id="monster"></div>
+        <div id="apple-container">
+            <div id="apple"></div>
+            <div id="score">Score: 0</div>
+        </div>
+        <div id="question"></div>
+        <div id="options"></div>
+        <button id="start-btn">Start Game</button>
+        <button id="stop-btn">Stop Game</button>
+        <div id="game-over">Game Over!</div>
+        <div id="results"></div>
+        <button id="restart">Restart</button>
+    </div>
+
+    <script>
+        // 單字表 (隱藏在程式碼中，用戶看不到)
+        const vocabulary = parseVocabulary(`
+action,n,動作  
+afternoon,n,下午;午後  
+air,n,空氣  
+banana,n,香蕉  
+brown,adj,褐色的;棕色的  
+brown,n,棕色  
+card,n,卡片  
+eat,v,吃  
+farm,n,農場  
+fifteen,n,十五  
+fifteen,adj,十五的  
+first,adv,先;首先;第一;首次  
+hand,v,面交;給;傳遞  
+idea,n,主意  
+large,adj,大的  
+make,v,製造;使得  
+many,adj,很多的  
+May,n,五月  
+outside,n,外面;外部;外側;外表  
+please,v,請;取悅  
+question,v,詢問  
+radio,v,用無線電傳送  
+room,n,房間  
+room,v,居住;為...提供住處  
+shall,v,將;應該  
+shot,n,射擊;開槍;投籃;拍攝  
+soil,n,土;泥土;土壤  
+study,v,學習;讀書  
+time,v,記錄...的時間;使合拍子  
+too,adv,也是;過於  
+toward,prep,向;對  
+welcome,n,歡迎;款待;歡迎辭  
+yes,n,肯定的回答;同意;贊成票  
+almost,adv,幾乎  
+animal,n,動物  
+begin,v,開始  
+cost,v,花費  
+fight,n,打架;戰鬥  
+finish,n,結束;(傢具等)末道漆  
+funny,adj,可笑的;滑稽的  
+haircut,n,理髮  
+home,adv,在家;回家;到家  
+hurt,v,傷害;使疼痛  
+level,n,水平線  
+mail,v,寄信  
+nine,n,九  
+nine,adj,九的  
+on,prep,在…上面  
+only,conj,可是;不過;要不是;若非  
+plant,n,植物;農作物;工廠  
+soda,n,蘇打;汽水  
+sound,v,聽起來  
+strong,adj,強壯的  
+ticket,v,加標籤於;開違規罰單  
+touch,n,觸;碰;接觸;潤色;特長;才能;少許  
+town,n,城市  
+up,prep,向...上  
+win,v,贏得  
+world,n,世界  
+come,v,到來  
+country,n,國家;鄉下  
+cowboy,n,牛仔  
+every,adj,每一個的  
+examination,n,檢查;調查;考試 (=exam)  
+except,v,把...除外;反對  
+frog,n,青蛙  
+glad,adj,高興的  
+goodbye,n,告別  
+inside,prep,在…裡面  
+laugh,v,笑  
+lion,n,獅子  
+never,adv,永不  
+paint,v,畫圖;油漆  
+pencil,v,草擬;起草  
+piano,n,鋼琴  
+right,adv,向右地;馬上;正好  
+sand,n,沙  
+second,adj,第二的;次要的;副的;從屬的  
+seesaw,n,蹺蹺板  
+seesaw,v,(玩) 蹺蹺板  
+sometimes,adv,有時候  
+still,adj,靜止的  
+stop,v,停止  
+wear,v,穿著;磨損;使力竭  
+Wednesday,n,星期三  
+well,adv,很好地;充分地  
+will,n,意志;決心;遺囑  
+yellow,n,黃色  
+yellow,adj,黃色的  
+yesterday,adv,昨天  
+ago,adv,以前  
+born,adj,出生的;誕生的  
+care,v,關心;照顧  
+care,n,看護;關懷  
+certain,adj,肯定的  
+draw,v,畫;繪製;描寫  
+fall,n,秋天  
+far,adj,遠的  
+first,n,第一;第一個;第一名;優等;開始;開始時間  
+fog,v,以霧籠罩;使困惑;使模糊  
+fresh,adj,新鮮的  
+front,v,向前;在前面;面對  
+front,n,前方  
+iron,v,熨燙  
+keeper,n,保管人;守衛  
+kitten,n,小貓  
+knee,v,用膝蓋碰(撞)  
+leave,v,離開;丟下  
+nurse,n,護士  
+out,adv,在外  
+out,prep,向外  
+ready,v,預先;事先;使準備好  
+seventy,n,七十  
+seventy,adj,七十的  
+smell,n,氣味;香味;臭味;嗅覺;一嗅;一聞;少許;跡象;影蹤  
+song,n,歌曲  
+sour,v,使變酸;厭煩;變壞  
+sure,adj,確定  
+thus,adv,如此;這樣  
+wear,n,穿;戴;佩;磨損  
+wrong,adv,錯誤地;邪惡地;不正當地  
+again,adv,再一次  
+agreement,n,同意  
+class,v,把...分類;把...分等級  
+clean,n,打掃;去垢  
+coat,v,塗在...上;給...穿上外套  
+farmer,n,農夫  
+flower,v,開花;發育;成熟;繁榮  
+history,n,歷史  
+hole,v,鑿洞於;穿孔於;進入洞中  
+job,n,職業;工作  
+joy,n,歡喜;樂趣  
+other,adj,其他的  
+papa,n,爸爸  
+scene,n,景色;場面  
+selfish,adj,自私的  
+set,n,套;組  
+shine,n,光;光亮;光澤;擦亮;陽光;晴天  
+something,n,某人;某事;重要的人(或事物)  
+special,adj,特別的  
+thirteen,n,十三  
+thirteen,adj,十三的  
+view,v,察看;將...看成是  
+visit,n,訪問  
+welcome,v,歡迎  
+whole,n,全部;全體;整體  
+yet,adv,尚未;但是
+        `);
+        
+        // 遊戲變數
+        let score = 0;
+        let currentQuestion = null;
+        let gameActive = false;
+        let gameStopped = false; 
+        let wrongCount = 0;
+        let startTime = 0;
+        let endTime = 0;
+        
+        // DOM元素
+        const questionEl = document.getElementById('question');
+        const optionsEl = document.getElementById('options');
+        const scoreEl = document.getElementById('score');
+        const gameOverEl = document.getElementById('game-over');
+        const restartBtn = document.getElementById('restart');
+        const appleEl = document.getElementById('apple');
+        const monsterEl = document.getElementById('monster');
+        const stopBtn = document.getElementById('stop-btn');
+        const startBtn = document.getElementById('start-btn');
+        const resultsEl = document.getElementById('results');
+        
+        // 解析單字表
+        function parseVocabulary(text) {
+            const lines = text.split('\n');
+            const result = [];
+            
+            for (const line of lines) {
+                const trimmed = line.trim();
+                if (trimmed) {
+                    const parts = trimmed.split(',');
+                    if (parts.length >= 3) {
+                        result.push({
+                            word: parts[0].trim(),
+                            pos: parts[1].trim(),
+                            meaning: parts[2].trim()
+                        });
+                    }
+                }
+            }
+            
+            return result;
+        }
+        
+        // 開始遊戲
+        function startGame() {
+            gameStopped = false;
+            score = 0;
+            wrongCount = 0;
+            gameActive = true;
+            startTime = Date.now();
+            gameOverEl.style.display = 'none';
+            resultsEl.style.display = 'none';
+            restartBtn.style.display = 'none';
+            startBtn.style.display = 'none';
+            stopBtn.style.display = 'block'; // 改為 display: block
+            monsterEl.classList.remove('monster-dead');
+            updateScore();
+            nextQuestion();
+        }
+        
+        // 下一題
+        function nextQuestion() {
+            if (!gameActive) return;
+            
+            // 隨機選擇一個問題
+            const correctIndex = Math.floor(Math.random() * vocabulary.length);
+            currentQuestion = vocabulary[correctIndex];
+            
+            // 顯示問題 (英文單字+詞性)
+            questionEl.textContent = `${currentQuestion.word} [${currentQuestion.pos}]`;
+            
+            // 生成選項 (中文意思)
+            const options = [currentQuestion.meaning];
+            while (options.length < 4) {
+                const randomMeaning = vocabulary[Math.floor(Math.random() * vocabulary.length)].meaning;
+                if (!options.includes(randomMeaning)) {
+                    options.push(randomMeaning);
+                }
+            }
+            
+            // 打亂選項順序
+            shuffleArray(options);
+            
+            // 顯示選項
+            optionsEl.innerHTML = '';
+            options.forEach(option => {
+                const button = document.createElement('button');
+                button.className = 'option';
+                button.textContent = option;
+                button.addEventListener('click', function() {
+                    checkAnswer(option);
+                });
+                optionsEl.appendChild(button);
+            });
+            
+            // 蘋果動畫
+            appleEl.style.transform = 'translateY(0)';
+            appleEl.style.backgroundImage = 'url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'><path fill=\'%23FF0000\' d=\'M50,5C30,5,20,25,20,45c0,20,10,40,30,40s30-20,30-40C80,25,70,5,50,5z\'/><path fill=\'%238B4513\' d=\'M50,0L45,20h10z\'/></svg>")';
+        }
+        
+        // 檢查答案
+        function checkAnswer(selectedMeaning) {
+            if (!gameActive || gameStopped) return;
+            
+            // 播放吃東西動畫
+            monsterEl.classList.add('monster-eating');
+            setTimeout(() => {
+                monsterEl.classList.remove('monster-eating');
+            }, 500);
+            
+            if (selectedMeaning === currentQuestion.meaning) {
+                // 正確答案
+                score++;
+                wrongCount = 0; // 重置錯誤計數
+                updateScore();
+                appleEl.style.transform = 'translateY(-15px)';
+                setTimeout(() => {
+                    nextQuestion();
+                }, 400);
+            } else {
+                // 錯誤答案
+                wrongCount++;
+                const penalty = wrongCount; // 每次錯誤扣分 = 錯誤次數 (1, 2, 3...)
+                
+                if (score >= penalty) {
+                    // 有足夠分數可扣
+                    score -= penalty;
+                    updateScore();
+                    
+                    // 顯示扣分訊息
+                    const penaltyMsg = document.createElement('div');
+                    penaltyMsg.textContent = `Wrong! -${penalty} points`;
+                    penaltyMsg.style.color = 'red';
+                    penaltyMsg.style.fontWeight = 'bold';
+                    penaltyMsg.style.marginTop = '5px';
+                    questionEl.appendChild(penaltyMsg);
+                    
+                    // 短暫顯示後移除
+                    setTimeout(() => {
+                        if (questionEl.contains(penaltyMsg)) {
+                            questionEl.removeChild(penaltyMsg);
+                        }
+                    }, 1000);
+                    
+                    // 繼續遊戲
+                    setTimeout(() => {
+                        nextQuestion();
+                    }, 1000);
+                } else {
+                    // 分數不足，遊戲結束
+                    score = 0; // 確保分數不會是負數
+                    updateScore();
+                    endGame();
+                }
+            }
+        }
+        
+        // 結束遊戲
+        function endGame() {
+            gameActive = false;
+            endTime = Date.now();
+            const timeSpent = Math.floor((endTime - startTime) / 1000); // 計算用時(秒)
+            
+            gameOverEl.style.display = 'block';
+            resultsEl.style.display = 'block';
+            resultsEl.innerHTML = `
+                <p>Final Score: <strong>${score}</strong></p>
+                <p>Time Spent: <strong>${timeSpent} seconds</strong></p>
+            `;
+            restartBtn.style.display = 'block';
+            startBtn.style.display = 'none';
+            stopBtn.style.display = 'none'; // 改為 display: none
+            appleEl.style.transform = 'translateY(15px) rotate(45deg)';
+            appleEl.style.backgroundImage = 'url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'><path fill=\'%23FF0000\' d=\'M50,5C30,5,20,25,20,45c0,20,10,40,30,40s30-20,30-40C80,25,70,5,50,5z\'/><path fill=\'%238B4513\' d=\'M50,0L45,20h10z\'/><path fill=\'%23000\' d=\'M30,30L70,70M30,70L70,30\' stroke=\'%23000\' stroke-width=\'5\'/></svg>")';
+            
+            // 播放死亡動畫
+            setTimeout(() => {
+                monsterEl.classList.add('monster-dead');
+            }, 300);
+        }
+        
+        // 更新分數
+        function updateScore() {
+            scoreEl.textContent = `Score: ${score}`;
+        }
+        
+        // 重新開始遊戲
+        restartBtn.addEventListener('click', function() {
+            startGame();
+        });
+        
+        // 開始遊戲按鈕事件
+        startBtn.addEventListener('click', function() {
+            startGame();
+        });
+        
+        // 停止遊戲按鈕事件 (修正版)
+        stopBtn.addEventListener('click', function() {
+            if (!gameActive) return;
+          
+                // 記錄結束時間
+                endTime = Date.now();
+                const timeSpent = Math.floor((endTime - startTime) / 1000);
+                
+                // 更新遊戲狀態
+                gameActive = false;
+                gameStopped = true;
+                
+                // 更新UI
+                stopBtn.style.display = 'none';
+            startBtn.style.display = 'none';
+            restartBtn.style.display = 'block';
+            resultsEl.style.display = 'block';
+            resultsEl.innerHTML = `
+                <p>Game Stopped</p>
+                <p>Final Score: <strong>${score}</strong></p>
+                <p>Time Spent: <strong>${timeSpent} seconds</strong></p>
+            `;
+                
+                // 清除動畫和問題
+               monsterEl.classList.remove('monster-eating', 'monster-dead');
+            appleEl.style.transform = 'translateY(0)';
+            questionEl.innerHTML = 'Game Stopped by Player';
+            optionsEl.innerHTML = '';
+        });
+        
+        // 輔助函數：打亂陣列
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+        
+        // 初始化遊戲狀態
+        function initGame() {
+            gameActive = false;
+            gameStopped = false;
+            gameOverEl.style.display = 'none';
+            resultsEl.style.display = 'none';
+            restartBtn.style.display = 'none';
+            stopBtn.style.display = 'none'; // 改為 display: none
+            startBtn.style.display = 'block';
+            questionEl.textContent = 'Click "Start Game" to begin!';
+            optionsEl.innerHTML = '';
+            updateScore();
+        }
+        
+        // 初始化遊戲
+        initGame();
+    </script>
+</body>
+</html>
