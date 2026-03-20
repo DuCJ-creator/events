@@ -1,0 +1,1722 @@
+
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>MEE 單字挑戰</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        body {
+            font-family: 'Comic Sans MS', 'Arial Rounded MT Bold', sans-serif;
+            background-color: #a8e6cf;
+            text-align: center;
+            color: #333;
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+            background-image: linear-gradient(to bottom, #a8e6cf, #88d4ba);
+            touch-action: manipulation;
+        }
+        
+        .device-info {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            z-index: 1000;
+        }
+        
+        .game-container {
+            width: 100%;
+            max-width: 100%;
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+            border: 8px solid #ffaaa5;
+            display: flex;
+            flex-direction: column;
+            height: 95vh;
+            max-height: 95vh;
+        }
+        
+        h1 {
+            color: #ff8b94;
+            margin: 5px 0;
+            font-size: 1.5rem;
+            text-shadow: 2px 2px 0 #fff, 4px 4px 0 rgba(0,0,0,0.1);
+            flex-shrink: 0;
+        }
+        
+        .game-content {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            overflow: hidden;
+        }
+        
+        .start-screen, .game-screen, .end-screen {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            justify-content: space-between;
+            transition: all 0.3s ease;
+        }
+        
+        .screen-content {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            justify-content: space-around;
+        }
+        
+        .start-screen button, .option, .end-screen button {
+            background-color: #ffaaa5;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            margin: 8px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            box-shadow: 0 4px 0 #d46a6a;
+            font-family: 'Comic Sans MS', cursive;
+            flex-shrink: 0;
+            -webkit-user-select: none;
+            user-select: none;
+            touch-action: manipulation;
+        }
+        
+        .start-screen button:hover, .option:hover, .end-screen button:hover {
+            background-color: #ff8b94;
+            transform: translateY(-2px);
+        }
+        
+        .start-screen button:active, .option:active, .end-screen button:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 #d46a6a;
+        }
+        
+        .word-display {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin: 10px 0;
+            color: #6b5b95;
+            min-height: 2.2rem;
+            text-shadow: 2px 2px 0 rgba(0,0,0,0.1);
+            flex-shrink: 0;
+        }
+        
+        .pos-display {
+            font-size: 1.1rem;
+            color: #a8e6cf;
+            margin-bottom: 10px;
+            background-color: #6b5b95;
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            color: white;
+            flex-shrink: 0;
+        }
+        
+        .options-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 8px;
+            margin-bottom: 10px;
+            flex: 1;
+            overflow-y: auto;
+            padding: 5px;
+        }
+        
+        .option {
+            padding: 12px;
+            text-align: center;
+            transition: all 0.3s;
+            font-size: 1rem;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #a8e6cf;
+            color: #333;
+            box-shadow: 0 4px 0 #86c7b8;
+            border-radius: 15px;
+            word-break: break-word;
+        }
+        
+        .timer-container {
+            height: 12px;
+            background-color: #dcedc1;
+            border-radius: 10px;
+            margin: 10px 0;
+            overflow: hidden;
+            position: relative;
+            box-shadow: inset 0 0 5px rgba(0,0,0,0.1);
+            flex-shrink: 0;
+        }
+        
+        .timer-bar {
+            height: 100%;
+            background: linear-gradient(to right, #ff8b94, #ffaaa5);
+            width: 100%;
+            transition: width 0.1s linear;
+            border-radius: 10px;
+        }
+        
+        .countdown {
+            position: absolute;
+            top: -30px;
+            left: 0;
+            right: 0;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #ff8b94;
+            text-shadow: 0 0 5px rgba(0,0,0,0.2);
+            z-index: 10;
+            transition: all 0.3s;
+            font-family: 'Comic Sans MS', cursive;
+        }
+        
+        .countdown.pulse {
+            animation: pulse 0.5s;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.3); }
+            100% { transform: scale(1); }
+        }
+        
+        .score-display {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #6b5b95;
+            background-color: #dcedc1;
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            box-shadow: 0 4px 0 #b7d1a0;
+            flex-shrink: 0;
+        }
+        
+        .character-container {
+            height: 120px;
+            margin: 10px 0;
+            position: relative;
+            background-color: #f0f8ff;
+            border-radius: 15px;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+        
+        .pig {
+            font-size: 70px;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: 10px;
+            transition: all 0.3s;
+            animation: bounce 0.5s infinite alternate;
+            filter: drop-shadow(2px 4px 0 rgba(0,0,0,0.2));
+        }
+        
+        .pig.fall-over {
+            animation: fallOver 0.6s forwards;
+        }
+        
+        @keyframes bounce {
+            from { transform: translateX(-50%) translateY(0); }
+            to { transform: translateX(-50%) translateY(-10px); }
+        }
+        
+        @keyframes fallOver {
+            0% { transform: translateX(-50%) rotate(0deg); }
+            100% { transform: translateX(-50%) rotate(90deg); bottom: -20px; }
+        }
+        
+        .bomb {
+            position: absolute;
+            right: 30%;
+            bottom: 80px;
+            font-size: 35px;
+            z-index: 5;
+            transform: rotate(-20deg);
+        }
+        
+        .fuse {
+            position: absolute;
+            right: calc(30% + 8px);
+            bottom: 115px;
+            width: 80px;
+            height: 6px;
+            background: linear-gradient(to right, #f39c12, #e74c3c);
+            transform-origin: right center;
+            z-index: 4;
+            transition: width 0.1s linear;
+            border-radius: 3px;
+        }
+        
+        .flame {
+            position: absolute;
+            right: calc(30% - 8px);
+            bottom: 110px;
+            font-size: 20px;
+            opacity: 0;
+            transform: scale(0);
+            transition: all 0.3s;
+            z-index: 6;
+            animation: flicker 0.1s infinite alternate;
+        }
+        
+        @keyframes flicker {
+            0% { opacity: 0.8; transform: scale(0.9); }
+            100% { opacity: 1; transform: scale(1.1); }
+        }
+        
+        .explosion {
+            position: absolute;
+            left: 0;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            font-size: 80px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transform: scale(0);
+            transition: all 0.3s;
+            z-index: 100;
+        }
+        
+        .confetti {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 90;
+        }
+        
+        .confetti-piece {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #f00;
+            opacity: 0;
+            border-radius: 50%;
+        }
+        
+        .end-screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(255, 255, 255, 0.95);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 100;
+            padding: 20px;
+            overflow: auto;
+        }
+        
+        .end-screen.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+        
+        .end-screen h2 {
+            color: #ff8b94;
+            margin-bottom: 15px;
+            font-size: 2rem;
+            transform: translateY(-20px);
+            opacity: 0;
+            transition: all 0.5s;
+            text-shadow: 2px 2px 0 #fff;
+        }
+        
+        .end-screen p {
+            font-size: 1.3rem;
+            margin: 8px 0;
+            transform: translateY(-20px);
+            opacity: 0;
+            transition: all 0.5s 0.2s;
+            background-color: rgba(255, 255, 255, 0.7);
+            padding: 10px 20px;
+            border-radius: 20px;
+            color: #6b5b95;
+        }
+        
+        .end-screen button {
+            margin-top: 20px;
+            background-color: #a8e6cf;
+            color: #333;
+            transform: translateY(-20px);
+            opacity: 0;
+            transition: all 0.5s 0.4s;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            min-width: 180px;
+            box-shadow: 0 6px 0 #86c7b8;
+            border-radius: 50px;
+        }
+        
+        .end-screen.active h2,
+        .end-screen.active p,
+        .end-screen.active button {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        .end-screen button:hover {
+            background-color: #86c7b8;
+        }
+        
+        .correct {
+            background-color: #a8e6cf !important;
+            color: #333 !important;
+            transform: scale(1.05);
+            box-shadow: 0 4px 0 #86c7b8;
+            animation: correctBounce 0.3s;
+        }
+        
+        @keyframes correctBounce {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1.05); }
+        }
+        
+        .wrong {
+            background-color: #ffaaa5 !important;
+            color: white !important;
+            transform: scale(1.05);
+            box-shadow: 0 4px 0 #d46a6a;
+            animation: shake 0.3s;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-5px); }
+            40%, 80% { transform: translateX(5px); }
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+        
+        /* 農場裝飾元素 */
+        .farm-decoration {
+            position: absolute;
+            font-size: 25px;
+            z-index: 1;
+        }
+        
+        .sun {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 40px;
+            color: #ffd700;
+            animation: rotate 20s linear infinite;
+        }
+        
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .cloud {
+            position: absolute;
+            font-size: 30px;
+            color: white;
+            animation: float 15s linear infinite;
+        }
+        
+        @keyframes float {
+            0% { transform: translateX(-100px); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateX(calc(100vw + 100px)); opacity: 0; }
+        }
+
+        /* 设备检测和自适应样式 */
+        .desktop-view {
+            /* 桌面设备样式 */
+        }
+
+        .tablet-view {
+            /* 平板设备样式 */
+        }
+
+        .mobile-view {
+            /* 手机设备样式 */
+        }
+
+        /* 遊戲時間選擇 */
+        .time-selector {
+            margin-top: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.95rem;
+            color: #6b5b95;
+        }
+
+        .time-selector span {
+            margin-bottom: 4px;
+        }
+
+        .time-btn {
+            background-color: #dcedc1;
+            color: #333;
+            border: none;
+            padding: 6px 14px;
+            margin: 0 4px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            box-shadow: 0 3px 0 #b7d1a0;
+            font-family: 'Comic Sans MS', cursive;
+        }
+
+        .time-btn.active {
+            background-color: #a8e6cf;
+            box-shadow: 0 3px 0 #86c7b8;
+        }
+
+        .time-btn:active {
+            transform: translateY(2px);
+            box-shadow: 0 1px 0 #b7d1a0;
+        }
+
+        /* 响应式设计优化 */
+        @media (max-width: 768px) {
+            .game-container {
+                height: 98vh;
+                max-height: 98vh;
+                padding: 10px;
+            }
+            
+            h1 {
+                font-size: 1.3rem;
+                margin: 3px 0;
+            }
+            
+            .options-container {
+                grid-template-columns: 1fr 1fr;
+                gap: 6px;
+                margin-bottom: 5px;
+            }
+            
+            .option {
+                min-height: 50px;
+                font-size: 0.9rem;
+                padding: 8px;
+            }
+            
+            .character-container {
+                height: 80px;
+                margin: 5px 0;
+            }
+            
+            .pig {
+                font-size: 50px;
+            }
+            
+            .bomb {
+                font-size: 25px;
+                bottom: 50px;
+            }
+            
+            .fuse {
+                bottom: 75px;
+                width: 50px;
+            }
+            
+            .flame {
+                bottom: 70px;
+                font-size: 15px;
+            }
+            
+            .word-display {
+                font-size: 1.5rem;
+                margin: 5px 0;
+            }
+            
+            .pos-display {
+                font-size: 1rem;
+                margin-bottom: 5px;
+            }
+            
+            .score-display {
+                font-size: 1.1rem;
+                margin-bottom: 5px;
+            }
+            
+            .timer-container {
+                margin: 5px 0;
+            }
+            
+            .countdown {
+                top: -25px;
+                font-size: 1.3rem;
+            }
+            
+            .start-screen button, .end-screen button {
+                padding: 10px 15px;
+                font-size: 1rem;
+                margin: 5px;
+            }
+            
+            .end-screen h2 {
+                font-size: 1.8rem;
+                margin-bottom: 10px;
+            }
+            
+            .end-screen p {
+                font-size: 1.1rem;
+                margin: 5px 0;
+            }
+            
+            .end-screen button {
+                padding: 10px 20px;
+                font-size: 1rem;
+                min-width: 150px;
+            }
+
+            .time-selector {
+                font-size: 0.85rem;
+            }
+
+            .time-btn {
+                padding: 4px 10px;
+                font-size: 0.8rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .game-container {
+                padding: 10px;
+                height: 96vh;
+                max-height: 96vh;
+            }
+            
+            h1 {
+                font-size: 1.2rem;
+                margin: 2px 0;
+            }
+            
+            .options-container {
+                grid-template-columns: 1fr;
+                gap: 5px;
+                margin-bottom: 5px;
+            }
+            
+            .option {
+                min-height: 45px;
+                font-size: 0.85rem;
+                padding: 6px;
+            }
+            
+            .character-container {
+                height: 70px;
+                margin: 5px 0;
+            }
+            
+            .pig {
+                font-size: 40px;
+            }
+            
+            .bomb {
+                font-size: 20px;
+                bottom: 45px;
+            }
+            
+            .fuse {
+                bottom: 65px;
+                width: 40px;
+            }
+            
+            .flame {
+                bottom: 60px;
+                font-size: 12px;
+            }
+            
+            .word-display {
+                font-size: 1.3rem;
+                margin: 5px 0;
+            }
+            
+            .pos-display {
+                font-size: 0.9rem;
+                margin-bottom: 5px;
+                padding: 4px 12px;
+            }
+            
+            .score-display {
+                font-size: 1rem;
+                margin-bottom: 5px;
+                padding: 4px 12px;
+            }
+            
+            .timer-container {
+                margin: 5px 0;
+                height: 10px;
+            }
+            
+            .countdown {
+                top: -20px;
+                font-size: 1.1rem;
+            }
+            
+            .start-screen button, .end-screen button {
+                padding: 8px 12px;
+                font-size: 0.9rem;
+                margin: 4px;
+            }
+            
+            .end-screen h2 {
+                font-size: 1.5rem;
+                margin-bottom: 8px;
+            }
+            
+            .end-screen p {
+                font-size: 1rem;
+                margin: 4px 0;
+                padding: 8px 15px;
+            }
+            
+            .end-screen button {
+                padding: 8px 16px;
+                font-size: 0.9rem;
+                min-width: 120px;
+                margin-top: 15px;
+            }
+            
+            .sun {
+                font-size: 30px;
+            }
+            
+            .cloud {
+                font-size: 25px;
+            }
+        }
+        
+        /* 平板优化 */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .game-container {
+                max-width: 700px;
+                height: 90vh;
+                max-height: 90vh;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .options-container {
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+            }
+            
+            .option {
+                min-height: 70px;
+                font-size: 1rem;
+            }
+            
+            .character-container {
+                height: 100px;
+            }
+            
+            .pig {
+                font-size: 60px;
+            }
+        }
+        
+        /* 桌面设备优化 - 大幅增加字体大小 */
+        @media (min-width: 1025px) {
+            .game-container {
+                max-width: 900px;
+                height: 85vh;
+                max-height: 85vh;
+                padding: 25px;
+            }
+            
+            h1 {
+                font-size: 2.8rem !important;
+                margin: 15px 0;
+            }
+            
+            .options-container {
+                grid-template-columns: 1fr 1fr;
+                gap: 15px;
+                margin-bottom: 20px;
+            }
+            
+            .option {
+                min-height: 100px !important;
+                font-size: 1.4rem !important;
+                padding: 20px !important;
+                border-radius: 20px !important;
+            }
+            
+            .character-container {
+                height: 160px;
+                margin: 20px 0;
+            }
+            
+            .pig {
+                font-size: 100px !important;
+            }
+            
+            .bomb {
+                font-size: 50px !important;
+                bottom: 110px;
+            }
+            
+            .fuse {
+                bottom: 160px;
+                width: 100px;
+                height: 8px;
+            }
+            
+            .flame {
+                bottom: 150px;
+                font-size: 30px !important;
+            }
+            
+            .word-display {
+                font-size: 2.5rem !important;
+                margin: 20px 0;
+            }
+            
+            .pos-display {
+                font-size: 1.5rem !important;
+                margin-bottom: 15px;
+                padding: 10px 25px;
+            }
+            
+            .score-display {
+                font-size: 1.8rem !important;
+                margin-bottom: 15px;
+                padding: 10px 25px;
+            }
+            
+            .timer-container {
+                margin: 15px 0;
+                height: 15px;
+            }
+            
+            .countdown {
+                top: -35px;
+                font-size: 2rem !important;
+            }
+            
+            .start-screen button, .end-screen button {
+                padding: 18px 35px !important;
+                font-size: 1.5rem !important;
+                margin: 15px;
+                border-radius: 60px;
+            }
+            
+            .end-screen h2 {
+                font-size: 3rem !important;
+                margin-bottom: 25px;
+            }
+            
+            .end-screen p {
+                font-size: 1.8rem !important;
+                margin: 15px 0;
+                padding: 15px 30px;
+            }
+            
+            .end-screen button {
+                padding: 18px 35px !important;
+                font-size: 1.5rem !important;
+                min-width: 250px;
+                margin-top: 30px;
+            }
+            
+            .sun {
+                font-size: 60px;
+            }
+            
+            .cloud {
+                font-size: 45px;
+            }
+            
+            .farm-decoration {
+                font-size: 35px;
+            }
+        }
+        
+        /* 大屏幕桌面设备优化 */
+        @media (min-width: 1440px) {
+            .game-container {
+                max-width: 1100px;
+                padding: 30px;
+            }
+            
+            h1 {
+                font-size: 3.2rem !important;
+            }
+            
+            .option {
+                min-height: 120px !important;
+                font-size: 1.6rem !important;
+            }
+            
+            .word-display {
+                font-size: 3rem !important;
+            }
+        }
+        
+        /* 横屏專用樣式 */
+        @media (orientation: landscape) {
+            .game-container {
+                height: 98vh;
+                max-height: 98vh;
+                padding: 10px;
+            }
+            
+            h1 {
+                font-size: 1.3rem;
+                margin: 3px 0;
+            }
+            
+            .options-container {
+                grid-template-columns: 1fr 1fr;
+                gap: 6px;
+                margin-bottom: 5px;
+            }
+            
+            .option {
+                min-height: 50px;
+                font-size: 0.9rem;
+                padding: 8px;
+            }
+            
+            .character-container {
+                height: 80px;
+                margin: 5px 0;
+            }
+            
+            .pig {
+                font-size: 50px;
+            }
+            
+            .bomb {
+                font-size: 25px;
+                bottom: 50px;
+            }
+            
+            .fuse {
+                bottom: 75px;
+                width: 50px;
+            }
+            
+            .flame {
+                bottom: 70px;
+                font-size: 15px;
+            }
+            
+            .word-display {
+                font-size: 1.5rem;
+                margin: 5px 0;
+            }
+            
+            .pos-display {
+                font-size: 1rem;
+                margin-bottom: 5px;
+            }
+            
+            .score-display {
+                font-size: 1.1rem;
+                margin-bottom: 5px;
+            }
+            
+            .timer-container {
+                margin: 5px 0;
+            }
+            
+            .countdown {
+                top: -25px;
+                font-size: 1.3rem;
+            }
+            
+            .start-screen button, .end-screen button {
+                padding: 10px 15px;
+                font-size: 1rem;
+                margin: 5px;
+            }
+            
+            .end-screen h2 {
+                font-size: 1.8rem;
+                margin-bottom: 10px;
+            }
+            
+            .end-screen p {
+                font-size: 1.1rem;
+                margin: 5px 0;
+            }
+            
+            .end-screen button {
+                padding: 10px 20px;
+                font-size: 1rem;
+                min-width: 150px;
+            }
+        }
+        
+        /* 超小螢幕橫屏優化 */
+        @media (orientation: landscape) and (max-height: 400px) {
+            .character-container {
+                height: 60px;
+            }
+            
+            .pig {
+                font-size: 40px;
+            }
+            
+            .bomb {
+                font-size: 20px;
+                bottom: 40px;
+            }
+            
+            .fuse {
+                bottom: 60px;
+                width: 40px;
+            }
+            
+            .flame {
+                bottom: 55px;
+                font-size: 12px;
+            }
+            
+            .word-display {
+                font-size: 1.3rem;
+            }
+            
+            .options-container {
+                grid-template-columns: 1fr;
+                gap: 4px;
+            }
+            
+            .option {
+                min-height: 40px;
+                font-size: 0.8rem;
+                padding: 6px;
+            }
+        }
+        
+        /* 触摸设备优化 */
+        @media (pointer: coarse) {
+            .start-screen button, .option, .end-screen button {
+                min-height: 50px;
+                padding-top: 14px;
+                padding-bottom: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="device-info" id="deviceInfo">检测设备中...</div>
+    <div class="sun">☀️</div>
+    <div class="cloud" style="top: 20px; animation-delay: 0s;">☁️</div>
+    <div class="cloud" style="top: 60px; animation-delay: 5s;">☁️</div>
+    <div class="cloud" style="top: 40px; animation-delay: 10s;">☁️</div>
+    
+    <div class="game-container">
+        <h1>CHHS MEE 單字挑戰無極限</h1>
+        
+        <div class="game-content">
+            <div class="start-screen">
+                <div class="screen-content">
+                    <div class="character-container">
+                        <div class="pig">🐷</div>
+                        <div class="bomb">💣</div>
+                        <div class="fuse"></div>
+                        <div class="flame">🔥</div>
+                        <div class="farm-decoration" style="bottom: 15px; left: 15px;">🌻</div>
+                        <div class="farm-decoration" style="bottom: 15px; right: 15px;">🌽</div>
+                    </div>
+
+                    <div class="time-selector">
+                        <span>選擇遊戲時間：</span>
+                        <div>
+                            <button class="time-btn active" data-time="180">3 分鐘</button>
+                            <button class="time-btn" data-time="300">5 分鐘</button>
+                            <button class="time-btn" data-time="600">10 分鐘</button>
+                        </div>
+                    </div>
+
+                    <button id="start-btn">開始挑戰！</button>
+                </div>
+            </div>
+            
+            <div class="game-screen hidden">
+                <div class="screen-content">
+                    <div class="score-display">得分: <span id="score">0</span></div>
+                    <div class="countdown" id="countdown">3:00</div>
+                    <div class="timer-container">
+                        <div class="timer-bar" id="timer-bar"></div>
+                    </div>
+                    <div class="word-display" id="word"></div>
+                    <div class="pos-display" id="pos"></div>
+                    
+                    <div class="options-container" id="options-container">
+                        <!-- 選項將由JavaScript動態生成 -->
+                    </div>
+                    
+                    <div class="character-container">
+                        <div class="pig" id="pig">🐷</div>
+                        <div class="bomb">💣</div>
+                        <div class="fuse" id="fuse"></div>
+                        <div class="flame" id="flame">🔥</div>
+                        <div class="explosion" id="explosion">💥</div>
+                        <div class="confetti" id="confetti"></div>
+                        <div class="farm-decoration" style="bottom: 15px; left: 15px;">🐔</div>
+                        <div class="farm-decoration" style="bottom: 15px; right: 15px;">🐄</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="end-screen">
+                <h2>遊戲結束！</h2>
+                <p>你的最終得分: <span id="final-score">0</span></p>
+                <p>用時: <span id="time-used">0</span>秒</p>
+                <button id="restart-btn">再玩一次</button>
+                <div class="farm-decoration" style="bottom: 40px; left: 40px; font-size: 35px;">🐑</div>
+                <div class="farm-decoration" style="bottom: 20px; right: 40px; font-size: 40px;">🚜</div>
+            </div>
+        </div>
+        
+        <!-- 單字庫區域 -->
+        <textarea id="word-database" style="display: none;">
+activity,n.,活動
+angry,adj.,生氣的
+art class,n.,美術課
+arts and crafts,n.,美術工藝
+bathroom,n.,廁所
+borrow,v.,借入
+break,v.,打破；弄壞
+bring,v.,帶來
+camp,n.,營隊
+car,n.,汽車
+cartoon,n.,卡通
+contact,v.,聯絡
+cook,v.,烹飪；煮飯
+dancing,n.,舞蹈
+date,n.,日期
+deadline,n.,截止日期
+dirty,adj.,髒的
+drink,v./n.,喝；飲料
+dry,adj.,乾燥的
+every day,phr.,每天
+far from,phr.,離...很遠
+fee,n.,費用
+fly a kite,phr.,放風箏
+free,adj.,免費的
+fried rice,n.,炒飯
+funny,adj.,好笑的
+gate,n.,大門
+gloves,n.,手套
+grandma,n.,奶奶；外婆
+happy,adj.,快樂的
+have a cold,phr.,感冒
+have a party,phr.,舉辦派對
+I'd love to,phr.,我很樂意
+include,v.,包含
+jacket,n.,外套
+leave,v.,離開；留下
+listen,v.,聽
+live,v.,居住
+location,n.,地點
+lock,v.,鎖上
+loud,adj.,大聲的
+magic,n.,魔術
+menu,n.,菜單
+nature walk,n.,自然觀察
+next to,prep.,在...旁邊
+noisy,adj.,吵鬧的
+notes,n.,筆記
+now,adv.,現在
+orange juice,n.,柳橙汁
+over there,phr.,在那邊
+paper flower,n.,紙花
+play with,phr.,和...一起玩
+polite,adj.,有禮貌的
+popular,adj.,受歡迎的
+project,n.,專題作業
+quiet,adj.,安靜的
+registration,n.,報名
+rest,v./n.,休息
+ride a bike,phr.,騎腳踏車
+rule,n.,規定
+sell,v.,賣
+sleep,v./n.,睡覺
+snack,n.,點心
+sound,v.,聽起來
+storytelling,n.,說故事
+sunglasses,n.,太陽眼鏡
+sweet,adj.,甜美的；甜的
+talk,v.,說話；聊天
+That's OK.,phr.,沒關係
+ticket,n.,票
+tired,adj.,疲倦的
+toast,n.,烤吐司
+tonight,adv.,今晚
+toy,n.,玩具
+uniform,n.,制服
+wash,v.,洗
+wear,v.,穿著
+weekend,n.,週末
+wet,adj.,溼的
+yesterday,adv.,昨天
+You're welcome,phr.,不客氣
+        </textarea>
+    </div>
+
+    <script>
+        // 设备检测函数
+        function detectDevice() {
+            const userAgent = navigator.userAgent.toLowerCase();
+            const deviceInfo = document.getElementById('deviceInfo');
+            let deviceType = 'desktop';
+            let screenInfo = '';
+            
+            // 检测设备类型
+            if (/mobile|android|iphone|ipad/.test(userAgent)) {
+                if (/ipad|tablet/.test(userAgent) || (window.innerWidth >= 768 && window.innerWidth <= 1024)) {
+                    deviceType = 'tablet';
+                    screenInfo = '平板设备';
+                } else {
+                    deviceType = 'mobile';
+                    screenInfo = '手机设备';
+                }
+            } else {
+                deviceType = 'desktop';
+                screenInfo = '桌面设备';
+            }
+            
+            // 添加设备类到body
+            document.body.classList.add(deviceType + '-view');
+            
+            // 显示设备信息
+            const screenSize = `屏幕: ${window.innerWidth} × ${window.innerHeight}`;
+            const dpr = `像素比: ${window.devicePixelRatio}`;
+            deviceInfo.textContent = `${screenInfo} | ${screenSize} | ${dpr}`;
+            
+            // 根据设备类型调整游戏参数
+            adjustForDevice(deviceType);
+            
+            return deviceType;
+        }
+        
+        // 根据设备类型调整参数
+        function adjustForDevice(deviceType) {
+            const gameContainer = document.querySelector('.game-container');
+            
+            switch(deviceType) {
+                case 'desktop':
+                    gameContainer.style.maxWidth = '1000px';
+                    break;
+                case 'tablet':
+                    gameContainer.style.maxWidth = '800px';
+                    break;
+                case 'mobile':
+                    gameContainer.style.maxWidth = '100%';
+                    break;
+            }
+        }
+        
+        // 遊戲變數
+        let score = 0;
+        let currentQuestionIndex = 0;
+        let timer;
+        let totalGameTime = 180;    // 預設 3 分鐘，秒數
+        let timeLeft = totalGameTime;
+        let startTime;
+        let questions = [];
+        let usedInCurrentSession = []; // ✅ 本局已使用的單字索引
+        let lastCountdownNumber = 0;
+        let isAnswering = false;
+        
+        // 連續答對 / 答錯計數
+        let correctStreak = 0;
+        let wrongStreak = 0;
+
+        // 遊戲是否已結束
+        let gameOver = false;
+        
+        // DOM元素
+        const startScreen = document.querySelector('.start-screen');
+        const gameScreen = document.querySelector('.game-screen');
+        const endScreen = document.querySelector('.end-screen');
+        const startBtn = document.getElementById('start-btn');
+        const restartBtn = document.getElementById('restart-btn');
+        const wordDisplay = document.getElementById('word');
+        const posDisplay = document.getElementById('pos');
+        const optionsContainer = document.getElementById('options-container');
+        const scoreDisplay = document.getElementById('score');
+        const timerBar = document.getElementById('timer-bar');
+        const countdownDisplay = document.getElementById('countdown');
+        const pig = document.getElementById('pig');
+        const fuse = document.getElementById('fuse');
+        const flame = document.getElementById('flame');
+        const explosion = document.getElementById('explosion');
+        const confettiContainer = document.getElementById('confetti');
+        const finalScoreDisplay = document.getElementById('final-score');
+        const timeUsedDisplay = document.getElementById('time-used');
+        const wordDatabase = document.getElementById('word-database');
+        const timeButtons = document.querySelectorAll('.time-btn');
+        
+        // 時間格式：mm:ss
+        function formatTime(seconds) {
+            seconds = Math.max(0, seconds);
+            const m = Math.floor(seconds / 60);
+            const s = Math.ceil(seconds % 60);
+            return `${m}:${s.toString().padStart(2, '0')}`;
+        }
+
+        // 初始化遊戲
+        function initGame() {
+            // 解析單字庫
+            const wordData = wordDatabase.value.trim().split('\n');
+            questions = wordData.map(line => {
+                const parts = line.trim().split(',');
+                if (parts.length >= 3) {
+                    return {
+                        word: parts[0].trim(),
+                        pos: parts[1].trim(),
+                        meaning: parts.slice(2).join(',').trim()
+                    };
+                }
+                return null;
+            }).filter(q => q !== null && q.word && q.pos && q.meaning);
+            
+            // 重置遊戲狀態
+            score = 0;
+            currentQuestionIndex = 0;
+            usedInCurrentSession = [];
+            lastCountdownNumber = 0;
+            isAnswering = false;
+            correctStreak = 0;
+            wrongStreak = 0;
+            gameOver = false;
+
+            clearInterval(timer);
+
+            // 依目前 active 時間按鈕設定總時間
+            if (timeButtons.length > 0) {
+                let activeBtn = document.querySelector('.time-btn.active') || timeButtons[0];
+                timeButtons.forEach(btn => btn.classList.remove('active'));
+                activeBtn.classList.add('active');
+                totalGameTime = parseInt(activeBtn.dataset.time, 10);
+            }
+
+            timeLeft = totalGameTime;
+            scoreDisplay.textContent = score;
+            countdownDisplay.textContent = formatTime(timeLeft);
+            timerBar.style.width = '100%';
+            timerBar.style.backgroundColor = '#ff8b94';
+            
+            // 重置視覺元素
+            pig.textContent = '🐷';
+            pig.className = 'pig';
+            flame.style.opacity = '0';
+            flame.style.transform = 'scale(0)';
+            fuse.style.width = '80px';
+            explosion.style.opacity = '0';
+            explosion.style.transform = 'scale(0)';
+            confettiContainer.innerHTML = '';
+            countdownDisplay.style.color = '#ff8b94';
+            countdownDisplay.className = 'countdown';
+            
+            // 顯示開始畫面
+            startScreen.classList.remove('hidden');
+            gameScreen.classList.add('hidden');
+            endScreen.classList.remove('active');
+        }
+
+        // 開始遊戲
+        function startGame() {
+            if (questions.length === 0) {
+                alert('單字庫解析錯誤，請檢查單字格式！');
+                return;
+            }
+            
+            // 讀取目前選的時間
+            const activeBtn = document.querySelector('.time-btn.active');
+            if (activeBtn) {
+                totalGameTime = parseInt(activeBtn.dataset.time, 10);
+            }
+
+            timeLeft = totalGameTime;
+            lastCountdownNumber = Math.ceil(timeLeft);
+            countdownDisplay.textContent = formatTime(timeLeft);
+            timerBar.style.width = '100%';
+
+            score = 0;
+            correctStreak = 0;
+            wrongStreak = 0;
+            gameOver = false;
+            scoreDisplay.textContent = score;
+
+            startScreen.classList.add('hidden');
+            gameScreen.classList.remove('hidden');
+
+            startTime = new Date().getTime();
+            clearInterval(timer);
+            timer = setInterval(updateTimer, 100);
+
+            loadQuestion();
+        }
+        
+        // 載入問題
+        function loadQuestion() {
+            if (gameOver) return;
+
+            // 重置回答狀態
+            isAnswering = false;
+            
+            // 如果本局已用完所有單字，清空記錄以開始新一輪
+            if (usedInCurrentSession.length >= questions.length) {
+                usedInCurrentSession = [];
+            }
+            
+            // 找出尚未使用的索引
+            const availableIndices = questions
+                .map((_, i) => i)
+                .filter(i => !usedInCurrentSession.includes(i));
+            
+            // 安全防護：避免空陣列
+            if (availableIndices.length === 0) {
+                usedInCurrentSession = [];
+                loadQuestion();
+                return;
+            }
+            
+            // 隨機選擇一個未使用過的問題
+            const randomIndex = availableIndices[Math.floor(Math.random() * availableIndices.length)];
+            usedInCurrentSession.push(randomIndex); // 記錄本局已使用
+            
+            currentQuestionIndex = randomIndex;
+            const question = questions[currentQuestionIndex];
+            wordDisplay.textContent = question.word;
+            posDisplay.textContent = question.pos;
+            
+            // 生成選項
+            generateOptions(question);
+        }
+        
+        // 生成選項
+        function generateOptions(correctQuestion) {
+            optionsContainer.innerHTML = '';
+            
+            const allMeanings = questions.map(q => q.meaning);
+            
+            const options = [correctQuestion.meaning];
+            while (options.length < 4) {
+                const randomIndex = Math.floor(Math.random() * allMeanings.length);
+                const randomMeaning = allMeanings[randomIndex];
+                
+                if (!options.includes(randomMeaning)) {
+                    options.push(randomMeaning);
+                }
+            }
+            
+            shuffleArray(options);
+            
+            options.forEach(option => {
+                const button = document.createElement('button');
+                button.className = 'option';
+                button.textContent = option;
+                button.addEventListener('click', () => {
+                    if (!isAnswering && !gameOver) {
+                        isAnswering = true;
+                        checkAnswer(option, correctQuestion.meaning);
+                    }
+                });
+                optionsContainer.appendChild(button);
+            });
+        }
+        
+        // 檢查答案＆計分邏輯
+        function checkAnswer(selectedOption, correctAnswer) {
+            if (gameOver) return;
+            
+            const options = document.querySelectorAll('.option');
+            options.forEach(option => {
+                option.disabled = true;
+                if (option.textContent === correctAnswer) {
+                    option.classList.add('correct');
+                } else if (option.textContent === selectedOption && selectedOption !== correctAnswer) {
+                    option.classList.add('wrong');
+                }
+            });
+            
+            if (selectedOption === correctAnswer) {
+                // ✅ 答對：連續正確 +1，錯誤歸零
+                correctStreak++;
+                wrongStreak = 0;
+
+                let addScore = 5;
+                if (correctStreak === 1) addScore = 5;
+                else if (correctStreak === 2) addScore = 10;
+                else if (correctStreak === 3) addScore = 15;
+                else addScore = 20; // 第 4 題起封頂
+
+                score += addScore;
+                scoreDisplay.textContent = score;
+
+                pig.textContent = '🐷🎉';
+                createConfetti();
+                playSound('correct');
+                
+                setTimeout(() => {
+                    if (gameOver) return;
+                    pig.textContent = '🐷';
+                    optionsContainer.innerHTML = '';
+                    loadQuestion();
+                }, 800);
+            } else {
+                // ❌ 答錯：連續錯誤 +1，正確歸零
+                wrongStreak++;
+                correctStreak = 0;
+
+                let penalty = 5;
+                if (wrongStreak === 1) penalty = 5;
+                else if (wrongStreak === 2) penalty = 10;
+                else if (wrongStreak === 3) penalty = 15;
+                else penalty = 20;  // 第 4 題起封頂
+
+                score = Math.max(score - penalty, 0);
+                scoreDisplay.textContent = score;
+
+                flame.style.opacity = '1';
+                flame.style.transform = 'scale(1)';
+                explosion.style.opacity = '1';
+                explosion.style.transform = 'scale(1.5)';
+                pig.className = 'pig fall-over';
+                playSound('explosion');
+                
+                setTimeout(() => {
+                    if (gameOver) return;
+
+                    if (score <= 0) {
+                        // 分數歸零 ⇒ 遊戲結束
+                        endGame('score');
+                    } else {
+                        // 還有分數 ⇒ 繼續遊戲
+                        pig.textContent = '🐷';
+                        pig.className = 'pig';
+                        flame.style.opacity = '0';
+                        flame.style.transform = 'scale(0)';
+                        explosion.style.opacity = '0';
+                        explosion.style.transform = 'scale(0)';
+                        optionsContainer.innerHTML = '';
+                        loadQuestion();
+                    }
+                }, 800);
+            }
+        }
+
+        function endGame(reason) {
+            if (gameOver) return;
+            gameOver = true;
+
+            clearInterval(timer);
+
+            const endTime = new Date().getTime();
+            const timeUsed = Math.floor((endTime - startTime) / 1000);
+
+            finalScoreDisplay.textContent = score;
+            timeUsedDisplay.textContent = timeUsed;
+            
+            gameScreen.classList.add('hidden');
+            endScreen.classList.add('active');
+        }
+        
+        // 播放音效
+        function playSound(type) {
+            if (type === 'correct') {
+                const audio = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-achievement-bell-600.mp3');
+                audio.volume = 0.5;
+                audio.play().catch(e => console.log('音效播放失敗:', e));
+            } else if (type === 'explosion') {
+                const audio = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-bomb-explosion-1680.mp3');
+                audio.volume = 0.5;
+                audio.play().catch(e => console.log('音效播放失敗:', e));
+            }
+        }
+        
+        // 創建彩色紙花效果
+        function createConfetti() {
+            const colors = ['#ff8b94', '#ffaaa5', '#a8e6cf', '#dcedc1', '#6b5b95', '#ffd3b6'];
+            const confettiCount = 50;
+            
+            for (let i = 0; i < confettiCount; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti-piece';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.top = -10 + 'px';
+                confetti.style.transform = 'rotate(' + Math.random() * 360 + 'deg)';
+                
+                const animationDuration = Math.random() * 2 + 1;
+                confetti.style.animation = `fall ${animationDuration}s linear forwards`;
+                
+                confettiContainer.appendChild(confetti);
+                
+                setTimeout(() => {
+                    confetti.style.top = '100%';
+                    confetti.style.opacity = '1';
+                    confetti.style.transform = `rotate(${Math.random() * 360}deg) translateX(${Math.random() * 100 - 50}px)`;
+                }, 10);
+                
+                setTimeout(() => {
+                    confetti.remove();
+                }, animationDuration * 1000);
+            }
+            
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes fall {
+                    to {
+                        top: 100%;
+                        opacity: 0;
+                        transform: rotate(360deg) translateX(${Math.random() * 100 - 50}px);
+                    }
+                }
+            `;
+            document.head.appendChild(style);
+        }
+        
+        // 更新計時器：整場遊戲倒數
+        function updateTimer() {
+            if (gameOver) {
+                clearInterval(timer);
+                return;
+            }
+
+            timeLeft -= 0.1;
+            if (timeLeft < 0) timeLeft = 0;
+
+            const percentage = (timeLeft / totalGameTime) * 100;
+            timerBar.style.width = `${percentage}%`;
+            
+            const currentNumber = Math.ceil(timeLeft);
+            countdownDisplay.textContent = formatTime(timeLeft);
+            
+            if (currentNumber !== lastCountdownNumber) {
+                lastCountdownNumber = currentNumber;
+                countdownDisplay.className = 'countdown pulse';
+                
+                setTimeout(() => {
+                    if (!gameOver) countdownDisplay.className = 'countdown';
+                }, 300);
+            }
+            
+            fuse.style.width = `${Math.max(percentage * 0.8, 0)}px`;
+            
+            if (percentage < 20) {
+                timerBar.style.background = 'linear-gradient(to right, #ff0000, #ff6600)';
+                countdownDisplay.style.color = '#ff0000';
+                countdownDisplay.style.fontSize = '1.7rem';
+                flame.style.opacity = '1';
+                flame.style.transform = 'scale(1)';
+            } else if (percentage < 50) {
+                timerBar.style.background = 'linear-gradient(to right, #ff6600, #ff8b94)';
+                countdownDisplay.style.color = '#ff6600';
+                countdownDisplay.style.fontSize = '1.6rem';
+                flame.style.opacity = '0.7';
+                flame.style.transform = 'scale(0.7)';
+            } else {
+                timerBar.style.background = 'linear-gradient(to right, #ff8b94, #ffaaa5)';
+                countdownDisplay.style.color = '#ff8b94';
+                countdownDisplay.style.fontSize = '1.5rem';
+                flame.style.opacity = '0';
+                flame.style.transform = 'scale(0)';
+            }
+            
+            if (timeLeft <= 0) {
+                clearInterval(timer);
+                endGame('time');
+            }
+        }
+        
+        // 輔助函數：打亂數組
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+        
+        // 時間選擇按鈕事件
+        timeButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                timeButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                // 只在開始畫面調整顯示
+                if (!gameOver && !gameScreen || startScreen && !startScreen.classList.contains('hidden')) {
+                    totalGameTime = parseInt(btn.dataset.time, 10);
+                    timeLeft = totalGameTime;
+                    countdownDisplay.textContent = formatTime(timeLeft);
+                    timerBar.style.width = '100%';
+                }
+            });
+        });
+
+        // 事件監聽器
+        startBtn.addEventListener('click', startGame);
+        restartBtn.addEventListener('click', initGame);
+        
+        // 防止双击缩放
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', function(e) {
+            const now = Date.now();
+            if (now - lastTouchEnd <= 300) e.preventDefault();
+            lastTouchEnd = now;
+        }, { passive: false });
+        
+        // 窗口大小改变时重新检测设备
+        window.addEventListener('resize', function() {
+            setTimeout(detectDevice, 100);
+        });
+        
+        // 初始化遊戲和设备检测
+        initGame();
+        detectDevice();
+    </script>
+</body>
+</html>
