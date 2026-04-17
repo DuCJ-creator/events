@@ -20,7 +20,6 @@
     min-height: 100vh;
   }
 
-  /* 全域頁面容器 */
   .page {
     position: relative;
     z-index: 2;
@@ -29,7 +28,6 @@
   }
   .page.active { display: block; }
 
-  /* 星空粒子背景 (首頁) */
   #star-canvas {
     position: fixed;
     top: 0;
@@ -40,7 +38,6 @@
     z-index: 0;
   }
 
-  /* 課程專屬動態背景層 (滑鼠軌跡特效, 輕量canvas) */
   .dynamic-bg {
     position: fixed;
     top: 0;
@@ -49,7 +46,7 @@
     height: 100%;
     pointer-events: none;
     z-index: 1;
-    opacity: 0.5;
+    opacity: 0.45;
   }
   canvas.dynamic-canvas {
     width: 100%;
@@ -57,13 +54,11 @@
     display: block;
   }
 
-  /* 主內容層 */
   .page > *:not(.dynamic-bg) {
     position: relative;
     z-index: 3;
   }
 
-  /* 半透卡片風格 */
   .glass-card {
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(8px);
@@ -73,7 +68,6 @@
     padding: 16px;
   }
 
-  /* 首頁 */
   #home {
     background: radial-gradient(ellipse at 50% 30%, #102b3f, #05161f);
   }
@@ -86,7 +80,6 @@
   .hero h1 { font-size: clamp(28px, 6vw, 44px); font-weight: 900; background: linear-gradient(135deg, #FFE6B0, #FFB347); -webkit-background-clip: text; background-clip: text; color: transparent; }
   .welcome-text { max-width: 680px; margin: 28px auto 40px; padding: 16px 28px; background: rgba(10, 30, 45, 0.7); border-radius: 60px; backdrop-filter: blur(4px); border: 1px solid rgba(255,210,120,0.3); }
 
-  /* 課程卡片 */
   .courses-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 28px; max-width: 1100px; margin: 0 auto; padding: 0 24px 70px; }
   .course-card { border-radius: 32px; overflow: hidden; cursor: pointer; transition: all 0.3s; background: rgba(20, 40, 55, 0.7); backdrop-filter: blur(8px); border: 1px solid rgba(255, 200, 110, 0.5); }
   .course-card:hover { transform: translateY(-10px); border-color: #ffbc6e; }
@@ -100,19 +93,16 @@
   .pill { font-size: 11px; font-weight: 800; padding: 5px 14px; border-radius: 30px; background: rgba(255,215,130,0.2); color: #ffdfaa; display: inline-block; margin-right: 6px; margin-bottom: 6px; }
   .card-cta { background: rgba(255, 190, 80, 0.25); border: 1px solid #ffbc6e; padding: 12px 16px; border-radius: 40px; font-weight: 800; display: flex; justify-content: space-between; align-items: center; width: 100%; cursor: pointer; color: #ffdd99; }
 
-  /* 內頁樣式 */
   .course-header { background: rgba(0, 20, 35, 0.6); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(255,200,100,0.4); padding: 30px 24px 20px; }
   .back-btn { background: rgba(255,220,130,0.2); border: 1px solid #ffbc6e; padding: 8px 20px; border-radius: 40px; font-weight: 700; cursor: pointer; color: #ffdd99; display: inline-block; margin-bottom: 16px; }
   .section { background: rgba(15, 35, 50, 0.65); backdrop-filter: blur(10px); border-radius: 32px; margin: 20px 20px; padding: 24px; border: 1px solid rgba(255,200,130,0.3); }
   .section-title { font-size: 22px; font-weight: 800; display: flex; align-items: center; gap: 10px; margin-bottom: 20px; color: #ffecb3; }
 
-  /* 單字總覽 (原網格模式) */
   .vocab-overview-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; margin-bottom: 28px; }
   .vocab-card { background: rgba(30, 55, 75, 0.8); border-radius: 20px; padding: 12px; text-align: center; border: 1px solid #ffcd8a; }
   .vocab-card .word { font-weight: 800; font-size: 15px; }
   .vocab-card .meaning { font-size: 12px; color: #ffdfaa; margin-top: 6px; }
 
-  /* 獨立翻牌閃卡區 */
   .flashcard-deck { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; margin-top: 20px; }
   .single-flip-card { width: 160px; height: 140px; perspective: 1000px; cursor: pointer; }
   .single-flip-inner { position: relative; width: 100%; height: 100%; transition: transform 0.6s; transform-style: preserve-3d; border-radius: 24px; box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
@@ -121,14 +111,14 @@
   .single-back { transform: rotateY(180deg); background: linear-gradient(145deg, #5f3b1c, #3b2a1a); color: #ffebc2; }
   .speaker-icon-small { margin-top: 8px; background: rgba(0,0,0,0.4); padding: 4px 10px; border-radius: 30px; font-size: 12px; display: inline-flex; align-items: center; gap: 6px; cursor: pointer; }
 
-  /* 遊戲區 */
   .game-section { background: rgba(10, 30, 45, 0.8); border-radius: 32px; padding: 24px; }
   .choice-btn { background: rgba(50, 80, 105, 0.9); border: 1px solid #ffbc6e; padding: 12px; border-radius: 60px; font-weight: 800; color: #fff0d4; transition: 0.1s; cursor: pointer; margin: 6px; }
   .progress-bar-wrap { background: #2e4a6a; border-radius: 20px; height: 8px; margin: 12px 0; }
   .progress-bar-fill { background: linear-gradient(90deg, #f5b042, #ffd966); border-radius: 20px; height: 8px; width: 0%; }
   .restart-btn { background: #ffaa44; border: none; padding: 10px 24px; border-radius: 40px; font-weight: 800; color: #1f2f3a; cursor: pointer; margin-top: 16px; }
-  .match-item { background: rgba(30, 65, 85, 0.7); border-radius: 60px; padding: 10px; border: 1px solid #ffbc6e; font-weight: bold; width: 100%; cursor: pointer; color: white; margin: 4px 0; text-align: center; }
-  .match-item.selected-en, .match-item.selected-zh { background: #ffae5a; color: #1f2f3a; border-color: #fff2cc; }
+  .match-item { background: rgba(30, 65, 85, 0.85); border-radius: 60px; padding: 10px 12px; border: 1px solid #ffbc6e; font-weight: bold; width: 100%; cursor: pointer; color: white !important; margin: 4px 0; text-align: center; transition: 0.1s; }
+  .match-item.selected-en, .match-item.selected-zh { background: #ffae5a; color: #1f2f3a !important; border-color: #fff2cc; }
+  .match-item.matched { background: #2c7a47; border-color: #5effa0; cursor: default; opacity: 0.7; }
   .flip-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
   .flip-card-game { perspective: 600px; height: 90px; cursor: pointer; }
   .flip-inner-game { position: relative; width: 100%; height: 100%; transition: transform 0.4s; transform-style: preserve-3d; }
@@ -165,23 +155,20 @@
 <!-- AI 課程頁面 -->
 <div id="course-ai" class="page">
   <div class="course-header"><button class="back-btn" onclick="showPage('home')">← 返回首頁</button><div style="font-size:44px">🤖✨</div><h1 style="color:#ffeaac">AI 趣英文</h1><p>Fun E-Learning with AI · 科技素養 · 語言應用 · 觀念養成</p></div>
-  <div class="section"><div class="section-title"><span>💡</span> 核心理念 Core Concepts</div><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px"><div class="glass-card"><h4>🔬 科技素養 Technology Literacy</h4><p>了解 AI 如何改變學習與生活方式。How AI changes learning and life styles </p></div><div class="glass-card"><h4>💬 語言應用 Language Application</h4><p>用英文與 AI 互動，語言學習更有趣！Fun language learning via interaction with AI</p></div><div class="glass-card"><h4>🌱 觀念養成 Notion cultivated</h4><p>培養批判性思維，負責任使用科技。Critical thinking and using technology responsibly</p></div></div></div>
-  
+  <div class="section"><div class="section-title"><span>💡</span> 核心理念 Core Concepts</div><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px"><div class="glass-card"><h4>🔬 科技素養 Technology Literacy</h4><p>了解 AI 如何改變學習與生活方式。</p></div><div class="glass-card"><h4>💬 語言應用 Language Application</h4><p>用英文與 AI 互動，語言學習更有趣！</p></div><div class="glass-card"><h4>🌱 觀念養成 Notion cultivated</h4><p>培養批判性思維，負責任使用科技。</p></div></div></div>
   <div class="section"><div class="section-title"><span>📖</span> 學習重點一覽 Key Vocabulary Overview</div><div id="ai-vocab-overview" class="vocab-overview-grid"></div></div>
-  
   <div class="section"><div class="section-title"><span>🃏✨</span> 單字閃卡練習 (點擊卡片翻面，點擊喇叭聽發音)</div><div id="ai-flash-deck" class="flashcard-deck"></div></div>
-
   <div class="section"><div class="game-section"><div class="game-title" style="font-size:24px;font-weight:900;color:#ffdd99">🎮 詞彙大挑戰</div><div class="progress-bar-wrap"><div class="progress-bar-fill" id="ai-progress"></div></div><div class="game-stats"><span>⭐ 分數: <span id="ai-score">0</span></span><span>📋 題目: <span id="ai-q-num">1</span>/<span id="ai-total">16</span></span></div><div id="ai-game-content"></div></div></div>
 </div>
 
-<!-- 世界英語課程 -->
+<!-- 世界英語課程 - 配對遊戲完全修復版 -->
 <div id="course-world" class="page">
-  <div class="course-header"><button class="back-btn" onclick="showPage('home')">← 返回首頁</button><div style="font-size:44px">🌍🗣️</div><h1 style="color:#c4e6d4">「世界英語」的奧妙</h1><p>The Charm of World Englishes </p></div>
+  <div class="course-header"><button class="back-btn" onclick="showPage('home')">← 返回首頁</button><div style="font-size:44px">🌍🗣️</div><h1 style="color:#c4e6d4">「世界英語」的奧妙</h1><p>The Charm of World Englishes</p></div>
   <div class="section"><div class="section-title"><span>💡</span> 核心理念 Core Concepts</div><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px"><div class="glass-card"><h4>🔬 人文素養 Humanities Literacy</h4><p>理解語言背後的文化與歷史</p></div><div class="glass-card"><h4>💬 語言多樣性 Variety of Languages</h4><p>探索英語在不同國家的獨特用法</p></div></div></div>
-  <div class="section"><div class="section-title"><span>🌱</span> 英語的根源 Roots of English</div><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px"><div class="glass-card"><h4>🏰 Germanic 日耳曼語</h4><p>Germany, Holland, Sweden 基礎詞彙</p></div><div class="glass-card"><h4>🏛️ Latin 拉丁語</h4><p>Spain, Italy, France 學術詞彙</p></div></div><div class="glass-card" style="margin-top:16px"><h4>⚔️ 維京人的影響 — 星期來自北歐神</h4><table style="width:100%;color:#e6ddc4; border-collapse: collapse;"><tr><th>Day</th><th>Norse God</th><th>含義</th></tr><tr><td>Tues</td><td>TYR 戰神</td><td>戰神之日</td></tr><tr><td>Wednes</td><td>ODIN 奧丁</td><td>奧丁之日</td></tr><tr><td>Thurs</td><td>THOR 索爾</td><td>雷神之日</td></tr><tr><td>Fri</td><td>FREYA 芙蕾雅</td><td>女神之日</td></tr></table></div></div>
+  <div class="section"><div class="section-title"><span>🌱</span> 英語的根源 Roots of English</div><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px"><div class="glass-card"><h4>🏰 Germanic 日耳曼語</h4><p>Germany, Holland, Sweden 基礎詞彙</p></div><div class="glass-card"><h4>🏛️ Latin 拉丁語</h4><p>Spain, Italy, France 學術詞彙</p></div></div><div class="glass-card" style="margin-top:16px"><h4>⚔️ 維京人的影響 — 星期來自北歐神</h4><table style="width:100%;color:#e6ddc4; border-collapse: collapse;"><tr><th>Day</th><th>Norse God</th><th>含義</th><tr><tr><td>Tues</td><td>TYR 戰神</td><td>戰神之日</td></tr><tr><td>Wednes</td><td>ODIN 奧丁</td><td>奧丁之日</td></tr><tr><td>Thurs</td><td>THOR 索爾</td><td>雷神之日</td></tr><tr><td>Fri</td><td>FREYA 芙蕾雅</td><td>女神之日</td></tr></table></div></div>
   <div class="section"><div class="section-title"><span>📖</span> 學習重點一覽 Key Vocabulary Overview</div><div id="world-vocab-overview" class="vocab-overview-grid"></div></div>
   <div class="section"><div class="section-title"><span>🃏✨</span> 單字閃卡練習</div><div id="world-flash-deck" class="flashcard-deck"></div></div>
-  <div class="section"><div class="game-section"><div class="game-title" style="color:#c4e6d4">🎮 配對大挑戰</div><div class="progress-bar-wrap"><div class="progress-bar-fill" id="world-progress"></div></div><div style="display:flex;justify-content:space-between;margin:15px 0"><span>🏆 分數: <span id="world-score">0</span></span><span>✅ 配對: <span id="world-matched">0</span>/<span id="world-total">8</span></span></div><div id="world-game-content"></div></div></div>
+  <div class="section"><div class="game-section"><div class="game-title" style="color:#c4e6d4">🎮 配對大挑戰 (點擊英文，再點擊中文配對)</div><div class="progress-bar-wrap"><div class="progress-bar-fill" id="world-progress"></div></div><div style="display:flex;justify-content:space-between;margin:15px 0"><span>🏆 分數: <span id="world-score">0</span></span><span>✅ 配對: <span id="world-matched">0</span>/<span id="world-total">8</span></span></div><div id="world-game-content"></div></div></div>
 </div>
 
 <!-- 美食課程 -->
@@ -195,7 +182,7 @@
 </div>
 
 <script>
-  // ----------------------------- 語音音效 (真人發音 good, great, super 等) -----------------------------
+  // ==================== 語音功能 ====================
   function playWordAudio(word) {
     const utterance = new SpeechSynthesisUtterance(word);
     utterance.lang = 'en-US';
@@ -208,8 +195,6 @@
   const oopsWords = ['Oops!', 'Oh no!', 'Try again!', 'So close!', 'Nice try!'];
   function playRandomPraise() { const w = praiseWords[Math.floor(Math.random()*praiseWords.length)]; playWordAudio(w); return w; }
   function playRandomOops() { const w = oopsWords[Math.floor(Math.random()*oopsWords.length)]; playWordAudio(w); return w; }
-
-  // 一般單字發音
   function speakEnglish(word) { const u = new SpeechSynthesisUtterance(word); u.lang = 'en-US'; u.rate=0.85; window.speechSynthesis.cancel(); window.speechSynthesis.speak(u); }
 
   // 數據集
@@ -217,13 +202,11 @@
   const worldVocab = [{en:'diversity',zh:'多樣性'},{en:'accent',zh:'口音'},{en:'dialect',zh:'方言'},{en:'evolve',zh:'演化'},{en:'influence',zh:'影響'},{en:'spread',zh:'傳播'},{en:'immersion',zh:'沉浸'},{en:'roots',zh:'根源'}];
   const foodVocab = [{en:'tortilla',zh:'薄餅'},{en:'flour',zh:'麵粉'},{en:'dough',zh:'麵團'},{en:'cream cheese',zh:'奶油乳酪'},{en:'rolling pin',zh:'擀麵棍'},{en:'pan',zh:'平底鍋'},{en:'stove',zh:'瓦斯爐'},{en:'roll out',zh:'擀開'},{en:'cook',zh:'烤'},{en:'roll',zh:'捲'},{en:'wrap',zh:'包'}];
 
-  // 渲染總覽模式
   function renderOverview(containerId, list) {
     const container = document.getElementById(containerId);
     if(!container) return;
     container.innerHTML = list.map(v => `<div class="vocab-card"><div class="word">${v.en}</div><div class="meaning">${v.zh}</div></div>`).join('');
   }
-  // 渲染獨立翻牌閃卡
   function renderFlashDeck(containerId, list) {
     const container = document.getElementById(containerId);
     if(!container) return;
@@ -246,7 +229,7 @@
   renderFlashDeck('world-flash-deck', worldVocab);
   renderFlashDeck('food-flash-deck', foodVocab);
 
-  // ----------------------------- AI 選擇題遊戲 -----------------------------
+  // ==================== AI 選擇題遊戲 ====================
   let aiGame = { vocab: [...aiVocab], current:0, score:0, answered:false };
   function shuffleArr(a){ return a.sort(()=>Math.random()-0.5); }
   function renderAIGame() {
@@ -282,58 +265,131 @@
   };
   window.restartAIGame = function() { aiGame = { vocab: shuffleArr(aiVocab), current:0, score:0, answered:false }; renderAIGame(); };
 
-  // 世界配對遊戲 (修正完成)
-  let worldGame = { pairs: [...worldVocab], matched: new Set(), selEn:null, selZh:null, selZhEn:null, score:0 };
-  function renderWorldMatch() {
-    const left = worldGame.pairs.filter(p=>!worldGame.matched.has(p.en));
-    const enList = shuffleArr([...left]), zhList = shuffleArr([...left]);
+  // ==================== 世界配對遊戲 (完全重寫 - 最穩定版本) ====================
+  let worldGame = {
+    pairs: worldVocab.map((v, idx) => ({ ...v, id: idx })),
+    matchedIds: new Set(),
+    selectedEn: null,
+    selectedZh: null,
+    score: 0
+  };
+
+  function renderWorldGame() {
+    const unmatched = worldGame.pairs.filter(p => !worldGame.matchedIds.has(p.id));
+    const enList = shuffleArr([...unmatched]);
+    const zhList = shuffleArr([...unmatched]);
+    
     document.getElementById('world-score').innerText = worldGame.score;
-    document.getElementById('world-matched').innerText = worldGame.matched.size;
+    document.getElementById('world-matched').innerText = worldGame.matchedIds.size;
     document.getElementById('world-total').innerText = worldGame.pairs.length;
-    document.getElementById('world-progress').style.width = (worldGame.matched.size/worldGame.pairs.length*100)+'%';
-    const cont = document.getElementById('world-game-content');
-    if(worldGame.matched.size === worldGame.pairs.length) { cont.innerHTML = `<div style="text-align:center"><div>🎉 完美配對！ 🎉</div><button class="restart-btn" onclick="restartWorldGame()">再次挑戰</button></div>`; return; }
-    cont.innerHTML = `<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px"><div>${enList.map(p=>`<button class="match-item" data-en="${p.en}" data-zh="${p.zh}" onclick="selectWorldEn('${p.en}','${p.zh}')">${p.en}</button>`).join('')}</div><div>${zhList.map(p=>`<button class="match-item" data-zh="${p.zh}" data-en="${p.en}" onclick="selectWorldZh('${p.en}','${p.zh}')">${p.zh}</button>`).join('')}</div></div><div id="world-fb" style="margin-top:16px;text-align:center"></div>`;
-  }
-  window.selectWorldEn = function(en,zh) { 
-    if(worldGame.matched.has(en)) return;
-    if(worldGame.selEn === en){ clearWorldSel(); renderWorldMatch(); return; } 
-    clearWorldSel(); 
-    worldGame.selEn=en; worldGame.selEnZh=zh; 
-    const btn = document.querySelector(`.match-item[data-en="${en}"]`);
-    if(btn) btn.classList.add('selected-en');
-    if(worldGame.selZh) tryMatchWorld(); 
-  };
-  window.selectWorldZh = function(en,zh) { 
-    if(worldGame.matched.has(en)) return;
-    if(worldGame.selZh === zh){ clearWorldSel(); renderWorldMatch(); return; } 
-    clearWorldSel(); 
-    worldGame.selZh=zh; worldGame.selZhEn=en; 
-    const btn = document.querySelector(`.match-item[data-zh="${zh}"]`);
-    if(btn) btn.classList.add('selected-zh');
-    if(worldGame.selEn) tryMatchWorld(); 
-  };
-  function clearWorldSel() { 
-    worldGame.selEn=null; worldGame.selZh=null; worldGame.selZhEn=null; 
-    document.querySelectorAll('.selected-en, .selected-zh').forEach(e=>e.classList.remove('selected-en','selected-zh')); 
-  }
-  function tryMatchWorld() {
-    const fb = document.getElementById('world-fb');
-    if(worldGame.selEn && worldGame.selZh && worldGame.selEn === worldGame.selZhEn) {
-      worldGame.matched.add(worldGame.selEn); 
-      worldGame.score += 10;
-      let praise = playRandomPraise();
-      fb.innerHTML = `🎉 ${praise} 配對成功！`; fb.style.color="#b5ffc4";
-      setTimeout(()=>{ clearWorldSel(); renderWorldMatch(); }, 500);
-    } else if(worldGame.selEn && worldGame.selZh) {
-      let oops = playRandomOops();
-      fb.innerHTML = `😢 ${oops} 再試一次～`; fb.style.color="#ffb48a";
-      setTimeout(()=>{ clearWorldSel(); renderWorldMatch(); }, 700);
+    document.getElementById('world-progress').style.width = (worldGame.matchedIds.size / worldGame.pairs.length * 100) + '%';
+    
+    const container = document.getElementById('world-game-content');
+    if (worldGame.matchedIds.size === worldGame.pairs.length) {
+      container.innerHTML = `<div style="text-align:center;padding:20px"><div>🎉 完美配對！ 得分 ${worldGame.score} 🎉</div><button class="restart-btn" onclick="restartWorldGame()">🔄 再次挑戰</button></div>`;
+      return;
+    }
+    
+    container.innerHTML = `
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div>
+          ${enList.map(p => `<button class="match-item" data-en-id="${p.id}" data-en-word="${p.en}" data-zh-word="${p.zh}" onclick="selectWorldEn(${p.id}, '${p.en}', '${p.zh}')">${p.en}</button>`).join('')}
+        </div>
+        <div>
+          ${zhList.map(p => `<button class="match-item" data-zh-id="${p.id}" data-zh-word="${p.zh}" data-en-word="${p.en}" onclick="selectWorldZh(${p.id}, '${p.en}', '${p.zh}')">${p.zh}</button>`).join('')}
+        </div>
+      </div>
+      <div id="world-feedback" style="margin-top:16px;text-align:center;min-height:50px;font-size:16px;font-weight:bold;"></div>
+    `;
+    
+    // 重新高亮已選中的項目
+    if (worldGame.selectedEn !== null) {
+      const btn = document.querySelector(`.match-item[data-en-id="${worldGame.selectedEn}"]`);
+      if (btn) btn.classList.add('selected-en');
+    }
+    if (worldGame.selectedZh !== null) {
+      const btn = document.querySelector(`.match-item[data-zh-id="${worldGame.selectedZh}"]`);
+      if (btn) btn.classList.add('selected-zh');
     }
   }
-  window.restartWorldGame = function() { worldGame = { pairs: [...worldVocab], matched: new Set(), selEn:null, selZh:null, selZhEn:null, score:0 }; renderWorldMatch(); };
 
-  // 美食翻牌
+  window.selectWorldEn = function(id, enWord, zhWord) {
+    if (worldGame.matchedIds.has(id)) return;
+    if (worldGame.selectedEn === id) {
+      // 取消選取
+      worldGame.selectedEn = null;
+      renderWorldGame();
+      return;
+    }
+    worldGame.selectedEn = id;
+    worldGame.selectedEnWord = enWord;
+    worldGame.selectedEnZh = zhWord;
+    renderWorldGame();
+    
+    // 如果已經有選中的中文，嘗試配對
+    if (worldGame.selectedZh !== null) {
+      attemptWorldMatch();
+    }
+  };
+
+  window.selectWorldZh = function(id, enWord, zhWord) {
+    if (worldGame.matchedIds.has(id)) return;
+    if (worldGame.selectedZh === id) {
+      worldGame.selectedZh = null;
+      renderWorldGame();
+      return;
+    }
+    worldGame.selectedZh = id;
+    worldGame.selectedZhEn = enWord;
+    worldGame.selectedZhWord = zhWord;
+    renderWorldGame();
+    
+    if (worldGame.selectedEn !== null) {
+      attemptWorldMatch();
+    }
+  };
+
+  function attemptWorldMatch() {
+    const enId = worldGame.selectedEn;
+    const zhId = worldGame.selectedZh;
+    const enPair = worldGame.pairs.find(p => p.id === enId);
+    const zhPair = worldGame.pairs.find(p => p.id === zhId);
+    const fb = document.getElementById('world-feedback');
+    
+    if (enPair && zhPair && enPair.en === zhPair.en) {
+      // 配對成功
+      worldGame.matchedIds.add(enId);
+      worldGame.matchedIds.add(zhId);
+      worldGame.score += 10;
+      const praise = playRandomPraise();
+      fb.innerHTML = `🎉 ${praise} 配對成功！ +10分 🎉`;
+      fb.style.color = "#b5ffc4";
+      worldGame.selectedEn = null;
+      worldGame.selectedZh = null;
+      setTimeout(() => renderWorldGame(), 600);
+    } else if (enPair && zhPair) {
+      // 配對失敗
+      const oops = playRandomOops();
+      fb.innerHTML = `😢 ${oops} 「${enPair?.en || ''}」不等於「${zhPair?.zh || ''}」，再試一次～`;
+      fb.style.color = "#ffb48a";
+      worldGame.selectedEn = null;
+      worldGame.selectedZh = null;
+      setTimeout(() => renderWorldGame(), 800);
+    }
+  }
+
+  window.restartWorldGame = function() {
+    worldGame = {
+      pairs: worldVocab.map((v, idx) => ({ ...v, id: idx })),
+      matchedIds: new Set(),
+      selectedEn: null,
+      selectedZh: null,
+      score: 0
+    };
+    renderWorldGame();
+  };
+
+  // ==================== 美食翻牌遊戲 ====================
   let foodMem = { cards:[], flipped:[], matched:new Set(), score:0, attempts:0, locked:false, pairsData:[] };
   function initFoodMemory() {
     let selected = foodVocab.slice(0,6);
@@ -348,7 +404,7 @@
     document.getElementById('food-attempts').innerText = foodMem.attempts;
     document.getElementById('food-progress').style.width = (foodMem.score/foodMem.pairsData.length*100)+'%';
     const cont = document.getElementById('food-game-content');
-    if(foodMem.score === foodMem.pairsData.length) { cont.innerHTML = `<div style="text-align:center"><div>🎉 全部配對！ 🎉</div><button class="restart-btn" onclick="initFoodMemory()">再次挑戰</button></div>`; return; }
+    if(foodMem.score === foodMem.pairsData.length) { cont.innerHTML = `<div style="text-align:center;padding:20px"><div>🎉 全部配對！ 🎉</div><button class="restart-btn" onclick="initFoodMemory()">再次挑戰</button></div>`; return; }
     cont.innerHTML = `<div class="flip-grid">${foodMem.cards.map((c,i)=>{
       const isFlip = foodMem.flipped.includes(i) || foodMem.matched.has(c.matchId);
       return `<div class="flip-card-game ${isFlip?'flipped':''}" onclick="flipFoodCard(${i})"><div class="flip-inner-game"><div class="flip-front-game">❓</div><div class="flip-back-game">${c.text}</div></div></div>`;
@@ -378,8 +434,8 @@
       }
     }
   };
-  
-  // 頁面切換 + 動態背景管理
+
+  // ==================== 頁面切換與動態背景 ====================
   let activeBgCanvas = null, bgAnimationId = null;
   function stopBackgroundAnimation() { if(bgAnimationId) { cancelAnimationFrame(bgAnimationId); bgAnimationId=null; } if(activeBgCanvas) { activeBgCanvas.remove(); activeBgCanvas=null; } }
   function initDynamicBg(pageId) {
@@ -433,6 +489,7 @@
     draw();
     canvas._cleanup = () => { window.removeEventListener('mousemove', moveHandler); window.removeEventListener('resize', resizeCanvas); if(bgAnimationId) cancelAnimationFrame(bgAnimationId); };
   }
+  
   function showPage(id) {
     document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
     document.getElementById(id).classList.add('active');
@@ -441,7 +498,7 @@
     window.scrollTo(0,0);
   }
   window.showPage = showPage;
-  
+
   // 星空背景
   const starCanvas = document.getElementById('star-canvas');
   let starsCtx = starCanvas.getContext('2d');
@@ -452,13 +509,11 @@
   for(let i=0;i<150;i++) stars.push({ x:Math.random()*starCanvas.width, y:Math.random()*starCanvas.height, r:Math.random()*2+1, alpha:Math.random()*0.5+0.2, dx:(Math.random()-0.5)*0.2, dy:(Math.random()-0.5)*0.15 });
   function animateStars() { if(!starsCtx) return; starsCtx.clearRect(0,0,starCanvas.width,starCanvas.height); stars.forEach(s=>{ s.x+=s.dx; if(s.x<0) s.x=starCanvas.width; if(s.x>starCanvas.width) s.x=0; s.y+=s.dy; if(s.y<0) s.y=starCanvas.height; if(s.y>starCanvas.height) s.y=0; starsCtx.beginPath(); starsCtx.arc(s.x,s.y,s.r,0,Math.PI*2); starsCtx.fillStyle=`rgba(255,235,180,${s.alpha})`; starsCtx.fill(); }); requestAnimationFrame(animateStars); }
   animateStars();
-  
-  // 初始化所有遊戲
+
+  // 啟動所有遊戲
   renderAIGame();
-  renderWorldMatch();
+  renderWorldGame();
   initFoodMemory();
-  
-  window.speakEnglish = speakEnglish;
 </script>
 </body>
 </html>
