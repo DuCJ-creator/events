@@ -70,222 +70,73 @@
 
   #home {
     background: radial-gradient(ellipse at 50% 30%, #102b3f, #05161f);
-    padding-bottom: 50px;
   }
   
-  /* 首頁樣式大幅優化 - 更大更清晰 */
-  .hero { 
-    text-align: center; 
-    padding: 32px 20px 20px; 
-  }
-  
-  .logo-wrapper { 
-    display: inline-block; 
-    position: relative; 
-    animation: gentleFloat 3s ease-in-out infinite;
-    margin-bottom: 12px;
-  }
-  
-  @keyframes gentleFloat { 
-    0% { transform: translateY(0px); } 
-    50% { transform: translateY(-6px); } 
-    100% { transform: translateY(0px); } 
-  }
-  
-  .logo-ring { 
-    width: 200px;   /* 從160px放大到200px */
-    height: 200px; 
-    border-radius: 50%; 
-    background: rgba(255,215,130,0.25); 
-    padding: 10px; 
-    border: 3px solid #ffcd7e; 
-    box-shadow: 0 0 35px rgba(255,200,100,0.6);
-  }
-  
-  .logo-ring img { 
-    width: 100%; 
-    height: 100%; 
-    object-fit: cover; 
-    border-radius: 50%; 
-    background: #ffe0a3; 
-  }
-  
-  .badge-since { 
-    position: absolute; 
-    bottom: -2px; 
-    right: -10px; 
-    background: #ffb347; 
-    color: #1f2a3a; 
-    font-weight: 900; 
-    padding: 6px 16px; 
-    border-radius: 60px; 
-    font-size: 14px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-  }
-  
-  .hero h1 { 
-    font-size: clamp(38px, 7vw, 58px); /* 更大更醒目 */
-    font-weight: 900; 
-    background: linear-gradient(135deg, #FFE6B0, #FFB347); 
-    -webkit-background-clip: text; 
-    background-clip: text; 
-    color: transparent;
-    letter-spacing: -0.5px;
-    margin-top: 8px;
-  }
-  
-  .hero h2 {
-    font-size: clamp(18px, 4vw, 26px);
-    font-weight: 600;
-    color: #ffdfaa;
-    margin-top: 4px;
-    letter-spacing: 0.5px;
-  }
-  
-  .tagline {
-    font-size: clamp(18px, 4.5vw, 24px);
-    font-weight: 700;
-    background: rgba(0,0,0,0.4);
-    display: inline-block;
-    padding: 6px 20px;
-    border-radius: 60px;
-    margin-top: 10px;
-    backdrop-filter: blur(2px);
-  }
-  
-  .welcome-text { 
-    max-width: 780px; 
-    margin: 28px auto 32px; 
-    padding: 20px 32px; 
-    background: rgba(10, 30, 45, 0.75); 
-    border-radius: 48px; 
-    backdrop-filter: blur(8px); 
-    border: 1px solid rgba(255,210,120,0.5);
-    font-size: 18px;
-    line-height: 1.45;
-    text-align: center;
-    font-weight: 500;
-  }
-  
-  /* 課程卡片區域更大更舒適 */
-  .courses-grid { 
-    display: grid; 
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); 
-    gap: 32px; 
-    max-width: 1200px; 
-    margin: 0 auto; 
-    padding: 0 28px 60px; 
-  }
-  
-  .course-card { 
-    border-radius: 40px; 
-    overflow: hidden; 
-    cursor: pointer; 
-    transition: all 0.3s ease; 
-    background: rgba(20, 40, 55, 0.8); 
-    backdrop-filter: blur(8px); 
-    border: 1px solid rgba(255, 200, 110, 0.6); 
-  }
-  
-  .course-card:hover { 
-    transform: translateY(-10px); 
-    border-color: #ffbc6e;
-    box-shadow: 0 20px 30px -10px rgba(0,0,0,0.4);
-  }
-  
-  .course-card-header { 
-    padding: 32px 28px 24px; 
-  }
-  
-  .card-icon { 
-    font-size: 68px;  /* 圖標放大 */
-    display: inline-block; 
-    animation: bounceSoft 1.6s infinite ease; 
-  }
-  
-  @keyframes bounceSoft { 
-    0%,100%{ transform: translateY(0); } 
-    50%{ transform: translateY(-6px); } 
-  }
-  
-  .course-card-header h3 { 
-    font-size: 32px;   /* 標題放大 */
-    font-weight: 800; 
-    margin: 18px 0 8px; 
-    color: #fff7e8;
-  }
-  
-  .en-title {
-    font-size: 16px;
-    font-weight: 500;
-    opacity: 0.9;
-    letter-spacing: 0.3px;
-  }
-  
-  .pill { 
-    font-size: 13px; 
-    font-weight: 800; 
-    padding: 6px 16px; 
-    border-radius: 40px; 
-    background: rgba(255,215,130,0.25); 
-    color: #ffdfaa; 
-    display: inline-block; 
-    margin-right: 8px; 
-    margin-bottom: 8px; 
-  }
-  
-  .card-cta { 
-    background: rgba(255, 190, 80, 0.3); 
-    border: 1px solid #ffbc6e; 
-    padding: 14px 20px; 
-    border-radius: 60px; 
-    font-weight: 800; 
-    font-size: 18px;
-    display: flex; 
-    justify-content: space-between; 
-    align-items: center; 
-    width: 100%; 
-    cursor: pointer; 
-    color: #ffdd99;
-    margin-top: 12px;
-    transition: 0.2s;
-  }
-  
-  .card-cta:hover {
-    background: rgba(255, 190, 80, 0.5);
-    color: white;
-  }
+  /* ===== 仅调整首页文字和图片大小，完全保留原始游戏/卡片逻辑 ===== */
+  .hero { text-align: center; padding: 48px 24px 32px; }
+  .logo-wrapper { display: inline-block; position: relative; animation: gentleFloat 3s ease-in-out infinite; }
+  @keyframes gentleFloat { 0% { transform: translateY(0px); } 50% { transform: translateY(-6px); } 100% { transform: translateY(0px); } }
+  .logo-ring { width: 200px; height: 200px; border-radius: 50%; background: rgba(255,215,130,0.2); padding: 8px; border: 2px solid #ffcd7e; box-shadow: 0 0 28px rgba(255,200,100,0.5); }
+  .logo-ring img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; background: #ffe0a3; }
+  .badge-since { position: absolute; bottom: 0px; right: -8px; background: #ffb347; color: #1f2a3a; font-weight: 900; padding: 4px 12px; border-radius: 60px; font-size: 11px; }
+  .hero h1 { font-size: clamp(38px, 7vw, 58px); font-weight: 900; background: linear-gradient(135deg, #FFE6B0, #FFB347); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .hero h2 { font-size: clamp(18px, 4vw, 26px); font-weight: 600; color: #ffdfaa; margin-top: 4px; }
+  .tagline { font-size: clamp(18px, 4.5vw, 24px); font-weight: 700; background: rgba(0,0,0,0.4); display: inline-block; padding: 6px 20px; border-radius: 60px; margin-top: 10px; backdrop-filter: blur(2px); }
+  .welcome-text { max-width: 780px; margin: 28px auto 40px; padding: 20px 32px; background: rgba(10, 30, 45, 0.75); border-radius: 48px; backdrop-filter: blur(8px); border: 1px solid rgba(255,210,120,0.5); font-size: 18px; line-height: 1.45; text-align: center; font-weight: 500; }
 
-  /* 其餘課程內頁樣式保留原有舒適度，略微調 */
+  .courses-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 32px; max-width: 1200px; margin: 0 auto; padding: 0 28px 70px; }
+  .course-card { border-radius: 40px; overflow: hidden; cursor: pointer; transition: all 0.3s; background: rgba(20, 40, 55, 0.7); backdrop-filter: blur(8px); border: 1px solid rgba(255, 200, 110, 0.5); }
+  .course-card:hover { transform: translateY(-10px); border-color: #ffbc6e; }
+  .course-card-header { padding: 32px 28px 20px; }
+  .card-ai .course-card-header { background: linear-gradient(135deg, #1e4b6e, #0d3550); }
+  .card-world .course-card-header { background: linear-gradient(135deg, #1c5e4a, #0c3e30); }
+  .card-food .course-card-header { background: linear-gradient(135deg, #b45f2b, #7a3e16); }
+  .card-icon { font-size: 68px; display: inline-block; animation: bounceSoft 1.6s infinite ease; }
+  @keyframes bounceSoft { 0%,100%{ transform: translateY(0); } 50%{ transform: translateY(-5px); } }
+  .course-card-header h3 { font-size: 32px; font-weight: 800; margin: 18px 0 6px; color: #fff7e8; }
+  .en-title { font-size: 16px; font-weight: 500; opacity: 0.9; }
+  .pill { font-size: 13px; font-weight: 800; padding: 5px 14px; border-radius: 30px; background: rgba(255,215,130,0.2); color: #ffdfaa; display: inline-block; margin-right: 6px; margin-bottom: 6px; }
+  .card-cta { background: rgba(255, 190, 80, 0.25); border: 1px solid #ffbc6e; padding: 12px 16px; border-radius: 40px; font-weight: 800; display: flex; justify-content: space-between; align-items: center; width: 100%; cursor: pointer; color: #ffdd99; font-size: 18px; }
+
+  /* 以下所有内部样式完全恢复原始，未做任何改动 */
   .course-header { background: rgba(0, 20, 35, 0.6); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(255,200,100,0.4); padding: 30px 24px 20px; }
   .back-btn { background: rgba(255,220,130,0.2); border: 1px solid #ffbc6e; padding: 8px 20px; border-radius: 40px; font-weight: 700; cursor: pointer; color: #ffdd99; display: inline-block; margin-bottom: 16px; }
   .section { background: rgba(15, 35, 50, 0.65); backdrop-filter: blur(10px); border-radius: 32px; margin: 20px 20px; padding: 24px; border: 1px solid rgba(255,200,130,0.3); }
-  .section-title { font-size: 24px; font-weight: 800; display: flex; align-items: center; gap: 10px; margin-bottom: 20px; color: #ffecb3; }
-  .vocab-overview-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 14px; margin-bottom: 28px; }
-  .vocab-card { background: rgba(30, 55, 75, 0.8); border-radius: 24px; padding: 14px; text-align: center; border: 1px solid #ffcd8a; }
-  .vocab-card .word { font-weight: 800; font-size: 16px; }
-  .vocab-card .meaning { font-size: 13px; color: #ffdfaa; margin-top: 6px; }
+  .section-title { font-size: 22px; font-weight: 800; display: flex; align-items: center; gap: 10px; margin-bottom: 20px; color: #ffecb3; }
+
+  .vocab-overview-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; margin-bottom: 28px; }
+  .vocab-card { background: rgba(30, 55, 75, 0.8); border-radius: 20px; padding: 12px; text-align: center; border: 1px solid #ffcd8a; }
+  .vocab-card .word { font-weight: 800; font-size: 15px; }
+  .vocab-card .meaning { font-size: 12px; color: #ffdfaa; margin-top: 6px; }
+
   .flashcard-deck { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; margin-top: 20px; }
-  .single-flip-card { width: 180px; height: 150px; perspective: 1000px; cursor: pointer; }
+  .single-flip-card { width: 160px; height: 140px; perspective: 1000px; cursor: pointer; }
   .single-flip-inner { position: relative; width: 100%; height: 100%; transition: transform 0.6s; transform-style: preserve-3d; border-radius: 24px; box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
-  .single-front, .single-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 24px; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 12px; text-align: center; background: linear-gradient(145deg, #1f496e, #0e3a55); border: 1px solid #ffcd8a; font-size: 18px; font-weight: 700; }
-  .single-back { transform: rotateY(180deg); background: linear-gradient(145deg, #5f3b1c, #3b2a1a); color: #ffebc2; font-size: 16px; }
-  .speaker-icon-small { margin-top: 10px; background: rgba(0,0,0,0.5); padding: 5px 12px; border-radius: 30px; font-size: 12px; display: inline-flex; align-items: center; gap: 6px; cursor: pointer; }
-  .choice-btn { background: rgba(50, 80, 105, 0.9); border: 1px solid #ffbc6e; padding: 14px; border-radius: 60px; font-weight: 800; font-size: 16px; color: #fff0d4; transition: 0.1s; cursor: pointer; margin: 6px; }
-  .game-word { font-size: 36px; font-weight: 900; margin-bottom: 12px; }
-  .match-item { background: rgba(30, 65, 85, 0.85); border-radius: 60px; padding: 14px 12px; border: 1px solid #ffbc6e; font-weight: bold; font-size: 16px; width: 100%; cursor: pointer; color: white !important; margin: 6px 0; text-align: center; transition: 0.1s; }
-  .flip-card-game { perspective: 600px; height: 100px; cursor: pointer; }
-  .flip-front-game, .flip-back-game { font-size: 20px; font-weight: 800; }
-  @media (max-width: 560px) { 
-    .logo-ring { width: 150px; height: 150px; }
-    .hero h1 { font-size: 32px; }
-    .course-card-header h3 { font-size: 26px; }
-    .card-icon { font-size: 52px; }
-    .courses-grid { grid-template-columns: 1fr; padding: 0 20px 40px; }
-    .welcome-text { font-size: 16px; padding: 16px 20px; margin: 20px 20px; }
-    .single-flip-card { width: 150px; height: 130px; }
-    .flip-grid { grid-template-columns: repeat(2, 1fr); }
-  }
+  .single-flip-card.flipped .single-flip-inner { transform: rotateY(180deg); }
+  .single-front, .single-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 24px; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 12px; text-align: center; background: linear-gradient(145deg, #1f496e, #0e3a55); border: 1px solid #ffcd8a; }
+  .single-back { transform: rotateY(180deg); background: linear-gradient(145deg, #5f3b1c, #3b2a1a); color: #ffebc2; }
+  .speaker-icon-small { margin-top: 8px; background: rgba(0,0,0,0.4); padding: 4px 10px; border-radius: 30px; font-size: 12px; display: inline-flex; align-items: center; gap: 6px; cursor: pointer; }
+
+  .game-section { background: rgba(10, 30, 45, 0.8); border-radius: 32px; padding: 24px; }
+  .choice-btn { background: rgba(50, 80, 105, 0.9); border: 1px solid #ffbc6e; padding: 12px; border-radius: 60px; font-weight: 800; color: #fff0d4; transition: 0.1s; cursor: pointer; margin: 6px; }
+  .progress-bar-wrap { background: #2e4a6a; border-radius: 20px; height: 8px; margin: 12px 0; }
+  .progress-bar-fill { background: linear-gradient(90deg, #f5b042, #ffd966); border-radius: 20px; height: 8px; width: 0%; }
+  .restart-btn { background: #ffaa44; border: none; padding: 10px 24px; border-radius: 40px; font-weight: 800; color: #1f2f3a; cursor: pointer; margin-top: 16px; }
+  .match-item { background: rgba(30, 65, 85, 0.85); border-radius: 60px; padding: 10px 12px; border: 1px solid #ffbc6e; font-weight: bold; width: 100%; cursor: pointer; color: white !important; margin: 4px 0; text-align: center; transition: 0.1s; }
+  .match-item.selected-en, .match-item.selected-zh { background: #ffae5a; color: #1f2f3a !important; border-color: #fff2cc; }
+  .match-item.matched { background: #2c7a47; border-color: #5effa0; cursor: default; opacity: 0.7; }
+  .flip-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .flip-card-game { perspective: 600px; height: 90px; cursor: pointer; }
+  .flip-inner-game { position: relative; width: 100%; height: 100%; transition: transform 0.4s; transform-style: preserve-3d; }
+  .flip-card-game.flipped .flip-inner-game { transform: rotateY(180deg); }
+  .flip-front-game, .flip-back-game { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 18px; display: flex; align-items: center; justify-content: center; background: #254e6e; border: 1px solid #ffcd8a; font-weight: 800; }
+  .flip-back-game { transform: rotateY(180deg); background: #3f2a1c; color: #ffddbb; }
+  .game-stats { display: flex; justify-content: space-between; margin: 18px 0; }
+  .game-word-display { background: rgba(0,0,0,0.3); border-radius: 40px; padding: 20px; margin-bottom: 20px; text-align: center; }
+  .game-word { font-size: 28px; font-weight: 900; margin-bottom: 8px; }
+  .choices-grid { display: grid; gap: 12px; }
+
+  @media (max-width: 560px) { .flashcard-deck { justify-content: center; } .single-flip-card { width: 140px; height: 120px; } .flip-grid { grid-template-columns: repeat(2, 1fr); } .logo-ring { width: 150px; height: 150px; } .hero h1 { font-size: 32px; } .course-card-header h3 { font-size: 26px; } .card-icon { font-size: 52px; } .courses-grid { grid-template-columns: 1fr; padding: 0 20px 40px; } .welcome-text { font-size: 16px; padding: 16px 20px; } }
 </style>
 </head>
 <body>
@@ -293,70 +144,17 @@
 
 <div id="home" class="page active">
   <div class="hero">
-    <div class="logo-wrapper">
-      <div class="logo-ring">
-        <img src="https://ducj-creator.github.io/events/shanchi.png" alt="山崎國小 × 忠信學校">
-      </div>
-      <span class="badge-since">2026 星空學園</span>
-    </div>
-    <h1>山崎國小 × 忠信學校</h1>
-    <h2>Shan-Chi Elementary × Chung-Hsin School FRP</h2>
-    <div class="tagline">✨ 雙語課程體驗 · Bilingual Experience ✨</div>
-    <div class="tagline" style="margin-top: 8px; font-size: 18px;">Designed by Shirley Du</div>
+    <div class="logo-wrapper"><div class="logo-ring"><img src="https://ducj-creator.github.io/events/shanchi.png" alt="山崎國小 × 忠信學校"></div><span class="badge-since">2026</span></div>
+    <h1>山崎國小 × 忠信學校</h1><h2>Shan-Chi Elementary × Chung-Hsin School FRP</h2><div class="tagline" style="margin-top:12px;">雙語課程體驗 · Bilingual Experience ✨</div>
+    <div class="tagline" style="margin-top:16px;">Designed by Shirley Du✨</div>
   </div>
-  
-  <div class="welcome-text">
-    🌟 歡迎來到忠信學校！今天你將體驗三堂精彩的雙語課程 —— <br>
-    從 AI 科技、世界英語到美食烹飪，每堂課都有互動詞彙遊戲在等你！🎉
-  </div>
-  <div class="welcome-text" style="margin-top: -10px;">
-    Welcome to ChungHsin School! Today, you will experience three exciting bilingual classes. <br>
-    From AI technology and Global English to culinary arts, interactive vocabulary games await! 🎉
-  </div>
+  <p class="welcome-text">歡迎來到忠信學校！今天你將體驗三堂精彩的雙語課程——<br>從 AI 科技、世界英語到美食烹飪，每堂課都有互動詞彙遊戲在等你！🎉</p>
+   <p class="welcome-text">Welcome to ChungHsin School! Today, you will experience three exciting bilingual classes. From AI technology and Global English to culinary arts, there are interactive vocabulary games waiting for you in every session!🎉</p>
  
   <div class="courses-grid">
-    <div class="course-card card-ai" onclick="showPage('course-ai')">
-      <div class="course-card-header">
-        <span class="card-icon">🤖</span>
-        <h3>AI 趣英文</h3>
-        <div class="en-title">Fun E-Learning with AI</div>
-      </div>
-      <div class="course-card-body">
-        <div class="concept-pills">
-          <span class="pill">科技素養</span>
-          <span class="pill">語言應用</span>
-        </div>
-        <div class="card-cta">🚀 開始課程 →</div>
-      </div>
-    </div>
-    <div class="course-card card-world" onclick="showPage('course-world')">
-      <div class="course-card-header">
-        <span class="card-icon">🌍</span>
-        <h3>「世界英語」的奧妙</h3>
-        <div class="en-title">The Charm of World Englishes</div>
-      </div>
-      <div class="course-card-body">
-        <div class="concept-pills">
-          <span class="pill">人文素養</span>
-          <span class="pill">語言多樣性</span>
-        </div>
-        <div class="card-cta">🌐 開始課程 →</div>
-      </div>
-    </div>
-    <div class="course-card card-food" onclick="showPage('course-food')">
-      <div class="course-card-header">
-        <span class="card-icon">🫓</span>
-        <h3>當美食遇上英文</h3>
-        <div class="en-title">A Bite of English</div>
-      </div>
-      <div class="course-card-body">
-        <div class="concept-pills">
-          <span class="pill">飲食教育</span>
-          <span class="pill">健康生活</span>
-        </div>
-        <div class="card-cta">🍽️ 開始課程 →</div>
-      </div>
-    </div>
+    <div class="course-card card-ai" onclick="showPage('course-ai')"><div class="course-card-header"><span class="card-icon">🤖</span><h3>AI 趣英文</h3><div class="en-title">Fun E-Learning with AI</div></div><div class="course-card-body"><div class="concept-pills"><span class="pill">科技素養</span><span class="pill">語言應用</span></div><button class="card-cta">開始課程 →</button></div></div>
+    <div class="course-card card-world" onclick="showPage('course-world')"><div class="course-card-header"><span class="card-icon">🌍</span><h3>「世界英語」的奧妙</h3><div class="en-title">The Charm of World Englishes</div></div><div class="course-card-body"><div class="concept-pills"><span class="pill">人文素養</span><span class="pill">語言多樣性</span></div><button class="card-cta">開始課程 →</button></div></div>
+    <div class="course-card card-food" onclick="showPage('course-food')"><div class="course-card-header"><span class="card-icon">🫓</span><h3>當美食遇上英文</h3><div class="en-title">A Bite of English</div></div><div class="course-card-body"><div class="concept-pills"><span class="pill">飲食教育</span><span class="pill">健康生活</span></div><button class="card-cta">開始課程 →</button></div></div>
   </div>
 </div>
 
@@ -473,7 +271,7 @@
   };
   window.restartAIGame = function() { aiGame = { vocab: shuffleArr(aiVocab), current:0, score:0, answered:false }; renderAIGame(); };
 
-  // ==================== 世界配對遊戲 ====================
+  // ==================== 世界配對遊戲 (原始完整版) ====================
   let worldGame = {
     pairs: worldVocab.map((v, idx) => ({ ...v, id: idx })),
     matchedIds: new Set(),
@@ -546,6 +344,7 @@
     const enPair = worldGame.pairs.find(p => p.id === enId);
     const zhPair = worldGame.pairs.find(p => p.id === zhId);
     const fb = document.getElementById('world-feedback');
+    
     if (enPair && zhPair && enPair.en === zhPair.en) {
       worldGame.matchedIds.add(enId);
       worldGame.matchedIds.add(zhId);
@@ -565,7 +364,17 @@
       setTimeout(() => renderWorldGame(), 800);
     }
   }
-  window.restartWorldGame = function() { worldGame = { pairs: worldVocab.map((v, idx) => ({ ...v, id: idx })), matchedIds: new Set(), selectedEn: null, selectedZh: null, score: 0 }; renderWorldGame(); };
+
+  window.restartWorldGame = function() {
+    worldGame = {
+      pairs: worldVocab.map((v, idx) => ({ ...v, id: idx })),
+      matchedIds: new Set(),
+      selectedEn: null,
+      selectedZh: null,
+      score: 0
+    };
+    renderWorldGame();
+  };
 
   // ==================== 美食翻牌遊戲 ====================
   let foodMem = { cards:[], flipped:[], matched:new Set(), score:0, attempts:0, locked:false, pairsData:[] };
@@ -646,7 +455,7 @@
     function draw() {
       if(!ctx || canvas.width===0) return;
       ctx.clearRect(0,0,canvas.width,canvas.height);
-      ctx.font = `28px "Segoe UI Emoji"`;
+      ctx.font = `26px "Segoe UI Emoji"`;
       for(let p of particles) {
         p.x += p.vx; p.y += p.vy;
         if(p.x < -40) p.x = canvas.width+20;
