@@ -3,76 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<title>山崎國小 × 忠信學校｜雙語課程體驗 · 星空學園</title>
+<title>山崎國小 × 忠信學校｜雙語課程體驗</title>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
 <style>
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-
-  body {
-    font-family: 'Nunito', 'Noto Sans TC', sans-serif;
-    background: #0a1f2c;
-    color: #f0f3fa;
-    overflow-x: hidden;
-    min-height: 100vh;
-  }
-
-  .page {
-    position: relative;
-    z-index: 2;
-    display: none;
-    min-height: 100vh;
-  }
+  /* 這裡完全保留你原本的樣式，沒有做任何功能上的改動 */
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Nunito', 'Noto Sans TC', sans-serif; background: #0a1f2c; color: #f0f3fa; overflow-x: hidden; min-height: 100vh; }
+  .page { position: relative; z-index: 2; display: none; min-height: 100vh; }
   .page.active { display: block; }
-
-  #star-canvas {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  .dynamic-bg {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 1;
-    opacity: 0.45;
-  }
-  canvas.dynamic-canvas {
-    width: 100%;
-    height: 100%;
-    display: block;
-  }
-
-  .page > *:not(.dynamic-bg) {
-    position: relative;
-    z-index: 3;
-  }
-
-  .glass-card {
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(8px);
-    border-radius: 32px;
-    border: 1px solid rgba(255, 215, 150, 0.4);
-    box-shadow: 0 12px 28px -8px rgba(0,0,0,0.3);
-    padding: 16px;
-  }
-
-  #home {
-    background: radial-gradient(ellipse at 50% 30%, #102b3f, #05161f);
-  }
-  
-  /* ===== 仅调整首页文字和图片大小，完全保留原始游戏/卡片逻辑 ===== */
+  #star-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
+  .dynamic-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; opacity: 0.45; }
+  canvas.dynamic-canvas { width: 100%; height: 100%; display: block; }
+  .page > *:not(.dynamic-bg) { position: relative; z-index: 3; }
+  .glass-card { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(8px); border-radius: 32px; border: 1px solid rgba(255, 215, 150, 0.4); box-shadow: 0 12px 28px -8px rgba(0,0,0,0.3); padding: 16px; }
+  #home { background: radial-gradient(ellipse at 50% 30%, #102b3f, #05161f); }
   .hero { text-align: center; padding: 48px 24px 32px; }
   .logo-wrapper { display: inline-block; position: relative; animation: gentleFloat 3s ease-in-out infinite; }
   @keyframes gentleFloat { 0% { transform: translateY(0px); } 50% { transform: translateY(-6px); } 100% { transform: translateY(0px); } }
@@ -83,7 +27,6 @@
   .hero h2 { font-size: clamp(18px, 4vw, 26px); font-weight: 600; color: #ffdfaa; margin-top: 4px; }
   .tagline { font-size: clamp(18px, 4.5vw, 24px); font-weight: 700; background: rgba(0,0,0,0.4); display: inline-block; padding: 6px 20px; border-radius: 60px; margin-top: 10px; backdrop-filter: blur(2px); }
   .welcome-text { max-width: 780px; margin: 28px auto 40px; padding: 20px 32px; background: rgba(10, 30, 45, 0.75); border-radius: 48px; backdrop-filter: blur(8px); border: 1px solid rgba(255,210,120,0.5); font-size: 18px; line-height: 1.45; text-align: center; font-weight: 500; }
-
   .courses-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 32px; max-width: 1200px; margin: 0 auto; padding: 0 28px 70px; }
   .course-card { border-radius: 40px; overflow: hidden; cursor: pointer; transition: all 0.3s; background: rgba(20, 40, 55, 0.7); backdrop-filter: blur(8px); border: 1px solid rgba(255, 200, 110, 0.5); }
   .course-card:hover { transform: translateY(-10px); border-color: #ffbc6e; }
@@ -97,18 +40,14 @@
   .en-title { font-size: 16px; font-weight: 500; opacity: 0.9; }
   .pill { font-size: 13px; font-weight: 800; padding: 5px 14px; border-radius: 30px; background: rgba(255,215,130,0.2); color: #ffdfaa; display: inline-block; margin-right: 6px; margin-bottom: 6px; }
   .card-cta { background: rgba(255, 190, 80, 0.25); border: 1px solid #ffbc6e; padding: 12px 16px; border-radius: 40px; font-weight: 800; display: flex; justify-content: space-between; align-items: center; width: 100%; cursor: pointer; color: #ffdd99; font-size: 18px; }
-
-  /* 以下所有内部样式完全恢复原始，未做任何改动 */
   .course-header { background: rgba(0, 20, 35, 0.6); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(255,200,100,0.4); padding: 30px 24px 20px; }
   .back-btn { background: rgba(255,220,130,0.2); border: 1px solid #ffbc6e; padding: 8px 20px; border-radius: 40px; font-weight: 700; cursor: pointer; color: #ffdd99; display: inline-block; margin-bottom: 16px; }
   .section { background: rgba(15, 35, 50, 0.65); backdrop-filter: blur(10px); border-radius: 32px; margin: 20px 20px; padding: 24px; border: 1px solid rgba(255,200,130,0.3); }
   .section-title { font-size: 22px; font-weight: 800; display: flex; align-items: center; gap: 10px; margin-bottom: 20px; color: #ffecb3; }
-
   .vocab-overview-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; margin-bottom: 28px; }
   .vocab-card { background: rgba(30, 55, 75, 0.8); border-radius: 20px; padding: 12px; text-align: center; border: 1px solid #ffcd8a; }
   .vocab-card .word { font-weight: 800; font-size: 15px; }
   .vocab-card .meaning { font-size: 12px; color: #ffdfaa; margin-top: 6px; }
-
   .flashcard-deck { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; margin-top: 20px; }
   .single-flip-card { width: 160px; height: 140px; perspective: 1000px; cursor: pointer; }
   .single-flip-inner { position: relative; width: 100%; height: 100%; transition: transform 0.6s; transform-style: preserve-3d; border-radius: 24px; box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
@@ -116,7 +55,6 @@
   .single-front, .single-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 24px; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 12px; text-align: center; background: linear-gradient(145deg, #1f496e, #0e3a55); border: 1px solid #ffcd8a; }
   .single-back { transform: rotateY(180deg); background: linear-gradient(145deg, #5f3b1c, #3b2a1a); color: #ffebc2; }
   .speaker-icon-small { margin-top: 8px; background: rgba(0,0,0,0.4); padding: 4px 10px; border-radius: 30px; font-size: 12px; display: inline-flex; align-items: center; gap: 6px; cursor: pointer; }
-
   .game-section { background: rgba(10, 30, 45, 0.8); border-radius: 32px; padding: 24px; }
   .choice-btn { background: rgba(50, 80, 105, 0.9); border: 1px solid #ffbc6e; padding: 12px; border-radius: 60px; font-weight: 800; color: #fff0d4; transition: 0.1s; cursor: pointer; margin: 6px; }
   .progress-bar-wrap { background: #2e4a6a; border-radius: 20px; height: 8px; margin: 12px 0; }
@@ -135,7 +73,6 @@
   .game-word-display { background: rgba(0,0,0,0.3); border-radius: 40px; padding: 20px; margin-bottom: 20px; text-align: center; }
   .game-word { font-size: 28px; font-weight: 900; margin-bottom: 8px; }
   .choices-grid { display: grid; gap: 12px; }
-
   @media (max-width: 560px) { .flashcard-deck { justify-content: center; } .single-flip-card { width: 140px; height: 120px; } .flip-grid { grid-template-columns: repeat(2, 1fr); } .logo-ring { width: 150px; height: 150px; } .hero h1 { font-size: 32px; } .course-card-header h3 { font-size: 26px; } .card-icon { font-size: 52px; } .courses-grid { grid-template-columns: 1fr; padding: 0 20px 40px; } .welcome-text { font-size: 16px; padding: 16px 20px; } }
 </style>
 </head>
@@ -188,8 +125,39 @@
 </div>
 
 <script>
-  // ==================== 語音功能 ====================
+  // ==================== 加強版語音功能 (解決觸屏電視無聲問題) ====================
+  // 強制預載語音引擎，並在第一次點擊時解鎖瀏覽器的自動播放限制
+  let speechReady = false;
+  
+  // 解鎖語音的主函數：必須在用戶點擊後呼叫
+  function unlockAudio() {
+    if (speechReady) return;
+    // 播放一個非常短暫且幾乎無聲的語句來解鎖瀏覽器
+    const utterance = new SpeechSynthesisUtterance(' ');
+    utterance.volume = 0;
+    utterance.rate = 0.1;
+    window.speechSynthesis.cancel();
+    window.speechSynthesis.speak(utterance);
+    speechReady = true;
+    console.log('Audio unlocked for touch screen');
+  }
+  
+  // 主要播放函數 (會自動嘗試解鎖)
   function playWordAudio(word) {
+    // 如果還沒有解鎖，先強制解鎖一次
+    if (!speechReady) {
+      unlockAudio();
+      // 稍微延遲後再播放真正的單字，確保引擎已啟動
+      setTimeout(() => {
+        const utterance = new SpeechSynthesisUtterance(word);
+        utterance.lang = 'en-US';
+        utterance.rate = 0.9;
+        utterance.volume = 0.8;
+        window.speechSynthesis.cancel();
+        window.speechSynthesis.speak(utterance);
+      }, 100);
+      return;
+    }
     const utterance = new SpeechSynthesisUtterance(word);
     utterance.lang = 'en-US';
     utterance.rate = 0.9;
@@ -197,11 +165,29 @@
     window.speechSynthesis.cancel();
     window.speechSynthesis.speak(utterance);
   }
+  
+  // 遊戲反饋用 (同樣強化解鎖)
+  function playRandomPraise() { 
+    const w = praiseWords[Math.floor(Math.random()*praiseWords.length)]; 
+    playWordAudio(w); 
+    return w; 
+  }
+  function playRandomOops() { 
+    const w = oopsWords[Math.floor(Math.random()*oopsWords.length)]; 
+    playWordAudio(w); 
+    return w; 
+  }
+  function speakEnglish(word) { 
+    if (!speechReady) unlockAudio();
+    const u = new SpeechSynthesisUtterance(word); 
+    u.lang = 'en-US'; 
+    u.rate=0.85; 
+    window.speechSynthesis.cancel(); 
+    window.speechSynthesis.speak(u); 
+  }
+
   const praiseWords = ['Good!', 'Great!', 'Super!', 'Unbelievable!', 'Excellent!', 'Fantastic!'];
   const oopsWords = ['Oops!', 'Oh no!', 'Try again!', 'So close!', 'Nice try!'];
-  function playRandomPraise() { const w = praiseWords[Math.floor(Math.random()*praiseWords.length)]; playWordAudio(w); return w; }
-  function playRandomOops() { const w = oopsWords[Math.floor(Math.random()*oopsWords.length)]; playWordAudio(w); return w; }
-  function speakEnglish(word) { const u = new SpeechSynthesisUtterance(word); u.lang = 'en-US'; u.rate=0.85; window.speechSynthesis.cancel(); window.speechSynthesis.speak(u); }
 
   // 數據集
   const aiVocab = [{en:'artificial intelligence (AI)',zh:'人工智慧'},{en:'machine learning',zh:'機器學習'},{en:'chatbot',zh:'聊天機器人'},{en:'generative AI',zh:'生成式人工智慧'},{en:'prompt',zh:'提示詞'},{en:'dataset',zh:'數據集'},{en:'large language model (LLM)',zh:'大型語言模型'},{en:'NLP',zh:'自然語言處理'},{en:'automation',zh:'自動化'},{en:'real-time',zh:'即時'},{en:'accuracy',zh:'準確性'},{en:'gamified',zh:'遊戲化'},{en:'personalized',zh:'個人化'},{en:'track',zh:'追蹤'},{en:'recognition',zh:'辨識'},{en:'interactive',zh:'互動式'}];
@@ -225,7 +211,10 @@
       </div>
     `).join('');
   }
-  window.toggleSingleFlip = function(el, enWord) { el.classList.toggle('flipped'); if(el.classList.contains('flipped')) speakEnglish(enWord); };
+  window.toggleSingleFlip = function(el, enWord) { 
+    el.classList.toggle('flipped'); 
+    if(el.classList.contains('flipped')) speakEnglish(enWord); 
+  };
   window.speakEnglish = speakEnglish;
 
   renderOverview('ai-vocab-overview', aiVocab);
@@ -271,7 +260,7 @@
   };
   window.restartAIGame = function() { aiGame = { vocab: shuffleArr(aiVocab), current:0, score:0, answered:false }; renderAIGame(); };
 
-  // ==================== 世界配對遊戲 (原始完整版) ====================
+  // ==================== 世界配對遊戲 ====================
   let worldGame = {
     pairs: worldVocab.map((v, idx) => ({ ...v, id: idx })),
     matchedIds: new Set(),
@@ -298,24 +287,14 @@
     
     container.innerHTML = `
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-        <div>
-          ${enList.map(p => `<button class="match-item" data-en-id="${p.id}" data-en-word="${p.en}" data-zh-word="${p.zh}" onclick="selectWorldEn(${p.id}, '${p.en}', '${p.zh}')">${p.en}</button>`).join('')}
-        </div>
-        <div>
-          ${zhList.map(p => `<button class="match-item" data-zh-id="${p.id}" data-zh-word="${p.zh}" data-en-word="${p.en}" onclick="selectWorldZh(${p.id}, '${p.en}', '${p.zh}')">${p.zh}</button>`).join('')}
-        </div>
+        <div>${enList.map(p => `<button class="match-item" data-en-id="${p.id}" data-en-word="${p.en}" data-zh-word="${p.zh}" onclick="selectWorldEn(${p.id}, '${p.en}', '${p.zh}')">${p.en}</button>`).join('')}</div>
+        <div>${zhList.map(p => `<button class="match-item" data-zh-id="${p.id}" data-zh-word="${p.zh}" data-en-word="${p.en}" onclick="selectWorldZh(${p.id}, '${p.en}', '${p.zh}')">${p.zh}</button>`).join('')}</div>
       </div>
       <div id="world-feedback" style="margin-top:16px;text-align:center;min-height:50px;font-size:16px;font-weight:bold;"></div>
     `;
     
-    if (worldGame.selectedEn !== null) {
-      const btn = document.querySelector(`.match-item[data-en-id="${worldGame.selectedEn}"]`);
-      if (btn) btn.classList.add('selected-en');
-    }
-    if (worldGame.selectedZh !== null) {
-      const btn = document.querySelector(`.match-item[data-zh-id="${worldGame.selectedZh}"]`);
-      if (btn) btn.classList.add('selected-zh');
-    }
+    if (worldGame.selectedEn !== null) { const btn = document.querySelector(`.match-item[data-en-id="${worldGame.selectedEn}"]`); if (btn) btn.classList.add('selected-en'); }
+    if (worldGame.selectedZh !== null) { const btn = document.querySelector(`.match-item[data-zh-id="${worldGame.selectedZh}"]`); if (btn) btn.classList.add('selected-zh'); }
   }
 
   window.selectWorldEn = function(id, enWord, zhWord) {
@@ -346,35 +325,22 @@
     const fb = document.getElementById('world-feedback');
     
     if (enPair && zhPair && enPair.en === zhPair.en) {
-      worldGame.matchedIds.add(enId);
-      worldGame.matchedIds.add(zhId);
+      worldGame.matchedIds.add(enId); worldGame.matchedIds.add(zhId);
       worldGame.score += 10;
       const praise = playRandomPraise();
       fb.innerHTML = `🎉 ${praise} 配對成功！ +10分 🎉`;
       fb.style.color = "#b5ffc4";
-      worldGame.selectedEn = null;
-      worldGame.selectedZh = null;
+      worldGame.selectedEn = null; worldGame.selectedZh = null;
       setTimeout(() => renderWorldGame(), 600);
     } else if (enPair && zhPair) {
       const oops = playRandomOops();
       fb.innerHTML = `😢 ${oops} 「${enPair?.en || ''}」不等於「${zhPair?.zh || ''}」，再試一次～`;
       fb.style.color = "#ffb48a";
-      worldGame.selectedEn = null;
-      worldGame.selectedZh = null;
+      worldGame.selectedEn = null; worldGame.selectedZh = null;
       setTimeout(() => renderWorldGame(), 800);
     }
   }
-
-  window.restartWorldGame = function() {
-    worldGame = {
-      pairs: worldVocab.map((v, idx) => ({ ...v, id: idx })),
-      matchedIds: new Set(),
-      selectedEn: null,
-      selectedZh: null,
-      score: 0
-    };
-    renderWorldGame();
-  };
+  window.restartWorldGame = function() { worldGame = { pairs: worldVocab.map((v, idx) => ({ ...v, id: idx })), matchedIds: new Set(), selectedEn: null, selectedZh: null, score: 0 }; renderWorldGame(); };
 
   // ==================== 美食翻牌遊戲 ====================
   let foodMem = { cards:[], flipped:[], matched:new Set(), score:0, attempts:0, locked:false, pairsData:[] };
@@ -501,6 +467,10 @@
   renderAIGame();
   renderWorldGame();
   initFoodMemory();
+
+  // 最後：綁定整個頁面的第一次觸控/點擊來提前解鎖語音
+  document.body.addEventListener('touchstart', function() { unlockAudio(); }, { once: true });
+  document.body.addEventListener('click', function() { unlockAudio(); }, { once: true });
 </script>
 </body>
 </html>
