@@ -23,7 +23,8 @@
 }
 *,*::before,*::after { box-sizing:border-box; margin:0; padding:0 }
 html { scroll-behavior:smooth }
-body { font-family:'DM Sans',sans-serif; background:#0d1525; color:var(--text); min-height:100vh; overflow-x:hidden }
+body { font-family:'DM Sans',sans-serif; background:#0d1525; color:var(--text); min-height:100vh; overflow-x:hidden; font-size:16px }
+body.modal-open { overflow:hidden }
 
 /* ── BG ── */
 .bg { position:fixed; inset:0; z-index:0; background:url('IMG_6785.JPG') center 30%/cover no-repeat }
@@ -33,7 +34,7 @@ body { font-family:'DM Sans',sans-serif; background:#0d1525; color:var(--text); 
 .page { position:relative; z-index:2; min-height:100vh; display:flex; flex-direction:column }
 
 /* ── HEADER ── */
-.hdr { padding:28px 20px 18px; animation:slideDown .6s ease both }
+.hdr { padding:22px 20px 14px; animation:slideDown .6s ease both }
 .hdr-card { background:rgba(255,255,255,.13); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px); border:1.5px solid rgba(255,255,255,.26); border-radius:16px; padding:22px 24px 18px }
 .ev-eye  { font-size:10.5px; letter-spacing:.32em; text-transform:uppercase; color:var(--gold-lt); margin-bottom:8px; font-weight:500 }
 .ev-title{ font-family:'Cormorant Garamond',serif; font-size:clamp(1.6rem,4.5vw,2.9rem); font-weight:700; color:#fff; line-height:1.18 }
@@ -43,35 +44,35 @@ body { font-family:'DM Sans',sans-serif; background:#0d1525; color:var(--text); 
 .gold-bar{ width:44px; height:2px; background:linear-gradient(90deg,var(--gold-lt),transparent); margin-top:12px }
 
 /* ── TABS ── */
-.tabs-wrap { padding:0 20px 16px; animation:slideDown .6s .08s ease both }
+.tabs-wrap { position:sticky; top:0; z-index:50; padding:10px 20px 14px; animation:slideDown .6s .08s ease both; background:linear-gradient(180deg,rgba(13,21,37,.96),rgba(13,21,37,.88)); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); box-shadow:0 10px 28px rgba(0,0,0,.18) }
 .tabs { display:grid; grid-template-columns:repeat(4,1fr); gap:8px }
 @media(max-width:600px){ .tabs { grid-template-columns:repeat(2,1fr) } }
 .tab {
-  min-height:74px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px;
+  min-height:84px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px;
   padding:10px 6px; background:rgba(255,255,255,.14); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
   border:1.5px solid rgba(255,255,255,.22); border-radius:14px; color:rgba(255,255,255,.90);
-  font-family:'DM Sans',sans-serif; font-size:12px; font-weight:500; cursor:pointer;
+  font-family:'DM Sans',sans-serif; font-size:14px; font-weight:500; cursor:pointer;
   transition:all .2s ease; -webkit-tap-highlight-color:transparent; user-select:none; text-align:center; line-height:1.3
 }
 .tab:hover  { background:rgba(255,255,255,.22) }
 .tab.active { background:rgba(255,255,255,.96); border-color:#fff; color:var(--accent); box-shadow:0 6px 24px rgba(0,0,0,.22) }
-.t-icon  { font-size:22px }
-.t-label { font-size:11.5px; font-weight:600 }
+.t-icon  { font-size:26px }
+.t-label { font-size:13.5px; font-weight:700 }
 .t-badge {
-  font-size:11px; padding:2px 8px; background:rgba(255,255,255,.22);
+  font-size:13px; padding:3px 10px; background:rgba(255,255,255,.22);
   border-radius:20px; color:rgba(255,255,255,.92); font-weight:500; min-width:38px; text-align:center
 }
 .tab.active .t-badge { background:var(--accent); color:#fff }
 
 /* ── CONTENT ── */
-.content { flex:1; padding:0 20px 52px; animation:fadeUp .45s .15s ease both }
+.content { flex:1; padding:16px 20px 52px; animation:fadeUp .45s .15s ease both }
 .card { background:var(--panel); border-radius:16px; overflow:hidden; box-shadow:0 14px 52px rgba(0,0,0,.30) }
 
 /* ── STATUS BAR ── */
-.sbar { display:flex; align-items:center; justify-content:space-between; padding:14px 20px; background:var(--panel-hdr); border-bottom:1px solid rgba(0,0,0,.07) }
-.sbar-lbl { font-size:10.5px; letter-spacing:.2em; text-transform:uppercase; color:var(--soft); font-weight:600 }
-.sbar-ct  { font-family:'Cormorant Garamond',serif; font-size:1.25rem; font-weight:600; color:var(--accent) }
-.sbar-ct small { font-family:'DM Sans',sans-serif; font-size:.72rem; color:var(--soft); font-weight:400 }
+.sbar { display:flex; align-items:center; justify-content:space-between; padding:18px 24px; background:var(--panel-hdr); border-bottom:1px solid rgba(0,0,0,.07); position:relative; z-index:2 }
+.sbar-lbl { font-size:13px; letter-spacing:.2em; text-transform:uppercase; color:var(--soft); font-weight:600 }
+.sbar-ct  { font-family:'Cormorant Garamond',serif; font-size:1.65rem; font-weight:600; color:var(--accent) }
+.sbar-ct small { font-family:'DM Sans',sans-serif; font-size:.92rem; color:var(--soft); font-weight:400 }
 
 /* ── LOADING / ERROR ── */
 .loading-s,.error-s { padding:56px 24px; text-align:center; font-size:14px; color:var(--soft) }
@@ -81,104 +82,34 @@ body { font-family:'DM Sans',sans-serif; background:#0d1525; color:var(--text); 
 .err-hint { color:var(--soft); font-size:12.5px; margin-top:10px; line-height:1.75 }
 
 /* ── DEBATERS TABLE ── */
-let pendingDebaterIndex = null;
-
-function getDebaterDisplayColumns(headers) {
-  const hide = /email|phone|tel|備|聯絡|note|remark|^id$/i;
-  const vis = headers.filter(h => !hide.test(h));
-  return vis.length ? vis : headers;
+.tscroll { overflow:auto; max-height:calc(100vh - 285px); overscroll-behavior:contain }
+table { width:100%; border-collapse:collapse; font-size:18px }
+thead tr { background:rgba(30,64,175,.06) }
+thead th { position:sticky; top:0; z-index:3; background:#eef4ff; padding:15px 18px; text-align:left; font-size:12px; letter-spacing:.22em; text-transform:uppercase; color:var(--soft); font-weight:600; white-space:nowrap; border-bottom:2px solid rgba(30,64,175,.12) }
+tbody tr { border-bottom:1px solid #f0f2f8; transition:background .15s }
+tbody tr:last-child { border-bottom:none }
+tbody tr:hover { background:#f8f9ff }
+tbody tr.ck { background:#f0fdf4 }
+td { padding:18px 18px; color:var(--text); vertical-align:middle; line-height:1.4 }
+td.dim { color:var(--soft); font-size:16px }
+.ci-btn {
+  display:inline-flex; align-items:center; justify-content:center; gap:8px; min-height:54px; padding:0 24px;
+  border-radius:9px; border:1.5px solid #cbd5e1; background:#fff; color:var(--mid);
+  font-family:'DM Sans',sans-serif; font-size:16px; font-weight:700; cursor:pointer;
+  transition:all .18s; white-space:nowrap; -webkit-tap-highlight-color:transparent
 }
-
-function renderDebaters(headers, rows) {
-  const vis = getDebaterDisplayColumns(headers);
-  let h = `<div class="tscroll"><table><thead><tr>`;
-  vis.forEach(c => { h += `<th>${esc(c)}</th>`; });
-  h += `<th style="text-align:center;min-width:170px">Check-In</th></tr></thead><tbody>`;
-  rows.forEach((row, i) => {
-    const isChecked = S.debaters.ck.has(i);
-    h += `<tr id="dr${i}" class="${isChecked ? 'ck' : ''}">`;
-    vis.forEach(c => {
-      const dim = /school|org|team|unit|id|號|role|type/i.test(c);
-      h += `<td class="${dim?'dim':''}">${esc(row[c]||'')}</td>`;
-    });
-    h += `<td style="text-align:center">
-      <button class="ci-btn ${isChecked ? 'done' : ''}" id="db${i}" onclick="openDebaterConfirm(${i})">
-        ${isChecked ? '<span>☑️</span>&nbsp;Checked In' : '<span>○</span>&nbsp;Check In'}
-      </button></td></tr>`;
-  });
-  h += `</tbody></table></div>`;
-  document.getElementById('body-debaters').innerHTML = h;
-  updateStat('debaters');
-}
-
-function findBestHeader(headers, patterns, fallbackIndex) {
-  for (const p of patterns) {
-    for (const h of headers) if (p.test(h)) return h;
-  }
-  return headers[fallbackIndex] || headers[0] || null;
-}
-
-function openDebaterConfirm(i) {
-  pendingDebaterIndex = i;
-  const headers = S.debaters.headers;
-  const row = S.debaters.rows[i] || {};
-  const checked = S.debaters.ck.has(i);
-  const nameCol = findBestHeader(headers, [/^(name|姓名|名字|full.?name)/i, /debater|student|學生|選手/i], 0);
-  const name = nameCol ? (row[nameCol] || '—') : '—';
-  const displayCols = getDebaterDisplayColumns(headers).filter(h => h !== nameCol).slice(0, 5);
-
-  document.getElementById('confirm-kicker').textContent = checked ? 'Undo Debater Check-In' : 'Confirm Debater Check-In';
-  document.getElementById('confirm-title').textContent = checked ? 'Remove this check-in?' : 'Check in this debater?';
-  document.getElementById('confirm-name').textContent = name;
-  document.getElementById('confirm-meta').innerHTML = displayCols.map(h => {
-    const v = row[h] || '';
-    if (!String(v).trim()) return '';
-    return `<div class="confirm-line"><b>${esc(h)}</b>${esc(v)}</div>`;
-  }).join('') || '<div class="confirm-line">No additional details available.</div>';
-
-  const action = document.getElementById('confirm-action');
-  action.textContent = checked ? 'Undo Check-In' : 'Confirm Check-In';
-  action.classList.toggle('confirm-undo', checked);
-  action.classList.toggle('confirm-ok', !checked);
-  document.getElementById('debater-confirm').classList.add('show');
-}
-
-function closeDebaterConfirm() {
-  pendingDebaterIndex = null;
-  document.getElementById('debater-confirm').classList.remove('show');
-}
-
-function modalBackdropClose(event) {
-  if (event.target && event.target.id === 'debater-confirm') closeDebaterConfirm();
-}
-
-function confirmDebaterAction() {
-  if (pendingDebaterIndex === null) return;
-  toggleDebater(pendingDebaterIndex);
-  closeDebaterConfirm();
-}
-
-function toggleDebater(i) {
-  const checked = S.debaters.ck.has(i);
-  if (checked) S.debaters.ck.delete(i);
-  else S.debaters.ck.add(i);
-  const nowChecked = S.debaters.ck.has(i);
-  const row = document.getElementById('dr'+i);
-  const btn = document.getElementById('db'+i);
-  if (row) row.classList.toggle('ck', nowChecked);
-  if (btn) {
-    btn.classList.toggle('done', nowChecked);
-    btn.innerHTML = nowChecked ? '<span>☑️</span>&nbsp;Checked In' : '<span>○</span>&nbsp;Check In';
-  }
-  updateStat('debaters');
-}
+.ci-btn:hover  { border-color:var(--accent); color:var(--accent); background:#eff6ff }
+.ci-btn:active { transform:scale(.96) }
+.ci-btn.done   { background:var(--green-bg); border-color:var(--green-bd); color:var(--green) }
+.ci-btn.undoable::after { content:'Tap to undo'; display:inline-block; margin-left:8px; font-size:11px; color:rgba(21,128,61,.72); font-weight:600; letter-spacing:.04em }
 
 /* ── NAME TAG GRID ── */
-.ntgrid { display:grid; grid-template-columns:repeat(auto-fill,minmax(155px,1fr)); gap:12px; padding:18px }
-@media(max-width:480px){ .ntgrid { grid-template-columns:repeat(2,1fr) } }
+#body-judges, #body-organizers { max-height:calc(100vh - 285px); overflow-y:auto; overscroll-behavior:contain; padding-top:0 }
+.ntgrid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:16px; padding:24px }
+@media(max-width:700px){ .ntgrid { grid-template-columns:repeat(2,1fr); padding:18px } }
 .nt {
-  min-height:104px; display:flex; flex-direction:column; align-items:center; justify-content:center;
-  padding:18px 12px 14px; border-radius:13px; border:2px solid #e2e8f0; background:#fff;
+  min-height:132px; display:flex; flex-direction:column; align-items:center; justify-content:center;
+  padding:24px 16px 18px; border-radius:13px; border:2px solid #e2e8f0; background:#fff;
   cursor:pointer; transition:all .2s ease; text-align:center;
   -webkit-tap-highlight-color:transparent; user-select:none;
   box-shadow:0 2px 8px rgba(0,0,0,.06); position:relative; overflow:hidden
@@ -189,10 +120,10 @@ function toggleDebater(i) {
 .nt:active  { transform:scale(.97) }
 .nt.ck      { background:#f0fdf4; border-color:var(--green-bd); box-shadow:0 2px 8px rgba(21,128,61,.12) }
 .nt.ck::before { opacity:1; background:var(--green) }
-.nt-name { font-family:'Cormorant Garamond',serif; font-size:1.1rem; font-weight:600; color:var(--text); line-height:1.25; margin-bottom:4px }
+.nt-name { font-family:'Cormorant Garamond',serif; font-size:1.55rem; font-weight:600; color:var(--text); line-height:1.25; margin-bottom:4px }
 .nt.ck .nt-name { color:var(--green) }
-.nt-org  { font-size:11px; color:var(--soft); line-height:1.3; margin-bottom:8px }
-.nt-tick { font-size:22px; transform:scale(0); opacity:0; transition:all .25s cubic-bezier(.34,1.56,.64,1); line-height:1 }
+.nt-org  { font-size:14px; color:var(--soft); line-height:1.3; margin-bottom:8px }
+.nt-tick { font-size:28px; transform:scale(0); opacity:0; transition:all .25s cubic-bezier(.34,1.56,.64,1); line-height:1 }
 .nt.ck .nt-tick { transform:scale(1); opacity:1 }
 
 /* ── STAFF PANEL ── */
@@ -219,6 +150,27 @@ function toggleDebater(i) {
 .log-row:last-child { border-bottom:none }
 .log-n { font-weight:600; color:var(--accent) }
 
+
+
+/* ── DEBATER CONFIRM MODAL ── */
+.confirm-layer { position:fixed; inset:0; z-index:100; display:none; align-items:center; justify-content:center; padding:24px; background:rgba(8,14,32,.72); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px) }
+.confirm-layer.show { display:flex }
+.confirm-box { width:min(620px,100%); background:#fff; border-radius:22px; box-shadow:0 28px 90px rgba(0,0,0,.45); overflow:hidden; border:1px solid rgba(255,255,255,.5) }
+.confirm-head { padding:24px 28px 18px; background:linear-gradient(135deg,#eff6ff,#ffffff); border-bottom:1px solid #dbe7ff }
+.confirm-kicker { font-size:12px; text-transform:uppercase; letter-spacing:.22em; color:var(--accent); font-weight:800; margin-bottom:8px }
+.confirm-title { font-family:'Cormorant Garamond',serif; font-size:2.1rem; font-weight:700; color:var(--text); line-height:1.05 }
+.confirm-body { padding:26px 28px 20px }
+.confirm-name { font-family:'Cormorant Garamond',serif; font-size:2.55rem; font-weight:700; color:var(--accent); line-height:1.05; margin-bottom:16px }
+.confirm-meta { display:grid; gap:9px; margin-top:10px }
+.confirm-line { display:flex; gap:12px; align-items:flex-start; padding:10px 12px; border-radius:12px; background:#f8faff; font-size:16px; color:var(--mid); line-height:1.35 }
+.confirm-line b { min-width:120px; color:var(--soft); font-size:12px; text-transform:uppercase; letter-spacing:.12em }
+.confirm-actions { display:flex; gap:12px; padding:0 28px 28px; justify-content:flex-end; flex-wrap:wrap }
+.confirm-btn { min-height:56px; border-radius:14px; padding:0 24px; border:1.5px solid #cbd5e1; font-family:'DM Sans',sans-serif; font-size:16px; font-weight:800; cursor:pointer }
+.confirm-cancel { background:#fff; color:var(--mid) }
+.confirm-ok { background:linear-gradient(135deg,var(--accent),var(--accent2)); border-color:var(--accent); color:#fff }
+.confirm-undo { background:#fff7ed; border-color:#fdba74; color:#c2410c }
+@media(max-width:640px){ .confirm-name{font-size:2rem}.confirm-title{font-size:1.75rem}.confirm-line{display:block}.confirm-line b{display:block;margin-bottom:4px} }
+
 /* ── PANELS ── */
 .panel { display:none } .panel.vis { display:block }
 
@@ -231,80 +183,19 @@ function toggleDebater(i) {
 ::-webkit-scrollbar-track { background:#f1f5f9 }
 ::-webkit-scrollbar-thumb { background:#cbd5e1; border-radius:3px }
 
-footer { text-align:center; padding:18px; font-size:10.5px; letter-spacing:.15em; text-transform:uppercase; color:rgba(255,255,255,.25); position:relative; z-index:2 }
 
-/* ── RECEPTION MODE OVERRIDES: larger, clearer event check-in view ── */
-.hdr { padding:22px 18px 12px }
-.hdr-card { padding:20px 24px 16px }
-.ev-eye { font-size:12px }
-.ev-title { font-size:clamp(2rem,4.8vw,3.25rem) }
-.ev-sub { font-size:14px }
-.ev-zh { font-size:13px }
-.tabs-wrap { padding:0 18px 14px; position:sticky; top:0; z-index:20 }
-.tab { min-height:86px; font-size:15px; border-radius:16px; box-shadow:0 4px 18px rgba(0,0,0,.14) }
-.t-icon { font-size:27px }
-.t-label { font-size:14px; line-height:1.25 }
-.t-badge { font-size:14px; min-width:56px; padding:4px 10px }
-.content { padding:0 18px 44px }
-.card { border-radius:18px }
-.sbar { padding:18px 22px; position:sticky; top:102px; z-index:10 }
-.sbar-lbl { font-size:13px }
-.sbar-ct { font-size:1.65rem }
-.sbar-ct small { font-size:.92rem }
-table { font-size:18px }
-thead th { padding:16px 18px; font-size:12px; position:sticky; top:168px; z-index:9; background:#f4f7ff }
-td { padding:18px 18px; font-size:18px }
-td.dim { font-size:16px; color:#4b5568 }
-tbody tr.ck { background:#dcfce7 }
-tbody tr.ck td:first-child { font-weight:700; color:var(--green) }
-.ci-btn { min-height:56px; padding:0 24px; font-size:17px; border-radius:12px; font-weight:700 }
-.ci-btn.done { pointer-events:auto; background:var(--green-bg); border-color:var(--green-bd); color:var(--green) }
-.ntgrid { grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:16px; padding:22px }
-.nt { min-height:132px; border-radius:16px }
-.nt-name { font-size:1.55rem }
-.nt-org { font-size:14px }
-.nt-tick { font-size:28px }
-.loading-s,.error-s { font-size:17px }
-.err-hint { font-size:15px }
-.staff-num { font-size:clamp(7rem,18vw,10rem) }
-.staff-btn { min-height:76px; font-size:1.25rem }
 @media(max-width:700px){
-  .tabs { grid-template-columns:repeat(2,1fr) }
-  .sbar { top:190px }
-  thead th { top:258px }
-  table, td { font-size:16px }
-  td.dim { font-size:14px }
-  .ci-btn { min-height:52px; font-size:15px; padding:0 18px }
+  .hdr { padding:14px 12px 10px }
+  .hdr-card { padding:16px 16px 14px }
+  .tabs-wrap { padding:8px 10px 10px }
+  .tab { min-height:76px }
+  .content { padding:12px 10px 42px }
+  .tscroll, #body-judges, #body-organizers { max-height:calc(100vh - 250px) }
+  table { font-size:16px }
+  td { padding:15px 14px }
 }
 
-/* ── Confirmation modal for safer debater check-in ── */
-.modal-backdrop {
-  position:fixed; inset:0; z-index:1000; display:none; align-items:center; justify-content:center;
-  padding:22px; background:rgba(5,10,24,.72); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px)
-}
-.modal-backdrop.show { display:flex }
-.confirm-box {
-  width:min(620px,100%); background:#fff; border-radius:22px; overflow:hidden;
-  box-shadow:0 24px 80px rgba(0,0,0,.42); border:1px solid rgba(255,255,255,.7)
-}
-.confirm-hd { padding:18px 24px; background:var(--panel-hdr); border-bottom:1px solid #dbe4f0 }
-.confirm-kicker { font-size:12px; letter-spacing:.22em; text-transform:uppercase; color:var(--soft); font-weight:700 }
-.confirm-title { margin-top:4px; font-family:'Cormorant Garamond',serif; font-size:2.15rem; color:var(--accent); font-weight:700 }
-.confirm-body { padding:26px 24px 24px }
-.confirm-name { font-family:'Cormorant Garamond',serif; font-size:2.55rem; line-height:1.1; font-weight:700; color:var(--text); margin-bottom:14px }
-.confirm-meta { display:grid; gap:8px; margin-top:12px }
-.confirm-line { font-size:17px; color:var(--mid); background:#f8faff; border:1px solid #e6ecf5; border-radius:12px; padding:11px 14px }
-.confirm-line b { color:var(--soft); font-size:12px; letter-spacing:.14em; text-transform:uppercase; margin-right:8px }
-.confirm-actions { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:24px }
-.confirm-btn {
-  min-height:62px; border:0; border-radius:14px; font-family:'DM Sans',sans-serif; font-size:18px;
-  font-weight:800; cursor:pointer; transition:all .15s; -webkit-tap-highlight-color:transparent
-}
-.confirm-btn:active { transform:scale(.98) }
-.confirm-cancel { background:#e5e7eb; color:#1f2937 }
-.confirm-ok { background:linear-gradient(135deg,var(--accent),var(--accent2)); color:#fff }
-.confirm-undo { background:linear-gradient(135deg,var(--red),#b91c1c); color:#fff }
-
+footer { text-align:center; padding:18px; font-size:10.5px; letter-spacing:.15em; text-transform:uppercase; color:rgba(255,255,255,.25); position:relative; z-index:2 }
 </style>
 </head>
 <body>
@@ -400,20 +291,20 @@ tbody tr.ck td:first-child { font-weight:700; color:var(--green) }
 </div><!-- /page -->
 
 
-<!-- DEBATER CONFIRMATION MODAL -->
-<div class="modal-backdrop" id="debater-confirm" onclick="modalBackdropClose(event)">
+
+<div class="confirm-layer" id="debater-confirm" onclick="modalBackdropClose(event)" aria-hidden="true">
   <div class="confirm-box" role="dialog" aria-modal="true" aria-labelledby="confirm-title">
-    <div class="confirm-hd">
+    <div class="confirm-head">
       <div class="confirm-kicker" id="confirm-kicker">Confirm Debater Check-In</div>
-      <div class="confirm-title" id="confirm-title">Please confirm</div>
+      <div class="confirm-title" id="confirm-title">Check in this debater?</div>
     </div>
     <div class="confirm-body">
       <div class="confirm-name" id="confirm-name">—</div>
       <div class="confirm-meta" id="confirm-meta"></div>
-      <div class="confirm-actions">
-        <button class="confirm-btn confirm-cancel" onclick="closeDebaterConfirm()">Cancel</button>
-        <button class="confirm-btn confirm-ok" id="confirm-action" onclick="confirmDebaterAction()">Check In</button>
-      </div>
+    </div>
+    <div class="confirm-actions">
+      <button class="confirm-btn confirm-cancel" type="button" onclick="closeDebaterConfirm()">Cancel</button>
+      <button class="confirm-btn confirm-ok" id="confirm-action" type="button" onclick="confirmDebaterAction()">Confirm Check-In</button>
     </div>
   </div>
 </div>
@@ -437,6 +328,7 @@ const S = {
 };
 const loaded = {};
 let activeTab = 'debaters';
+let pendingDebaterIndex = null;
 
 /* ── CSV PARSER ── */
 function parseCSV(raw) {
@@ -559,21 +451,34 @@ function updateStat(role) {
 }
 
 /* ── DEBATERS TABLE ── */
-function renderDebaters(headers, rows) {
+function getDebaterDisplayColumns(headers) {
   const hide = /email|phone|tel|備|聯絡|note|remark|^id$/i;
   const vis = headers.filter(h => !hide.test(h));
+  return vis.length ? vis : headers;
+}
+
+function findBestHeader(headers, patterns, fallbackIndex) {
+  for (const p of patterns) {
+    for (const h of headers) if (p.test(h)) return h;
+  }
+  return headers[fallbackIndex] || headers[0] || null;
+}
+
+function renderDebaters(headers, rows) {
+  const vis = getDebaterDisplayColumns(headers);
   let h = `<div class="tscroll"><table><thead><tr>`;
   vis.forEach(c => { h += `<th>${esc(c)}</th>`; });
-  h += `<th style="text-align:center;min-width:120px">Check-In</th></tr></thead><tbody>`;
+  h += `<th style="text-align:center;min-width:190px">Check-In</th></tr></thead><tbody>`;
   rows.forEach((row, i) => {
-    h += `<tr id="dr${i}">`;
+    const checked = S.debaters.ck.has(i);
+    h += `<tr id="dr${i}" class="${checked ? 'ck' : ''}">`;
     vis.forEach(c => {
       const dim = /school|org|team|unit|id|號|role|type/i.test(c);
       h += `<td class="${dim?'dim':''}">${esc(row[c]||'')}</td>`;
     });
     h += `<td style="text-align:center">
-      <button class="ci-btn" id="db${i}" onclick="ckDebater(${i})">
-        <span>○</span>&nbsp;Check In
+      <button class="ci-btn ${checked ? 'done undoable' : ''}" id="db${i}" onclick="openDebaterConfirm(${i})">
+        ${checked ? '<span>☑️</span>&nbsp;Checked In' : '<span>○</span>&nbsp;Check In'}
       </button></td></tr>`;
   });
   h += `</tbody></table></div>`;
@@ -581,12 +486,60 @@ function renderDebaters(headers, rows) {
   updateStat('debaters');
 }
 
-function ckDebater(i) {
-  S.debaters.ck.add(i);
+function openDebaterConfirm(i) {
+  pendingDebaterIndex = i;
+  const headers = S.debaters.headers || [];
+  const row = S.debaters.rows[i] || {};
+  const checked = S.debaters.ck.has(i);
+  const nameCol = findBestHeader(headers, [/^(name|姓名|名字|full.?name)/i, /debater|student|學生|選手|participant/i], 0);
+  const name = nameCol ? (row[nameCol] || '—') : '—';
+  const displayCols = getDebaterDisplayColumns(headers).filter(h => h !== nameCol).slice(0, 6);
+
+  document.getElementById('confirm-kicker').textContent = checked ? 'Undo Debater Check-In' : 'Confirm Debater Check-In';
+  document.getElementById('confirm-title').textContent = checked ? 'Remove this check-in?' : 'Check in this debater?';
+  document.getElementById('confirm-name').textContent = name;
+  document.getElementById('confirm-meta').innerHTML = displayCols.map(h => {
+    const v = row[h] || '';
+    if (!String(v).trim()) return '';
+    return `<div class="confirm-line"><b>${esc(h)}</b><span>${esc(v)}</span></div>`;
+  }).join('') || '<div class="confirm-line"><span>No additional details available.</span></div>';
+
+  const action = document.getElementById('confirm-action');
+  action.textContent = checked ? 'Undo Check-In' : 'Confirm Check-In';
+  action.classList.toggle('confirm-undo', checked);
+  action.classList.toggle('confirm-ok', !checked);
+  document.getElementById('debater-confirm').classList.add('show');
+  document.body.classList.add('modal-open');
+}
+
+function closeDebaterConfirm() {
+  pendingDebaterIndex = null;
+  document.getElementById('debater-confirm').classList.remove('show');
+  document.body.classList.remove('modal-open');
+}
+
+function modalBackdropClose(event) {
+  if (event.target && event.target.id === 'debater-confirm') closeDebaterConfirm();
+}
+
+function confirmDebaterAction() {
+  if (pendingDebaterIndex === null) return;
+  toggleDebater(pendingDebaterIndex);
+  closeDebaterConfirm();
+}
+
+function toggleDebater(i) {
+  if (S.debaters.ck.has(i)) S.debaters.ck.delete(i);
+  else S.debaters.ck.add(i);
+  const checked = S.debaters.ck.has(i);
   const row = document.getElementById('dr'+i);
   const btn = document.getElementById('db'+i);
-  if (row) row.classList.add('ck');
-  if (btn) { btn.classList.add('done'); btn.innerHTML = '<span>☑️</span>&nbsp;Checked In'; }
+  if (row) row.classList.toggle('ck', checked);
+  if (btn) {
+    btn.classList.toggle('done', checked);
+    btn.classList.toggle('undoable', checked);
+    btn.innerHTML = checked ? '<span>☑️</span>&nbsp;Checked In' : '<span>○</span>&nbsp;Check In';
+  }
   updateStat('debaters');
 }
 
@@ -701,10 +654,9 @@ function esc(s) {
   return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
-document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeDebaterConfirm(); });
-
 /* ── INIT ── */
 window.addEventListener('DOMContentLoaded', () => { loadRole('debaters'); });
+window.addEventListener('keydown', e => { if (e.key === 'Escape') closeDebaterConfirm(); });
 </script>
 </body>
 </html>
