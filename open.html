@@ -1,0 +1,545 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026 Hsinchu Open Invitational (II) — Check-In</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=Noto+Serif+TC:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --accent:    #1e40af;
+  --accent2:   #1d4ed8;
+  --gold-lt:   #d4a017;
+  --panel:     rgba(255,255,255,0.95);
+  --panel-hdr: rgba(232,240,255,0.97);
+  --text:      #1a1f2e;
+  --mid:       #3a4060;
+  --soft:      #6b7494;
+  --green:     #15803d;
+  --green-bg:  #dcfce7;
+  --green-bd:  #86efac;
+  --red:       #dc2626;
+}
+*,*::before,*::after { box-sizing:border-box; margin:0; padding:0 }
+html { scroll-behavior:smooth }
+body { font-family:'DM Sans',sans-serif; background:#0d1525; color:var(--text); min-height:100vh; overflow-x:hidden }
+
+/* ── BG ── */
+.bg { position:fixed; inset:0; z-index:0; background:url('IMG_6785.JPG') center 30%/cover no-repeat }
+.bg::after { content:''; position:absolute; inset:0; background:linear-gradient(160deg,rgba(18,28,58,.82) 0%,rgba(12,20,42,.62) 50%,rgba(8,14,32,.80) 100%) }
+
+/* ── PAGE ── */
+.page { position:relative; z-index:2; min-height:100vh; display:flex; flex-direction:column }
+
+/* ── HEADER ── */
+.hdr { padding:28px 20px 18px; animation:slideDown .6s ease both }
+.hdr-card { background:rgba(255,255,255,.13); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px); border:1.5px solid rgba(255,255,255,.26); border-radius:16px; padding:22px 24px 18px }
+.ev-eye  { font-size:10.5px; letter-spacing:.32em; text-transform:uppercase; color:var(--gold-lt); margin-bottom:8px; font-weight:500 }
+.ev-title{ font-family:'Cormorant Garamond',serif; font-size:clamp(1.6rem,4.5vw,2.9rem); font-weight:700; color:#fff; line-height:1.18 }
+.ev-title em { font-style:italic; color:#f5d98a }
+.ev-sub  { margin-top:5px; font-size:12.5px; color:rgba(255,255,255,.70); letter-spacing:.05em }
+.ev-zh   { font-family:'Noto Serif TC',serif; font-size:11.5px; color:rgba(255,255,255,.52); margin-top:3px }
+.gold-bar{ width:44px; height:2px; background:linear-gradient(90deg,var(--gold-lt),transparent); margin-top:12px }
+
+/* ── TABS ── */
+.tabs-wrap { padding:0 20px 16px; animation:slideDown .6s .08s ease both }
+.tabs { display:grid; grid-template-columns:repeat(4,1fr); gap:8px }
+@media(max-width:600px){ .tabs { grid-template-columns:repeat(2,1fr) } }
+.tab {
+  min-height:74px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px;
+  padding:10px 6px; background:rgba(255,255,255,.14); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
+  border:1.5px solid rgba(255,255,255,.22); border-radius:14px; color:rgba(255,255,255,.90);
+  font-family:'DM Sans',sans-serif; font-size:12px; font-weight:500; cursor:pointer;
+  transition:all .2s ease; -webkit-tap-highlight-color:transparent; user-select:none; text-align:center; line-height:1.3
+}
+.tab:hover  { background:rgba(255,255,255,.22) }
+.tab.active { background:rgba(255,255,255,.96); border-color:#fff; color:var(--accent); box-shadow:0 6px 24px rgba(0,0,0,.22) }
+.t-icon  { font-size:22px }
+.t-label { font-size:11.5px; font-weight:600 }
+.t-badge {
+  font-size:11px; padding:2px 8px; background:rgba(255,255,255,.22);
+  border-radius:20px; color:rgba(255,255,255,.92); font-weight:500; min-width:38px; text-align:center
+}
+.tab.active .t-badge { background:var(--accent); color:#fff }
+
+/* ── CONTENT ── */
+.content { flex:1; padding:0 20px 52px; animation:fadeUp .45s .15s ease both }
+.card { background:var(--panel); border-radius:16px; overflow:hidden; box-shadow:0 14px 52px rgba(0,0,0,.30) }
+
+/* ── STATUS BAR ── */
+.sbar { display:flex; align-items:center; justify-content:space-between; padding:14px 20px; background:var(--panel-hdr); border-bottom:1px solid rgba(0,0,0,.07) }
+.sbar-lbl { font-size:10.5px; letter-spacing:.2em; text-transform:uppercase; color:var(--soft); font-weight:600 }
+.sbar-ct  { font-family:'Cormorant Garamond',serif; font-size:1.25rem; font-weight:600; color:var(--accent) }
+.sbar-ct small { font-family:'DM Sans',sans-serif; font-size:.72rem; color:var(--soft); font-weight:400 }
+
+/* ── LOADING / ERROR ── */
+.loading-s,.error-s { padding:56px 24px; text-align:center; font-size:14px; color:var(--soft) }
+.spinner { width:36px; height:36px; border:3px solid #e2e8f0; border-top-color:var(--accent); border-radius:50%; animation:spin .7s linear infinite; margin:0 auto 18px }
+.error-s { color:var(--red) }
+.err-ico  { font-size:32px; margin-bottom:10px }
+.err-hint { color:var(--soft); font-size:12.5px; margin-top:10px; line-height:1.75 }
+
+/* ── DEBATERS TABLE ── */
+.tscroll { overflow-x:auto }
+table { width:100%; border-collapse:collapse; font-size:14px }
+thead tr { background:rgba(30,64,175,.06) }
+thead th { padding:13px 16px; text-align:left; font-size:10px; letter-spacing:.22em; text-transform:uppercase; color:var(--soft); font-weight:600; white-space:nowrap; border-bottom:2px solid rgba(30,64,175,.12) }
+tbody tr { border-bottom:1px solid #f0f2f8; transition:background .15s }
+tbody tr:last-child { border-bottom:none }
+tbody tr:hover { background:#f8f9ff }
+tbody tr.ck { background:#f0fdf4 }
+td { padding:13px 16px; color:var(--text); vertical-align:middle; line-height:1.4 }
+td.dim { color:var(--soft); font-size:13px }
+.ci-btn {
+  display:inline-flex; align-items:center; gap:6px; min-height:44px; padding:0 20px;
+  border-radius:9px; border:1.5px solid #cbd5e1; background:#fff; color:var(--mid);
+  font-family:'DM Sans',sans-serif; font-size:13px; font-weight:500; cursor:pointer;
+  transition:all .18s; white-space:nowrap; -webkit-tap-highlight-color:transparent
+}
+.ci-btn:hover  { border-color:var(--accent); color:var(--accent); background:#eff6ff }
+.ci-btn:active { transform:scale(.96) }
+.ci-btn.done   { background:var(--green-bg); border-color:var(--green-bd); color:var(--green); pointer-events:none }
+
+/* ── NAME TAG GRID ── */
+.ntgrid { display:grid; grid-template-columns:repeat(auto-fill,minmax(155px,1fr)); gap:12px; padding:18px }
+@media(max-width:480px){ .ntgrid { grid-template-columns:repeat(2,1fr) } }
+.nt {
+  min-height:104px; display:flex; flex-direction:column; align-items:center; justify-content:center;
+  padding:18px 12px 14px; border-radius:13px; border:2px solid #e2e8f0; background:#fff;
+  cursor:pointer; transition:all .2s ease; text-align:center;
+  -webkit-tap-highlight-color:transparent; user-select:none;
+  box-shadow:0 2px 8px rgba(0,0,0,.06); position:relative; overflow:hidden
+}
+.nt::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:var(--accent); opacity:0; transition:opacity .2s }
+.nt:hover   { border-color:#93c5fd; transform:translateY(-2px); box-shadow:0 6px 20px rgba(0,0,0,.12) }
+.nt:hover::before { opacity:1 }
+.nt:active  { transform:scale(.97) }
+.nt.ck      { background:#f0fdf4; border-color:var(--green-bd); box-shadow:0 2px 8px rgba(21,128,61,.12) }
+.nt.ck::before { opacity:1; background:var(--green) }
+.nt-name { font-family:'Cormorant Garamond',serif; font-size:1.1rem; font-weight:600; color:var(--text); line-height:1.25; margin-bottom:4px }
+.nt.ck .nt-name { color:var(--green) }
+.nt-org  { font-size:11px; color:var(--soft); line-height:1.3; margin-bottom:8px }
+.nt-tick { font-size:22px; transform:scale(0); opacity:0; transition:all .25s cubic-bezier(.34,1.56,.64,1); line-height:1 }
+.nt.ck .nt-tick { transform:scale(1); opacity:1 }
+
+/* ── STAFF PANEL ── */
+.staff-body { padding:48px 20px 44px; display:flex; flex-direction:column; align-items:center }
+.staff-num {
+  font-family:'Cormorant Garamond',serif; font-size:clamp(5.5rem,18vw,9rem); font-weight:700;
+  color:var(--accent); line-height:1; letter-spacing:-.03em; transition:all .3s ease
+}
+.staff-num.bump { transform:scale(1.12); color:var(--green) }
+.staff-unit { font-size:11.5px; letter-spacing:.25em; text-transform:uppercase; color:var(--soft); margin-top:6px; margin-bottom:40px }
+.staff-btn {
+  display:flex; align-items:center; gap:12px; min-height:68px; padding:0 48px;
+  background:linear-gradient(135deg,var(--accent),var(--accent2)); color:#fff; border:none; border-radius:16px;
+  font-family:'DM Sans',sans-serif; font-size:1.05rem; font-weight:600; cursor:pointer;
+  transition:all .2s; box-shadow:0 8px 28px rgba(30,64,175,.35); -webkit-tap-highlight-color:transparent
+}
+.staff-btn:hover  { transform:translateY(-2px); box-shadow:0 12px 36px rgba(30,64,175,.42) }
+.staff-btn:active { transform:scale(.97) }
+.staff-btn .btn-ico { font-size:22px }
+.staff-hint { margin-top:14px; font-size:12px; color:var(--soft); letter-spacing:.1em }
+.staff-log { margin-top:32px; width:100%; max-width:400px; border:1px solid #e2e8f0; border-radius:12px; overflow:hidden; display:none; background:#f8faff }
+.log-title { padding:10px 16px; font-size:10px; letter-spacing:.22em; text-transform:uppercase; color:var(--soft); border-bottom:1px solid #e2e8f0; background:#fff; font-weight:600 }
+.log-row   { padding:9px 16px; display:flex; justify-content:space-between; font-size:13px; border-bottom:1px solid #f0f2f8; color:var(--mid) }
+.log-row:last-child { border-bottom:none }
+.log-n { font-weight:600; color:var(--accent) }
+
+/* ── PANELS ── */
+.panel { display:none } .panel.vis { display:block }
+
+/* ── ANIMATIONS ── */
+@keyframes slideDown { from{opacity:0;transform:translateY(-14px)} to{opacity:1;transform:translateY(0)} }
+@keyframes fadeUp    { from{opacity:0;transform:translateY(14px)}  to{opacity:1;transform:translateY(0)} }
+@keyframes spin      { to{transform:rotate(360deg)} }
+
+::-webkit-scrollbar { width:5px; height:5px }
+::-webkit-scrollbar-track { background:#f1f5f9 }
+::-webkit-scrollbar-thumb { background:#cbd5e1; border-radius:3px }
+
+footer { text-align:center; padding:18px; font-size:10.5px; letter-spacing:.15em; text-transform:uppercase; color:rgba(255,255,255,.25); position:relative; z-index:2 }
+</style>
+</head>
+<body>
+
+<div class="bg"></div>
+
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="hdr">
+    <div class="hdr-card">
+      <div class="ev-eye">May 17, 2026 &nbsp;·&nbsp; Hsinchu, Taiwan &nbsp;·&nbsp; PF Debate</div>
+      <div class="ev-title">2026 Hsinchu Open <em>Invitational</em> (II)</div>
+      <div class="ev-sub">Online Check-In &nbsp;·&nbsp; Hsinchu CHF Speech &amp; Debate Association</div>
+      <div class="ev-zh">台灣新竹忠信文教基金會 英文演講及辯論公開邀請賽</div>
+      <div class="gold-bar"></div>
+    </div>
+  </div>
+
+  <!-- TABS -->
+  <div class="tabs-wrap">
+    <div class="tabs" role="tablist">
+      <button class="tab active" id="tab-debaters" onclick="switchTab('debaters')" role="tab">
+        <span class="t-icon">🎙️</span>
+        <span class="t-label">Debater<br>Check-In</span>
+        <span class="t-badge" id="badge-debaters">—</span>
+      </button>
+      <button class="tab" id="tab-judges" onclick="switchTab('judges')" role="tab">
+        <span class="t-icon">⚖️</span>
+        <span class="t-label">Judge<br>Check-In</span>
+        <span class="t-badge" id="badge-judges">—</span>
+      </button>
+      <button class="tab" id="tab-organizers" onclick="switchTab('organizers')" role="tab">
+        <span class="t-icon">🏛️</span>
+        <span class="t-label">Organizer<br>Check-In</span>
+        <span class="t-badge" id="badge-organizers">—</span>
+      </button>
+      <button class="tab" id="tab-staff" onclick="staffTap()" role="button">
+        <span class="t-icon">🙋</span>
+        <span class="t-label">Staff &amp;<br>Volunteers</span>
+        <span class="t-badge" id="badge-staff">0</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- PANELS -->
+  <div class="content">
+
+    <div class="panel vis card" id="panel-debaters">
+      <div class="sbar">
+        <span class="sbar-lbl">Debaters</span>
+        <span class="sbar-ct" id="stat-debaters">Loading…</span>
+      </div>
+      <div id="body-debaters"><div class="loading-s"><div class="spinner"></div>Fetching debater roster…</div></div>
+    </div>
+
+    <div class="panel card" id="panel-judges">
+      <div class="sbar">
+        <span class="sbar-lbl">Judges</span>
+        <span class="sbar-ct" id="stat-judges">Loading…</span>
+      </div>
+      <div id="body-judges"><div class="loading-s"><div class="spinner"></div>Fetching judge list…</div></div>
+    </div>
+
+    <div class="panel card" id="panel-organizers">
+      <div class="sbar">
+        <span class="sbar-lbl">Organizers</span>
+        <span class="sbar-ct" id="stat-organizers">Loading…</span>
+      </div>
+      <div id="body-organizers"><div class="loading-s"><div class="spinner"></div>Fetching organizer list…</div></div>
+    </div>
+
+    <div class="panel card" id="panel-staff">
+      <div class="sbar">
+        <span class="sbar-lbl">Staff &amp; Volunteers</span>
+        <span class="sbar-ct" id="stat-staff">0 <small>check-ins</small></span>
+      </div>
+      <div class="staff-body">
+        <div class="staff-num" id="staff-num">0</div>
+        <div class="staff-unit">Staff &amp; Volunteer Check-Ins</div>
+        <button class="staff-btn" onclick="staffTap()">
+          <span class="btn-ico">✋</span> Tap to Check In
+        </button>
+        <div class="staff-hint">Each tap registers one check-in</div>
+        <div class="staff-log" id="staff-log">
+          <div class="log-title">Recent Check-Ins</div>
+          <div id="log-rows"></div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+</div><!-- /page -->
+
+<footer>Hsinchu CHF Speech &amp; Debate Association · 2026</footer>
+
+<script>
+/* ── EXACT CSV URLS (hardcoded from published sheet URLs) ── */
+const CSV_URLS = {
+  debaters:   'https://docs.google.com/spreadsheets/d/e/2PACX-1vTZLzL_8ynU6ORMRsa7zOkacA24j4LHsvq_akPvyFnQtO3qpiYoYmq8ZVl7jtmORjDITQs3tZD171RC/pub?gid=0&single=true&output=csv',
+  judges:     'https://docs.google.com/spreadsheets/d/e/2PACX-1vTZLzL_8ynU6ORMRsa7zOkacA24j4LHsvq_akPvyFnQtO3qpiYoYmq8ZVl7jtmORjDITQs3tZD171RC/pub?gid=1593580837&single=true&output=csv',
+  organizers: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTZLzL_8ynU6ORMRsa7zOkacA24j4LHsvq_akPvyFnQtO3qpiYoYmq8ZVl7jtmORjDITQs3tZD171RC/pub?gid=1195897586&single=true&output=csv',
+};
+
+/* ── STATE ── */
+const S = {
+  debaters:   { rows:[], headers:[], ck:new Set() },
+  judges:     { rows:[], headers:[], ck:new Set() },
+  organizers: { rows:[], headers:[], ck:new Set() },
+  staff: { n:0, log:[] },
+};
+const loaded = {};
+let activeTab = 'debaters';
+
+/* ── CSV PARSER ── */
+function parseCSV(raw) {
+  // Robust CSV parser for Google Sheets published CSV.
+  // Supports quoted commas, escaped quotes, and line breaks inside quoted cells.
+  const src = String(raw || '').replace(/^\uFEFF/, '').replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+  const records = [];
+  let row = [];
+  let cur = '';
+  let inQuotes = false;
+
+  for (let i = 0; i < src.length; i++) {
+    const c = src[i];
+    const n = src[i + 1];
+
+    if (c === '"') {
+      if (inQuotes && n === '"') {
+        cur += '"';
+        i++;
+      } else {
+        inQuotes = !inQuotes;
+      }
+    } else if (c === ',' && !inQuotes) {
+      row.push(cur.trim());
+      cur = '';
+    } else if (c === '\n' && !inQuotes) {
+      row.push(cur.trim());
+      if (row.some(v => v !== '')) records.push(row);
+      row = [];
+      cur = '';
+    } else {
+      cur += c;
+    }
+  }
+
+  row.push(cur.trim());
+  if (row.some(v => v !== '')) records.push(row);
+
+  if (!records.length) return { headers: [], rows: [] };
+
+  const headers = records[0].map(h => String(h || '').trim());
+  const rows = records.slice(1).map(vals => {
+    const obj = {};
+    headers.forEach((h, j) => { obj[h] = vals[j] || ''; });
+    return obj;
+  }).filter(obj => Object.values(obj).some(v => String(v).trim() !== ''));
+
+  return { headers, rows };
+}
+
+/* ── FETCH ── */
+function cacheBust(url) {
+  // Keep original CSV settings, only append a timestamp so GitHub Pages/browser cache will not reuse stale CSV.
+  const u = new URL(url);
+  u.searchParams.set('_cb', Date.now().toString());
+  return u.toString();
+}
+
+async function fetchRole(role) {
+  const url = CSV_URLS[role];
+  let res;
+  let text = '';
+
+  try {
+    res = await fetch(cacheBust(url), {
+      method: 'GET',
+      mode: 'cors',
+      credentials: 'omit',
+      redirect: 'follow',
+      cache: 'no-store',
+      headers: { 'Accept': 'text/csv,text/plain,*/*' }
+    });
+  } catch (err) {
+    throw new Error(
+      `Fetch failed before receiving CSV. ` +
+      `Open this file through GitHub Pages / HTTPS, not file://. ` +
+      `Detail: ${err && err.message ? err.message : err}`
+    );
+  }
+
+  if (!res.ok) {
+    throw new Error(`CSV request returned HTTP ${res.status}. Check that the ${role} sheet is published to web as CSV.`);
+  }
+
+  text = await res.text();
+  const trimmed = text.trim();
+
+  if (!trimmed) {
+    throw new Error(`CSV request succeeded, but the ${role} CSV is empty.`);
+  }
+
+  // If Google returns an HTML/login/error page, parsing as CSV would silently fail.
+  if (/^\s*</.test(trimmed)) {
+    const sample = trimmed.slice(0, 120).replace(/\s+/g, ' ');
+    throw new Error(
+      `Google returned HTML instead of CSV for ${role}. ` +
+      `Please test the CSV URL in an incognito window. Response starts with: ${sample}`
+    );
+  }
+
+  const { headers, rows } = parseCSV(text);
+
+  if (!headers.length) {
+    throw new Error(`The ${role} CSV loaded, but no header row was found.`);
+  }
+  if (!rows.length) {
+    throw new Error(`The ${role} CSV loaded, but no data rows were found.`);
+  }
+
+  return { headers, rows };
+}
+
+/* ── STATUS ── */
+function updateStat(role) {
+  const s = S[role];
+  const ci = s.ck.size, tot = s.rows.length;
+  document.getElementById('badge-'+role).textContent = ci+'/'+tot;
+  const el = document.getElementById('stat-'+role);
+  if (el) el.innerHTML = `${ci} <small>/ ${tot} checked in</small>`;
+}
+
+/* ── DEBATERS TABLE ── */
+function renderDebaters(headers, rows) {
+  const hide = /email|phone|tel|備|聯絡|note|remark|^id$/i;
+  const vis = headers.filter(h => !hide.test(h));
+  let h = `<div class="tscroll"><table><thead><tr>`;
+  vis.forEach(c => { h += `<th>${esc(c)}</th>`; });
+  h += `<th style="text-align:center;min-width:120px">Check-In</th></tr></thead><tbody>`;
+  rows.forEach((row, i) => {
+    h += `<tr id="dr${i}">`;
+    vis.forEach(c => {
+      const dim = /school|org|team|unit|id|號|role|type/i.test(c);
+      h += `<td class="${dim?'dim':''}">${esc(row[c]||'')}</td>`;
+    });
+    h += `<td style="text-align:center">
+      <button class="ci-btn" id="db${i}" onclick="ckDebater(${i})">
+        <span>○</span>&nbsp;Check In
+      </button></td></tr>`;
+  });
+  h += `</tbody></table></div>`;
+  document.getElementById('body-debaters').innerHTML = h;
+  updateStat('debaters');
+}
+
+function ckDebater(i) {
+  S.debaters.ck.add(i);
+  const row = document.getElementById('dr'+i);
+  const btn = document.getElementById('db'+i);
+  if (row) row.classList.add('ck');
+  if (btn) { btn.classList.add('done'); btn.innerHTML = '<span>☑️</span>&nbsp;Checked In'; }
+  updateStat('debaters');
+}
+
+/* ── NAME TAG GRID ── */
+function detectNameCol(headers) {
+  for (const h of headers)
+    if (/^(name|姓名|名字|full.?name)/i.test(h)) return h;
+  return headers[0];
+}
+function detectOrgCol(headers, nc) {
+  for (const h of headers)
+    if (h!==nc && /school|org|team|unit|affil|學校|機構|單位|組織|academy|institute/i.test(h)) return h;
+  // fallback: second column
+  const others = headers.filter(h=>h!==nc);
+  return others[0] || null;
+}
+
+function renderTags(role, headers, rows) {
+  const nc = detectNameCol(headers);
+  const oc = detectOrgCol(headers, nc);
+  let h = `<div class="ntgrid">`;
+  rows.forEach((row, i) => {
+    const name = row[nc] || '—';
+    const org  = oc ? row[oc] : '';
+    h += `<div class="nt" id="nt-${role}-${i}" onclick="ckTag('${role}',${i})">
+      <div class="nt-name">${esc(name)}</div>
+      ${org ? `<div class="nt-org">${esc(org)}</div>` : ''}
+      <div class="nt-tick">☑️</div>
+    </div>`;
+  });
+  h += `</div>`;
+  document.getElementById('body-'+role).innerHTML = h;
+  updateStat(role);
+}
+
+function ckTag(role, i) {
+  const el = document.getElementById(`nt-${role}-${i}`);
+  if (!el) return;
+  if (S[role].ck.has(i)) { S[role].ck.delete(i); el.classList.remove('ck'); }
+  else                    { S[role].ck.add(i);    el.classList.add('ck'); }
+  updateStat(role);
+}
+
+/* ── STAFF ── */
+function staffTap() {
+  if (activeTab !== 'staff') {
+    activeTab = 'staff';
+    document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
+    document.getElementById('tab-staff').classList.add('active');
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('vis'));
+    document.getElementById('panel-staff').classList.add('vis');
+  }
+  S.staff.n++;
+  const t = new Date().toLocaleTimeString('zh-TW',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+  S.staff.log.unshift({ n: S.staff.n, t });
+
+  const num = document.getElementById('staff-num');
+  num.textContent = S.staff.n;
+  num.classList.add('bump');
+  setTimeout(() => num.classList.remove('bump'), 380);
+
+  document.getElementById('badge-staff').textContent = S.staff.n;
+  document.getElementById('stat-staff').innerHTML = `${S.staff.n} <small>check-ins</small>`;
+
+  const log = document.getElementById('staff-log');
+  log.style.display = 'block';
+  document.getElementById('log-rows').innerHTML =
+    S.staff.log.slice(0,15).map(e =>
+      `<div class="log-row"><span class="log-n">#${e.n}</span><span>${e.t}</span></div>`
+    ).join('');
+}
+
+/* ── TAB SWITCHING ── */
+function switchTab(role) {
+  activeTab = role;
+  document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-'+role).classList.add('active');
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('vis'));
+  document.getElementById('panel-'+role).classList.add('vis');
+  if (!loaded[role]) loadRole(role);
+}
+
+async function loadRole(role) {
+  loaded[role] = true;
+  try {
+    const { headers, rows } = await fetchRole(role);
+    S[role].headers = headers;
+    S[role].rows    = rows;
+    if (role === 'debaters') renderDebaters(headers, rows);
+    else renderTags(role, headers, rows);
+  } catch(e) {
+    loaded[role] = false; // allow retry by switching tabs again after fixing the CSV/publish issue
+    document.getElementById('body-'+role).innerHTML = `
+      <div class="error-s">
+        <div class="err-ico">⚠️</div>
+        <strong>Could not load ${role} data</strong>
+        <div class="err-hint">
+          ${esc(String(e.message))}<br><br>
+          For GitHub Pages, open the site as <b>https://...</b>, not the GitHub code preview and not a local file.<br>
+          Also confirm the <b>${role}</b> CSV URL opens in an incognito window and shows comma-separated data.
+        </div>
+      </div>`;
+    const badge = document.getElementById('badge-'+role);
+    const stat = document.getElementById('stat-'+role);
+    if (badge) badge.textContent = 'ERR';
+    if (stat) stat.innerHTML = `Error`;
+  }
+}
+
+/* ── UTILS ── */
+function esc(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+/* ── INIT ── */
+window.addEventListener('DOMContentLoaded', () => { loadRole('debaters'); });
+</script>
+</body>
+</html>
