@@ -46,10 +46,10 @@ body.modal-open { overflow:hidden }
 .tabs-wrap {
   position:sticky; top:0; z-index:50;
   padding:20px 24px 22px;
-  background:linear-gradient(180deg,rgba(6,11,28,.97) 0%,rgba(9,15,34,.93) 100%);
-  backdrop-filter:blur(22px); -webkit-backdrop-filter:blur(22px);
-  box-shadow:0 6px 40px rgba(0,0,0,.50);
-  border-bottom:1px solid rgba(255,255,255,.09);
+  background:linear-gradient(180deg,rgba(6,11,28,.70) 0%,rgba(9,15,34,.55) 100%);
+  backdrop-filter:blur(18px); -webkit-backdrop-filter:blur(18px);
+  box-shadow:0 6px 40px rgba(0,0,0,.30);
+  border-bottom:1px solid rgba(255,255,255,.12);
   animation:slideDown .6s ease both
 }
 
@@ -123,6 +123,12 @@ body.modal-open { overflow:hidden }
   background:var(--accent); color:#fff;
   border-color:var(--accent2);
   box-shadow:0 2px 10px rgba(30,64,175,.45)
+}
+
+/* ── HERO SPACE — visible photo area above tabs ── */
+.hero-space {
+  height: clamp(120px, 20vw, 200px);
+  flex-shrink: 0;
 }
 
 /* ── CONTENT ── */
@@ -282,7 +288,10 @@ footer { text-align:center; padding:18px; font-size:10.5px; letter-spacing:.15em
 
 <div class="page">
 
-  <!-- TABS (no separate header — background photo speaks for itself) -->
+  <!-- HERO SPACER — lets the background photo breathe above the tabs -->
+  <div class="hero-space"></div>
+
+  <!-- TABS -->
   <div class="tabs-wrap">
     <div class="tabs-eyebrow">
       <strong>2026 Hsinchu Open Invitational (II)</strong>
