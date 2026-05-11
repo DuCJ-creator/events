@@ -42,44 +42,88 @@ body.modal-open { overflow:hidden }
 /* ── PAGE ── */
 .page { position:relative; z-index:2; min-height:100vh; display:flex; flex-direction:column }
 
-/* ── HEADER ── */
-.hdr { padding:22px 20px 14px; animation:slideDown .6s ease both }
-.hdr-card {
-  background:rgba(255,255,255,.13); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
-  border:1.5px solid rgba(255,255,255,.26); border-radius:16px; padding:22px 24px 18px
-}
-.ev-eye   { font-size:10.5px; letter-spacing:.32em; text-transform:uppercase; color:var(--gold-lt); margin-bottom:8px; font-weight:500 }
-.ev-title { font-family:'Cormorant Garamond',serif; font-size:clamp(1.6rem,4.5vw,2.9rem); font-weight:700; color:#fff; line-height:1.18 }
-.ev-title em { font-style:italic; color:#f5d98a }
-.ev-sub   { margin-top:5px; font-size:12.5px; color:rgba(255,255,255,.70); letter-spacing:.05em }
-.ev-zh    { font-family:'Noto Serif TC',serif; font-size:11.5px; color:rgba(255,255,255,.52); margin-top:3px }
-.gold-bar { width:44px; height:2px; background:linear-gradient(90deg,var(--gold-lt),transparent); margin-top:12px }
-
-/* ── TABS ── */
+/* ── TABS WRAP — full-width hero nav, replaces separate header ── */
 .tabs-wrap {
-  position:sticky; top:0; z-index:50; padding:10px 20px 14px;
-  background:linear-gradient(180deg,rgba(13,21,37,.96),rgba(13,21,37,.88));
-  backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px);
-  box-shadow:0 10px 28px rgba(0,0,0,.18); animation:slideDown .6s .08s ease both
+  position:sticky; top:0; z-index:50;
+  padding:20px 24px 22px;
+  background:linear-gradient(180deg,rgba(6,11,28,.97) 0%,rgba(9,15,34,.93) 100%);
+  backdrop-filter:blur(22px); -webkit-backdrop-filter:blur(22px);
+  box-shadow:0 6px 40px rgba(0,0,0,.50);
+  border-bottom:1px solid rgba(255,255,255,.09);
+  animation:slideDown .6s ease both
 }
-.tabs { display:grid; grid-template-columns:repeat(4,1fr); gap:8px }
-@media(max-width:600px){ .tabs { grid-template-columns:repeat(2,1fr) } }
+
+/* Small event label sitting above the 4 tabs */
+.tabs-eyebrow {
+  text-align:center; margin-bottom:14px;
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(.9rem,2vw,1.05rem); font-style:italic;
+  color:rgba(255,255,255,.45); letter-spacing:.05em
+}
+.tabs-eyebrow strong {
+  font-style:normal; font-weight:700;
+  color:rgba(255,255,255,.78)
+}
+.tabs-eyebrow .sep { color:var(--gold-lt); margin:0 8px; font-style:normal }
+
+.tabs { display:grid; grid-template-columns:repeat(4,1fr); gap:12px }
+@media(max-width:600px){ .tabs { grid-template-columns:repeat(2,1fr); gap:8px } }
+
 .tab {
-  min-height:84px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px;
-  padding:10px 6px; background:rgba(255,255,255,.14); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
-  border:1.5px solid rgba(255,255,255,.22); border-radius:14px; color:rgba(255,255,255,.90);
-  font-family:'DM Sans',sans-serif; font-size:14px; font-weight:500; cursor:pointer;
-  transition:all .2s ease; -webkit-tap-highlight-color:transparent; user-select:none; text-align:center; line-height:1.3
+  min-height:116px;
+  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:7px;
+  padding:16px 10px;
+  background:rgba(255,255,255,.07);
+  border:1.5px solid rgba(255,255,255,.13);
+  border-radius:20px;
+  color:rgba(255,255,255,.78);
+  font-family:'DM Sans',sans-serif; font-size:15px; font-weight:500;
+  cursor:pointer; transition:all .22s cubic-bezier(.25,.8,.25,1);
+  -webkit-tap-highlight-color:transparent; user-select:none;
+  text-align:center; line-height:1.3;
+  position:relative; overflow:hidden
 }
-.tab:hover  { background:rgba(255,255,255,.22) }
-.tab.active { background:rgba(255,255,255,.96); border-color:#fff; color:var(--accent); box-shadow:0 6px 24px rgba(0,0,0,.22) }
-.t-icon  { font-size:26px }
-.t-label { font-size:13.5px; font-weight:700 }
+/* subtle inner shimmer */
+.tab::after {
+  content:''; position:absolute; inset:0;
+  background:linear-gradient(135deg,rgba(255,255,255,.07) 0%,transparent 60%);
+  pointer-events:none
+}
+.tab:hover {
+  background:rgba(255,255,255,.14);
+  border-color:rgba(255,255,255,.28);
+  color:rgba(255,255,255,.95);
+  transform:translateY(-3px);
+  box-shadow:0 12px 32px rgba(0,0,0,.35)
+}
+.tab:active { transform:scale(.97) }
+
+/* ACTIVE tab: bright white card lifts out */
+.tab.active {
+  background:linear-gradient(160deg,#ffffff 0%,#eef4ff 100%);
+  border-color:#fff; color:var(--accent);
+  transform:translateY(-4px);
+  box-shadow:0 12px 40px rgba(0,0,0,.35), 0 0 0 1px rgba(255,255,255,.6) inset
+}
+.tab.active::after { opacity:0 }
+
+.t-icon  { font-size:34px; line-height:1 }
+.t-label {
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.18rem; font-weight:700; letter-spacing:.01em; line-height:1.2
+}
 .t-badge {
-  font-size:13px; padding:3px 10px; background:rgba(255,255,255,.22);
-  border-radius:20px; color:rgba(255,255,255,.92); font-weight:500; min-width:38px; text-align:center
+  font-size:13.5px; padding:4px 13px;
+  background:rgba(255,255,255,.18);
+  border:1px solid rgba(255,255,255,.20);
+  border-radius:24px; color:rgba(255,255,255,.95);
+  font-weight:600; min-width:46px; text-align:center
 }
-.tab.active .t-badge { background:var(--accent); color:#fff }
+.tab.active .t-badge {
+  background:var(--accent); color:#fff;
+  border-color:var(--accent2);
+  box-shadow:0 2px 10px rgba(30,64,175,.45)
+}
 
 /* ── CONTENT ── */
 .content { flex:1; padding:16px 20px 52px; animation:fadeUp .45s .15s ease both }
@@ -103,7 +147,7 @@ body.modal-open { overflow:hidden }
 .err-hint { color:var(--soft); font-size:12.5px; margin-top:10px; line-height:1.75 }
 
 /* ── DEBATERS TABLE ── */
-.tscroll { overflow:auto; max-height:calc(100vh - 285px); overscroll-behavior:contain }
+.tscroll { overflow:auto; max-height:calc(100vh - 240px); overscroll-behavior:contain }
 table { width:100%; border-collapse:collapse; font-size:18px }
 thead tr { background:rgba(30,64,175,.06) }
 thead th {
@@ -118,12 +162,16 @@ tbody tr.ck { background:#f0fdf4 }
 td { padding:16px 18px; color:var(--text); vertical-align:middle; line-height:1.4 }
 td.dim { color:var(--soft); font-size:16px }
 
-/* Series No. cell — large prominent number */
+/* Series No. cell — super-large so front desk can instantly spot the lanyard number */
 td.series-no {
   font-family:'Cormorant Garamond',serif;
-  font-size:2rem; font-weight:700; color:var(--accent);
-  text-align:center; white-space:nowrap; min-width:60px
+  font-size:3rem; font-weight:700; color:var(--accent);
+  text-align:center; white-space:nowrap; min-width:72px;
+  line-height:1; padding:12px 16px;
+  background:linear-gradient(135deg,rgba(30,64,175,.06),transparent);
+  border-right:2px solid rgba(30,64,175,.10)
 }
+tr.ck td.series-no { color:var(--green) }
 
 /* Consent pill */
 .consent-pill {
@@ -150,7 +198,7 @@ td.series-no {
 
 /* ── NAME TAG GRID ── */
 #body-judges, #body-organizers, #body-staff {
-  max-height:calc(100vh - 285px); overflow-y:auto; overscroll-behavior:contain
+  max-height:calc(100vh - 240px); overflow-y:auto; overscroll-behavior:contain
 }
 .ntgrid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:16px; padding:24px }
 @media(max-width:700px){ .ntgrid { grid-template-columns:repeat(2,1fr); padding:18px } }
@@ -213,14 +261,15 @@ td.series-no {
 ::-webkit-scrollbar-thumb { background:#cbd5e1; border-radius:3px }
 
 @media(max-width:700px){
-  .hdr { padding:14px 12px 10px }
-  .hdr-card { padding:16px 16px 14px }
-  .tabs-wrap { padding:8px 10px 10px }
-  .tab { min-height:76px }
+  .tabs-wrap { padding:12px 12px 14px }
+  .tab { min-height:96px }
+  .t-label { font-size:1rem }
+  .t-icon { font-size:28px }
   .content { padding:12px 10px 42px }
-  .tscroll, #body-judges, #body-organizers, #body-staff { max-height:calc(100vh - 250px) }
+  .tscroll, #body-judges, #body-organizers, #body-staff { max-height:calc(100vh - 220px) }
   table { font-size:16px }
   td { padding:13px 14px }
+  td.series-no { font-size:2.3rem; padding:10px 12px }
 }
 
 footer { text-align:center; padding:18px; font-size:10.5px; letter-spacing:.15em; text-transform:uppercase; color:rgba(255,255,255,.25); position:relative; z-index:2 }
@@ -233,19 +282,12 @@ footer { text-align:center; padding:18px; font-size:10.5px; letter-spacing:.15em
 
 <div class="page">
 
-  <!-- HEADER -->
-  <div class="hdr">
-    <div class="hdr-card">
-      <div class="ev-eye">May 17, 2026 &nbsp;·&nbsp; Hsinchu, Taiwan &nbsp;·&nbsp; PF Debate</div>
-      <div class="ev-title">2026 Hsinchu Open <em>Invitational</em> (II)</div>
-      <div class="ev-sub">Online Check-In &nbsp;·&nbsp; Hsinchu CHF Speech &amp; Debate Association</div>
-      <div class="ev-zh">台灣新竹忠信文教基金會 英文演講及辯論公開邀請賽</div>
-      <div class="gold-bar"></div>
-    </div>
-  </div>
-
-  <!-- TABS -->
+  <!-- TABS (no separate header — background photo speaks for itself) -->
   <div class="tabs-wrap">
+    <div class="tabs-eyebrow">
+      <strong>2026 Hsinchu Open Invitational (II)</strong>
+      <span class="sep">·</span>Online Check-In<span class="sep">·</span>May 17, 2026
+    </div>
     <div class="tabs" role="tablist">
       <button class="tab active" id="tab-debaters" onclick="switchTab('debaters')" role="tab">
         <span class="t-icon">🎙️</span>
