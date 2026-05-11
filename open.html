@@ -20,31 +20,48 @@
   --green-bg:  #dcfce7;
   --green-bd:  #86efac;
   --red:       #dc2626;
+  --orange:    #c2410c;
+  --orange-bg: #fff7ed;
+  --orange-bd: #fdba74;
 }
 *,*::before,*::after { box-sizing:border-box; margin:0; padding:0 }
 html { scroll-behavior:smooth }
 body { font-family:'DM Sans',sans-serif; background:#0d1525; color:var(--text); min-height:100vh; overflow-x:hidden; font-size:16px }
 body.modal-open { overflow:hidden }
 
-/* ── BG ── */
-.bg { position:fixed; inset:0; z-index:0; background:url('IMG_6785.JPG') center 30%/cover no-repeat }
-.bg::after { content:''; position:absolute; inset:0; background:linear-gradient(160deg,rgba(18,28,58,.82) 0%,rgba(12,20,42,.62) 50%,rgba(8,14,32,.80) 100%) }
+/* ── BACKGROUND — fixed full-bleed photo ── */
+.bg {
+  position:fixed; inset:0; z-index:0;
+  background: url('IMG_6785.JPG') center 30% / cover no-repeat;
+}
+.bg::after {
+  content:''; position:absolute; inset:0;
+  background: linear-gradient(160deg, rgba(18,28,58,.82) 0%, rgba(12,20,42,.62) 50%, rgba(8,14,32,.80) 100%);
+}
 
 /* ── PAGE ── */
 .page { position:relative; z-index:2; min-height:100vh; display:flex; flex-direction:column }
 
 /* ── HEADER ── */
 .hdr { padding:22px 20px 14px; animation:slideDown .6s ease both }
-.hdr-card { background:rgba(255,255,255,.13); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px); border:1.5px solid rgba(255,255,255,.26); border-radius:16px; padding:22px 24px 18px }
-.ev-eye  { font-size:10.5px; letter-spacing:.32em; text-transform:uppercase; color:var(--gold-lt); margin-bottom:8px; font-weight:500 }
-.ev-title{ font-family:'Cormorant Garamond',serif; font-size:clamp(1.6rem,4.5vw,2.9rem); font-weight:700; color:#fff; line-height:1.18 }
+.hdr-card {
+  background:rgba(255,255,255,.13); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
+  border:1.5px solid rgba(255,255,255,.26); border-radius:16px; padding:22px 24px 18px
+}
+.ev-eye   { font-size:10.5px; letter-spacing:.32em; text-transform:uppercase; color:var(--gold-lt); margin-bottom:8px; font-weight:500 }
+.ev-title { font-family:'Cormorant Garamond',serif; font-size:clamp(1.6rem,4.5vw,2.9rem); font-weight:700; color:#fff; line-height:1.18 }
 .ev-title em { font-style:italic; color:#f5d98a }
-.ev-sub  { margin-top:5px; font-size:12.5px; color:rgba(255,255,255,.70); letter-spacing:.05em }
-.ev-zh   { font-family:'Noto Serif TC',serif; font-size:11.5px; color:rgba(255,255,255,.52); margin-top:3px }
-.gold-bar{ width:44px; height:2px; background:linear-gradient(90deg,var(--gold-lt),transparent); margin-top:12px }
+.ev-sub   { margin-top:5px; font-size:12.5px; color:rgba(255,255,255,.70); letter-spacing:.05em }
+.ev-zh    { font-family:'Noto Serif TC',serif; font-size:11.5px; color:rgba(255,255,255,.52); margin-top:3px }
+.gold-bar { width:44px; height:2px; background:linear-gradient(90deg,var(--gold-lt),transparent); margin-top:12px }
 
 /* ── TABS ── */
-.tabs-wrap { position:sticky; top:0; z-index:50; padding:10px 20px 14px; animation:slideDown .6s .08s ease both; background:linear-gradient(180deg,rgba(13,21,37,.96),rgba(13,21,37,.88)); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); box-shadow:0 10px 28px rgba(0,0,0,.18) }
+.tabs-wrap {
+  position:sticky; top:0; z-index:50; padding:10px 20px 14px;
+  background:linear-gradient(180deg,rgba(13,21,37,.96),rgba(13,21,37,.88));
+  backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px);
+  box-shadow:0 10px 28px rgba(0,0,0,.18); animation:slideDown .6s .08s ease both
+}
 .tabs { display:grid; grid-template-columns:repeat(4,1fr); gap:8px }
 @media(max-width:600px){ .tabs { grid-template-columns:repeat(2,1fr) } }
 .tab {
@@ -69,7 +86,11 @@ body.modal-open { overflow:hidden }
 .card { background:var(--panel); border-radius:16px; overflow:hidden; box-shadow:0 14px 52px rgba(0,0,0,.30) }
 
 /* ── STATUS BAR ── */
-.sbar { display:flex; align-items:center; justify-content:space-between; padding:18px 24px; background:var(--panel-hdr); border-bottom:1px solid rgba(0,0,0,.07); position:relative; z-index:2 }
+.sbar {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:18px 24px; background:var(--panel-hdr);
+  border-bottom:1px solid rgba(0,0,0,.07); position:relative; z-index:2
+}
 .sbar-lbl { font-size:13px; letter-spacing:.2em; text-transform:uppercase; color:var(--soft); font-weight:600 }
 .sbar-ct  { font-family:'Cormorant Garamond',serif; font-size:1.65rem; font-weight:600; color:var(--accent) }
 .sbar-ct small { font-family:'DM Sans',sans-serif; font-size:.92rem; color:var(--soft); font-weight:400 }
@@ -85,26 +106,52 @@ body.modal-open { overflow:hidden }
 .tscroll { overflow:auto; max-height:calc(100vh - 285px); overscroll-behavior:contain }
 table { width:100%; border-collapse:collapse; font-size:18px }
 thead tr { background:rgba(30,64,175,.06) }
-thead th { position:sticky; top:0; z-index:3; background:#eef4ff; padding:15px 18px; text-align:left; font-size:12px; letter-spacing:.22em; text-transform:uppercase; color:var(--soft); font-weight:600; white-space:nowrap; border-bottom:2px solid rgba(30,64,175,.12) }
+thead th {
+  position:sticky; top:0; z-index:3; background:#eef4ff;
+  padding:15px 18px; text-align:left; font-size:12px; letter-spacing:.22em; text-transform:uppercase;
+  color:var(--soft); font-weight:600; white-space:nowrap; border-bottom:2px solid rgba(30,64,175,.12)
+}
 tbody tr { border-bottom:1px solid #f0f2f8; transition:background .15s }
 tbody tr:last-child { border-bottom:none }
 tbody tr:hover { background:#f8f9ff }
 tbody tr.ck { background:#f0fdf4 }
-td { padding:18px 18px; color:var(--text); vertical-align:middle; line-height:1.4 }
+td { padding:16px 18px; color:var(--text); vertical-align:middle; line-height:1.4 }
 td.dim { color:var(--soft); font-size:16px }
+
+/* Series No. cell — large prominent number */
+td.series-no {
+  font-family:'Cormorant Garamond',serif;
+  font-size:2rem; font-weight:700; color:var(--accent);
+  text-align:center; white-space:nowrap; min-width:60px
+}
+
+/* Consent pill */
+.consent-pill {
+  display:inline-flex; align-items:center; gap:6px;
+  padding:5px 12px; border-radius:20px; font-size:13px; font-weight:600; white-space:nowrap
+}
+.consent-yes { background:#dcfce7; color:#15803d; border:1px solid #86efac }
+.consent-no  { background:#fee2e2; color:#b91c1c; border:1px solid #fca5a5 }
+.consent-na  { background:#f1f5f9; color:#64748b; border:1px solid #e2e8f0 }
+
 .ci-btn {
-  display:inline-flex; align-items:center; justify-content:center; gap:8px; min-height:54px; padding:0 24px;
-  border-radius:9px; border:1.5px solid #cbd5e1; background:#fff; color:var(--mid);
-  font-family:'DM Sans',sans-serif; font-size:16px; font-weight:700; cursor:pointer;
-  transition:all .18s; white-space:nowrap; -webkit-tap-highlight-color:transparent
+  display:inline-flex; align-items:center; justify-content:center; gap:8px;
+  min-height:54px; padding:0 24px; border-radius:9px; border:1.5px solid #cbd5e1;
+  background:#fff; color:var(--mid); font-family:'DM Sans',sans-serif; font-size:16px; font-weight:700;
+  cursor:pointer; transition:all .18s; white-space:nowrap; -webkit-tap-highlight-color:transparent
 }
 .ci-btn:hover  { border-color:var(--accent); color:var(--accent); background:#eff6ff }
 .ci-btn:active { transform:scale(.96) }
 .ci-btn.done   { background:var(--green-bg); border-color:var(--green-bd); color:var(--green) }
-.ci-btn.undoable::after { content:'Tap to undo'; display:inline-block; margin-left:8px; font-size:11px; color:rgba(21,128,61,.72); font-weight:600; letter-spacing:.04em }
+.ci-btn.undoable::after {
+  content:'Tap to undo'; display:inline-block; margin-left:8px;
+  font-size:11px; color:rgba(21,128,61,.72); font-weight:600; letter-spacing:.04em
+}
 
 /* ── NAME TAG GRID ── */
-#body-judges, #body-organizers { max-height:calc(100vh - 285px); overflow-y:auto; overscroll-behavior:contain; padding-top:0 }
+#body-judges, #body-organizers, #body-staff {
+  max-height:calc(100vh - 285px); overflow-y:auto; overscroll-behavior:contain
+}
 .ntgrid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:16px; padding:24px }
 @media(max-width:700px){ .ntgrid { grid-template-columns:repeat(2,1fr); padding:18px } }
 .nt {
@@ -126,50 +173,32 @@ td.dim { color:var(--soft); font-size:16px }
 .nt-tick { font-size:28px; transform:scale(0); opacity:0; transition:all .25s cubic-bezier(.34,1.56,.64,1); line-height:1 }
 .nt.ck .nt-tick { transform:scale(1); opacity:1 }
 
-/* ── STAFF PANEL ── */
-.staff-body { padding:48px 20px 44px; display:flex; flex-direction:column; align-items:center }
-.staff-num {
-  font-family:'Cormorant Garamond',serif; font-size:clamp(5.5rem,18vw,9rem); font-weight:700;
-  color:var(--accent); line-height:1; letter-spacing:-.03em; transition:all .3s ease
-}
-.staff-num.bump { transform:scale(1.12); color:var(--green) }
-.staff-unit { font-size:11.5px; letter-spacing:.25em; text-transform:uppercase; color:var(--soft); margin-top:6px; margin-bottom:40px }
-.staff-btn {
-  display:flex; align-items:center; gap:12px; min-height:68px; padding:0 48px;
-  background:linear-gradient(135deg,var(--accent),var(--accent2)); color:#fff; border:none; border-radius:16px;
-  font-family:'DM Sans',sans-serif; font-size:1.05rem; font-weight:600; cursor:pointer;
-  transition:all .2s; box-shadow:0 8px 28px rgba(30,64,175,.35); -webkit-tap-highlight-color:transparent
-}
-.staff-btn:hover  { transform:translateY(-2px); box-shadow:0 12px 36px rgba(30,64,175,.42) }
-.staff-btn:active { transform:scale(.97) }
-.staff-btn .btn-ico { font-size:22px }
-.staff-hint { margin-top:14px; font-size:12px; color:var(--soft); letter-spacing:.1em }
-.staff-log { margin-top:32px; width:100%; max-width:400px; border:1px solid #e2e8f0; border-radius:12px; overflow:hidden; display:none; background:#f8faff }
-.log-title { padding:10px 16px; font-size:10px; letter-spacing:.22em; text-transform:uppercase; color:var(--soft); border-bottom:1px solid #e2e8f0; background:#fff; font-weight:600 }
-.log-row   { padding:9px 16px; display:flex; justify-content:space-between; font-size:13px; border-bottom:1px solid #f0f2f8; color:var(--mid) }
-.log-row:last-child { border-bottom:none }
-.log-n { font-weight:600; color:var(--accent) }
-
-
-
 /* ── DEBATER CONFIRM MODAL ── */
-.confirm-layer { position:fixed; inset:0; z-index:100; display:none; align-items:center; justify-content:center; padding:24px; background:rgba(8,14,32,.72); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px) }
+.confirm-layer {
+  position:fixed; inset:0; z-index:100; display:none;
+  align-items:center; justify-content:center; padding:24px;
+  background:rgba(8,14,32,.72); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px)
+}
 .confirm-layer.show { display:flex }
-.confirm-box { width:min(620px,100%); background:#fff; border-radius:22px; box-shadow:0 28px 90px rgba(0,0,0,.45); overflow:hidden; border:1px solid rgba(255,255,255,.5) }
+.confirm-box { width:min(640px,100%); background:#fff; border-radius:22px; box-shadow:0 28px 90px rgba(0,0,0,.45); overflow:hidden; border:1px solid rgba(255,255,255,.5) }
 .confirm-head { padding:24px 28px 18px; background:linear-gradient(135deg,#eff6ff,#ffffff); border-bottom:1px solid #dbe7ff }
 .confirm-kicker { font-size:12px; text-transform:uppercase; letter-spacing:.22em; color:var(--accent); font-weight:800; margin-bottom:8px }
-.confirm-title { font-family:'Cormorant Garamond',serif; font-size:2.1rem; font-weight:700; color:var(--text); line-height:1.05 }
-.confirm-body { padding:26px 28px 20px }
-.confirm-name { font-family:'Cormorant Garamond',serif; font-size:2.55rem; font-weight:700; color:var(--accent); line-height:1.05; margin-bottom:16px }
-.confirm-meta { display:grid; gap:9px; margin-top:10px }
-.confirm-line { display:flex; gap:12px; align-items:flex-start; padding:10px 12px; border-radius:12px; background:#f8faff; font-size:16px; color:var(--mid); line-height:1.35 }
-.confirm-line b { min-width:120px; color:var(--soft); font-size:12px; text-transform:uppercase; letter-spacing:.12em }
+.confirm-title  { font-family:'Cormorant Garamond',serif; font-size:2.1rem; font-weight:700; color:var(--text); line-height:1.05 }
+.confirm-body   { padding:26px 28px 20px }
+.confirm-series { font-family:'Cormorant Garamond',serif; font-size:3.2rem; font-weight:700; color:var(--accent); line-height:1; margin-bottom:6px }
+.confirm-name   { font-family:'Cormorant Garamond',serif; font-size:2.4rem; font-weight:700; color:var(--text); line-height:1.05; margin-bottom:16px }
+.confirm-meta   { display:grid; gap:9px; margin-top:10px }
+.confirm-line   { display:flex; gap:12px; align-items:flex-start; padding:10px 12px; border-radius:12px; background:#f8faff; font-size:16px; color:var(--mid); line-height:1.35 }
+.confirm-line b { min-width:130px; color:var(--soft); font-size:12px; text-transform:uppercase; letter-spacing:.12em; font-weight:600 }
 .confirm-actions { display:flex; gap:12px; padding:0 28px 28px; justify-content:flex-end; flex-wrap:wrap }
-.confirm-btn { min-height:56px; border-radius:14px; padding:0 24px; border:1.5px solid #cbd5e1; font-family:'DM Sans',sans-serif; font-size:16px; font-weight:800; cursor:pointer }
+.confirm-btn  { min-height:56px; border-radius:14px; padding:0 24px; border:1.5px solid #cbd5e1; font-family:'DM Sans',sans-serif; font-size:16px; font-weight:800; cursor:pointer }
 .confirm-cancel { background:#fff; color:var(--mid) }
-.confirm-ok { background:linear-gradient(135deg,var(--accent),var(--accent2)); border-color:var(--accent); color:#fff }
-.confirm-undo { background:#fff7ed; border-color:#fdba74; color:#c2410c }
-@media(max-width:640px){ .confirm-name{font-size:2rem}.confirm-title{font-size:1.75rem}.confirm-line{display:block}.confirm-line b{display:block;margin-bottom:4px} }
+.confirm-ok     { background:linear-gradient(135deg,var(--accent),var(--accent2)); border-color:var(--accent); color:#fff }
+.confirm-undo   { background:var(--orange-bg); border-color:var(--orange-bd); color:var(--orange) }
+@media(max-width:640px){
+  .confirm-series{font-size:2.6rem} .confirm-name{font-size:1.9rem} .confirm-title{font-size:1.75rem}
+  .confirm-line{display:block} .confirm-line b{display:block;margin-bottom:4px}
+}
 
 /* ── PANELS ── */
 .panel { display:none } .panel.vis { display:block }
@@ -183,16 +212,15 @@ td.dim { color:var(--soft); font-size:16px }
 ::-webkit-scrollbar-track { background:#f1f5f9 }
 ::-webkit-scrollbar-thumb { background:#cbd5e1; border-radius:3px }
 
-
 @media(max-width:700px){
   .hdr { padding:14px 12px 10px }
   .hdr-card { padding:16px 16px 14px }
   .tabs-wrap { padding:8px 10px 10px }
   .tab { min-height:76px }
   .content { padding:12px 10px 42px }
-  .tscroll, #body-judges, #body-organizers { max-height:calc(100vh - 250px) }
+  .tscroll, #body-judges, #body-organizers, #body-staff { max-height:calc(100vh - 250px) }
   table { font-size:16px }
-  td { padding:15px 14px }
+  td { padding:13px 14px }
 }
 
 footer { text-align:center; padding:18px; font-size:10.5px; letter-spacing:.15em; text-transform:uppercase; color:rgba(255,255,255,.25); position:relative; z-index:2 }
@@ -200,6 +228,7 @@ footer { text-align:center; padding:18px; font-size:10.5px; letter-spacing:.15em
 </head>
 <body>
 
+<!-- BACKGROUND PHOTO -->
 <div class="bg"></div>
 
 <div class="page">
@@ -233,10 +262,10 @@ footer { text-align:center; padding:18px; font-size:10.5px; letter-spacing:.15em
         <span class="t-label">Organizer<br>Check-In</span>
         <span class="t-badge" id="badge-organizers">—</span>
       </button>
-      <button class="tab" id="tab-staff" onclick="staffTap()" role="button">
+      <button class="tab" id="tab-staff" onclick="switchTab('staff')" role="tab">
         <span class="t-icon">🙋</span>
         <span class="t-label">Staff &amp;<br>Volunteers</span>
-        <span class="t-badge" id="badge-staff">0</span>
+        <span class="t-badge" id="badge-staff">—</span>
       </button>
     </div>
   </div>
@@ -244,6 +273,7 @@ footer { text-align:center; padding:18px; font-size:10.5px; letter-spacing:.15em
   <!-- PANELS -->
   <div class="content">
 
+    <!-- DEBATERS -->
     <div class="panel vis card" id="panel-debaters">
       <div class="sbar">
         <span class="sbar-lbl">Debaters</span>
@@ -252,6 +282,7 @@ footer { text-align:center; padding:18px; font-size:10.5px; letter-spacing:.15em
       <div id="body-debaters"><div class="loading-s"><div class="spinner"></div>Fetching debater roster…</div></div>
     </div>
 
+    <!-- JUDGES -->
     <div class="panel card" id="panel-judges">
       <div class="sbar">
         <span class="sbar-lbl">Judges</span>
@@ -260,6 +291,7 @@ footer { text-align:center; padding:18px; font-size:10.5px; letter-spacing:.15em
       <div id="body-judges"><div class="loading-s"><div class="spinner"></div>Fetching judge list…</div></div>
     </div>
 
+    <!-- ORGANIZERS -->
     <div class="panel card" id="panel-organizers">
       <div class="sbar">
         <span class="sbar-lbl">Organizers</span>
@@ -268,39 +300,29 @@ footer { text-align:center; padding:18px; font-size:10.5px; letter-spacing:.15em
       <div id="body-organizers"><div class="loading-s"><div class="spinner"></div>Fetching organizer list…</div></div>
     </div>
 
+    <!-- STAFF & VOLUNTEERS — name-tag grid like judges -->
     <div class="panel card" id="panel-staff">
       <div class="sbar">
         <span class="sbar-lbl">Staff &amp; Volunteers</span>
-        <span class="sbar-ct" id="stat-staff">0 <small>check-ins</small></span>
+        <span class="sbar-ct" id="stat-staff">Loading…</span>
       </div>
-      <div class="staff-body">
-        <div class="staff-num" id="staff-num">0</div>
-        <div class="staff-unit">Staff &amp; Volunteer Check-Ins</div>
-        <button class="staff-btn" onclick="staffTap()">
-          <span class="btn-ico">✋</span> Tap to Check In
-        </button>
-        <div class="staff-hint">Each tap registers one check-in</div>
-        <div class="staff-log" id="staff-log">
-          <div class="log-title">Recent Check-Ins</div>
-          <div id="log-rows"></div>
-        </div>
-      </div>
+      <div id="body-staff"><div class="loading-s"><div class="spinner"></div>Fetching staff list…</div></div>
     </div>
 
   </div><!-- /content -->
 </div><!-- /page -->
 
-
-
+<!-- DEBATER CONFIRM MODAL -->
 <div class="confirm-layer" id="debater-confirm" onclick="modalBackdropClose(event)" aria-hidden="true">
-  <div class="confirm-box" role="dialog" aria-modal="true" aria-labelledby="confirm-title">
+  <div class="confirm-box" role="dialog" aria-modal="true" aria-labelledby="confirm-title-txt">
     <div class="confirm-head">
       <div class="confirm-kicker" id="confirm-kicker">Confirm Debater Check-In</div>
-      <div class="confirm-title" id="confirm-title">Check in this debater?</div>
+      <div class="confirm-title" id="confirm-title-txt">Check in this debater?</div>
     </div>
     <div class="confirm-body">
-      <div class="confirm-name" id="confirm-name">—</div>
-      <div class="confirm-meta" id="confirm-meta"></div>
+      <div class="confirm-series" id="confirm-series"></div>
+      <div class="confirm-name"  id="confirm-name">—</div>
+      <div class="confirm-meta"  id="confirm-meta"></div>
     </div>
     <div class="confirm-actions">
       <button class="confirm-btn confirm-cancel" type="button" onclick="closeDebaterConfirm()">Cancel</button>
@@ -312,172 +334,160 @@ footer { text-align:center; padding:18px; font-size:10.5px; letter-spacing:.15em
 <footer>Hsinchu CHF Speech &amp; Debate Association · 2026</footer>
 
 <script>
-/* ── EXACT CSV URLS (hardcoded from published sheet URLs) ── */
+/* ═══════════════════════════════════════════════════
+   CSV URLS
+═══════════════════════════════════════════════════ */
 const CSV_URLS = {
   debaters:   'https://docs.google.com/spreadsheets/d/e/2PACX-1vTZLzL_8ynU6ORMRsa7zOkacA24j4LHsvq_akPvyFnQtO3qpiYoYmq8ZVl7jtmORjDITQs3tZD171RC/pub?gid=0&single=true&output=csv',
   judges:     'https://docs.google.com/spreadsheets/d/e/2PACX-1vTZLzL_8ynU6ORMRsa7zOkacA24j4LHsvq_akPvyFnQtO3qpiYoYmq8ZVl7jtmORjDITQs3tZD171RC/pub?gid=1593580837&single=true&output=csv',
   organizers: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTZLzL_8ynU6ORMRsa7zOkacA24j4LHsvq_akPvyFnQtO3qpiYoYmq8ZVl7jtmORjDITQs3tZD171RC/pub?gid=1195897586&single=true&output=csv',
+  staff:      'https://docs.google.com/spreadsheets/d/e/2PACX-1vQNyPilnwqpQPGwefOkoqAvqp9TIJGRK0PBwvcFJx7J27lIXczQ6djxihEwsGaCOFAuTw3DSBSlJBhQ/pub?gid=0&single=true&output=csv',
 };
 
-/* ── STATE ── */
+/* ═══════════════════════════════════════════════════
+   STATE
+═══════════════════════════════════════════════════ */
 const S = {
   debaters:   { rows:[], headers:[], ck:new Set() },
   judges:     { rows:[], headers:[], ck:new Set() },
   organizers: { rows:[], headers:[], ck:new Set() },
-  staff: { n:0, log:[] },
+  staff:      { rows:[], headers:[], ck:new Set() },
 };
 const loaded = {};
 let activeTab = 'debaters';
 let pendingDebaterIndex = null;
 
-/* ── CSV PARSER ── */
+/* ═══════════════════════════════════════════════════
+   CSV PARSER
+═══════════════════════════════════════════════════ */
 function parseCSV(raw) {
-  // Robust CSV parser for Google Sheets published CSV.
-  // Supports quoted commas, escaped quotes, and line breaks inside quoted cells.
-  const src = String(raw || '').replace(/^\uFEFF/, '').replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+  const src = String(raw||'').replace(/^\uFEFF/,'').replace(/\r\n/g,'\n').replace(/\r/g,'\n');
   const records = [];
-  let row = [];
-  let cur = '';
-  let inQuotes = false;
-
-  for (let i = 0; i < src.length; i++) {
-    const c = src[i];
-    const n = src[i + 1];
-
-    if (c === '"') {
-      if (inQuotes && n === '"') {
-        cur += '"';
-        i++;
-      } else {
-        inQuotes = !inQuotes;
-      }
-    } else if (c === ',' && !inQuotes) {
+  let row=[], cur='', inQ=false;
+  for (let i=0; i<src.length; i++) {
+    const c=src[i], n=src[i+1];
+    if (c==='"') {
+      if (inQ && n==='"') { cur+='"'; i++; } else inQ=!inQ;
+    } else if (c===',' && !inQ) {
+      row.push(cur.trim()); cur='';
+    } else if (c==='\n' && !inQ) {
       row.push(cur.trim());
-      cur = '';
-    } else if (c === '\n' && !inQuotes) {
-      row.push(cur.trim());
-      if (row.some(v => v !== '')) records.push(row);
-      row = [];
-      cur = '';
-    } else {
-      cur += c;
-    }
+      if (row.some(v=>v!=='')) records.push(row);
+      row=[]; cur='';
+    } else cur+=c;
   }
-
   row.push(cur.trim());
-  if (row.some(v => v !== '')) records.push(row);
-
-  if (!records.length) return { headers: [], rows: [] };
-
-  const headers = records[0].map(h => String(h || '').trim());
-  const rows = records.slice(1).map(vals => {
-    const obj = {};
-    headers.forEach((h, j) => { obj[h] = vals[j] || ''; });
+  if (row.some(v=>v!=='')) records.push(row);
+  if (!records.length) return { headers:[], rows:[] };
+  const headers = records[0].map(h=>String(h||'').trim());
+  const rows = records.slice(1).map(vals=>{
+    const obj={};
+    headers.forEach((h,j)=>{ obj[h]=vals[j]||''; });
     return obj;
-  }).filter(obj => Object.values(obj).some(v => String(v).trim() !== ''));
-
+  }).filter(obj=>Object.values(obj).some(v=>String(v).trim()!==''));
   return { headers, rows };
 }
 
-/* ── FETCH ── */
-function cacheBust(url) {
-  // Keep original CSV settings, only append a timestamp so GitHub Pages/browser cache will not reuse stale CSV.
-  const u = new URL(url);
-  u.searchParams.set('_cb', Date.now().toString());
-  return u.toString();
-}
-
+/* ═══════════════════════════════════════════════════
+   FETCH
+═══════════════════════════════════════════════════ */
 async function fetchRole(role) {
-  const url = CSV_URLS[role];
+  const url = CSV_URLS[role] + '&_cb=' + Date.now();
   let res;
-  let text = '';
-
   try {
-    res = await fetch(cacheBust(url), {
-      method: 'GET',
-      mode: 'cors',
-      credentials: 'omit',
-      redirect: 'follow',
-      cache: 'no-store',
-      headers: { 'Accept': 'text/csv,text/plain,*/*' }
-    });
-  } catch (err) {
-    throw new Error(
-      `Fetch failed before receiving CSV. ` +
-      `Open this file through GitHub Pages / HTTPS, not file://. ` +
-      `Detail: ${err && err.message ? err.message : err}`
-    );
+    res = await fetch(url, { method:'GET', mode:'cors', credentials:'omit', cache:'no-store' });
+  } catch(err) {
+    throw new Error('Fetch failed — open via HTTPS (GitHub Pages), not file://. Detail: '+(err&&err.message||err));
   }
-
-  if (!res.ok) {
-    throw new Error(`CSV request returned HTTP ${res.status}. Check that the ${role} sheet is published to web as CSV.`);
-  }
-
-  text = await res.text();
-  const trimmed = text.trim();
-
-  if (!trimmed) {
-    throw new Error(`CSV request succeeded, but the ${role} CSV is empty.`);
-  }
-
-  // If Google returns an HTML/login/error page, parsing as CSV would silently fail.
-  if (/^\s*</.test(trimmed)) {
-    const sample = trimmed.slice(0, 120).replace(/\s+/g, ' ');
-    throw new Error(
-      `Google returned HTML instead of CSV for ${role}. ` +
-      `Please test the CSV URL in an incognito window. Response starts with: ${sample}`
-    );
-  }
-
+  if (!res.ok) throw new Error(`HTTP ${res.status} — check that the ${role} sheet is published as CSV`);
+  const text = await res.text();
+  if (!text.trim()) throw new Error(`${role} CSV is empty`);
+  if (/^\s*</.test(text.trim())) throw new Error('Google returned HTML instead of CSV — re-publish the sheet as CSV');
   const { headers, rows } = parseCSV(text);
-
-  if (!headers.length) {
-    throw new Error(`The ${role} CSV loaded, but no header row was found.`);
-  }
-  if (!rows.length) {
-    throw new Error(`The ${role} CSV loaded, but no data rows were found.`);
-  }
-
+  if (!headers.length || !rows.length) throw new Error(`${role} sheet loaded but has no data rows`);
   return { headers, rows };
 }
 
-/* ── STATUS ── */
+/* ═══════════════════════════════════════════════════
+   STATUS
+═══════════════════════════════════════════════════ */
 function updateStat(role) {
-  const s = S[role];
-  const ci = s.ck.size, tot = s.rows.length;
+  const s=S[role], ci=s.ck.size, tot=s.rows.length;
   document.getElementById('badge-'+role).textContent = ci+'/'+tot;
-  const el = document.getElementById('stat-'+role);
+  const el=document.getElementById('stat-'+role);
   if (el) el.innerHTML = `${ci} <small>/ ${tot} checked in</small>`;
 }
 
-/* ── DEBATERS TABLE ── */
-function getDebaterDisplayColumns(headers) {
-  const hide = /email|phone|tel|備|聯絡|note|remark|^id$/i;
-  const vis = headers.filter(h => !hide.test(h));
-  return vis.length ? vis : headers;
-}
-
-function findBestHeader(headers, patterns, fallbackIndex) {
-  for (const p of patterns) {
+/* ═══════════════════════════════════════════════════
+   COLUMN HELPERS
+═══════════════════════════════════════════════════ */
+function findCol(headers, patterns) {
+  for (const p of patterns)
     for (const h of headers) if (p.test(h)) return h;
-  }
-  return headers[fallbackIndex] || headers[0] || null;
+  return null;
+}
+function detectNameCol(headers) {
+  return findCol(headers, [/^(name|姓名|名字|full.?name)/i, /debater|student|學生|選手|participant/i]) || headers[0];
+}
+function detectOrgCol(headers, nc) {
+  return findCol(headers.filter(h=>h!==nc), [/school|org|team|unit|affil|學校|機構|單位|組織|academy|institute/i]) || headers.filter(h=>h!==nc)[0] || null;
 }
 
+/* ── find Series No. column ── */
+function detectSeriesCol(headers) {
+  return findCol(headers, [/series|serial|no\.?$|^no$|編號|序號|號碼|#/i]) || null;
+}
+
+/* ── find Parent Consent / Informed Notice column ── */
+function detectConsentCol(headers) {
+  return findCol(headers, [/consent|inform|sign|parental|parent|同意|通知|簽署|signed/i]) || null;
+}
+
+function consentPill(val) {
+  if (!val || !String(val).trim()) return `<span class="consent-pill consent-na">—</span>`;
+  const v = String(val).trim().toLowerCase();
+  const yes = /^(yes|y|true|1|signed|ok|✓|v|已|有|是)$/i.test(v) || /sign|submit|yes|已/i.test(v);
+  const no  = /^(no|n|false|0|未|否|沒)$/i.test(v) || /not.?sign|missing|未/i.test(v);
+  if (yes) return `<span class="consent-pill consent-yes">✓ Signed</span>`;
+  if (no)  return `<span class="consent-pill consent-no">✗ Missing</span>`;
+  // show raw value with neutral styling
+  return `<span class="consent-pill consent-na">${esc(val)}</span>`;
+}
+
+function getDebaterVisibleCols(headers) {
+  const hide = /email|phone|tel|備|聯絡|note|remark|^id$/i;
+  // We always handle series & consent specially — keep them out of the generic column list
+  const seriesCol  = detectSeriesCol(headers);
+  const consentCol = detectConsentCol(headers);
+  const special = [seriesCol, consentCol].filter(Boolean);
+  return headers.filter(h => !hide.test(h) && !special.includes(h));
+}
+
+/* ═══════════════════════════════════════════════════
+   DEBATERS TABLE
+═══════════════════════════════════════════════════ */
 function renderDebaters(headers, rows) {
-  const vis = getDebaterDisplayColumns(headers);
+  const seriesCol  = detectSeriesCol(headers);
+  const consentCol = detectConsentCol(headers);
+  const vis        = getDebaterVisibleCols(headers);
+
   let h = `<div class="tscroll"><table><thead><tr>`;
-  vis.forEach(c => { h += `<th>${esc(c)}</th>`; });
+  if (seriesCol)  h += `<th style="text-align:center">No.</th>`;
+  vis.forEach(c  => { h += `<th>${esc(c)}</th>`; });
+  if (consentCol) h += `<th style="text-align:center">Parent Consent</th>`;
   h += `<th style="text-align:center;min-width:190px">Check-In</th></tr></thead><tbody>`;
+
   rows.forEach((row, i) => {
     const checked = S.debaters.ck.has(i);
-    h += `<tr id="dr${i}" class="${checked ? 'ck' : ''}">`;
-    vis.forEach(c => {
-      const dim = /school|org|team|unit|id|號|role|type/i.test(c);
+    h += `<tr id="dr${i}" class="${checked?'ck':''}">`;
+    if (seriesCol)  h += `<td class="series-no">${esc(row[seriesCol]||'')}</td>`;
+    vis.forEach(c  => {
+      const dim = /school|org|team|unit|號|role|type/i.test(c);
       h += `<td class="${dim?'dim':''}">${esc(row[c]||'')}</td>`;
     });
+    if (consentCol) h += `<td style="text-align:center">${consentPill(row[consentCol])}</td>`;
     h += `<td style="text-align:center">
-      <button class="ci-btn ${checked ? 'done undoable' : ''}" id="db${i}" onclick="openDebaterConfirm(${i})">
+      <button class="ci-btn ${checked?'done undoable':''}" id="db${i}" onclick="openDebaterConfirm(${i})">
         ${checked ? '<span>☑️</span>&nbsp;Checked In' : '<span>○</span>&nbsp;Check In'}
       </button></td></tr>`;
   });
@@ -486,28 +496,39 @@ function renderDebaters(headers, rows) {
   updateStat('debaters');
 }
 
+/* ── DEBATER CONFIRM MODAL ── */
 function openDebaterConfirm(i) {
   pendingDebaterIndex = i;
-  const headers = S.debaters.headers || [];
-  const row = S.debaters.rows[i] || {};
-  const checked = S.debaters.ck.has(i);
-  const nameCol = findBestHeader(headers, [/^(name|姓名|名字|full.?name)/i, /debater|student|學生|選手|participant/i], 0);
-  const name = nameCol ? (row[nameCol] || '—') : '—';
-  const displayCols = getDebaterDisplayColumns(headers).filter(h => h !== nameCol).slice(0, 6);
+  const headers   = S.debaters.headers;
+  const row       = S.debaters.rows[i] || {};
+  const checked   = S.debaters.ck.has(i);
+  const nameCol   = detectNameCol(headers);
+  const seriesCol = detectSeriesCol(headers);
+  const consentCol= detectConsentCol(headers);
+  const name      = row[nameCol] || '—';
+  const series    = seriesCol ? row[seriesCol] : '';
 
-  document.getElementById('confirm-kicker').textContent = checked ? 'Undo Debater Check-In' : 'Confirm Debater Check-In';
-  document.getElementById('confirm-title').textContent = checked ? 'Remove this check-in?' : 'Check in this debater?';
-  document.getElementById('confirm-name').textContent = name;
-  document.getElementById('confirm-meta').innerHTML = displayCols.map(h => {
+  document.getElementById('confirm-kicker').textContent   = checked ? 'Undo Debater Check-In' : 'Confirm Debater Check-In';
+  document.getElementById('confirm-title-txt').textContent= checked ? 'Remove this check-in?' : 'Check in this debater?';
+  document.getElementById('confirm-series').textContent   = series ? `#${series}` : '';
+  document.getElementById('confirm-name').textContent     = name;
+
+  // Build meta rows — show all visible columns + consent
+  const vis = getDebaterVisibleCols(headers).filter(h => h !== nameCol);
+  let meta = vis.map(h => {
     const v = row[h] || '';
     if (!String(v).trim()) return '';
     return `<div class="confirm-line"><b>${esc(h)}</b><span>${esc(v)}</span></div>`;
-  }).join('') || '<div class="confirm-line"><span>No additional details available.</span></div>';
+  }).join('');
+  if (consentCol) {
+    meta += `<div class="confirm-line"><b>Parent Consent</b><span>${consentPill(row[consentCol])}</span></div>`;
+  }
+  document.getElementById('confirm-meta').innerHTML = meta || '<div class="confirm-line"><span>No additional details.</span></div>';
 
   const action = document.getElementById('confirm-action');
-  action.textContent = checked ? 'Undo Check-In' : 'Confirm Check-In';
+  action.textContent = checked ? 'Undo Check-In' : 'Confirm Check-In ✓';
   action.classList.toggle('confirm-undo', checked);
-  action.classList.toggle('confirm-ok', !checked);
+  action.classList.toggle('confirm-ok',   !checked);
   document.getElementById('debater-confirm').classList.add('show');
   document.body.classList.add('modal-open');
 }
@@ -517,16 +538,8 @@ function closeDebaterConfirm() {
   document.getElementById('debater-confirm').classList.remove('show');
   document.body.classList.remove('modal-open');
 }
-
-function modalBackdropClose(event) {
-  if (event.target && event.target.id === 'debater-confirm') closeDebaterConfirm();
-}
-
-function confirmDebaterAction() {
-  if (pendingDebaterIndex === null) return;
-  toggleDebater(pendingDebaterIndex);
-  closeDebaterConfirm();
-}
+function modalBackdropClose(e) { if (e.target && e.target.id==='debater-confirm') closeDebaterConfirm(); }
+function confirmDebaterAction() { if (pendingDebaterIndex !== null) { toggleDebater(pendingDebaterIndex); closeDebaterConfirm(); } }
 
 function toggleDebater(i) {
   if (S.debaters.ck.has(i)) S.debaters.ck.delete(i);
@@ -536,27 +549,16 @@ function toggleDebater(i) {
   const btn = document.getElementById('db'+i);
   if (row) row.classList.toggle('ck', checked);
   if (btn) {
-    btn.classList.toggle('done', checked);
+    btn.classList.toggle('done',     checked);
     btn.classList.toggle('undoable', checked);
     btn.innerHTML = checked ? '<span>☑️</span>&nbsp;Checked In' : '<span>○</span>&nbsp;Check In';
   }
   updateStat('debaters');
 }
 
-/* ── NAME TAG GRID ── */
-function detectNameCol(headers) {
-  for (const h of headers)
-    if (/^(name|姓名|名字|full.?name)/i.test(h)) return h;
-  return headers[0];
-}
-function detectOrgCol(headers, nc) {
-  for (const h of headers)
-    if (h!==nc && /school|org|team|unit|affil|學校|機構|單位|組織|academy|institute/i.test(h)) return h;
-  // fallback: second column
-  const others = headers.filter(h=>h!==nc);
-  return others[0] || null;
-}
-
+/* ═══════════════════════════════════════════════════
+   NAME TAG GRID  (Judges, Organizers, Staff)
+═══════════════════════════════════════════════════ */
 function renderTags(role, headers, rows) {
   const nc = detectNameCol(headers);
   const oc = detectOrgCol(headers, nc);
@@ -579,40 +581,13 @@ function ckTag(role, i) {
   const el = document.getElementById(`nt-${role}-${i}`);
   if (!el) return;
   if (S[role].ck.has(i)) { S[role].ck.delete(i); el.classList.remove('ck'); }
-  else                    { S[role].ck.add(i);    el.classList.add('ck'); }
+  else                   { S[role].ck.add(i);    el.classList.add('ck'); }
   updateStat(role);
 }
 
-/* ── STAFF ── */
-function staffTap() {
-  if (activeTab !== 'staff') {
-    activeTab = 'staff';
-    document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
-    document.getElementById('tab-staff').classList.add('active');
-    document.querySelectorAll('.panel').forEach(p => p.classList.remove('vis'));
-    document.getElementById('panel-staff').classList.add('vis');
-  }
-  S.staff.n++;
-  const t = new Date().toLocaleTimeString('zh-TW',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
-  S.staff.log.unshift({ n: S.staff.n, t });
-
-  const num = document.getElementById('staff-num');
-  num.textContent = S.staff.n;
-  num.classList.add('bump');
-  setTimeout(() => num.classList.remove('bump'), 380);
-
-  document.getElementById('badge-staff').textContent = S.staff.n;
-  document.getElementById('stat-staff').innerHTML = `${S.staff.n} <small>check-ins</small>`;
-
-  const log = document.getElementById('staff-log');
-  log.style.display = 'block';
-  document.getElementById('log-rows').innerHTML =
-    S.staff.log.slice(0,15).map(e =>
-      `<div class="log-row"><span class="log-n">#${e.n}</span><span>${e.t}</span></div>`
-    ).join('');
-}
-
-/* ── TAB SWITCHING ── */
+/* ═══════════════════════════════════════════════════
+   TAB SWITCHING
+═══════════════════════════════════════════════════ */
 function switchTab(role) {
   activeTab = role;
   document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
@@ -631,32 +606,35 @@ async function loadRole(role) {
     if (role === 'debaters') renderDebaters(headers, rows);
     else renderTags(role, headers, rows);
   } catch(e) {
-    loaded[role] = false; // allow retry by switching tabs again after fixing the CSV/publish issue
+    loaded[role] = false;
     document.getElementById('body-'+role).innerHTML = `
       <div class="error-s">
         <div class="err-ico">⚠️</div>
         <strong>Could not load ${role} data</strong>
         <div class="err-hint">
           ${esc(String(e.message))}<br><br>
-          For GitHub Pages, open the site as <b>https://...</b>, not the GitHub code preview and not a local file.<br>
-          Also confirm the <b>${role}</b> CSV URL opens in an incognito window and shows comma-separated data.
+          Open the site via <b>https://</b> (GitHub Pages), not a local file.<br>
+          Confirm the CSV URL opens correctly in an incognito window.
         </div>
       </div>`;
-    const badge = document.getElementById('badge-'+role);
-    const stat = document.getElementById('stat-'+role);
-    if (badge) badge.textContent = 'ERR';
-    if (stat) stat.innerHTML = `Error`;
+    document.getElementById('badge-'+role).textContent = 'ERR';
+    const st = document.getElementById('stat-'+role);
+    if (st) st.innerHTML = 'Error';
   }
 }
 
-/* ── UTILS ── */
+/* ═══════════════════════════════════════════════════
+   UTILS
+═══════════════════════════════════════════════════ */
 function esc(s) {
   return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
-/* ── INIT ── */
+/* ═══════════════════════════════════════════════════
+   INIT
+═══════════════════════════════════════════════════ */
 window.addEventListener('DOMContentLoaded', () => { loadRole('debaters'); });
-window.addEventListener('keydown', e => { if (e.key === 'Escape') closeDebaterConfirm(); });
+window.addEventListener('keydown', e => { if (e.key==='Escape') closeDebaterConfirm(); });
 </script>
 </body>
 </html>
