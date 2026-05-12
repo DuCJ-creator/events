@@ -44,12 +44,9 @@ body.modal-open { overflow:hidden }
 
 /* ── TABS WRAP — full-width hero nav, replaces separate header ── */
 .tabs-wrap {
-  position:sticky; top:0; z-index:50;
-  padding:20px 24px 22px;
-  background:linear-gradient(180deg,rgba(6,11,28,.70) 0%,rgba(9,15,34,.55) 100%);
-  backdrop-filter:blur(18px); -webkit-backdrop-filter:blur(18px);
-  box-shadow:0 6px 40px rgba(0,0,0,.30);
-  border-bottom:1px solid rgba(255,255,255,.12);
+  position:relative; z-index:10;
+  padding:0 24px 0;
+  background:transparent;
   animation:slideDown .6s ease both
 }
 
@@ -65,6 +62,16 @@ body.modal-open { overflow:hidden }
   color:rgba(255,255,255,.78)
 }
 .tabs-eyebrow .sep { color:var(--gold-lt); margin:0 8px; font-style:normal }
+
+.tabs-sticky {
+  position: sticky;
+  top: 0; z-index: 50;
+  background: linear-gradient(180deg, rgba(6,11,28,.94) 0%, rgba(9,15,34,.92) 100%);
+  backdrop-filter: blur(22px); -webkit-backdrop-filter: blur(22px);
+  border-bottom: 1px solid rgba(255,255,255,.10);
+  box-shadow: 0 4px 32px rgba(0,0,0,.40);
+  padding: 16px 0 18px;
+}
 
 .tabs { display:grid; grid-template-columns:repeat(4,1fr); gap:12px }
 @media(max-width:600px){ .tabs { grid-template-columns:repeat(2,1fr); gap:8px } }
@@ -125,10 +132,45 @@ body.modal-open { overflow:hidden }
   box-shadow:0 2px 10px rgba(30,64,175,.45)
 }
 
-/* ── HERO SPACE — visible photo area above tabs ── */
-.hero-space {
-  height: clamp(120px, 20vw, 200px);
-  flex-shrink: 0;
+/* ── HERO BANNER ── */
+.hero-banner {
+  position: relative;
+  z-index: 5;
+  min-height: clamp(160px, 28vw, 260px);
+  display: flex;
+  align-items: flex-end;
+  padding: 0 28px 0;
+  /* subtle bottom gradient so tabs area transitions smoothly */
+  background: linear-gradient(
+    to bottom,
+    rgba(8,14,32,0) 0%,
+    rgba(8,14,32,0) 50%,
+    rgba(8,14,32,0.45) 100%
+  );
+}
+.hero-content {
+  padding-bottom: 28px;
+  animation: slideDown .6s ease both;
+}
+.hero-eyebrow {
+  font-size: 10.5px; letter-spacing: .32em; text-transform: uppercase;
+  color: var(--gold-lt); margin-bottom: 8px; font-weight: 500;
+}
+.hero-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.7rem, 4.5vw, 3rem);
+  font-weight: 700; color: #fff; line-height: 1.18;
+  text-shadow: 0 2px 20px rgba(0,0,0,.5);
+}
+.hero-title em { font-style: italic; color: #f5d98a }
+.hero-sub {
+  margin-top: 6px; font-size: 13px;
+  color: rgba(255,255,255,.75); letter-spacing: .05em;
+  text-shadow: 0 1px 8px rgba(0,0,0,.5);
+}
+.hero-zh {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 12px; color: rgba(255,255,255,.55); margin-top: 3px;
 }
 
 /* ── CONTENT ── */
@@ -288,15 +330,19 @@ footer { text-align:center; padding:18px; font-size:10.5px; letter-spacing:.15em
 
 <div class="page">
 
-  <!-- HERO SPACER — lets the background photo breathe above the tabs -->
-  <div class="hero-space"></div>
-
-  <!-- TABS -->
-  <div class="tabs-wrap">
-    <div class="tabs-eyebrow">
-      <strong>2026 Hsinchu Open Invitational (II)</strong>
-      <span class="sep">·</span>Online Check-In<span class="sep">·</span>May 17, 2026
+  <!-- HERO BANNER — sits on top of the photo -->
+  <div class="hero-banner">
+    <div class="hero-content">
+      <div class="hero-eyebrow">May 17, 2026 &nbsp;·&nbsp; Hsinchu, Taiwan &nbsp;·&nbsp; PF Debate</div>
+      <div class="hero-title">2026 Hsinchu Open <em>Invitational</em> (II)</div>
+      <div class="hero-sub">Online Check-In &nbsp;·&nbsp; Hsinchu CHF Speech &amp; Debate Association</div>
+      <div class="hero-zh">台灣新竹忠信文教基金會 英文演講及辯論公開邀請賽</div>
     </div>
+  </div>
+
+  <!-- TABS (float over the bottom of the hero) -->
+  <div class="tabs-wrap">
+    <div class="tabs-sticky">
     <div class="tabs" role="tablist">
       <button class="tab active" id="tab-debaters" onclick="switchTab('debaters')" role="tab">
         <span class="t-icon">🎙️</span>
