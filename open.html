@@ -120,152 +120,245 @@ body.modal-open{overflow:hidden}
    Each table row = one team slot (No. + two debater cards side by side)
 ══════════════════════════════════════════ */
 .deb-scroll{overflow-y:visible}
-.deb-list{display:flex;flex-direction:column;gap:0}
+.deb-list{
+  display:flex;flex-direction:column;gap:12px;
+  padding:16px;
+  background:linear-gradient(160deg,#0e1a38 0%,#071022 100%);
+}
 
 .deb-row{
   display:grid;
-  grid-template-columns: 72px 1fr 1fr;
-  gap:0;
-  border-bottom:1px solid #e8edf8;
+  grid-template-columns:68px 1fr 1fr;
+  gap:10px;
   align-items:stretch;
 }
-.deb-row:last-child{border-bottom:none}
-.deb-row:hover{background:#f8f9ff}
-.deb-row.any-checked{background:#f0fdf6}
 
-/* Series number column */
+/* Series number — large, glowing */
 .deb-no{
   display:flex;align-items:center;justify-content:center;
   font-family:"Cormorant Garamond",serif;
-  font-size:2.6rem;font-weight:700;color:var(--accent);
-  border-right:2px solid rgba(30,64,175,.12);
-  background:linear-gradient(135deg,rgba(30,64,175,.05),transparent);
-  min-height:88px;
+  font-size:2.8rem;font-weight:700;
+  color:#7dd3fc;
+  text-shadow:0 0 18px rgba(125,211,252,.55);
+  background:rgba(125,211,252,.08);
+  border:1.5px solid rgba(125,211,252,.18);
+  border-radius:14px;
+  min-height:100px;
+  transition:all .2s;
 }
-.deb-row.any-checked .deb-no{color:var(--green)}
+.deb-row.any-checked .deb-no{
+  color:#6ee7b7;
+  text-shadow:0 0 18px rgba(110,231,183,.55);
+  background:rgba(110,231,183,.10);
+  border-color:rgba(110,231,183,.25);
+}
 
-/* Individual debater card within the row */
+/* Glass debater card */
 .deb-card{
   display:flex;flex-direction:column;justify-content:center;
-  padding:14px 16px;border-left:1px solid #eef2fc;
-  cursor:pointer;transition:background .15s;
+  padding:14px 16px;
+  border-radius:14px;
+  background:rgba(255,248,230,.10);
+  border:1.5px solid rgba(255,220,130,.20);
+  box-shadow:0 4px 20px rgba(0,0,0,.25),0 1px 0 rgba(255,225,140,.12) inset;
+  cursor:pointer;
+  transition:all .22s cubic-bezier(.25,.8,.25,1);
   -webkit-tap-highlight-color:transparent;user-select:none;
-  position:relative;
+  position:relative;overflow:hidden;
 }
-.deb-card:hover{background:#eff6ff}
-.deb-card.ck{background:#f0fdf4}
-.deb-card.ck:hover{background:#dcfce7}
+.deb-card::before{
+  content:"";position:absolute;top:0;left:0;right:0;height:35%;
+  background:linear-gradient(180deg,rgba(255,230,140,.10),transparent);
+  pointer-events:none;
+}
+.deb-card:hover{
+  background:rgba(255,248,230,.18);
+  border-color:rgba(255,220,100,.40);
+  transform:translateY(-2px);
+  box-shadow:0 8px 28px rgba(0,0,0,.32),0 1px 0 rgba(255,220,100,.22) inset;
+}
+.deb-card:active{transform:scale(.97)}
+
+/* CHECKED — vivid teal bubble burst */
+.deb-card.ck{
+  background:radial-gradient(ellipse at 60% 40%,rgba(52,211,153,.28) 0%,rgba(16,185,129,.14) 50%,rgba(6,95,70,.20) 100%);
+  border-color:rgba(52,211,153,.55);
+  box-shadow:0 0 0 2px rgba(52,211,153,.25),0 6px 24px rgba(16,185,129,.30),0 1px 0 rgba(110,231,183,.30) inset;
+  animation:ckPop .35s cubic-bezier(.34,1.56,.64,1) both;
+}
+@keyframes ckPop{
+  0%{transform:scale(.95)}50%{transform:scale(1.03)}100%{transform:scale(1)}
+}
 
 .deb-card-inner{display:flex;align-items:center;gap:12px;justify-content:space-between}
 .deb-info{flex:1;min-width:0}
-.deb-name{font-family:"Cormorant Garamond",serif;font-size:1.25rem;font-weight:700;color:var(--text);line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.deb-card.ck .deb-name{color:var(--green)}
-.deb-school{font-size:12px;color:var(--soft);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.deb-name{font-family:"Cormorant Garamond",serif;font-size:1.25rem;font-weight:700;color:#fff;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-shadow:0 1px 6px rgba(0,0,0,.4)}
+.deb-card.ck .deb-name{color:#6ee7b7}
+.deb-school{font-size:12px;color:rgba(255,255,255,.60);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .deb-side{
   font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
   padding:2px 8px;border-radius:12px;white-space:nowrap;margin-top:4px;display:inline-block;
 }
-.side-aff{background:#dbeafe;color:#1e40af}
-.side-neg{background:#fce7f3;color:#9d174d}
-.side-pro{background:#dbeafe;color:#1e40af}
-.side-con{background:#fce7f3;color:#9d174d}
-.side-def{background:#f3f4f6;color:#374151}
+.side-aff{background:rgba(59,130,246,.30);color:#93c5fd;border:1px solid rgba(147,197,253,.35)}
+.side-neg{background:rgba(157,23,77,.30);color:#f9a8d4;border:1px solid rgba(249,168,212,.35)}
+.side-pro{background:rgba(59,130,246,.30);color:#93c5fd;border:1px solid rgba(147,197,253,.35)}
+.side-con{background:rgba(157,23,77,.30);color:#f9a8d4;border:1px solid rgba(249,168,212,.35)}
+.side-def{background:rgba(100,116,139,.25);color:#cbd5e1;border:1px solid rgba(203,213,225,.25)}
 
 .deb-ck-badge{
   display:flex;align-items:center;justify-content:center;
-  width:36px;height:36px;border-radius:50%;flex-shrink:0;
-  border:2px solid #cbd5e1;background:#fff;font-size:18px;
-  transition:all .2s cubic-bezier(.34,1.56,.64,1);
+  width:38px;height:38px;border-radius:50%;flex-shrink:0;
+  border:2px solid rgba(255,255,255,.25);
+  background:rgba(255,255,255,.08);
+  font-size:18px;
+  transition:all .25s cubic-bezier(.34,1.56,.64,1);
+  color:rgba(255,255,255,.5);
 }
 .deb-card.ck .deb-ck-badge{
-  border-color:var(--green-bd);background:var(--green-bg);
+  border-color:#6ee7b7;
+  background:rgba(52,211,153,.25);
+  box-shadow:0 0 12px rgba(52,211,153,.4);
 }
 .deb-empty{
   display:flex;align-items:center;justify-content:center;
-  padding:14px 16px;border-left:1px solid #eef2fc;
-  color:#e2e8f0;font-size:13px;font-style:italic;
+  border-radius:14px;
+  border:1.5px dashed rgba(255,255,255,.10);
+  color:rgba(255,255,255,.15);font-size:13px;font-style:italic;
+  min-height:100px;
 }
 
 /* consent pill */
 .consent-pill{display:inline-flex;align-items:center;gap:4px;padding:2px 9px;border-radius:12px;font-size:11px;font-weight:600;white-space:nowrap;margin-top:4px}
-.consent-yes{background:#dcfce7;color:#15803d;border:1px solid #86efac}
-.consent-no{background:#fee2e2;color:#b91c1c;border:1px solid #fca5a5}
-.consent-na{background:#f1f5f9;color:#64748b;border:1px solid #e2e8f0}
+.consent-yes{background:rgba(21,128,61,.30);color:#6ee7b7;border:1px solid rgba(110,231,183,.40)}
+.consent-no{background:rgba(185,28,28,.30);color:#fca5a5;border:1px solid rgba(252,165,165,.40)}
+.consent-na{background:rgba(100,116,139,.20);color:rgba(255,255,255,.45);border:1px solid rgba(255,255,255,.15)}
 
 @media(max-width:700px){
   .deb-row{grid-template-columns:52px 1fr}
-  .deb-card:nth-child(3){display:none}/* hide second card on mobile, show as separate row */
-  .deb-no{font-size:2rem;min-height:70px}
+  .deb-card:nth-child(3){display:none}
+  .deb-no{font-size:2.1rem;min-height:80px}
   .deb-name{font-size:1.1rem}
 }
 
 /* ══════════════════════════════════════════
-   GLASS NAME TAG GRID (Judges / Organizers / Staff)
+   GLASS NAME TAG GRID (Judges / Organizers / Staff/Volunteers)
 ══════════════════════════════════════════ */
-.glass-scroll{overflow-y:visible;
-  background:linear-gradient(135deg,#1c1408 0%,#0f0c04 100%);
+.glass-scroll{overflow-y:visible}
+
+/* Dark gradient background ONLY for the grid area, not the whole card */
+.glass-bg{
+  background:linear-gradient(160deg,#0a1628 0%,#050d1c 100%);
+  padding:16px;
 }
-.ntgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:14px;padding:20px}
-@media(max-width:700px){.ntgrid{grid-template-columns:repeat(2,1fr);padding:14px;gap:10px}}
+
+.ntgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px;}
+@media(max-width:700px){.ntgrid{grid-template-columns:repeat(2,1fr);gap:10px}}
 @media(max-width:380px){.ntgrid{grid-template-columns:repeat(1,1fr)}}
 
+/* ── BASE GLASS CARD ── */
 .nt{
-  min-height:138px;display:flex;flex-direction:column;align-items:center;justify-content:space-between;
-  padding:20px 14px 14px;
-  border-radius:16px;
-  /* GLASS EFFECT — warm champagne tint, distinct from dark-navy tabs */
-  background:rgba(255,248,220,.13);
-  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
-  border:1.5px solid rgba(255,220,120,.22);
-  box-shadow:0 4px 24px rgba(0,0,0,.30),0 1px 0 rgba(255,230,150,.18) inset;
+  min-height:150px;display:flex;flex-direction:column;align-items:center;justify-content:space-between;
+  padding:18px 14px 12px;
+  border-radius:18px;
+  /* Light frosted glass — white-tinted, NOT dark */
+  background:rgba(255,255,255,.15);
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border:1.5px solid rgba(255,255,255,.30);
+  box-shadow:0 4px 20px rgba(0,0,0,.20),0 1px 0 rgba(255,255,255,.35) inset;
   cursor:pointer;transition:all .22s cubic-bezier(.25,.8,.25,1);
   text-align:center;-webkit-tap-highlight-color:transparent;user-select:none;
   position:relative;overflow:hidden;
 }
+/* top gloss sheen */
 .nt::before{
-  content:"";position:absolute;top:0;left:0;right:0;height:40%;
-  background:linear-gradient(180deg,rgba(255,230,150,.14),transparent);
-  pointer-events:none;
+  content:"";position:absolute;top:0;left:0;right:0;height:42%;
+  background:linear-gradient(180deg,rgba(255,255,255,.22),transparent);
+  pointer-events:none;border-radius:18px 18px 0 0;
 }
 .nt:hover{
-  background:rgba(255,248,220,.22);border-color:rgba(255,220,100,.42);
-  transform:translateY(-3px);box-shadow:0 10px 36px rgba(0,0,0,.38),0 1px 0 rgba(255,230,150,.25) inset;
+  background:rgba(255,255,255,.22);
+  border-color:rgba(255,255,255,.45);
+  transform:translateY(-3px);
+  box-shadow:0 12px 32px rgba(0,0,0,.28),0 1px 0 rgba(255,255,255,.45) inset;
 }
 .nt:active{transform:scale(.97)}
+
+/* ── CHECKED STATE — bubble burst gradient ── */
 .nt.ck{
-  background:rgba(21,128,61,.22);border-color:rgba(134,239,172,.50);
-  box-shadow:0 4px 24px rgba(21,128,61,.25),0 1px 0 rgba(134,239,172,.3) inset;
+  background:radial-gradient(ellipse at 60% 30%,rgba(52,211,153,.55) 0%,rgba(16,185,129,.30) 50%,rgba(6,95,70,.40) 100%);
+  border-color:rgba(110,231,183,.70);
+  box-shadow:0 0 0 2.5px rgba(52,211,153,.35),0 8px 28px rgba(16,185,129,.35),0 1px 0 rgba(167,243,208,.40) inset;
+  animation:ckBubble .38s cubic-bezier(.34,1.56,.64,1) both;
 }
-/* role stripe at bottom */
+@keyframes ckBubble{
+  0%{transform:scale(.93)} 55%{transform:scale(1.05)} 100%{transform:scale(1)}
+}
+
+/* ── ROLE-SPECIFIC card tints (unchecked) ── */
+.role-judge .nt{background:rgba(219,234,254,.17);border-color:rgba(147,197,253,.32)}
+.role-judge .nt::before{background:linear-gradient(180deg,rgba(219,234,254,.25),transparent)}
+.role-judge .nt:hover{background:rgba(219,234,254,.26);border-color:rgba(147,197,253,.50)}
+
+.role-organizer .nt{background:rgba(237,233,254,.17);border-color:rgba(196,181,253,.32)}
+.role-organizer .nt::before{background:linear-gradient(180deg,rgba(237,233,254,.25),transparent)}
+.role-organizer .nt:hover{background:rgba(237,233,254,.26);border-color:rgba(196,181,253,.50)}
+
+.role-staff .nt{background:rgba(254,226,226,.16);border-color:rgba(252,165,165,.32)}
+.role-staff .nt::before{background:linear-gradient(180deg,rgba(254,226,226,.24),transparent)}
+.role-staff .nt:hover{background:rgba(254,226,226,.25);border-color:rgba(252,165,165,.50)}
+
+.role-volunteer .nt{background:rgba(254,243,199,.16);border-color:rgba(252,211,77,.32)}
+.role-volunteer .nt::before{background:linear-gradient(180deg,rgba(254,243,199,.24),transparent)}
+.role-volunteer .nt:hover{background:rgba(254,243,199,.25);border-color:rgba(252,211,77,.50)}
+
+/* ── ROLE-SPECIFIC checked bubble colours ── */
+.role-staff .nt.ck{
+  background:radial-gradient(ellipse at 60% 30%,rgba(239,68,68,.50) 0%,rgba(185,28,28,.30) 55%,rgba(127,29,29,.35) 100%);
+  border-color:rgba(252,165,165,.70);
+  box-shadow:0 0 0 2.5px rgba(239,68,68,.30),0 8px 28px rgba(220,38,38,.30),0 1px 0 rgba(252,165,165,.35) inset;
+}
+.role-volunteer .nt.ck{
+  background:radial-gradient(ellipse at 60% 30%,rgba(251,191,36,.50) 0%,rgba(217,119,6,.30) 55%,rgba(120,53,15,.35) 100%);
+  border-color:rgba(253,211,77,.70);
+  box-shadow:0 0 0 2.5px rgba(251,191,36,.30),0 8px 28px rgba(217,119,6,.30),0 1px 0 rgba(253,224,71,.35) inset;
+}
+
+/* role stripe at top */
 .nt-role-stripe{
-  position:absolute;bottom:0;left:0;right:0;height:5px;
-  opacity:.7;
+  position:absolute;top:0;left:0;right:0;height:4px;border-radius:18px 18px 0 0;
 }
 .nt-name{
   font-family:"Cormorant Garamond",serif;
-  font-size:1.3rem;font-weight:700;color:#fff;line-height:1.25;margin-bottom:4px;
-  text-shadow:0 1px 8px rgba(0,0,0,.4);
+  font-size:1.28rem;font-weight:700;color:#fff;line-height:1.25;margin-bottom:4px;
+  text-shadow:0 1px 8px rgba(0,0,0,.35);
 }
-.nt.ck .nt-name{color:#86efac}
-.nt-org{font-size:12px;color:rgba(255,255,255,.65);line-height:1.3;margin-bottom:6px}
-.nt-tick{font-size:26px;transform:scale(0);opacity:0;transition:all .25s cubic-bezier(.34,1.56,.64,1);line-height:1;margin-top:4px}
+.nt.ck .nt-name{color:#fff;text-shadow:0 1px 10px rgba(0,0,0,.5)}
+.nt-org{font-size:11.5px;color:rgba(255,255,255,.70);line-height:1.3;margin-bottom:4px}
+.nt-tick{font-size:28px;transform:scale(0);opacity:0;transition:all .3s cubic-bezier(.34,1.56,.64,1);line-height:1;margin-bottom:2px}
 .nt.ck .nt-tick{transform:scale(1);opacity:1}
 
-/* Role label badge at bottom of card */
+/* ── ROLE LABEL BADGE ── clearly readable at bottom */
 .nt-role-label{
-  font-size:11.5px;font-weight:900;letter-spacing:.20em;text-transform:uppercase;
-  padding:4px 14px;border-radius:10px;margin-top:6px;
+  font-size:11px;font-weight:900;letter-spacing:.22em;text-transform:uppercase;
+  padding:4px 14px;border-radius:20px;margin-top:4px;
   font-family:"DM Sans",sans-serif;
+  transition:all .2s;
 }
-.role-judge   .nt-role-label{background:rgba(59,130,246,.30);color:#93c5fd;border:1px solid rgba(147,197,253,.45)}
-.role-organizer .nt-role-label{background:rgba(124,58,237,.30);color:#c4b5fd;border:1px solid rgba(196,181,253,.45)}
-.role-staff   .nt-role-label{background:rgba(220,38,38,.35);color:#ff8080;border:1px solid rgba(255,100,100,.55);text-shadow:0 0 12px rgba(255,100,100,.6)}
-.role-volunteer .nt-role-label{background:rgba(202,138,4,.32);color:#fde047;border:1px solid rgba(253,224,71,.55);text-shadow:0 0 12px rgba(253,220,60,.6)}
+.role-judge   .nt-role-label{background:rgba(59,130,246,.28);color:#bfdbfe;border:1px solid rgba(147,197,253,.45)}
+.role-organizer .nt-role-label{background:rgba(124,58,237,.28);color:#ddd6fe;border:1px solid rgba(196,181,253,.45)}
+.role-staff   .nt-role-label{
+  background:rgba(220,38,38,.40);color:#fecaca;border:1px solid rgba(252,165,165,.60);
+  text-shadow:0 0 10px rgba(255,120,120,.6);letter-spacing:.25em;
+}
+.role-volunteer .nt-role-label{
+  background:rgba(202,138,4,.40);color:#fef08a;border:1px solid rgba(253,224,71,.60);
+  text-shadow:0 0 10px rgba(253,224,60,.6);letter-spacing:.25em;
+}
 
 /* role stripe colors */
-.role-judge .nt-role-stripe{background:linear-gradient(90deg,#3b82f6,#93c5fd)}
-.role-organizer .nt-role-stripe{background:linear-gradient(90deg,#7c3aed,#c4b5fd)}
-.role-staff .nt-role-stripe{background:linear-gradient(90deg,#dc2626,#ef4444,#dc2626)}
+.role-judge     .nt-role-stripe{background:linear-gradient(90deg,#3b82f6,#93c5fd,#3b82f6)}
+.role-organizer .nt-role-stripe{background:linear-gradient(90deg,#7c3aed,#c4b5fd,#7c3aed)}
+.role-staff     .nt-role-stripe{background:linear-gradient(90deg,#dc2626,#f87171,#dc2626)}
 .role-volunteer .nt-role-stripe{background:linear-gradient(90deg,#d97706,#fbbf24,#fde047)}
 
 /* ── DEBATER CONFIRM MODAL ── */
@@ -531,7 +624,7 @@ function detectSideCol(headers){
   return findCol(headers,[/side|position|aff|neg|pro|con|role|正方|反方|立場/i])||null;
 }
 function detectRoleCol(headers){
-  return findCol(headers,[/^(role|type|職位|身份|類別)$/i,/staff.?type|volunteer.?type/i])||null;
+  return findCol(headers,[/^(role|type|職位|身份|類別|category|身分|角色|種類)$/i,/staff.?type|volunteer.?type|position|崗位/i])||headers[headers.length-1]||null;
 }
 
 function consentPill(val){
@@ -699,25 +792,32 @@ function detectRoleValue(row, roleCol) {
 }
 
 function getRoleClass(roleStr, tab) {
-  // For staff tab: detect volunteer vs staff from a role column if present
   if(tab === "staff") {
-    if(roleStr && /volunteer|志工|義工/i.test(roleStr)) return "role-volunteer";
-    if(roleStr && /staff|工作人員|行政/i.test(roleStr)) return "role-staff";
-    return "role-staff"; // default for staff tab
+    const v = String(roleStr||"").trim();
+    // Match volunteer first (broader patterns including Chinese)
+    if(/volunteer|volun|志工|義工|ボランティア/i.test(v)) return "role-volunteer";
+    // Then staff
+    if(/staff|工作人員|行政|工作|幹部|義工(?!)/i.test(v)) return "role-staff";
+    // Fallback: if the raw value contains any non-empty text, try to classify
+    if(v) return v.length > 0 ? "role-staff" : "role-staff";
+    return "role-staff";
   }
-  return "role-" + tab.replace(/s$/, ""); // judges->judge, organizers->organizer
+  if(tab === "judges") return "role-judge";
+  if(tab === "organizers") return "role-organizer";
+  return "role-staff";
 }
 
 function getRoleLabel(roleStr, tab) {
-  // For staff tab: show STAFF or VOLUNTEER clearly
   if(tab === "staff") {
-    if(roleStr && /volunteer|志工|義工/i.test(roleStr)) return "VOLUNTEER";
-    if(roleStr && /staff|工作人員|行政/i.test(roleStr)) return "STAFF";
-    return "STAFF"; // default
+    const v = String(roleStr||"").trim();
+    if(/volunteer|volun|志工|義工/i.test(v)) return "VOLUNTEER";
+    // Show the actual value if it exists and is short enough, else STAFF
+    if(v && v.length <= 12) return v.toUpperCase();
+    return "STAFF";
   }
   if(tab === "judges") return "JUDGE";
   if(tab === "organizers") return "ORGANIZER";
-  return tab.toUpperCase();
+  return "STAFF";
 }
 
 function renderTags(role, headers, rows) {
@@ -725,7 +825,7 @@ function renderTags(role, headers, rows) {
   const oc      = detectOrgCol(headers, nc);
   const roleCol = detectRoleCol(headers);
 
-  let html = `<div class="glass-scroll"><div class="ntgrid">`;
+  let html = `<div class="glass-scroll"><div class="glass-bg"><div class="ntgrid">`;
   rows.forEach((row,i)=>{
     const ck   = S[role].ck.has(i);
     const name = row[nc]||"—";
@@ -742,7 +842,7 @@ function renderTags(role, headers, rows) {
         <div class="nt-role-label">${esc(rLbl)}</div>
       </div>`;
   });
-  html+=`</div></div>`;
+  html+=`</div></div></div>`;
   document.getElementById("body-"+role).innerHTML=html;
   updateStat(role);
 }
