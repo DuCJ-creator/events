@@ -26,7 +26,7 @@
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{font-family:"DM Sans",sans-serif;background:#0d1525;color:var(--text);min-height:100vh;overflow-x:hidden;font-size:16px}
+body{font-family:"DM Sans",sans-serif;background:#0d1525;color:var(--text);min-height:100vh;overflow-x:hidden;font-size:16px;overflow-y:auto}
 body.modal-open{overflow:hidden}
 
 /* ── BACKGROUND ── */
@@ -96,13 +96,14 @@ body.modal-open{overflow:hidden}
 
 /* ── CONTENT ── */
 .content{flex:1;padding:16px 20px 52px}
-.card{background:var(--panel);border-radius:16px;overflow:hidden;box-shadow:0 14px 52px rgba(0,0,0,.28)}
+.card{background:var(--panel);border-radius:16px;overflow:visible;box-shadow:0 14px 52px rgba(0,0,0,.28)}
 
 /* ── STATUS BAR ── */
 .sbar{
   display:flex;align-items:center;justify-content:space-between;
   padding:16px 22px;background:var(--panel-hdr);
   border-bottom:1px solid rgba(0,0,0,.07);
+  border-radius:16px 16px 0 0;
 }
 .sbar-lbl{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--soft);font-weight:600}
 .sbar-ct{font-family:"Cormorant Garamond",serif;font-size:1.55rem;font-weight:600;color:var(--accent)}
@@ -118,7 +119,7 @@ body.modal-open{overflow:hidden}
    DEBATERS — pair-row layout
    Each table row = one team slot (No. + two debater cards side by side)
 ══════════════════════════════════════════ */
-.deb-scroll{overflow-y:auto;max-height:calc(100vh - 210px);overscroll-behavior:contain}
+.deb-scroll{overflow-y:visible}
 .deb-list{display:flex;flex-direction:column;gap:0}
 
 .deb-row{
@@ -201,8 +202,8 @@ body.modal-open{overflow:hidden}
 /* ══════════════════════════════════════════
    GLASS NAME TAG GRID (Judges / Organizers / Staff)
 ══════════════════════════════════════════ */
-.glass-scroll{overflow-y:auto;max-height:calc(100vh - 210px);overscroll-behavior:contain;
-  background:linear-gradient(135deg,#1a2545 0%,#0f1828 100%);
+.glass-scroll{overflow-y:visible;
+  background:linear-gradient(135deg,#1c1408 0%,#0f0c04 100%);
 }
 .ntgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:14px;padding:20px}
 @media(max-width:700px){.ntgrid{grid-template-columns:repeat(2,1fr);padding:14px;gap:10px}}
@@ -212,23 +213,23 @@ body.modal-open{overflow:hidden}
   min-height:138px;display:flex;flex-direction:column;align-items:center;justify-content:space-between;
   padding:20px 14px 14px;
   border-radius:16px;
-  /* GLASS EFFECT */
-  background:rgba(255,255,255,.10);
+  /* GLASS EFFECT — warm champagne tint, distinct from dark-navy tabs */
+  background:rgba(255,248,220,.13);
   backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
-  border:1.5px solid rgba(255,255,255,.20);
-  box-shadow:0 4px 24px rgba(0,0,0,.25),0 1px 0 rgba(255,255,255,.15) inset;
+  border:1.5px solid rgba(255,220,120,.22);
+  box-shadow:0 4px 24px rgba(0,0,0,.30),0 1px 0 rgba(255,230,150,.18) inset;
   cursor:pointer;transition:all .22s cubic-bezier(.25,.8,.25,1);
   text-align:center;-webkit-tap-highlight-color:transparent;user-select:none;
   position:relative;overflow:hidden;
 }
 .nt::before{
   content:"";position:absolute;top:0;left:0;right:0;height:40%;
-  background:linear-gradient(180deg,rgba(255,255,255,.12),transparent);
+  background:linear-gradient(180deg,rgba(255,230,150,.14),transparent);
   pointer-events:none;
 }
 .nt:hover{
-  background:rgba(255,255,255,.18);border-color:rgba(255,255,255,.35);
-  transform:translateY(-3px);box-shadow:0 10px 36px rgba(0,0,0,.35),0 1px 0 rgba(255,255,255,.2) inset;
+  background:rgba(255,248,220,.22);border-color:rgba(255,220,100,.42);
+  transform:translateY(-3px);box-shadow:0 10px 36px rgba(0,0,0,.38),0 1px 0 rgba(255,230,150,.25) inset;
 }
 .nt:active{transform:scale(.97)}
 .nt.ck{
@@ -252,19 +253,20 @@ body.modal-open{overflow:hidden}
 
 /* Role label badge at bottom of card */
 .nt-role-label{
-  font-size:10px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;
-  padding:3px 10px;border-radius:10px;margin-top:6px;
+  font-size:11.5px;font-weight:900;letter-spacing:.20em;text-transform:uppercase;
+  padding:4px 14px;border-radius:10px;margin-top:6px;
+  font-family:"DM Sans",sans-serif;
 }
-.role-judge   .nt-role-label{background:rgba(147,197,253,.25);color:#93c5fd;border:1px solid rgba(147,197,253,.35)}
-.role-organizer .nt-role-label{background:rgba(196,181,253,.25);color:#c4b5fd;border:1px solid rgba(196,181,253,.35)}
-.role-staff   .nt-role-label{background:rgba(252,165,165,.28);color:#fca5a5;border:1px solid rgba(252,165,165,.40)}
-.role-volunteer .nt-role-label{background:rgba(253,224,71,.25);color:#fde047;border:1px solid rgba(253,224,71,.40)}
+.role-judge   .nt-role-label{background:rgba(59,130,246,.30);color:#93c5fd;border:1px solid rgba(147,197,253,.45)}
+.role-organizer .nt-role-label{background:rgba(124,58,237,.30);color:#c4b5fd;border:1px solid rgba(196,181,253,.45)}
+.role-staff   .nt-role-label{background:rgba(220,38,38,.35);color:#ff8080;border:1px solid rgba(255,100,100,.55);text-shadow:0 0 12px rgba(255,100,100,.6)}
+.role-volunteer .nt-role-label{background:rgba(202,138,4,.32);color:#fde047;border:1px solid rgba(253,224,71,.55);text-shadow:0 0 12px rgba(253,220,60,.6)}
 
 /* role stripe colors */
 .role-judge .nt-role-stripe{background:linear-gradient(90deg,#3b82f6,#93c5fd)}
 .role-organizer .nt-role-stripe{background:linear-gradient(90deg,#7c3aed,#c4b5fd)}
-.role-staff .nt-role-stripe{background:linear-gradient(90deg,#dc2626,#fca5a5)}
-.role-volunteer .nt-role-stripe{background:linear-gradient(90deg,#d97706,#fde047)}
+.role-staff .nt-role-stripe{background:linear-gradient(90deg,#dc2626,#ef4444,#dc2626)}
+.role-volunteer .nt-role-stripe{background:linear-gradient(90deg,#d97706,#fbbf24,#fde047)}
 
 /* ── DEBATER CONFIRM MODAL ── */
 .confirm-layer{
@@ -696,20 +698,26 @@ function detectRoleValue(row, roleCol) {
   return (row[roleCol]||"").trim();
 }
 
-function getRoleClass(roleStr, defaultRole) {
-  if(!roleStr) return "role-"+defaultRole;
-  const r = roleStr.toLowerCase();
-  if(/volunteer|志工|義工/i.test(r)) return "role-volunteer";
-  if(/staff|工作人員|行政/i.test(r)) return "role-staff";
-  if(/judge|評審/i.test(r)) return "role-judge";
-  if(/organ|主辦|承辦|coord/i.test(r)) return "role-organizer";
-  return "role-"+defaultRole;
+function getRoleClass(roleStr, tab) {
+  // For staff tab: detect volunteer vs staff from a role column if present
+  if(tab === "staff") {
+    if(roleStr && /volunteer|志工|義工/i.test(roleStr)) return "role-volunteer";
+    if(roleStr && /staff|工作人員|行政/i.test(roleStr)) return "role-staff";
+    return "role-staff"; // default for staff tab
+  }
+  return "role-" + tab.replace(/s$/, ""); // judges->judge, organizers->organizer
 }
 
-function getRoleLabel(roleStr, defaultRole) {
-  if(roleStr) return roleStr;
-  const labels = {judge:"Judge", organizer:"Organizer", staff:"Staff", volunteer:"Volunteer"};
-  return labels[defaultRole]||defaultRole;
+function getRoleLabel(roleStr, tab) {
+  // For staff tab: show STAFF or VOLUNTEER clearly
+  if(tab === "staff") {
+    if(roleStr && /volunteer|志工|義工/i.test(roleStr)) return "VOLUNTEER";
+    if(roleStr && /staff|工作人員|行政/i.test(roleStr)) return "STAFF";
+    return "STAFF"; // default
+  }
+  if(tab === "judges") return "JUDGE";
+  if(tab === "organizers") return "ORGANIZER";
+  return tab.toUpperCase();
 }
 
 function renderTags(role, headers, rows) {
@@ -723,8 +731,8 @@ function renderTags(role, headers, rows) {
     const name = row[nc]||"—";
     const org  = oc?row[oc]:"";
     const rv   = detectRoleValue(row, roleCol);
-    const rCls = getRoleClass(rv, role==="staff"?"staff":role.replace(/s$/,""));
-    const rLbl = getRoleLabel(rv, role==="staff"?"Staff":role.charAt(0).toUpperCase()+role.slice(1,-1));
+    const rCls = getRoleClass(rv, role);
+    const rLbl = getRoleLabel(rv, role);
     html+=`
       <div class="nt ${rCls}${ck?" ck":""}" id="nt-${role}-${i}" onclick="ckTag('${role}',${i})">
         <div class="nt-role-stripe"></div>
