@@ -337,6 +337,41 @@ body.modal-open{overflow:hidden}
 .nt-tick{font-size:28px;transform:scale(0);opacity:0;transition:all .3s cubic-bezier(.34,1.56,.64,1);line-height:1;margin-bottom:2px}
 .nt.ck .nt-tick{transform:scale(1);opacity:1}
 
+/* ── GROUP SECTION HEADERS (Staff / Volunteer dividers) ── */
+.group-header {
+  display:flex; align-items:center; gap:10px;
+  padding:14px 20px 10px;
+  font-family:"DM Sans",sans-serif;
+  font-size:11px; font-weight:900; letter-spacing:.30em; text-transform:uppercase;
+  color:rgba(255,255,255,.55);
+}
+.group-header .group-dot {
+  display:inline-block; width:8px; height:8px; border-radius:50%; flex-shrink:0;
+}
+.group-header .group-count {
+  margin-left:auto;
+  font-size:11px; font-weight:600; letter-spacing:.08em;
+  padding:2px 10px; border-radius:20px;
+  color:rgba(255,255,255,.60);
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.12);
+}
+.role-staff-header {
+  color:#fca5a5;
+  border-bottom:1px solid rgba(220,38,38,.25);
+  margin-top:8px;
+}
+.role-staff-header .group-dot { background:#ef4444; box-shadow:0 0 6px rgba(239,68,68,.7); }
+.role-staff-header .group-count { background:rgba(220,38,38,.18); border-color:rgba(252,165,165,.25); color:#fca5a5; }
+
+.role-volunteer-header {
+  color:#fde047;
+  border-bottom:1px solid rgba(217,119,6,.25);
+  margin-top:20px;
+}
+.role-volunteer-header .group-dot { background:#fbbf24; box-shadow:0 0 6px rgba(251,191,36,.7); }
+.role-volunteer-header .group-count { background:rgba(202,138,4,.18); border-color:rgba(253,224,71,.25); color:#fde047; }
+
 /* ── ROLE LABEL BADGE ── clearly readable at bottom */
 .nt-role-label{
   font-size:11px;font-weight:900;letter-spacing:.22em;text-transform:uppercase;
@@ -624,7 +659,8 @@ function detectSideCol(headers){
   return findCol(headers,[/side|position|aff|neg|pro|con|role|正方|反方|立場/i])||null;
 }
 function detectRoleCol(headers){
-  return findCol(headers,[/^(role|type|職位|身份|類別|category|身分|角色|種類)$/i,/staff.?type|volunteer.?type|position|崗位/i])||headers[headers.length-1]||null;
+  // "Group" column holds STAFF / VOLUNTEER values
+  return findCol(headers,[/^(group|群組|組別|分組)$/i,/^(role|type|職位|身份|類別|category|身分|角色|種類)$/i,/staff.?type|volunteer.?type/i])||null;
 }
 
 function consentPill(val){
@@ -793,14 +829,9 @@ function detectRoleValue(row, roleCol) {
 
 function getRoleClass(roleStr, tab) {
   if(tab === "staff") {
-    const v = String(roleStr||"").trim();
-    // Match volunteer first (broader patterns including Chinese)
-    if(/volunteer|volun|志工|義工|ボランティア/i.test(v)) return "role-volunteer";
-    // Then staff
-    if(/staff|工作人員|行政|工作|幹部|義工(?!)/i.test(v)) return "role-staff";
-    // Fallback: if the raw value contains any non-empty text, try to classify
-    if(v) return v.length > 0 ? "role-staff" : "role-staff";
-    return "role-staff";
+    const v = String(roleStr||"").trim().toUpperCase();
+    if(v === "VOLUNTEER") return "role-volunteer";
+    return "role-staff"; // STAFF or anything else
   }
   if(tab === "judges") return "role-judge";
   if(tab === "organizers") return "role-organizer";
@@ -809,15 +840,13 @@ function getRoleClass(roleStr, tab) {
 
 function getRoleLabel(roleStr, tab) {
   if(tab === "staff") {
-    const v = String(roleStr||"").trim();
-    if(/volunteer|volun|志工|義工/i.test(v)) return "VOLUNTEER";
-    // Show the actual value if it exists and is short enough, else STAFF
-    if(v && v.length <= 12) return v.toUpperCase();
+    const v = String(roleStr||"").trim().toUpperCase();
+    if(v === "VOLUNTEER") return "VOLUNTEER";
     return "STAFF";
   }
   if(tab === "judges") return "JUDGE";
   if(tab === "organizers") return "ORGANIZER";
-  return "STAFF";
+  return "";
 }
 
 function renderTags(role, headers, rows) {
@@ -825,25 +854,50 @@ function renderTags(role, headers, rows) {
   const oc      = detectOrgCol(headers, nc);
   const roleCol = detectRoleCol(headers);
 
-  let html = `<div class="glass-scroll"><div class="glass-bg"><div class="ntgrid">`;
-  rows.forEach((row,i)=>{
+  function cardHTML(row, i) {
     const ck   = S[role].ck.has(i);
     const name = row[nc]||"—";
     const org  = oc?row[oc]:"";
     const rv   = detectRoleValue(row, roleCol);
     const rCls = getRoleClass(rv, role);
     const rLbl = getRoleLabel(rv, role);
-    html+=`
-      <div class="nt ${rCls}${ck?" ck":""}" id="nt-${role}-${i}" onclick="ckTag('${role}',${i})">
-        <div class="nt-role-stripe"></div>
-        <div class="nt-name">${esc(name)}</div>
-        ${org?`<div class="nt-org">${esc(org)}</div>`:""}
-        <div class="nt-tick">☑️</div>
-        <div class="nt-role-label">${esc(rLbl)}</div>
-      </div>`;
-  });
-  html+=`</div></div></div>`;
-  document.getElementById("body-"+role).innerHTML=html;
+    return `<div class="nt ${rCls}${ck?" ck":""}" id="nt-${role}-${i}" onclick="ckTag('${role}',${i})">
+      <div class="nt-role-stripe"></div>
+      <div class="nt-name">${esc(name)}</div>
+      ${org?`<div class="nt-org">${esc(org)}</div>`:""}
+      <div class="nt-tick">☑️</div>
+      <div class="nt-role-label">${esc(rLbl)}</div>
+    </div>`;
+  }
+
+  // For staff tab: split into STAFF group and VOLUNTEER group with headers
+  if(role === "staff" && roleCol) {
+    const staffRows    = rows.map((r,i)=>({r,i})).filter(({r})=>(r[roleCol]||"").trim().toUpperCase()!=="VOLUNTEER");
+    const volunteerRows= rows.map((r,i)=>({r,i})).filter(({r})=>(r[roleCol]||"").trim().toUpperCase()==="VOLUNTEER");
+
+    let html = `<div class="glass-scroll"><div class="glass-bg">`;
+
+    if(staffRows.length) {
+      html += `<div class="group-header role-staff-header"><span class="group-dot"></span>STAFF<span class="group-count">${staffRows.length}</span></div>`;
+      html += `<div class="ntgrid">`;
+      staffRows.forEach(({r,i}) => { html += cardHTML(r,i); });
+      html += `</div>`;
+    }
+    if(volunteerRows.length) {
+      html += `<div class="group-header role-volunteer-header"><span class="group-dot"></span>VOLUNTEER<span class="group-count">${volunteerRows.length}</span></div>`;
+      html += `<div class="ntgrid">`;
+      volunteerRows.forEach(({r,i}) => { html += cardHTML(r,i); });
+      html += `</div>`;
+    }
+
+    html += `</div></div>`;
+    document.getElementById("body-"+role).innerHTML=html;
+  } else {
+    let html = `<div class="glass-scroll"><div class="glass-bg"><div class="ntgrid">`;
+    rows.forEach((row,i)=>{ html += cardHTML(row,i); });
+    html+=`</div></div></div>`;
+    document.getElementById("body-"+role).innerHTML=html;
+  }
   updateStat(role);
 }
 
