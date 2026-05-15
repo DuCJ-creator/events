@@ -138,6 +138,85 @@ body.modal-open{overflow:hidden}
    DEBATER GLASS CARDS — warm ivory + orchid accents
 ══════════════════════════════════════════ */
 .deb-scroll{overflow-y:visible}
+
+/* ── DEBATER SUB-TABS (Pending / Checked-In) ── */
+.deb-subtabs{
+  display:flex;gap:0;border-bottom:2px solid rgba(217,70,160,.12);
+  background:linear-gradient(135deg,#fdf2fb,#fce7f8 60%,#fff);
+}
+.deb-subtab{
+  flex:1;display:flex;align-items:center;justify-content:center;gap:8px;
+  padding:13px 16px;
+  background:transparent;border:none;
+  font-family:"DM Sans",sans-serif;font-size:14px;font-weight:600;
+  color:var(--soft);cursor:pointer;
+  border-bottom:3px solid transparent;margin-bottom:-2px;
+  transition:all .18s ease;
+  -webkit-tap-highlight-color:transparent;
+}
+.deb-subtab:hover{color:var(--orchid);background:rgba(217,70,160,.04)}
+.deb-subtab.active{color:var(--orchid);border-bottom-color:var(--orchid);background:rgba(217,70,160,.06)}
+.dst-icon{font-size:16px}
+.dst-count{
+  font-size:12px;padding:2px 9px;border-radius:16px;font-weight:700;
+  background:rgba(100,90,130,.12);color:var(--soft);border:1px solid rgba(100,90,130,.15);
+}
+.dst-green{background:rgba(5,150,105,.14);color:#059669;border-color:rgba(5,150,105,.22)}
+.deb-subtab.active .dst-count{background:var(--orchid);color:#fff;border-color:var(--orchid)}
+.deb-subtab.active .dst-green{background:var(--green);border-color:var(--green)}
+
+/* ── CHECKED-IN LIST ── */
+.checkedin-list{
+  display:flex;flex-direction:column;gap:0;
+  background:linear-gradient(160deg,#0e1a10 0%,#081208 100%);
+  padding:14px;gap:8px;
+}
+.ci-row{
+  display:grid;grid-template-columns:68px 1fr 1fr;gap:8px;align-items:center;
+}
+.ci-no{
+  display:flex;align-items:center;justify-content:center;
+  font-family:"Cormorant Garamond",serif;
+  font-size:2.4rem;font-weight:700;
+  color:#6ee7b7;text-shadow:0 0 16px rgba(110,231,183,.50);
+  background:rgba(110,231,183,.10);border:1.5px solid rgba(110,231,183,.22);
+  border-radius:12px;min-height:76px;
+}
+.ci-card{
+  display:flex;align-items:center;gap:10px;
+  padding:12px 14px;border-radius:13px;
+  background:rgba(52,211,153,.12);
+  border:1.5px solid rgba(52,211,153,.28);
+  box-shadow:0 2px 12px rgba(16,185,129,.14);
+  position:relative;overflow:hidden;
+}
+.ci-card::before{
+  content:"";position:absolute;top:0;left:0;right:0;height:35%;
+  background:linear-gradient(180deg,rgba(110,231,183,.12),transparent);pointer-events:none;
+}
+.ci-card-info{flex:1;min-width:0}
+.ci-card-name{font-family:"Cormorant Garamond",serif;font-size:1.18rem;font-weight:700;color:#6ee7b7;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ci-card-sub{font-size:11.5px;color:rgba(110,231,183,.65);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ci-card-undo{
+  flex-shrink:0;display:flex;align-items:center;justify-content:center;
+  width:34px;height:34px;border-radius:50%;
+  background:rgba(255,255,255,.08);border:1.5px solid rgba(255,255,255,.15);
+  font-size:15px;cursor:pointer;color:rgba(255,255,255,.45);
+  transition:all .18s;-webkit-tap-highlight-color:transparent;
+}
+.ci-card-undo:hover{background:rgba(225,29,72,.20);border-color:rgba(253,164,175,.40);color:#fda4af}
+.ci-card-empty{
+  display:flex;align-items:center;gap:12px;
+  padding:14px;border-radius:12px;
+  border:1px solid rgba(255,255,255,.08);
+  color:rgba(255,255,255,.20);font-size:12px;font-style:italic;min-height:76px;
+}
+.deb-checkedin-empty{
+  padding:52px 20px;text-align:center;
+  font-size:13px;color:var(--soft);font-style:italic;
+  background:linear-gradient(160deg,#0e1a10,#081208);
+  border-radius:0 0 16px 16px;
+}
 .deb-list{
   display:flex;flex-direction:column;gap:10px;
   padding:14px;
@@ -211,6 +290,10 @@ body.modal-open{overflow:hidden}
   display:flex;align-items:center;justify-content:center;border-radius:14px;
   border:1.5px dashed rgba(255,255,255,.10);color:rgba(255,255,255,.15);
   font-size:13px;font-style:italic;min-height:100px;
+}
+.deb-empty-gone{
+  border-color:rgba(52,211,153,.18);color:rgba(110,231,183,.30);
+  background:rgba(52,211,153,.04);font-size:11px;letter-spacing:.05em;
 }
 .consent-pill{display:inline-flex;align-items:center;gap:4px;padding:2px 9px;border-radius:12px;font-size:11px;font-weight:600;white-space:nowrap;margin-top:4px}
 .consent-yes{background:rgba(5,150,105,.25);color:#6ee7b7;border:1px solid rgba(110,231,183,.35)}
@@ -441,7 +524,23 @@ footer{text-align:center;padding:14px;font-size:10px;letter-spacing:.15em;text-t
         <span class="sbar-lbl">Debaters</span>
         <span class="sbar-ct" id="stat-debaters">Loading…</span>
       </div>
-      <div id="body-debaters"><div class="loading-s"><div class="spinner"></div>Fetching debater roster…</div></div>
+      <!-- Sub-tab toggle: Pending / Checked-In -->
+      <div class="deb-subtabs">
+        <button class="deb-subtab active" id="dsubt-pending"  onclick="switchDebView('pending')">
+          <span class="dst-icon">⏳</span> Pending <span class="dst-count" id="dcount-pending">—</span>
+        </button>
+        <button class="deb-subtab" id="dsubt-checkedin" onclick="switchDebView('checkedin')">
+          <span class="dst-icon">✅</span> Checked-In <span class="dst-count dst-green" id="dcount-checkedin">0</span>
+        </button>
+      </div>
+      <!-- Pending view -->
+      <div id="dview-pending">
+        <div id="body-debaters"><div class="loading-s"><div class="spinner"></div>Fetching debater roster…</div></div>
+      </div>
+      <!-- Checked-in view -->
+      <div id="dview-checkedin" style="display:none">
+        <div id="body-checkedin"><div class="deb-checkedin-empty">No debaters checked in yet.</div></div>
+      </div>
     </div>
 
     <!-- JUDGES -->
@@ -658,59 +757,144 @@ function renderDebaters(headers, rows) {
     groups[key].push({row, origIdx});
   });
 
-  let html = `<div class="deb-scroll"><div class="deb-list">`;
+  // Store groups for re-use by renderCheckedIn
+  S.debaters._groups = groups;
+  S.debaters._seriesOrder = seriesOrder;
+  S.debaters._cols = {seriesCol,nameCol,orgCol,consentCol,sideCol};
 
-  seriesOrder.forEach(key => {
-    const members = groups[key];
-    const anyChecked = members.some(m => S.debaters.ck.has(m.origIdx));
-    html += `<div class="deb-row${anyChecked?" any-checked":""}">`;
+  renderPendingRows();
+  renderCheckedInRows();
+  updateStat("debaters");
+  updateDebCounts();
+}
 
-    // Series No. cell
-    html += `<div class="deb-no">${esc(key)}</div>`;
+/* Build one deb-row for the pending list */
+function buildDebRow(key, members) {
+  const {nameCol,orgCol,sideCol,consentCol} = S.debaters._cols||{};
+  // All members UNchecked — if all checked, don't render here
+  const pendingMembers = members.filter(m => !S.debaters.ck.has(m.origIdx));
+  if(!pendingMembers.length) return "";
 
-    // Up to 2 debater cards
-    for(let slot=0;slot<2;slot++){
-      const m = members[slot];
-      if(!m){ html += `<div class="deb-empty">—</div>`; continue; }
-      const {row, origIdx} = m;
-      const ck = S.debaters.ck.has(origIdx);
-      const name = row[nameCol]||"—";
-      const org  = orgCol ? row[orgCol] : "";
-      const side = sideCol ? row[sideCol] : "";
-      const consent = consentCol ? row[consentCol] : "";
-      html += `
-        <div class="deb-card${ck?" ck":""}" id="dc${origIdx}" onclick="openDebaterConfirm(${origIdx})">
-          <div class="deb-card-inner">
-            <div class="deb-info">
-              <div class="deb-name">${esc(name)}</div>
-              ${org?`<div class="deb-school">${esc(org)}</div>`:""}
-              <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:4px">
-                ${side?sideBadge(side):""}
-                ${consent?consentPill(consent):""}
-              </div>
-            </div>
-            <div class="deb-ck-badge">${ck?"☑️":"○"}</div>
-          </div>
-        </div>`;
+  let h = `<div class="deb-row" id="drow-${key}">`;
+  h += `<div class="deb-no">${esc(key)}</div>`;
+
+  // Always show up to 2 slots based on total members (not just pending)
+  // but only render the pending ones; checked ones show as empty slot
+  const totalSlots = Math.min(members.length, 2);
+  for(let slot=0;slot<totalSlots;slot++){
+    const m = members[slot];
+    if(!m){ h += `<div class="deb-empty">—</div>`; continue; }
+    if(S.debaters.ck.has(m.origIdx)){
+      // This slot is checked — show as a faded placeholder so spacing holds
+      h += `<div class="deb-empty deb-empty-gone">✓ Checked In</div>`;
+      continue;
     }
-    html += `</div>`; // .deb-row
-  });
+    const {row,origIdx} = m;
+    const name = row[nameCol]||"—";
+    const org  = orgCol?row[orgCol]:"";
+    const side = sideCol?row[sideCol]:"";
+    const consent = consentCol?row[consentCol]:"";
+    h += `<div class="deb-card" id="dc${origIdx}" onclick="openDebaterConfirm(${origIdx})">
+      <div class="deb-card-inner">
+        <div class="deb-info">
+          <div class="deb-name">${esc(name)}</div>
+          ${org?`<div class="deb-school">${esc(org)}</div>`:""}
+          <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:4px">
+            ${side?sideBadge(side):""}
+            ${consent?consentPill(consent):""}
+          </div>
+        </div>
+        <div class="deb-ck-badge">○</div>
+      </div>
+    </div>`;
+  }
+  h += `</div>`;
+  return h;
+}
 
+function renderPendingRows() {
+  const groups = S.debaters._groups||{};
+  const order  = S.debaters._seriesOrder||[];
+  let html = `<div class="deb-scroll"><div class="deb-list">`;
+  let anyPending = false;
+  order.forEach(key => {
+    const members = groups[key];
+    const pending = members.filter(m => !S.debaters.ck.has(m.origIdx));
+    if(pending.length){ anyPending = true; html += buildDebRow(key, members); }
+  });
+  if(!anyPending) html += `<div style="padding:52px 20px;text-align:center;font-size:13px;color:rgba(255,255,255,.35);font-style:italic;background:linear-gradient(160deg,#1a0a28,#0e0518)">🎉 All debaters checked in!</div>`;
   html += `</div></div>`;
   document.getElementById("body-debaters").innerHTML = html;
-  updateStat("debaters");
-  // Re-apply checked state to row containers
-  seriesOrder.forEach(key => {
+}
+
+/* Build checked-in list */
+function renderCheckedInRows() {
+  const groups = S.debaters._groups||{};
+  const order  = S.debaters._seriesOrder||[];
+  const {nameCol,orgCol,sideCol,seriesCol} = S.debaters._cols||{};
+  let html = `<div class="checkedin-list">`;
+  let anyChecked = false;
+
+  order.forEach(key => {
     const members = groups[key];
-    const anyChecked = members.some(m => S.debaters.ck.has(m.origIdx));
-    // find first member to get row el — all members share same row
-    // (rows are re-rendered so just recalc via DOM)
-    members.forEach(m => {
-      const dc = document.getElementById("dc"+m.origIdx);
-      if(dc && dc.parentElement) dc.parentElement.classList.toggle("any-checked", anyChecked);
+    const checkedMembers = members.filter(m => S.debaters.ck.has(m.origIdx));
+    if(!checkedMembers.length) return;
+    anyChecked = true;
+
+    html += `<div class="ci-row">`;
+    html += `<div class="ci-no">${esc(key)}</div>`;
+
+    // Up to 2 checked cards
+    for(let slot=0;slot<2;slot++){
+      const m = checkedMembers[slot];
+      if(!m){ html += `<div class="ci-card-empty">—</div>`; continue; }
+      const {row,origIdx} = m;
+      const name = row[nameCol]||"—";
+      const org  = orgCol?row[orgCol]:"";
+      html += `<div class="ci-card">
+        <div class="ci-card-info">
+          <div class="ci-card-name">${esc(name)}</div>
+          ${org?`<div class="ci-card-sub">${esc(org)}</div>`:""}
+        </div>
+        <button class="ci-card-undo" title="Undo check-in" onclick="undoDebater(${origIdx})">↩</button>
+      </div>`;
+    }
+    html += `</div>`;
+  });
+
+  if(!anyChecked){
+    html += `<div class="deb-checkedin-empty">No debaters checked in yet.</div>`;
+  }
+  html += `</div>`;
+  document.getElementById("body-checkedin").innerHTML = html;
+}
+
+function updateDebCounts(){
+  const groups = S.debaters._groups||{};
+  const order  = S.debaters._seriesOrder||[];
+  // count individual debaters (not groups)
+  let pending=0, checkedIn=0;
+  order.forEach(key => {
+    groups[key].forEach(m => {
+      if(S.debaters.ck.has(m.origIdx)) checkedIn++;
+      else pending++;
     });
   });
+  const pc = document.getElementById("dcount-pending");
+  const cc = document.getElementById("dcount-checkedin");
+  if(pc) pc.textContent = pending;
+  if(cc) cc.textContent = checkedIn;
 }
+
+function switchDebView(view){
+  document.querySelectorAll(".deb-subtab").forEach(b=>b.classList.remove("active"));
+  document.getElementById("dsubt-"+view).classList.add("active");
+  document.getElementById("dview-pending").style.display   = view==="pending"   ? "" : "none";
+  document.getElementById("dview-checkedin").style.display = view==="checkedin" ? "" : "none";
+}
+
+// placeholder closing brace (renderDebaters ended above)
+function _renderDebaters_end(){}
 
 /* Debater confirm modal */
 let _debaterGroups = null;
@@ -759,21 +943,20 @@ function toggleDebater(origIdx){
   if(S.debaters.ck.has(origIdx)) S.debaters.ck.delete(origIdx);
   else S.debaters.ck.add(origIdx);
   saveLS();
-  const ck = S.debaters.ck.has(origIdx);
-  const dc = document.getElementById("dc"+origIdx);
-  if(dc){
-    dc.classList.toggle("ck",ck);
-    const badge = dc.querySelector(".deb-ck-badge");
-    if(badge) badge.textContent = ck?"☑️":"○";
-    // update row
-    const row = dc.parentElement;
-    if(row){
-      const siblings = row.querySelectorAll(".deb-card");
-      const anyChecked = [...siblings].some(c=>c.classList.contains("ck"));
-      row.classList.toggle("any-checked",anyChecked);
-    }
-  }
+  // Re-render both views so card moves between Pending ↔ Checked-In
+  renderPendingRows();
+  renderCheckedInRows();
   updateStat("debaters");
+  updateDebCounts();
+}
+
+function undoDebater(origIdx){
+  S.debaters.ck.delete(origIdx);
+  saveLS();
+  renderPendingRows();
+  renderCheckedInRows();
+  updateStat("debaters");
+  updateDebCounts();
 }
 
 /* ══════════════════════════════════════════════════
