@@ -722,7 +722,7 @@ function detectRoleCol(headers){
 function consentPill(val){
   if(!val||!String(val).trim())return`<span class="consent-pill consent-na">—</span>`;
   const v=String(val).trim();
-  if(/^(yes|y|true|1|signed|ok|✓|已|有|是)/i.test(v)||/sign|submit|已/i.test(v))return`<span class="consent-pill consent-yes">✓ Signed</span>`;
+  if(/^(yes|y|true|1|signed|ok|✓|已|有|是)/i.test(v)||/sign|submit|已/i.test(v))return`<span class="consent-pill consent-yes">✓ Consent</span>`;
   if(/^(no|n|false|0|未|否|沒)/i.test(v)||/not.?sign|missing|未/i.test(v))return`<span class="consent-pill consent-no">✗ Missing</span>`;
   return`<span class="consent-pill consent-na">${esc(val)}</span>`;
 }
