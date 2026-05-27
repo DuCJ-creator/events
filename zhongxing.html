@@ -149,52 +149,76 @@ body {
 
 
 
-/* ── EMBEDDED AI MUSIC PLAYER ── */
-.music-player-wrap {
-  max-width: 760px;
+/* ── SIMPLE MUSIC CONTROLS ── */
+.simple-music-wrap {
+  max-width: 420px;
   margin: 20px auto 28px;
   padding: 0 24px;
   position: relative;
   z-index: 3;
 }
 
-.music-player-card {
+.simple-music-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
   background: rgba(255,255,255,0.62);
-  backdrop-filter: blur(18px) saturate(1.45);
-  -webkit-backdrop-filter: blur(18px) saturate(1.45);
-  border-radius: 28px;
+  backdrop-filter: blur(16px) saturate(1.4);
+  -webkit-backdrop-filter: blur(16px) saturate(1.4);
+  border-radius: 60px;
   border: 1.5px solid rgba(255,255,255,0.88);
   box-shadow:
     inset 0 2px 0 rgba(255,255,255,0.95),
-    0 14px 34px rgba(180,100,0,0.10),
+    0 10px 24px rgba(180,100,0,0.09),
     0 0 0 1px rgba(249,168,38,0.10) inset;
-  padding: 14px;
-  overflow: hidden;
+  padding: 10px 12px;
 }
 
-.music-player-title {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin: 2px 4px 12px;
-  color: var(--amber-700);
-  font-size: 14px;
+.simple-music-label {
+  font-size: 13px;
   font-weight: 900;
-  letter-spacing: 0.04em;
+  color: var(--amber-700);
+  margin-right: 2px;
+  white-space: nowrap;
 }
 
-.music-player-frame {
-  display: block;
-  width: 100%;
-  height: 190px;
-  border: 0;
-  border-radius: 20px;
-  background: rgba(255,255,255,0.75);
+.music-control-btn {
+  border: 1.5px solid rgba(249,168,38,0.35);
+  border-radius: 60px;
+  padding: 8px 18px;
+  background: rgba(249,168,38,0.12);
+  color: var(--amber-700);
+  font-family: 'Nunito', 'Noto Sans TC', sans-serif;
+  font-size: 13px;
+  font-weight: 900;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.82);
+}
+
+.music-control-btn:hover {
+  background: linear-gradient(135deg, var(--amber-400), var(--amber-500));
+  border-color: var(--amber-500);
+  color: white;
+  transform: translateY(-1px);
+  box-shadow: 0 7px 18px rgba(249,168,38,0.28), inset 0 1px 0 rgba(255,255,255,0.35);
+}
+
+#musicBridgeFrame {
+  position: fixed;
+  width: 1px;
+  height: 1px;
+  left: -9999px;
+  top: -9999px;
+  opacity: 0;
+  pointer-events: none;
 }
 
 @media (max-width: 560px) {
-  .music-player-wrap { padding: 0 18px; }
-  .music-player-frame { height: 220px; }
+  .simple-music-wrap { padding: 0 18px; }
+  .simple-music-card { flex-wrap: wrap; border-radius: 28px; }
+  .simple-music-label { width: 100%; text-align: center; margin: 0 0 2px; }
 }
 
 /* ── COURSE CARDS GRID ── */
@@ -622,18 +646,18 @@ body {
 
 
 
-  <div class="music-player-wrap">
-    <div class="music-player-card">
-      <div class="music-player-title">🎵 Shirley AI Music Studio 播放器</div>
-      <iframe
-        class="music-player-frame"
-        src="https://ducj-creator.github.io/Shirley-AI-Music-Studio/play%20music.html"
-        title="Shirley AI Music Studio Music Player"
-        loading="lazy"
-        allow="autoplay; encrypted-media; fullscreen"
-        referrerpolicy="no-referrer-when-downgrade">
-      </iframe>
+  <div class="simple-music-wrap">
+    <div class="simple-music-card">
+      <span class="simple-music-label">🎵 Music</span>
+      <button class="music-control-btn" type="button" onclick="playSimpleMusic()">▶ Play</button>
+      <button class="music-control-btn" type="button" onclick="stopSimpleMusic()">■ Stop</button>
     </div>
+    <iframe
+      id="musicBridgeFrame"
+      title="Shirley AI Music Studio Music Player"
+      allow="autoplay; encrypted-media"
+      referrerpolicy="no-referrer-when-downgrade">
+    </iframe>
   </div>
 
   <div class="courses-grid">
@@ -886,6 +910,74 @@ body {
   }
   draw();
 })();
+
+
+// ── SIMPLE MUSIC CONTROLS ──
+const musicPlayerUrl = 'https://ducj-creator.github.io/Shirley-AI-Music-Studio/play%20music.html';
+let musicFrameLoaded = false;
+let pendingMusicPlay = false;
+
+function getMusicFrame() {
+  return document.getElementById('musicBridgeFrame');
+}
+
+function clickInsideMusicFrame() {
+  const frame = getMusicFrame();
+  if (!frame || !frame.contentWindow) return false;
+  try {
+    const doc = frame.contentWindow.document;
+    const firstSong = doc.querySelector('[data-index="0"], [data-song-index="0"], .song-item, li, button');
+    if (firstSong) firstSong.click();
+    const audio = doc.querySelector('audio');
+    if (audio) {
+      audio.play();
+      return true;
+    }
+    const playBtn = Array.from(doc.querySelectorAll('button')).find(btn => /▶|play/i.test(btn.textContent || btn.getAttribute('aria-label') || ''));
+    if (playBtn) {
+      playBtn.click();
+      return true;
+    }
+  } catch (err) {
+    return false;
+  }
+  return false;
+}
+
+window.playSimpleMusic = function() {
+  const frame = getMusicFrame();
+  if (!frame) return;
+  pendingMusicPlay = true;
+  if (!musicFrameLoaded) {
+    frame.onload = function() {
+      musicFrameLoaded = true;
+      if (pendingMusicPlay) setTimeout(clickInsideMusicFrame, 500);
+    };
+    frame.src = musicPlayerUrl;
+  } else {
+    clickInsideMusicFrame();
+  }
+};
+
+window.stopSimpleMusic = function() {
+  pendingMusicPlay = false;
+  const frame = getMusicFrame();
+  if (!frame || !musicFrameLoaded) return;
+  try {
+    const doc = frame.contentWindow.document;
+    const audio = doc.querySelector('audio');
+    if (audio) {
+      audio.pause();
+      audio.currentTime = 0;
+      return;
+    }
+    const stopBtn = Array.from(doc.querySelectorAll('button')).find(btn => /■|stop|pause|⏸/i.test(btn.textContent || btn.getAttribute('aria-label') || ''));
+    if (stopBtn) stopBtn.click();
+  } catch (err) {
+    frame.src = 'about:blank';
+    musicFrameLoaded = false;
+  }
+};
 
 // ── SPEECH ──
 function speakEnglish(word) {
