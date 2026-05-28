@@ -662,10 +662,10 @@ async function checkFile(url) {
 }
 
 async function discoverIssues() {
-  // Build list of all possible issues: current year + last year as fallback
+  // Build list of all possible issues: from 2026 onwards only
   const now = new Date();
-  const years = [now.getFullYear()];
-  if (now.getMonth() < 4) years.push(now.getFullYear() - 1); // show previous year early on
+  const years = [];
+  for (let y = 2026; y <= now.getFullYear(); y++) years.push(y);
 
   const checks = [];
   for (const year of years) {
@@ -674,9 +674,6 @@ async function discoverIssues() {
       checks.push(key);
     }
   }
-
-  // Also always include 2025-03 (earliest known)
-  if (!checks.includes('2025-03')) checks.unshift('2025-03');
 
   // Parallel check all potential issues
   const results = await Promise.all(checks.map(async (key) => {
@@ -863,7 +860,7 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal()
     statusText.textContent = 'Could not reach GitHub — showing cached layout';
     // Fallback: show known issues
     buildGrid({
-      '2026-03': { hasImg1:true, hasImg2:true, hasHtml:false, hasVideo:false },
+      '2026-03': { hasImg1:true, hasImg2:true, hasHtml:true,  hasVideo:false },
       '2026-04': { hasImg1:true, hasImg2:true, hasHtml:true,  hasVideo:true  },
       '2026-05': { hasImg1:true, hasImg2:true, hasHtml:false, hasVideo:true  },
     });
