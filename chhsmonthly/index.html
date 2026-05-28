@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CHHS Monthly</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --ink: #0d0d1a;
+      --paper: #f5f0e8;
+      --cream: #faf7f2;
+      --gold: #c9953a;
+      --gold-light: #e8c070;
+      --teal: #1a7a6e;
+      --teal-light: #2db8a4;
+      --rose: #c94060;
+      --rose-light: #e8607a;
+      --sky: #1a5a9e;
+      --sky-light: #4a8fd4;
+      --glass-bg: rgba(255,255,255,0.35);
+      --glass-border: rgba(255,255,255,0.6);
+      --shadow: 0 8px 32px rgba(13,13,26,0.12);
+      --shadow-hover: 0 20px 60px rgba(13,13,26,0.22);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--paper);
+      color: var(--ink);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── ANIMATED BACKGROUND ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 10% 20%, rgba(201,149,58,0.13) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 80% at 90% 80%, rgba(26,122,110,0.12) 0%, transparent 55%),
+        radial-gradient(ellipse 70% 50% at 50% 50%, rgba(201,64,96,0.07) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* decorative grain */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+      pointer-events: none;
+      opacity: 0.4;
+      z-index: 0;
+    }
+
+    /* ── HEADER ── */
+    header {
+      position: relative;
+      z-index: 10;
+      padding: 60px 40px 40px;
+      text-align: center;
+    }
+
+    .header-rule {
+      width: 60px;
+      height: 3px;
+      background: var(--gold);
+      margin: 0 auto 24px;
+      border-radius: 2px;
+    }
+
+    .school-tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.35em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(52px, 9vw, 96px);
+      font-weight: 900;
+      line-height: 0.92;
+      color: var(--ink);
+      letter-spacing: -0.02em;
+    }
+
+    h1 em {
+      font-style: italic;
+      color: var(--teal);
+    }
+
+    .header-sub {
+      margin-top: 18px;
+      font-size: 14px;
+      font-weight: 400;
+      color: rgba(13,13,26,0.5);
+      letter-spacing: 0.08em;
+    }
+
+    .header-divider {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      max-width: 480px;
+      margin: 32px auto 0;
+    }
+
+    .header-divider::before,
+    .header-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+
+    .header-divider span {
+      font-family: 'Playfair Display', serif;
+      font-size: 18px;
+      color: var(--gold);
+    }
+
+    /* ── STATUS BAR ── */
+    #status-bar {
+      position: relative;
+      z-index: 10;
+      text-align: center;
+      padding: 8px 20px;
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: rgba(13,13,26,0.4);
+      letter-spacing: 0.1em;
+    }
+
+    .status-dot {
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--teal-light);
+      margin-right: 6px;
+      animation: pulse 2s ease-in-out infinite;
+      vertical-align: middle;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.8); }
+    }
+
+    /* ── ISSUES GRID ── */
+    #issues-grid {
+      position: relative;
+      z-index: 10;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      max-width: 1100px;
+      margin: 40px auto;
+      padding: 0 32px;
+    }
+
+    /* Year row label */
+    .year-label {
+      grid-column: 1 / -1;
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.3em;
+      color: rgba(13,13,26,0.35);
+      text-transform: uppercase;
+      padding: 8px 0 4px;
+      border-top: 1px solid rgba(13,13,26,0.1);
+      margin-top: 8px;
+    }
+
+    /* ── GLASS PANEL ── */
+    .issue-panel {
+      position: relative;
+      background: var(--glass-bg);
+      backdrop-filter: blur(18px) saturate(160%);
+      -webkit-backdrop-filter: blur(18px) saturate(160%);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      padding: 28px 22px 24px;
+      cursor: pointer;
+      transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.3s ease, border-color 0.3s ease;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      animation: panelIn 0.6s cubic-bezier(0.22,1,0.36,1) both;
+    }
+
+    .issue-panel::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--accent, var(--gold));
+      border-radius: 20px 20px 0 0;
+      transition: height 0.3s ease;
+    }
+
+    .issue-panel:hover {
+      transform: translateY(-6px) scale(1.02);
+      box-shadow: var(--shadow-hover);
+      border-color: rgba(255,255,255,0.8);
+    }
+
+    .issue-panel:hover::before { height: 5px; }
+
+    .issue-panel.unavailable {
+      opacity: 0.45;
+      cursor: default;
+      filter: grayscale(30%);
+    }
+
+    .issue-panel.unavailable:hover {
+      transform: none;
+      box-shadow: var(--shadow);
+    }
+
+    @keyframes panelIn {
+      from { opacity: 0; transform: translateY(24px) scale(0.96); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .panel-month-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 48px;
+      font-weight: 900;
+      line-height: 1;
+      color: var(--accent, var(--gold));
+      opacity: 0.2;
+      position: absolute;
+      top: 14px; right: 18px;
+    }
+
+    .panel-year {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.25em;
+      color: rgba(13,13,26,0.4);
+      margin-bottom: 8px;
+    }
+
+    .panel-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1.2;
+      margin-bottom: 14px;
+    }
+
+    .panel-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+    }
+
+    .badge {
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.1em;
+      padding: 3px 8px;
+      border-radius: 20px;
+      font-weight: 500;
+    }
+
+    .badge.available {
+      background: rgba(45,184,164,0.15);
+      color: var(--teal);
+      border: 1px solid rgba(45,184,164,0.3);
+    }
+
+    .badge.unavailable {
+      background: rgba(13,13,26,0.06);
+      color: rgba(13,13,26,0.3);
+      border: 1px solid rgba(13,13,26,0.1);
+    }
+
+    .panel-coming-soon {
+      position: absolute;
+      bottom: 16px; right: 16px;
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.15em;
+      color: rgba(13,13,26,0.3);
+    }
+
+    /* ── MODAL OVERLAY ── */
+    #modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(13,13,26,0.6);
+      backdrop-filter: blur(8px);
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    #modal-overlay.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    /* ── MODAL ── */
+    #modal {
+      background: var(--cream);
+      border-radius: 28px;
+      width: 100%;
+      max-width: 860px;
+      max-height: 88vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 40px 120px rgba(13,13,26,0.35);
+      transform: scale(0.94) translateY(20px);
+      transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1);
+      border: 1px solid rgba(255,255,255,0.8);
+    }
+
+    #modal-overlay.open #modal {
+      transform: scale(1) translateY(0);
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 28px 32px 0;
+      flex-shrink: 0;
+    }
+
+    .modal-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    .modal-title span {
+      font-style: italic;
+      color: var(--teal);
+    }
+
+    .modal-close {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: rgba(13,13,26,0.08);
+      border: none;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+      color: var(--ink);
+      transition: background 0.2s, transform 0.2s;
+      flex-shrink: 0;
+    }
+
+    .modal-close:hover { background: rgba(13,13,26,0.15); transform: rotate(90deg); }
+
+    /* ── TABS ── */
+    .tab-bar {
+      display: flex;
+      gap: 4px;
+      padding: 20px 32px 0;
+      flex-shrink: 0;
+    }
+
+    .tab-btn {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 9px 20px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      background: transparent;
+      color: rgba(13,13,26,0.45);
+      transition: all 0.2s ease;
+      letter-spacing: 0.02em;
+    }
+
+    .tab-btn.active {
+      background: var(--ink);
+      color: white;
+    }
+
+    .tab-btn:not(.active):hover {
+      background: rgba(13,13,26,0.08);
+      color: var(--ink);
+    }
+
+    .tab-btn.disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+      text-decoration: line-through;
+    }
+
+    /* ── TAB CONTENT ── */
+    .tab-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 24px 32px 32px;
+    }
+
+    .tab-pane { display: none; }
+    .tab-pane.active { display: block; }
+
+    /* Images tab */
+    .images-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .img-wrapper {
+      border-radius: 14px;
+      overflow: hidden;
+      background: rgba(13,13,26,0.05);
+      aspect-ratio: 4/3;
+      display: flex; align-items: center; justify-content: center;
+      border: 1px solid rgba(13,13,26,0.08);
+    }
+
+    .img-wrapper img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+
+    .img-wrapper:hover img { transform: scale(1.04); }
+
+    .img-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      color: rgba(13,13,26,0.4);
+      text-align: center;
+      margin-top: 8px;
+    }
+
+    /* HTML link tab */
+    .link-card {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      padding: 24px;
+      background: rgba(13,13,26,0.04);
+      border-radius: 16px;
+      border: 1px solid rgba(13,13,26,0.08);
+      text-decoration: none;
+      color: var(--ink);
+      transition: all 0.25s ease;
+    }
+
+    .link-card:hover {
+      background: rgba(26,122,110,0.08);
+      border-color: var(--teal-light);
+      transform: translateX(4px);
+    }
+
+    .link-icon {
+      width: 52px; height: 52px;
+      border-radius: 14px;
+      background: var(--teal);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px;
+      flex-shrink: 0;
+    }
+
+    .link-info strong {
+      display: block;
+      font-family: 'Playfair Display', serif;
+      font-size: 18px;
+      margin-bottom: 4px;
+    }
+
+    .link-info span {
+      font-size: 12px;
+      color: rgba(13,13,26,0.45);
+      font-family: 'DM Mono', monospace;
+    }
+
+    /* Video tab */
+    .video-wrapper {
+      border-radius: 16px;
+      overflow: hidden;
+      background: #000;
+      aspect-ratio: 16/9;
+    }
+
+    .video-wrapper video {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    /* Unavailable state */
+    .unavail-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: 48px 24px;
+      border-radius: 16px;
+      background: rgba(13,13,26,0.03);
+      border: 2px dashed rgba(13,13,26,0.12);
+      text-align: center;
+      color: rgba(13,13,26,0.35);
+    }
+
+    .unavail-icon { font-size: 32px; opacity: 0.5; }
+
+    .unavail-card p {
+      font-size: 13px;
+      font-family: 'DM Mono', monospace;
+      letter-spacing: 0.08em;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      position: relative;
+      z-index: 10;
+      text-align: center;
+      padding: 40px 20px;
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      color: rgba(13,13,26,0.3);
+      text-transform: uppercase;
+    }
+
+    footer::before {
+      content: '';
+      display: block;
+      width: 80px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(13,13,26,0.2), transparent);
+      margin: 0 auto 20px;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      #issues-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 600px) {
+      #issues-grid { grid-template-columns: 1fr 1fr; padding: 0 16px; gap: 12px; }
+      .images-grid { grid-template-columns: 1fr; }
+      .modal-header { padding: 20px 20px 0; }
+      .tab-bar { padding: 14px 20px 0; }
+      .tab-content { padding: 16px 20px 24px; }
+      .tab-btn { padding: 8px 14px; font-size: 12px; }
+      h1 { font-size: 44px; }
+    }
+
+    /* loading skeleton */
+    .skeleton {
+      background: linear-gradient(90deg, rgba(13,13,26,0.06) 25%, rgba(13,13,26,0.1) 50%, rgba(13,13,26,0.06) 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+      border-radius: 8px;
+    }
+
+    @keyframes shimmer {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
+    .scroll-hint {
+      position: relative;
+      z-index: 10;
+      text-align: center;
+      padding-bottom: 16px;
+      font-size: 11px;
+      font-family: 'DM Mono', monospace;
+      letter-spacing: 0.2em;
+      color: rgba(13,13,26,0.3);
+      animation: floatY 2.5s ease-in-out infinite;
+    }
+
+    @keyframes floatY {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(4px); }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-rule"></div>
+    <p class="school-tag">Chung Hua High School &nbsp;·&nbsp; Hsinchu</p>
+    <h1>CHHS <em>Monthly</em></h1>
+    <p class="header-sub">Student Newsletter &nbsp;·&nbsp; 2025 – Present</p>
+    <div class="header-divider"><span>❧</span></div>
+  </header>
+
+  <div id="status-bar">
+    <span class="status-dot"></span>
+    <span id="status-text">Checking for latest issues…</span>
+  </div>
+
+  <main id="issues-grid"></main>
+
+  <p class="scroll-hint">↓ &nbsp; click any issue to explore &nbsp; ↓</p>
+
+  <!-- MODAL -->
+  <div id="modal-overlay" role="dialog" aria-modal="true">
+    <div id="modal">
+      <div class="modal-header">
+        <h2 class="modal-title" id="modal-title">Issue</h2>
+        <button class="modal-close" id="modal-close" aria-label="Close">✕</button>
+      </div>
+      <div class="tab-bar" id="tab-bar"></div>
+      <div class="tab-content" id="tab-content"></div>
+    </div>
+  </div>
+
+  <footer>
+    CHHS Monthly &nbsp;·&nbsp; Chung Hua High School &nbsp;·&nbsp; Auto-synced via GitHub
+  </footer>
+
+<script>
+// ─── CONFIG ───────────────────────────────────────────────────────────────────
+const BASE_URL = 'https://ducj-creator.github.io/events/chhsmonthly/';
+
+// The months published each school year (no Jan, Feb, Jul, Aug)
+const SCHOOL_MONTHS = [3, 4, 5, 6, 9, 10, 11, 12];
+
+// Accent colours per month position (cycles)
+const ACCENTS = [
+  '#c9953a', '#1a7a6e', '#c94060', '#1a5a9e',
+  '#7a4ac9', '#2d9a5e', '#b06020', '#4a8fd4'
+];
+
+// ─── STATE ────────────────────────────────────────────────────────────────────
+let issueData = {};   // key: "YYYY-MM" → { images, html, video }
+let currentIssue = null;
+let currentTab = 0;
+
+// ─── AUTO-DISCOVER: try HEAD requests for each expected file ──────────────────
+async function checkFile(url) {
+  try {
+    const r = await fetch(url, { method: 'HEAD' });
+    return r.ok;
+  } catch { return false; }
+}
+
+async function discoverIssues() {
+  // Build list of all possible issues: current year + last year as fallback
+  const now = new Date();
+  const years = [now.getFullYear()];
+  if (now.getMonth() < 4) years.push(now.getFullYear() - 1); // show previous year early on
+
+  const checks = [];
+  for (const year of years) {
+    for (const month of SCHOOL_MONTHS) {
+      const key = `${year}-${String(month).padStart(2,'0')}`;
+      checks.push(key);
+    }
+  }
+
+  // Also always include 2025-03 (earliest known)
+  if (!checks.includes('2025-03')) checks.unshift('2025-03');
+
+  // Parallel check all potential issues
+  const results = await Promise.all(checks.map(async (key) => {
+    const img1 = checkFile(`${BASE_URL}${key}-1.png`);
+    const img2 = checkFile(`${BASE_URL}${key}-2.png`);
+    const html = checkFile(`${BASE_URL}${key}.html`);
+    const video = checkFile(`${BASE_URL}${key}.mp4`);
+    const [hasImg1, hasImg2, hasHtml, hasVideo] = await Promise.all([img1, img2, html, video]);
+    return { key, hasImg1, hasImg2, hasHtml, hasVideo };
+  }));
+
+  const found = {};
+  for (const r of results) {
+    if (r.hasImg1 || r.hasImg2 || r.hasHtml || r.hasVideo) {
+      found[r.key] = r;
+    }
+  }
+  return found;
+}
+
+// ─── BUILD GRID ───────────────────────────────────────────────────────────────
+function monthName(num) {
+  return ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][num-1];
+}
+
+function buildGrid(discovered) {
+  const grid = document.getElementById('issues-grid');
+  grid.innerHTML = '';
+
+  // Group by year
+  const byYear = {};
+  for (const key of Object.keys(discovered)) {
+    const [yr] = key.split('-');
+    (byYear[yr] = byYear[yr] || []).push(key);
+  }
+
+  let accentIdx = 0;
+  const years = Object.keys(byYear).sort((a,b) => b-a);
+
+  for (const year of years) {
+    // Year label
+    const label = document.createElement('div');
+    label.className = 'year-label';
+    label.textContent = year;
+    grid.appendChild(label);
+
+    // All 8 slots for the year
+    for (const month of SCHOOL_MONTHS) {
+      const key = `${year}-${String(month).padStart(2,'0')}`;
+      const data = discovered[key];
+      const accent = ACCENTS[accentIdx % ACCENTS.length];
+      accentIdx++;
+
+      const panel = document.createElement('div');
+      panel.className = 'issue-panel' + (data ? '' : ' unavailable');
+      panel.style.setProperty('--accent', accent);
+      panel.style.animationDelay = `${accentIdx * 0.06}s`;
+
+      panel.innerHTML = `
+        <div class="panel-month-num">${String(month).padStart(2,'0')}</div>
+        <div class="panel-year">${year}</div>
+        <div class="panel-title">${monthName(month)}<br>Issue</div>
+        <div class="panel-badges">
+          <span class="badge ${data?.hasImg1 || data?.hasImg2 ? 'available' : 'unavailable'}">Photos</span>
+          <span class="badge ${data?.hasHtml ? 'available' : 'unavailable'}">Word Search</span>
+          <span class="badge ${data?.hasVideo ? 'available' : 'unavailable'}">News Report</span>
+        </div>
+        ${!data ? '<div class="panel-coming-soon">coming soon</div>' : ''}
+      `;
+
+      if (data) {
+        panel.addEventListener('click', () => openModal(key, data, accent));
+      }
+
+      grid.appendChild(panel);
+    }
+  }
+}
+
+// ─── MODAL ────────────────────────────────────────────────────────────────────
+function openModal(key, data, accent) {
+  currentIssue = key;
+  const [year, month] = key.split('-');
+
+  document.getElementById('modal-title').innerHTML =
+    `<span>${monthName(parseInt(month))} ${year}</span> Issue`;
+
+  buildTabs(key, data, accent);
+
+  document.getElementById('modal-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('modal-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+  // pause any video
+  document.querySelectorAll('#tab-content video').forEach(v => v.pause());
+}
+
+function buildTabs(key, data, accent) {
+  const bar = document.getElementById('tab-bar');
+  const content = document.getElementById('tab-content');
+
+  const tabs = [
+    { id: 'photos',     label: '🖼 Photos',        available: data.hasImg1 || data.hasImg2 },
+    { id: 'wordsearch', label: '🔤 Word Search',    available: data.hasHtml },
+    { id: 'newsreport', label: '🎬 News Report',    available: data.hasVideo },
+  ];
+
+  bar.innerHTML = tabs.map((t, i) =>
+    `<button class="tab-btn${i===0?' active':''}${!t.available?' disabled':''}"
+      data-idx="${i}" ${!t.available?'title="Not yet available"':''}>${t.label}</button>`
+  ).join('');
+
+  content.innerHTML = tabs.map((t, i) => {
+    let inner = '';
+    if (!t.available) {
+      inner = `<div class="unavail-card">
+        <div class="unavail-icon">🔒</div>
+        <p>Not yet available for ${key}</p>
+      </div>`;
+    } else if (t.id === 'photos') {
+      inner = `<div class="images-grid">
+        ${data.hasImg1 ? `<div>
+          <div class="img-wrapper"><img src="${BASE_URL}${key}-1.png" alt="Page 1" loading="lazy" /></div>
+          <p class="img-label">${key} · PAGE 1</p>
+        </div>` : ''}
+        ${data.hasImg2 ? `<div>
+          <div class="img-wrapper"><img src="${BASE_URL}${key}-2.png" alt="Page 2" loading="lazy" /></div>
+          <p class="img-label">${key} · PAGE 2</p>
+        </div>` : ''}
+      </div>`;
+    } else if (t.id === 'wordsearch') {
+      inner = `<a class="link-card" href="${BASE_URL}${key}.html" target="_blank" rel="noopener">
+        <div class="link-icon">🔤</div>
+        <div class="link-info">
+          <strong>Open Word Search</strong>
+          <span>${key}.html · opens in new tab</span>
+        </div>
+        <span style="margin-left:auto;font-size:20px;opacity:0.4">↗</span>
+      </a>`;
+    } else if (t.id === 'newsreport') {
+      inner = `<div class="video-wrapper">
+        <video controls preload="metadata">
+          <source src="${BASE_URL}${key}.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+      </div>`;
+    }
+    return `<div class="tab-pane${i===0?' active':''}" data-idx="${i}">${inner}</div>`;
+  }).join('');
+
+  // Tab click
+  bar.querySelectorAll('.tab-btn:not(.disabled)').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const idx = btn.dataset.idx;
+      bar.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      content.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      content.querySelector(`.tab-pane[data-idx="${idx}"]`).classList.add('active');
+    });
+  });
+}
+
+// ─── EVENT LISTENERS ──────────────────────────────────────────────────────────
+document.getElementById('modal-close').addEventListener('click', closeModal);
+document.getElementById('modal-overlay').addEventListener('click', e => {
+  if (e.target === document.getElementById('modal-overlay')) closeModal();
+});
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+// ─── INIT ─────────────────────────────────────────────────────────────────────
+(async () => {
+  const statusText = document.getElementById('status-text');
+  statusText.textContent = 'Syncing with GitHub…';
+
+  try {
+    const discovered = await discoverIssues();
+    const count = Object.keys(discovered).length;
+    buildGrid(discovered);
+    statusText.textContent = `${count} issue${count!==1?'s':''} available · last checked ${new Date().toLocaleTimeString()}`;
+  } catch (err) {
+    statusText.textContent = 'Could not reach GitHub — showing cached layout';
+    // Fallback: show known issues
+    buildGrid({
+      '2026-03': { hasImg1:true, hasImg2:true, hasHtml:false, hasVideo:false },
+      '2026-04': { hasImg1:true, hasImg2:true, hasHtml:true,  hasVideo:true  },
+      '2026-05': { hasImg1:true, hasImg2:true, hasHtml:false, hasVideo:true  },
+    });
+  }
+})();
+</script>
+</body>
+</html>
