@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="generator" content="Microsoft Word">
+    <title>恩塞納達魚塔可講座講義_2小時實作版</title>
+    <style>
+        /* 整體樣式：模擬 Word A4 文件 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Calibri', 'Segoe UI', '新細明體', 'Microsoft JhengHei', sans-serif;
+            font-size: 11pt;
+            line-height: 1.4;
+            margin: 0 auto;
+            padding: 20px;
+            background: #e2e6e9;
+            color: #1a1a1a;
+        }
+        /* 控制按鈕區 */
+        .toolbar {
+            position: sticky;
+            top: 10px;
+            background: #2c3e4e;
+            padding: 12px 20px;
+            border-radius: 40px;
+            text-align: center;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .toolbar button {
+            background: #f39c12;
+            border: none;
+            padding: 8px 24px;
+            font-size: 14px;
+            font-weight: bold;
+            border-radius: 30px;
+            cursor: pointer;
+            color: #2c3e4e;
+            transition: 0.2s;
+            font-family: inherit;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .toolbar button:hover {
+            background: #e67e22;
+            transform: scale(1.02);
+            color: white;
+        }
+        .print-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: white;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            padding: 20px 25px 40px 25px;
+            border-radius: 4px;
+        }
+        /* 分頁設定 */
+        .page {
+            page-break-after: always;
+            margin-bottom: 20px;
+            padding: 0 0 10px 0;
+        }
+        .page:last-child {
+            page-break-after: auto;
+        }
+        h1 {
+            font-size: 26pt;
+            font-weight: bold;
+            text-align: center;
+            margin: 30px 0 15px;
+            color: #1e466e;
+        }
+        h2 {
+            font-size: 18pt;
+            font-weight: bold;
+            margin: 20px 0 10px;
+            color: #2c6e2c;
+            border-left: 6px solid #e67e22;
+            padding-left: 14px;
+        }
+        h3 {
+            font-size: 14pt;
+            font-weight: bold;
+            margin: 15px 0 8px;
+            color: #b64926;
+        }
+        .eng {
+            font-weight: 500;
+            color: #1e466e;
+        }
+        .chi {
+            font-weight: normal;
+            color: #2d2d2d;
+        }
+        .dual {
+            margin: 8px 0;
+        }
+        .dual .eng {
+            display: block;
+            font-size: 12pt;
+        }
+        .dual .chi {
+            display: block;
+            font-size: 11pt;
+            color: #4a4a4a;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        th, td {
+            border: 1px solid #9aa8b5;
+            padding: 8px 10px;
+            vertical-align: top;
+        }
+        th {
+            background-color: #f2eee9;
+            font-weight: bold;
+        }
+        .recipe-card {
+            background: #fef7e0;
+            border: 2px dashed #e67e22;
+            padding: 16px 22px;
+            margin: 20px 0;
+            border-radius: 20px;
+        }
+        .highlight {
+            background: #f9f3e3;
+            padding: 10px 15px;
+            border-left: 5px solid #e67e22;
+            margin: 15px 0;
+        }
+        .step-box {
+            background: #f7f9fc;
+            padding: 12px 18px;
+            margin: 12px 0;
+            border-radius: 12px;
+            border: 1px solid #dce4ec;
+        }
+        .note-lines {
+            margin-top: 18px;
+            border-top: 1px dashed #bbb;
+            padding-top: 12px;
+        }
+        .timeline-table td:first-child {
+            background-color: #fef5e7;
+            font-weight: bold;
+            width: 28%;
+        }
+        /* 列印專用樣式 */
+        @media print {
+            .toolbar {
+                display: none;
+            }
+            body {
+                background: white;
+                padding: 0;
+                margin: 0;
+            }
+            .print-container {
+                box-shadow: none;
+                padding: 0;
+                margin: 0;
+                max-width: 100%;
+            }
+            .page {
+                page-break-after: always;
+                margin: 0;
+                padding: 0.2cm;
+            }
+            @page {
+                size: A4;
+                margin: 1.8cm;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="toolbar">
+    <button onclick="window.print();">🖨️ 列印 / Print</button>
+    <button onclick="exportToWord();">📄 匯出至 Microsoft Word (.doc)</button>
+    <button onclick="exportToPDF();">📑 另存為 PDF (建議使用列印)</button>
+</div>
+
+<div class="print-container" id="handoutContent">
+    <!-- ================= 第1頁：封面 ================= -->
+    <div class="page">
+        <h1 style="font-size:30pt; margin-top:50px;">Ensenada Tacos: A Palate-Awakening Journey<br>from Fishing Port to Table</h1>
+        <h1 style="font-size:22pt; color:#2c5a2c; margin-top:15px;">墨西哥西海岸下加州的美味傳奇：恩塞納達塔可<br>——從漁港到餐桌，一場喚醒味蕾的微旅行</h1>
+        <p style="text-align:center; margin-top:45px; font-size:15pt;"><strong>Tourism Gastronomy Lecture + Hands-On Workshop<br>觀光科美食旅遊講座 + 現場實作</strong></p>
+        <p style="text-align:center; margin-top:20px; font-size:12pt;"><strong>📅 總時長：2 小時 (120 分鐘) ｜ Total Duration: 2 Hours</strong></p>
+        <p style="text-align:center; margin-top:50px;">Name／姓名：_________________________________</p>
+        <p style="text-align:center;">Date／日期：_________________________________</p>
+        <p style="text-align:center;">Instructor／主講人：___________________________</p>
+        <div style="margin-top:60px;"></div>
+    </div>
+
+    <!-- ================= 第2頁：講座目標 + 時間規劃表 ================= -->
+    <div class="page">
+        <h2>Lecture Objectives <span style="font-weight:normal;">／ 講座目標</span></h2>
+        <div class="dual"><span class="eng">After this 2-hour lecture and workshop, you will be able to:</span><span class="chi">完成2小時講座與實作後，你將能夠：</span></div>
+        <ol>
+            <li><span class="eng">Understand Ensenada's tourism resources and gastronomic identity</span><br><span class="chi">認識恩塞納達的觀光資源與美食定位</span></li>
+            <li><span class="eng">Learn the history and cultural background of the Ensenada fish taco</span><br><span class="chi">了解恩塞納達魚塔可的歷史與文化背景</span></li>
+            <li><span class="eng">Make an authentic Ensenada fish taco from scratch</span><br><span class="chi">親手製作一份道地的恩塞納達魚塔可</span></li>
+            <li><span class="eng">Apply local food experiences to tourism itinerary design</span><br><span class="chi">將在地美食體驗應用於旅遊行程設計</span></li>
+        </ol>
+        
+        <h3>⏱️ 2-Hour Agenda ／ 2小時流程表</h3>
+        <table class="timeline-table">
+            <tr><th>Time／時間</th><th>Activity／活動</th><th>Duration</th></tr>
+            <tr><td>0:00 – 0:10</td><td><strong>Opening + Tourism Background</strong><br>開場 + 旅遊背景（恩塞納達介紹）</td><td>10 min</td></tr>
+            <tr><td>0:10 – 0:20</td><td><strong>Fish Taco Story & Culture</strong><br>魚塔可歷史文化 + Mercado Negro</td><td>10 min</td></tr>
+            <tr><td>0:20 – 0:25</td><td><strong>Ingredients & Tools Intro</strong><br>食材與工具介紹</td><td>5 min</td></tr>
+            <tr><td>0:25 – 0:45</td><td><strong>Hands-On Part 1: Marinating & Batter</strong><br>實作①：醃魚 + 調製啤酒麵糊</td><td>20 min</td></tr>
+            <tr><td>0:45 – 1:10</td><td><strong>Hands-On Part 2: Frying (Supervised) + Assembly</strong><br>實作②：炸魚（老師指導）+ 組裝塔可</td><td>25 min</td></tr>
+            <tr><td>1:10 – 1:30</td><td><strong>Eat Together! Sharing & Photo Moment</strong><br>一起享用！分享討論 + 拍照</td><td>20 min</td></tr>
+            <tr><td>1:30 – 1:45</td><td><strong>Tourism Pro Tips + Group Activity</strong><br>觀光應用技巧 + 小組活動設計</td><td>15 min</td></tr>
+            <tr><td>1:45 – 2:00</td><td><strong>Group Sharing + Conclusion & Q&A</strong><br>小組分享 + 結語 + 問答</td><td>15 min</td></tr>
+        </table>
+        <div class="highlight">
+            💡 <strong>Pro Tip for Instructor／老師小提醒：</strong> 油炸時間可輪流進行，同時讓其他學生組裝配料，保持流暢。
+        </div>
+    </div>
+
+    <!-- ================= 第3頁：地理+美食聖地 ================= -->
+    <div class="page">
+        <h2>Where is Ensenada? – Geography & Tourism<br>恩塞納達在哪裡？——地理與旅遊魅力</h2>
+        <p><strong class="eng">Location／位置：</strong> Baja California, northwestern Mexico, Pacific coast.<br>墨西哥西北部，下加利福尼亞州，濱臨太平洋。</p>
+        <p><strong class="eng">Distance／距離：</strong> 1.5 hours from US-Mexico border. 距離美墨邊境約1.5小時車程。</p>
+        <p><strong class="eng">Known as the "Fish Taco Capital of the World" ／ 被譽為「世界魚塔可之都」。</strong></p>
+        
+        <h3>Why is Ensenada a Food Tourism Capital?<br>為什麼恩塞納達是美食旅遊聖地？</h3>
+        <ul>
+            <li><span class="eng">Fresh seafood: boat to table in under 2 hours</span><br><span class="chi">新鮮海產直送：漁船到餐廳不到2小時</span></li>
+            <li><span class="eng">Valle de Guadalupe wine region (90% of Mexico's wine)</span><br><span class="chi">結合下加州葡萄酒產區（產出墨西哥90%的葡萄酒）</span></li>
+            <li><span class="eng">High density of taco stands and street food culture</span><br><span class="chi">街頭美食文化豐富，塔可攤密度極高</span></li>
+            <li><span class="eng">Annual Ensenada Taco Festival</span><br><span class="chi">每年舉辦「恩塞納達塔可節」</span></li>
+        </ul>
+    </div>
+
+    <!-- ================= 第4頁：歷史故事 + Mercado Negro ================= -->
+    <div class="page">
+        <h2>The Origin Story of the Ensenada Fish Taco<br>恩塞納達魚塔可的誕生故事</h2>
+        <ul>
+            <li><span class="eng">1950s: Local vendors first placed fried fish into a corn tortilla</span><br><span class="chi">1950年代：當地攤販首次將炸魚放入玉米餅</span></li>
+            <li><span class="eng">Influenced by Japanese & Chinese immigrant frying techniques</span><br><span class="chi">受日本與中國移民的炸魚技術影響</span></li>
+            <li><span class="eng">Later added shredded cabbage, creamy sauce, and salsa</span><br><span class="chi">後來加入高麗菜絲、酸奶油醬、莎莎醬</span></li>
+            <li><span class="eng">Became the classic combination we know today</span><br><span class="chi">形成今日經典組合</span></li>
+        </ul>
+        <div class="highlight">
+            <strong>✨ Tourism Highlight – Mercado Negro (Black Market) 旅遊亮點：黑市</strong><br>
+            <span class="eng">Fresh fish auction · Live taco stalls · Observe fishermen, chefs, tourists</span><br>
+            <span class="chi">漁獲直銷拍賣 · 現炸塔可攤位 · 觀察漁民、主廚、觀光客互動</span><br>
+            <strong class="eng">Tourism application:</strong> <span class="chi">帶團體驗「從魚網到餐桌」的過程 — "net-to-table" experience.</span>
+        </div>
+    </div>
+
+    <!-- ================= 第5頁：食材清單 ================= -->
+    <div class="page">
+        <h2>Fish Taco Workshop – Ingredients<br>魚塔可實作——食材清單</h2>
+        <table>
+            <tr><th width="50%">For the fish／魚的部分</th><th>For the batter／麵糊</th></tr>
+            <tr><td>□ White fish (cod/snapper/sea bass) 白肉魚<br>□ Lime juice 萊姆汁<br>□ Garlic (minced) 大蒜末<br>□ Salt 鹽<br>□ Chili powder (opt.) 辣椒粉(可選)</td>
+            <td>□ Beer (light) 啤酒(淡)<br>□ Flour 麵粉<br>□ Baking powder 泡打粉</td></tr>
+        </table>
+        <h3>Toppings & Sauces ／ 配料與醬料</h3>
+        <ul>
+            <li>□ Corn tortillas 玉米餅</li>
+            <li>□ Shredded cabbage 高麗菜絲</li>
+            <li>□ Cilantro 香菜 / Diced onion 洋蔥丁</li>
+            <li>□ Creamy sauce (mayo+yogurt+lime) 酸奶油醬</li>
+            <li>□ Salsa (tomato, chili, cilantro) 莎莎醬</li>
+            <li>□ Lime wedges 萊姆角 / Avocado (opt.) 酪梨(可選)</li>
+        </ul>
+    </div>
+
+    <!-- ================= 第6頁：實作步驟 Part 1 ================= -->
+    <div class="page">
+        <h2>Step-by-Step Workshop (Part 1)<br>實作步驟（前半）—— 醃魚與調製麵糊</h2>
+        <div class="step-box">
+            <strong>Step 1 – Marinate the fish ／ 醃魚 (5-8 minutes)</strong><br>
+            1. Cut fish into strips (2 inches long). 將魚肉切成長約5公分的條狀。<br>
+            2. Mix with lime juice, minced garlic, salt, chili powder. 混合萊姆汁、大蒜、鹽、辣椒粉。<br>
+            3. Let sit for 5 min while preparing batter. 靜置5分鐘（同時準備麵糊）。
+        </div>
+        <div class="step-box">
+            <strong>Step 2 – Make the batter ／ 調製麵糊 (5 minutes)</strong><br>
+            1. Whisk beer, flour, baking powder. 攪拌啤酒、麵粉、泡打粉。<br>
+            2. Consistency: thick enough to coat the back of a spoon. 麵糊濃度能附著在湯匙背面。<br>
+            ⚠️ <span class="eng">Food safety: Keep raw fish separate from ready-to-eat toppings.</span> <span class="chi">生魚與即食配料請分開處理。</span>
+        </div>
+    </div>
+
+    <!-- ================= 第7頁：實作步驟 Part 2 (炸魚+組裝) ================= -->
+    <div class="page">
+        <h2>Step-by-Step Workshop (Part 2)<br>實作步驟（後半）—— 炸魚與組裝</h2>
+        <div class="step-box">
+            <strong>Step 3 – Fry the fish ／ 炸魚 (under instructor supervision, 10-12 min rotation)</strong><br>
+            ▪ Heat oil to 180°C (350°F). 油加熱至180°C。<br>
+            ▪ Dip fish in batter, let excess drip. 裹麵糊，滴落多餘。<br>
+            ▪ Carefully place into hot oil, fry 2–3 min until golden. 小心放入油鍋，炸2-3分鐘至金黃。<br>
+            ▪ Remove with tongs, drain on paper towels. 用夾子取出，紙巾吸油。<br>
+            <span style="color:#c0392b;">⚠️ Safety: No running near fryers / Use tongs / Instructor controls oil.</span>
+        </div>
+        <div class="step-box">
+            <strong>Step 4 – Warm the tortillas ／ 加熱玉米餅</strong><br>
+            On a dry pan or griddle, 30 seconds per side. 乾鍋或煎盤加熱，每面約30秒。
+        </div>
+        <div class="step-box">
+            <strong>Step 5 – Assemble the taco ／ 組裝塔可 (順序由下至上)</strong><br>
+            ① Warm tortilla 玉米餅 → ② Shredded cabbage 高麗菜絲 → ③ Fried fish 炸魚 → ④ Creamy sauce 酸奶油醬 → ⑤ Salsa 莎莎醬 → ⑥ Squeeze of lime 萊姆汁 → ⑦ Optional toppings 可選配料
+        </div>
+    </div>
+
+    <!-- ================= 第8頁：享用與分享 ================= -->
+    <div class="page">
+        <h2>Let's Eat Together! – Sharing & Reflection<br>一起享用！—— 分享與反思 (20 min)</h2>
+        <p><span class="eng">After assembly, we will all eat together as a class.</span><br><span class="chi">組裝完成後，全班將一起享用自己製作的塔可。</span></p>
+        <p><strong>📸 Photo moment 拍照時間：</strong> Let's take a picture of everyone with their taco! 大家一起拿著塔可拍照！</p>
+        <h3>Discussion questions while we eat 享用時的討論問題：</h3>
+        <ol>
+            <li><span class="eng">What do you taste? (crunchy, creamy, fresh, smoky?)</span><br><span class="chi">你品嚐到哪些味道？（酥脆、滑順、清新、煙燻？）</span></li>
+            <li><span class="eng">If you were a tour guide, how would you describe this taco to a tourist?</span><br><span class="chi">如果你是導遊，你會如何向遊客介紹這個塔可？</span></li>
+            <li><span class="eng">What story would you tell behind this taco?</span><br><span class="chi">你會為這個塔可說一個什麼樣的故事？</span></li>
+        </ol>
+        <div class="note-lines">
+            <p><strong>Notes／筆記：</strong></p>
+            <p>_________________________________________________________________</p>
+            <p>_________________________________________________________________</p>
+        </div>
+    </div>
+
+    <!-- ================= 第9頁：觀光小技巧 ================= -->
+    <div class="page">
+        <h2>Tourism Pro Tips<br>觀光職人小技巧：如何將一道塔可變成旅遊賣點</h2>
+        <ul>
+            <li><span class="eng"><strong>Storytelling 說故事</strong> – Share stories of fishermen, immigrants, family recipes.</span><br><span class="chi">分享漁民、移民、家庭食譜的故事。</span></li>
+            <li><span class="eng"><strong>Hands-on experience 動手體驗</strong> – Let tourists assemble their own taco.</span><br><span class="chi">讓遊客自己動手組裝塔可。</span></li>
+            <li><span class="eng"><strong>Social media moment 社群亮點</strong> – Film the moment fish comes out of the fryer.</span><br><span class="chi">拍攝炸魚起鍋的瞬間，療癒又易分享！</span></li>
+            <li><span class="eng"><strong>Sustainable tourism 永續旅遊</strong> – Use local, sustainable seafood & compostable tableware.</span><br><span class="chi">使用在地永續海鮮與可分解餐具。</span></li>
+        </ul>
+    </div>
+
+    <!-- ================= 第10頁：小組活動 ================= -->
+    <div class="page">
+        <h2>Group Activity ／ 小組活動 (15 min)</h2>
+        <p><strong>Design a 2-Hour Ensenada Taco Tour<br>設計一條2小時的恩塞納達塔可體驗行程</strong></p>
+        <p><span class="eng">In small groups (10 minutes), design a "2-hour Ensenada Taco Experience" including 4 elements:</span><br><span class="chi">以小組為單位（10分鐘設計 + 5分鐘分享），為遊客設計「2小時恩塞納達塔可體驗行程」，需包含：</span></p>
+        <ul>
+            <li><span class="eng">A short story about the taco</span><br><span class="chi">一個關於塔可的短故事</span></li>
+            <li><span class="eng">One hands-on activity (frying, salsa making, assembling...)</span><br><span class="chi">一個動手做的活動（炸魚、做莎莎醬、組裝塔可）</span></li>
+            <li><span class="eng">One photo moment for social media</span><br><span class="chi">一個適合拍照的社群亮點</span></li>
+            <li><span class="eng">A catchy social media caption (English or Chinese)</span><br><span class="chi">一個吸引人的社群貼文標題（英文或中文）</span></li>
+        </ul>
+        <p><strong>Your group's tour design／你們小組的行程設計：</strong></p>
+        <div class="note-lines">
+            <p>_________________________________________________________________</p>
+            <p>_________________________________________________________________</p>
+            <p>_________________________________________________________________</p>
+        </div>
+        <p><span class="eng">Sharing time: 2-3 minutes per group</span><br><span class="chi">分享時間：每組2-3分鐘</span></p>
+    </div>
+
+    <!-- ================= 第11頁：結語 + Q&A ================= -->
+    <div class="page">
+        <h2>Conclusion ／ 結語</h2>
+        <p><span class="eng"><strong>Ensenada = Fishing port + Fresh fish taco + Tourism inspiration</strong></span><br><span class="chi">恩塞納達 = 漁港 + 新鮮魚塔可 + 旅遊靈感</span></p>
+        <div class="highlight">
+            <p><span class="eng">A simple street food can become the heart of a travel destination.</span><br><span class="chi">一道簡單的街頭美食，就能成為觀光目的地的心臟。</span></p>
+            <p><span class="eng">Today, you didn't just eat a taco – you made one, like a local.</span><br><span class="chi">今天，你不只是吃了一個塔可——你像當地人一樣，親手做了一個。</span></p>
+        </div>
+        <p><strong>Q&A Session ／ 問答時間 (5 min)</strong></p>
+        <div class="note-lines">
+            <p><strong>Final Notes／最後筆記：</strong></p>
+            <p>_________________________________________________________________</p>
+            <p>_________________________________________________________________</p>
+        </div>
+    </div>
+
+    <!-- ================= 第12頁：食譜快速參考卡 ================= -->
+    <div class="page">
+        <div class="recipe-card">
+            <h3 style="text-align:center; margin:0 0 8px;">🎓 Ensenada Fish Taco Recipe Card<br>恩塞納達魚塔可食譜卡 (2-Hour Workshop Version)</h3>
+            <table style="background:transparent; border:none;">
+                <tr><td style="border:none; width:50%;"><strong>Ingredients (1 taco)</strong><br>▪ White fish 2 strips<br>▪ Corn tortilla 1 pc<br>▪ Shredded cabbage ¼ cup<br>▪ Creamy sauce 1 tbsp<br>▪ Salsa 1 tbsp<br>▪ Lime wedge<br>▪ Cilantro & onion to taste</td>
+                <td style="border:none;"><strong>Steps</strong><br>1. Marinate fish 5 min (lime, garlic, salt)<br>2. Make beer batter (beer+flour+baking powder)<br>3. Dip & fry 180°C / 2-3 min<br>4. Warm tortilla<br>5. Assemble: tortilla → cabbage → fish → creamy sauce → salsa → lime<br>6. Enjoy with classmates!</td></tr>
+            </table>
+            <p style="text-align:center; margin-top:10px;"><strong>✨ 從漁港到餐桌，喚醒味蕾的微旅行 ✨<br>A Palate-Awakening Journey from Fishing Port to Table</strong></p>
+        </div>
+        <p style="margin-top:20px;"><em>Instructor contact info／老師聯絡方式：____________________</em></p>
+    </div>
+</div>
+
+<script>
+    // 匯出為 .doc 檔案 (Microsoft Word)
+    function exportToWord() {
+        let content = document.getElementById('handoutContent').cloneNode(true);
+        // 隱藏內嵌按鈕區（若存在於clone內）但沒有toolbar, 無需處理
+        let styles = document.querySelector('style').innerHTML;
+        let docHtml = `
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <meta charset="UTF-8">
+                <title>Ensenada_Taco_Workshop_2Hrs</title>
+                <style>
+                    ${styles}
+                    .toolbar { display: none; }
+                    body { background: white; padding: 30px; margin: 0; }
+                    .print-container { max-width: 100%; padding: 0; box-shadow: none; }
+                    .page { page-break-after: always; }
+                </style>
+            </head>
+            <body>
+                ${content.outerHTML}
+            </body>
+            </html>
+        `;
+        const blob = new Blob([docHtml], { type: 'application/msword' });
+        const link = document.createElement('a');
+        const url = URL.createObjectURL(blob);
+        link.href = url;
+        link.download = 'Ensenada_Taco_Lecture_2Hours.doc';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+    }
+    
+    // PDF 提示：瀏覽器的列印功能可儲存為 PDF
+    function exportToPDF() {
+        window.print();
+    }
+</script>
+</body>
+</html>
