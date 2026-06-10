@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Public Forum Debate — Word Search</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0e0e0e;
+    --paper: #f5f0e8;
+    --paper-dark: #ede8da;
+    --rule: #0e0e0e;
+    --found: #c8392b;
+    --found-bg: #f9e8e6;
+    --select: #1a4f8a;
+    --select-bg: #dce8f5;
+    --muted: #6b6455;
+    --cell-bg: #ede8da;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'IBM Plex Sans', sans-serif;
+    min-height: 100vh;
+    padding: 0;
+  }
+
+  /* ── MASTHEAD ── */
+  .masthead {
+    border-bottom: 3px double var(--ink);
+    padding: 18px 24px 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .masthead-kicker {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .masthead-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.9rem, 6vw, 3.2rem);
+    font-weight: 900;
+    line-height: 1;
+    text-align: center;
+    letter-spacing: -0.01em;
+  }
+
+  .masthead-rule {
+    width: 100%;
+    max-width: 480px;
+    height: 1px;
+    background: var(--ink);
+    margin: 6px 0;
+  }
+
+  .masthead-sub {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* ── LAYOUT ── */
+  .page {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 24px 16px 40px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  @media (min-width: 760px) {
+    .page {
+      grid-template-columns: 1fr 280px;
+      gap: 32px;
+      align-items: start;
+    }
+  }
+
+  /* ── GRID PANEL ── */
+  .grid-panel {
+    border: 2px solid var(--ink);
+    background: var(--paper);
+  }
+
+  .panel-head {
+    border-bottom: 2px solid var(--ink);
+    padding: 8px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  .panel-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .progress-bar-wrap {
+    flex: 1;
+    max-width: 160px;
+    height: 4px;
+    background: var(--paper-dark);
+    border: 1px solid #ccc8be;
+    overflow: hidden;
+  }
+
+  .progress-bar-fill {
+    height: 100%;
+    background: var(--found);
+    transition: width 0.35s ease;
+    width: 0%;
+  }
+
+  #progress-text {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+
+  /* ── WORD GRID ── */
+  #word-grid {
+    display: grid;
+    grid-template-columns: repeat(14, 1fr);
+    grid-template-rows: repeat(14, 1fr);
+    gap: 2px;
+    padding: 10px;
+    aspect-ratio: 1 / 1;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: none;
+  }
+
+  .grid-cell {
+    background: var(--cell-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 600;
+    font-size: clamp(0.55rem, 2.4vw, 0.9rem);
+    color: var(--ink);
+    cursor: pointer;
+    border-radius: 2px;
+    transition: background 0.08s, color 0.08s;
+    aspect-ratio: 1;
+  }
+
+  .grid-cell.selected {
+    background: var(--select);
+    color: #fff;
+  }
+
+  .grid-cell.found {
+    background: var(--found);
+    color: #fff;
+  }
+
+  /* ── SIDEBAR ── */
+  .sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  /* Word list */
+  .word-list-panel {
+    border: 2px solid var(--ink);
+  }
+
+  #word-list {
+    list-style: none;
+    padding: 8px 0;
+  }
+
+  #word-list li {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.78rem;
+    font-weight: 600;
+    padding: 6px 14px;
+    border-bottom: 1px solid var(--paper-dark);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    letter-spacing: 0.04em;
+    transition: color 0.2s;
+  }
+
+  #word-list li:last-child { border-bottom: none; }
+
+  #word-list li::before {
+    content: '○';
+    font-size: 9px;
+    color: var(--muted);
+    flex-shrink: 0;
+    transition: color 0.2s, content 0.2s;
+  }
+
+  #word-list li.word-found {
+    text-decoration: line-through;
+    color: var(--found);
+  }
+
+  #word-list li.word-found::before {
+    content: '●';
+    color: var(--found);
+  }
+
+  /* Directions box */
+  .directions-panel {
+    border: 2px solid var(--ink);
+    padding: 12px 14px;
+  }
+
+  .directions-panel p {
+    font-size: 0.78rem;
+    line-height: 1.55;
+    color: var(--muted);
+  }
+
+  /* Win state */
+  .win-banner {
+    display: none;
+    border: 2px solid var(--ink);
+    padding: 16px 20px;
+    background: var(--ink);
+    color: var(--paper);
+    text-align: center;
+  }
+
+  .win-banner.show { display: block; }
+
+  .win-banner-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+
+  .win-banner-sub {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    opacity: 0.7;
+  }
+
+  /* Reset button */
+  .reset-btn {
+    width: 100%;
+    padding: 10px;
+    background: var(--ink);
+    color: var(--paper);
+    border: 2px solid var(--ink);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+  }
+
+  .reset-btn:hover {
+    background: var(--paper);
+    color: var(--ink);
+  }
+
+  /* Footer rule */
+  .footer-rule {
+    border: none;
+    border-top: 1px solid #ccc8be;
+    margin: 0 24px;
+  }
+
+  .footer {
+    text-align: center;
+    padding: 12px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9.5px;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <span class="masthead-kicker">Tournament Vocabulary</span>
+  <h1 class="masthead-title">Public Forum<br>Word Search</h1>
+  <div class="masthead-rule"></div>
+  <span class="masthead-sub">Find the hidden debate terms</span>
+</header>
+
+<main class="page">
+  <div class="grid-panel">
+    <div class="panel-head">
+      <span class="panel-label">Grid</span>
+      <div class="progress-bar-wrap"><div class="progress-bar-fill" id="progress-fill"></div></div>
+      <span id="progress-text">0 / 12</span>
+    </div>
+    <div id="word-grid"></div>
+  </div>
+
+  <div class="sidebar">
+    <div id="win-banner" class="win-banner">
+      <p class="win-banner-title">All terms found.</p>
+      <p class="win-banner-sub">Outstanding advocacy.</p>
+    </div>
+
+    <div class="word-list-panel">
+      <div class="panel-head">
+        <span class="panel-label">Target Words</span>
+      </div>
+      <ul id="word-list"></ul>
+    </div>
+
+    <div class="directions-panel">
+      <div class="panel-head" style="margin: -12px -14px 10px; padding: 8px 14px;">
+        <span class="panel-label">How to Play</span>
+      </div>
+      <p>Click and drag across letters to select a word. Words run horizontally, vertically, or diagonally — forwards only. Found words are highlighted in red.</p>
+    </div>
+
+    <button class="reset-btn" onclick="initGame()">↺ &nbsp;Restart</button>
+  </div>
+</main>
+
+<hr class="footer-rule">
+<footer class="footer">Public Forum Debate — Vocabulary Builder</footer>
+
+<script>
+const GRID_SIZE = 14;
+const WORDS = [
+  "CROSSFIRE","REBUTTAL","SUMMARY","EVIDENCE",
+  "RESOLUTION","CITIZEN","PRO","CON",
+  "ARGUMENT","LOGIC","CLASH","SPEAKER"
+];
+
+let grid = [];
+let foundWords = [];
+let selectedCells = [];
+let isDrawing = false;
+let placedWordData = {};
+
+function initGame() {
+  foundWords = [];
+  selectedCells = [];
+  isDrawing = false;
+  placedWordData = {};
+  generateGrid();
+  renderGrid();
+  renderWordList();
+  updateProgress();
+  document.getElementById('win-banner').classList.remove('show');
+}
+
+function generateGrid() {
+  grid = Array(GRID_SIZE).fill(null).map(() => Array(GRID_SIZE).fill(''));
+  const directions = [[0,1],[1,0],[1,1],[-1,1]];
+
+  for (const word of WORDS) {
+    let placed = false, attempts = 0;
+    while (!placed && attempts < 300) {
+      const dir = directions[Math.floor(Math.random() * directions.length)];
+      const row = Math.floor(Math.random() * GRID_SIZE);
+      const col = Math.floor(Math.random() * GRID_SIZE);
+      if (canPlace(word, row, col, dir)) {
+        placeWord(word, row, col, dir);
+        placedWordData[word] = { row, col, dir };
+        placed = true;
+      }
+      attempts++;
+    }
+    // If still unplaced after 300 attempts, try all positions (fallback)
+    if (!placed) {
+      outer: for (let r = 0; r < GRID_SIZE; r++) {
+        for (let c = 0; c < GRID_SIZE; c++) {
+          for (const dir of directions) {
+            if (canPlace(word, r, c, dir)) {
+              placeWord(word, r, c, dir);
+              placedWordData[word] = { row: r, col: c, dir };
+              placed = true;
+              break outer;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  const alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  for (let r = 0; r < GRID_SIZE; r++)
+    for (let c = 0; c < GRID_SIZE; c++)
+      if (!grid[r][c]) grid[r][c] = alpha[Math.floor(Math.random() * 26)];
+}
+
+function canPlace(word, row, col, dir) {
+  const [rd, cd] = dir;
+  const endR = row + rd * (word.length - 1);
+  const endC = col + cd * (word.length - 1);
+  if (endR < 0 || endR >= GRID_SIZE || endC < 0 || endC >= GRID_SIZE) return false;
+  for (let i = 0; i < word.length; i++) {
+    const r = row + rd * i, c = col + cd * i;
+    if (grid[r][c] && grid[r][c] !== word[i]) return false;
+  }
+  return true;
+}
+
+function placeWord(word, row, col, dir) {
+  const [rd, cd] = dir;
+  for (let i = 0; i < word.length; i++)
+    grid[row + rd * i][col + cd * i] = word[i];
+}
+
+function renderGrid() {
+  const el = document.getElementById('word-grid');
+  el.innerHTML = '';
+  for (let r = 0; r < GRID_SIZE; r++) {
+    for (let c = 0; c < GRID_SIZE; c++) {
+      const cell = document.createElement('div');
+      cell.className = 'grid-cell';
+      cell.textContent = grid[r][c];
+      cell.dataset.row = r;
+      cell.dataset.col = c;
+      cell.addEventListener('mousedown', () => startSelection(r, c));
+      cell.addEventListener('mouseenter', () => extendSelection(r, c));
+      cell.addEventListener('mouseup', endSelection);
+      cell.addEventListener('touchstart', e => { e.preventDefault(); startSelection(r, c); }, {passive:false});
+      cell.addEventListener('touchmove', handleTouchMove, {passive:false});
+      cell.addEventListener('touchend', e => { e.preventDefault(); endSelection(); }, {passive:false});
+      el.appendChild(cell);
+    }
+  }
+  document.addEventListener('mouseup', endSelection);
+}
+
+function renderWordList() {
+  const ul = document.getElementById('word-list');
+  ul.innerHTML = '';
+  [...WORDS].sort().forEach(w => {
+    const li = document.createElement('li');
+    li.id = `word-${w}`;
+    li.textContent = w;
+    if (foundWords.includes(w)) li.classList.add('word-found');
+    ul.appendChild(li);
+  });
+}
+
+function updateProgress() {
+  const n = foundWords.length, total = WORDS.length;
+  document.getElementById('progress-text').textContent = `${n} / ${total}`;
+  document.getElementById('progress-fill').style.width = `${(n/total)*100}%`;
+}
+
+function startSelection(r, c) {
+  isDrawing = true;
+  selectedCells = [];
+  clearSelected();
+  selectCell(r, c);
+}
+
+function extendSelection(r, c) {
+  if (!isDrawing || !selectedCells.length) return;
+  const first = selectedCells[0];
+  const fr = parseInt(first.dataset.row), fc = parseInt(first.dataset.col);
+  const rDiff = r - fr, cDiff = c - fc;
+
+  // Must be linear (horizontal, vertical, or diagonal 45°)
+  if (rDiff !== 0 && cDiff !== 0 && Math.abs(rDiff) !== Math.abs(cDiff)) return;
+
+  clearSelected();
+  selectedCells = [first];
+  first.classList.add('selected');
+
+  const steps = Math.max(Math.abs(rDiff), Math.abs(cDiff));
+  if (steps === 0) return;
+  const rStep = rDiff === 0 ? 0 : rDiff / Math.abs(rDiff);
+  const cStep = cDiff === 0 ? 0 : cDiff / Math.abs(cDiff);
+
+  for (let i = 1; i <= steps; i++) selectCell(fr + rStep * i, fc + cStep * i);
+}
+
+function selectCell(r, c) {
+  if (r < 0 || r >= GRID_SIZE || c < 0 || c >= GRID_SIZE) return;
+  const cell = document.querySelector(`.grid-cell[data-row='${r}'][data-col='${c}']`);
+  if (cell && !selectedCells.includes(cell)) {
+    cell.classList.add('selected');
+    selectedCells.push(cell);
+  }
+}
+
+function clearSelected() {
+  document.querySelectorAll('.grid-cell.selected').forEach(el => el.classList.remove('selected'));
+}
+
+function handleTouchMove(e) {
+  if (!isDrawing) return;
+  e.preventDefault();
+  const t = e.touches[0];
+  const el = document.elementFromPoint(t.clientX, t.clientY);
+  if (el && el.classList.contains('grid-cell'))
+    extendSelection(parseInt(el.dataset.row), parseInt(el.dataset.col));
+}
+
+function endSelection() {
+  if (!isDrawing) return;
+  isDrawing = false;
+
+  const word = selectedCells.map(c => c.textContent).join('');
+  const rev = word.split('').reverse().join('');
+  let matched = null;
+
+  if (WORDS.includes(word) && !foundWords.includes(word)) matched = word;
+  else if (WORDS.includes(rev) && !foundWords.includes(rev)) matched = rev;
+
+  if (matched) {
+    foundWords.push(matched);
+    selectedCells.forEach(c => { c.classList.remove('selected'); c.classList.add('found'); });
+    renderWordList();
+    updateProgress();
+    if (foundWords.length === WORDS.length) {
+      setTimeout(() => document.getElementById('win-banner').classList.add('show'), 300);
+    }
+  } else {
+    clearSelected();
+  }
+  selectedCells = [];
+}
+
+window.onload = initGame;
+</script>
+</body>
+</html>
