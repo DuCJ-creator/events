@@ -1,49 +1,226 @@
-
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CHHS忠信學校 115 學年度高級中等學校英文競賽報名指南</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600&family=Noto+Sans+TC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600&family=Noto+Sans+TC:wght@400;500&display=swap');
-*{box-sizing:border-box;margin:0;padding:0}
-.guide{font-family:'Noto Sans TC',sans-serif;color:var(--color-text-primary);padding:2rem 0;max-width:700px}
-.guide-header{border-left:3px solid var(--color-border-info);padding-left:1.25rem;margin-bottom:2rem}
-.guide-header h1{font-family:'Noto Serif TC',serif;font-size:20px;font-weight:600;line-height:1.4;color:var(--color-text-primary)}
-.guide-header p{font-size:13px;color:var(--color-text-secondary);margin-top:4px}
-.alert{background:var(--color-background-warning);border:0.5px solid var(--color-border-warning);border-radius:var(--border-radius-lg);padding:1rem 1.25rem;margin-bottom:2rem}
-.alert-title{font-size:13px;font-weight:500;color:var(--color-text-warning);display:flex;align-items:center;gap:6px;margin-bottom:.75rem}
-.alert ul{padding-left:1rem;display:flex;flex-direction:column;gap:.5rem}
-.alert li{font-size:13px;color:var(--color-text-primary);line-height:1.6}
-.alert li strong{color:var(--color-text-danger)}
-.section-label{font-size:11px;font-weight:500;letter-spacing:.08em;color:var(--color-text-secondary);text-transform:uppercase;margin-bottom:.75rem;margin-top:2rem}
-.timeline{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-bottom:2rem}
-.t-node{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:.875rem 1rem;text-align:center}
-.t-node .t-num{font-size:11px;color:var(--color-text-secondary);margin-bottom:4px}
-.t-node .t-name{font-size:14px;font-weight:500;color:var(--color-text-primary);margin-bottom:6px}
-.t-node .t-date{font-size:12px;color:var(--color-text-info);background:var(--color-background-info);border-radius:4px;padding:2px 8px;display:inline-block}
-.comp-card{border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);overflow:hidden;margin-bottom:10px}
-.comp-card-header{display:grid;grid-template-columns:1fr auto;align-items:start;gap:1rem;padding:.875rem 1.25rem;background:var(--color-background-secondary);border-bottom:0.5px solid var(--color-border-tertiary)}
-.comp-card-header h3{font-size:14px;font-weight:500;color:var(--color-text-primary)}
-.comp-card-header .region-tag{font-size:11px;padding:2px 8px;border-radius:4px;white-space:nowrap;font-weight:500}
-.tag-north{background:var(--color-background-info);color:var(--color-text-info)}
-.tag-central{background:var(--color-background-danger);color:var(--color-text-danger)}
-.comp-card-body{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0}
-.comp-col{padding:.875rem 1rem;font-size:13px;line-height:1.7;color:var(--color-text-primary)}
-.comp-col:not(:last-child){border-right:0.5px solid var(--color-border-tertiary)}
-.comp-col-label{font-size:11px;font-weight:500;color:var(--color-text-secondary);margin-bottom:.4rem}
-.comp-col strong{color:var(--color-text-primary);font-weight:500}
-.key-date{color:var(--color-text-info);font-weight:500}
-.venue-name{font-weight:500}
-.venue-addr{font-size:12px;color:var(--color-text-secondary);margin-top:2px}
-.venue-warn{font-size:11px;color:var(--color-text-danger);margin-top:4px}
-.btn-link{display:inline-block;font-size:12px;padding:5px 12px;border:0.5px solid var(--color-border-info);color:var(--color-text-info);border-radius:var(--border-radius-md);text-decoration:none;margin-top:.5rem}
-.organizer{font-size:11px;color:var(--color-text-secondary);margin-top:4px}
-.rules-card{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1rem 1.25rem;margin-top:.5rem}
-.rule-item{padding:.625rem 0;border-bottom:0.5px solid var(--color-border-tertiary);font-size:13px;line-height:1.7;color:var(--color-text-primary)}
-.rule-item:last-child{border-bottom:none;padding-bottom:0}
-.rule-item strong{font-weight:500}
-.rule-tag{display:inline-block;font-size:11px;padding:1px 7px;border-radius:4px;background:var(--color-background-secondary);border:0.5px solid var(--color-border-secondary);color:var(--color-text-secondary);margin-right:6px;vertical-align:middle}
-.footer{margin-top:2rem;padding-top:1rem;border-top:0.5px solid var(--color-border-tertiary);font-size:12px;color:var(--color-text-secondary);text-align:center}
-</style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-<div class="guide">
-  <h2 class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">115 學年度全國高級中等學校英文競賽指南（北 3 區）</h2>
+  body {
+    font-family: 'Noto Sans TC', sans-serif;
+    background: #f5f5f0;
+    color: #1a1a1a;
+    line-height: 1.7;
+    padding: 2rem 1rem;
+  }
+
+  .page {
+    max-width: 860px;
+    margin: 0 auto;
+  }
+
+  /* Header */
+  .guide-header {
+    border-left: 3px solid #185FA5;
+    padding-left: 1.25rem;
+    margin-bottom: 2rem;
+  }
+  .guide-header h1 {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: #1a1a1a;
+    line-height: 1.4;
+  }
+  .guide-header p {
+    font-size: 13px;
+    color: #666;
+    margin-top: 4px;
+  }
+
+  /* Alert */
+  .alert {
+    background: #FAEEDA;
+    border: 0.5px solid #EF9F27;
+    border-radius: 12px;
+    padding: 1rem 1.25rem;
+    margin-bottom: 2rem;
+  }
+  .alert-title {
+    font-size: 13px;
+    font-weight: 500;
+    color: #633806;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: .75rem;
+  }
+  .alert-title i { font-size: 16px; }
+  .alert ul {
+    padding-left: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+    list-style: disc;
+  }
+  .alert li {
+    font-size: 13px;
+    color: #1a1a1a;
+    line-height: 1.6;
+  }
+  .alert li strong { color: #A32D2D; }
+
+  /* Section label */
+  .section-label {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: .08em;
+    color: #888;
+    text-transform: uppercase;
+    margin-bottom: .75rem;
+    margin-top: 2rem;
+  }
+
+  /* Timeline */
+  .timeline {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 2rem;
+  }
+  .t-node {
+    background: #fff;
+    border: 0.5px solid #ddd;
+    border-radius: 8px;
+    padding: .875rem 1rem;
+    text-align: center;
+  }
+  .t-num { font-size: 11px; color: #888; margin-bottom: 4px; }
+  .t-name { font-size: 14px; font-weight: 500; color: #1a1a1a; margin-bottom: 6px; }
+  .t-date {
+    font-size: 12px;
+    color: #0C447C;
+    background: #E6F1FB;
+    border-radius: 4px;
+    padding: 2px 8px;
+    display: inline-block;
+  }
+
+  /* Competition cards */
+  .comp {
+    border: 0.5px solid #ddd;
+    border-radius: 12px;
+    margin-bottom: 12px;
+    overflow: hidden;
+    background: #fff;
+  }
+  .comp-head {
+    padding: .875rem 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 0.5px solid #eee;
+    background: #fafaf8;
+  }
+  .comp-head-left { display: flex; align-items: center; gap: 10px; }
+  .comp-name { font-size: 15px; font-weight: 500; color: #1a1a1a; }
+  .comp-sub { font-size: 12px; color: #888; margin-top: 2px; }
+
+  .venue-tag {
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+  .vt-blue { background: #E6F1FB; color: #0C447C; border: 0.5px solid #85B7EB; }
+  .vt-red  { background: #FCEBEB; color: #791F1F; border: 0.5px solid #F09595; }
+
+  .comp-body {
+    padding: .875rem 1.25rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1rem;
+  }
+  .comp-col-label {
+    font-size: 11px;
+    font-weight: 500;
+    color: #888;
+    margin-bottom: .4rem;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+  }
+  .comp-col { font-size: 13px; line-height: 1.7; color: #1a1a1a; }
+  .comp-col:not(:last-child) {
+    padding-right: 1rem;
+    border-right: 0.5px solid #eee;
+  }
+  .key-date { color: #185FA5; font-weight: 500; }
+  .venue-name { font-weight: 500; }
+  .venue-addr { font-size: 12px; color: #666; margin-top: 2px; }
+  .venue-warn { font-size: 11px; color: #A32D2D; margin-top: 4px; }
+
+  .btn-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12px;
+    padding: 5px 12px;
+    border: 0.5px solid #aac4e0;
+    border-radius: 8px;
+    text-decoration: none;
+    color: #0C447C;
+    background: #E6F1FB;
+    margin-top: .5rem;
+  }
+  .organizer { font-size: 11px; color: #888; margin-top: 4px; }
+
+  /* Rules */
+  .rules-card {
+    background: #fafaf8;
+    border: 0.5px solid #ddd;
+    border-radius: 12px;
+    padding: 1rem 1.25rem;
+    margin-top: .5rem;
+  }
+  .rule-item {
+    padding: .625rem 0;
+    border-bottom: 0.5px solid #eee;
+    font-size: 13px;
+    line-height: 1.7;
+    color: #1a1a1a;
+  }
+  .rule-item:last-child { border-bottom: none; padding-bottom: 0; }
+  .rule-item strong { font-weight: 500; }
+  .rule-tag {
+    display: inline-block;
+    font-size: 11px;
+    padding: 1px 7px;
+    border-radius: 4px;
+    background: #f0f0ec;
+    border: 0.5px solid #ccc;
+    color: #666;
+    margin-right: 6px;
+    vertical-align: middle;
+  }
+
+  /* Footer */
+  .footer {
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 0.5px solid #ddd;
+    font-size: 12px;
+    color: #aaa;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+<div class="page">
 
   <div class="guide-header">
     <h1>115 學年度高級中等學校英文競賽指南</h1>
@@ -51,10 +228,12 @@
   </div>
 
   <div class="alert">
-    <div class="alert-title"><i class="ti ti-alert-triangle" aria-hidden="true" style="font-size:16px"></i> 核心報名與資格提醒</div>
+    <div class="alert-title">
+      <i class="ti ti-alert-triangle"></i> 核心報名與資格提醒
+    </div>
     <ul>
       <li><strong>跨賽禁止：</strong>學生不可同時報名英語演講與英文作文決賽，兩者僅能擇一。</li>
-      <li><strong>單字分區特殊：</strong>北 3 區學校的作文與演講屬於<strong>北 3 區（竹南高中）</strong>，但<strong>單字比賽劃歸中區（彰化女中）</strong>，請務必提醒帶隊老師考場不同。</li>
+      <li><strong>單字分區特殊：</strong>北 3 區學校的作文與演講屬於<strong>北 3 區（竹南高中）</strong>，但<strong>單字比賽劃歸中區（彰化女中）</strong>，請務必提醒帶隊老師考場不同。報名人數最多3人。</li>
       <li><strong>逾期補救：</strong>未能於 10/02 前完成網路報名者，須於 <strong>115 年 10 月 8 日（四）前</strong>發函國教署說明原因，經核准始可補報。</li>
       <li><strong>照片規格：</strong>參賽證照片須為 2 吋清晰證件照（小於 2 MB），嚴禁生活照或藝術照。</li>
     </ul>
@@ -81,12 +260,18 @@
 
   <div class="section-label">二、各比賽重點時程、考場與報名資訊</div>
 
-  <div class="comp-card">
-    <div class="comp-card-header">
-      <h3>❶ 英文作文比賽</h3>
-      <span class="region-tag tag-north">北 3 區</span>
+  <!-- 作文 -->
+  <div class="comp">
+    <div class="comp-head">
+      <div class="comp-head-left">
+        <div>
+          <div class="comp-name">❶ 英文作文比賽</div>
+          <div class="comp-sub">初賽截止 115.10.02 · 准考證下載 10.16 起</div>
+        </div>
+      </div>
+      <span class="venue-tag vt-blue">北 3 區</span>
     </div>
-    <div class="comp-card-body">
+    <div class="comp-body">
       <div class="comp-col">
         <div class="comp-col-label">重要時程</div>
         網路報名：09.11 – 10.02<br>
@@ -100,18 +285,26 @@
       </div>
       <div class="comp-col">
         <div class="comp-col-label">報名與資源</div>
-        <a href="https://english.ntush.hcc.edu.tw/" class="btn-link" target="_blank">前往報名網頁 →</a>
+        <a href="https://english.ntush.hcc.edu.tw/" class="btn-link" target="_blank">
+          <i class="ti ti-external-link" style="font-size:13px"></i> 前往報名網頁
+        </a>
         <div class="organizer">總承辦：高科大 ／ 分區：竹南高中</div>
       </div>
     </div>
   </div>
 
-  <div class="comp-card">
-    <div class="comp-card-header">
-      <h3>❷ 英文單字比賽</h3>
-      <span class="region-tag tag-central">注意：劃歸中區</span>
+  <!-- 單字 -->
+  <div class="comp">
+    <div class="comp-head">
+      <div class="comp-head-left">
+        <div>
+          <div class="comp-name">❷ 英文單字比賽</div>
+          <div class="comp-sub">初賽截止 115.10.02 · 准考證下載 10.26 起</div>
+        </div>
+      </div>
+      <span class="venue-tag vt-red">注意：劃歸中區</span>
     </div>
-    <div class="comp-card-body">
+    <div class="comp-body">
       <div class="comp-col">
         <div class="comp-col-label">重要時程</div>
         網路報名：09.11 – 10.02<br>
@@ -126,18 +319,26 @@
       </div>
       <div class="comp-col">
         <div class="comp-col-label">報名與資源</div>
-        <a href="https://english.ntush.hcc.edu.tw/" class="btn-link" target="_blank">前往報名網頁 →</a>
+        <a href="https://english.ntush.hcc.edu.tw/" class="btn-link" target="_blank">
+          <i class="ti ti-external-link" style="font-size:13px"></i> 前往報名網頁
+        </a>
         <div class="organizer">總承辦：新竹女中 ／ 分區：彰化女中</div>
       </div>
     </div>
   </div>
 
-  <div class="comp-card">
-    <div class="comp-card-header">
-      <h3>❸ 英語演講比賽</h3>
-      <span class="region-tag tag-north">北 3 區</span>
+  <!-- 演講 -->
+  <div class="comp">
+    <div class="comp-head">
+      <div class="comp-head-left">
+        <div>
+          <div class="comp-name">❸ 英語演講比賽</div>
+          <div class="comp-sub">初賽截止 115.10.02 · 准考證下載 10.16 起</div>
+        </div>
+      </div>
+      <span class="venue-tag vt-blue">北 3 區</span>
     </div>
-    <div class="comp-card-body">
+    <div class="comp-body">
       <div class="comp-col">
         <div class="comp-col-label">重要時程</div>
         網路報名：09.11 – 10.02<br>
@@ -151,7 +352,9 @@
       </div>
       <div class="comp-col">
         <div class="comp-col-label">報名與資源</div>
-        <a href="https://english.ntush.hcc.edu.tw/" class="btn-link" target="_blank">前往報名網頁 →</a>
+        <a href="https://english.ntush.hcc.edu.tw/" class="btn-link" target="_blank">
+          <i class="ti ti-external-link" style="font-size:13px"></i> 前往報名網頁
+        </a>
         <div class="organizer">總承辦：高科大 ／ 分區：竹南高中</div>
       </div>
     </div>
@@ -181,5 +384,9 @@
     </div>
   </div>
 
-  <div class="footer">115 學年度全國高級中等學校英文競賽工作小組 製作 ・ 請各校承辦老師注意時程安排</div>
+  <div class="footer">CHHS忠信FRP雙語教案DU CJ特別製作；資訊來源：教育部國民及學前教育署115學年度全國高級中等中學英文比賽各實施計劃。</div>
+
 </div>
+</body>
+</html>
+
