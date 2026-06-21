@@ -1,0 +1,185 @@
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600&family=Noto+Sans+TC:wght@400;500&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+.guide{font-family:'Noto Sans TC',sans-serif;color:var(--color-text-primary);padding:2rem 0;max-width:700px}
+.guide-header{border-left:3px solid var(--color-border-info);padding-left:1.25rem;margin-bottom:2rem}
+.guide-header h1{font-family:'Noto Serif TC',serif;font-size:20px;font-weight:600;line-height:1.4;color:var(--color-text-primary)}
+.guide-header p{font-size:13px;color:var(--color-text-secondary);margin-top:4px}
+.alert{background:var(--color-background-warning);border:0.5px solid var(--color-border-warning);border-radius:var(--border-radius-lg);padding:1rem 1.25rem;margin-bottom:2rem}
+.alert-title{font-size:13px;font-weight:500;color:var(--color-text-warning);display:flex;align-items:center;gap:6px;margin-bottom:.75rem}
+.alert ul{padding-left:1rem;display:flex;flex-direction:column;gap:.5rem}
+.alert li{font-size:13px;color:var(--color-text-primary);line-height:1.6}
+.alert li strong{color:var(--color-text-danger)}
+.section-label{font-size:11px;font-weight:500;letter-spacing:.08em;color:var(--color-text-secondary);text-transform:uppercase;margin-bottom:.75rem;margin-top:2rem}
+.timeline{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-bottom:2rem}
+.t-node{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:.875rem 1rem;text-align:center}
+.t-node .t-num{font-size:11px;color:var(--color-text-secondary);margin-bottom:4px}
+.t-node .t-name{font-size:14px;font-weight:500;color:var(--color-text-primary);margin-bottom:6px}
+.t-node .t-date{font-size:12px;color:var(--color-text-info);background:var(--color-background-info);border-radius:4px;padding:2px 8px;display:inline-block}
+.comp-card{border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);overflow:hidden;margin-bottom:10px}
+.comp-card-header{display:grid;grid-template-columns:1fr auto;align-items:start;gap:1rem;padding:.875rem 1.25rem;background:var(--color-background-secondary);border-bottom:0.5px solid var(--color-border-tertiary)}
+.comp-card-header h3{font-size:14px;font-weight:500;color:var(--color-text-primary)}
+.comp-card-header .region-tag{font-size:11px;padding:2px 8px;border-radius:4px;white-space:nowrap;font-weight:500}
+.tag-north{background:var(--color-background-info);color:var(--color-text-info)}
+.tag-central{background:var(--color-background-danger);color:var(--color-text-danger)}
+.comp-card-body{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0}
+.comp-col{padding:.875rem 1rem;font-size:13px;line-height:1.7;color:var(--color-text-primary)}
+.comp-col:not(:last-child){border-right:0.5px solid var(--color-border-tertiary)}
+.comp-col-label{font-size:11px;font-weight:500;color:var(--color-text-secondary);margin-bottom:.4rem}
+.comp-col strong{color:var(--color-text-primary);font-weight:500}
+.key-date{color:var(--color-text-info);font-weight:500}
+.venue-name{font-weight:500}
+.venue-addr{font-size:12px;color:var(--color-text-secondary);margin-top:2px}
+.venue-warn{font-size:11px;color:var(--color-text-danger);margin-top:4px}
+.btn-link{display:inline-block;font-size:12px;padding:5px 12px;border:0.5px solid var(--color-border-info);color:var(--color-text-info);border-radius:var(--border-radius-md);text-decoration:none;margin-top:.5rem}
+.organizer{font-size:11px;color:var(--color-text-secondary);margin-top:4px}
+.rules-card{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1rem 1.25rem;margin-top:.5rem}
+.rule-item{padding:.625rem 0;border-bottom:0.5px solid var(--color-border-tertiary);font-size:13px;line-height:1.7;color:var(--color-text-primary)}
+.rule-item:last-child{border-bottom:none;padding-bottom:0}
+.rule-item strong{font-weight:500}
+.rule-tag{display:inline-block;font-size:11px;padding:1px 7px;border-radius:4px;background:var(--color-background-secondary);border:0.5px solid var(--color-border-secondary);color:var(--color-text-secondary);margin-right:6px;vertical-align:middle}
+.footer{margin-top:2rem;padding-top:1rem;border-top:0.5px solid var(--color-border-tertiary);font-size:12px;color:var(--color-text-secondary);text-align:center}
+</style>
+
+<div class="guide">
+  <h2 class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">115 學年度全國高級中等學校英文競賽指南（北 3 區）</h2>
+
+  <div class="guide-header">
+    <h1>115 學年度高級中等學校英文競賽指南</h1>
+    <p>新竹縣 ／ 新竹市 ／ 苗栗縣 — 北 3 區專屬承辦教師版</p>
+  </div>
+
+  <div class="alert">
+    <div class="alert-title"><i class="ti ti-alert-triangle" aria-hidden="true" style="font-size:16px"></i> 核心報名與資格提醒</div>
+    <ul>
+      <li><strong>跨賽禁止：</strong>學生不可同時報名英語演講與英文作文決賽，兩者僅能擇一。</li>
+      <li><strong>單字分區特殊：</strong>北 3 區學校的作文與演講屬於<strong>北 3 區（竹南高中）</strong>，但<strong>單字比賽劃歸中區（彰化女中）</strong>，請務必提醒帶隊老師考場不同。</li>
+      <li><strong>逾期補救：</strong>未能於 10/02 前完成網路報名者，須於 <strong>115 年 10 月 8 日（四）前</strong>發函國教署說明原因，經核准始可補報。</li>
+      <li><strong>照片規格：</strong>參賽證照片須為 2 吋清晰證件照（小於 2 MB），嚴禁生活照或藝術照。</li>
+    </ul>
+  </div>
+
+  <div class="section-label">一、比賽先後順序（依區域決賽日期）</div>
+  <div class="timeline">
+    <div class="t-node">
+      <div class="t-num">01</div>
+      <div class="t-name">英文作文</div>
+      <div class="t-date">10 月 31 日（六）</div>
+    </div>
+    <div class="t-node">
+      <div class="t-num">02</div>
+      <div class="t-name">英文單字</div>
+      <div class="t-date">11 月 7 日（六）</div>
+    </div>
+    <div class="t-node">
+      <div class="t-num">03</div>
+      <div class="t-name">英語演講</div>
+      <div class="t-date">11 月 10 日（二）</div>
+    </div>
+  </div>
+
+  <div class="section-label">二、各比賽重點時程、考場與報名資訊</div>
+
+  <div class="comp-card">
+    <div class="comp-card-header">
+      <h3>❶ 英文作文比賽</h3>
+      <span class="region-tag tag-north">北 3 區</span>
+    </div>
+    <div class="comp-card-body">
+      <div class="comp-col">
+        <div class="comp-col-label">重要時程</div>
+        網路報名：09.11 – 10.02<br>
+        准考證下載：10.16 起<br>
+        <span class="key-date">▶ 區域決賽：10.31（六）10:00</span>
+      </div>
+      <div class="comp-col">
+        <div class="comp-col-label">考場</div>
+        <span class="venue-name">國立竹南高級中學</span>
+        <div class="venue-addr">苗栗縣竹南鎮中正路 108 號</div>
+      </div>
+      <div class="comp-col">
+        <div class="comp-col-label">報名與資源</div>
+        <a href="https://english.ntush.hcc.edu.tw/" class="btn-link" target="_blank">前往報名網頁 →</a>
+        <div class="organizer">總承辦：高科大 ／ 分區：竹南高中</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="comp-card">
+    <div class="comp-card-header">
+      <h3>❷ 英文單字比賽</h3>
+      <span class="region-tag tag-central">注意：劃歸中區</span>
+    </div>
+    <div class="comp-card-body">
+      <div class="comp-col">
+        <div class="comp-col-label">重要時程</div>
+        網路報名：09.11 – 10.02<br>
+        准考證下載：10.26 起<br>
+        <span class="key-date">▶ 區域決賽：11.07（六）10:00</span>
+      </div>
+      <div class="comp-col">
+        <div class="comp-col-label">考場</div>
+        <span class="venue-name">國立彰化女子高級中學</span>
+        <div class="venue-addr">彰化市光復路 62 號</div>
+        <div class="venue-warn">⚠ 跨區考場，請特別注意</div>
+      </div>
+      <div class="comp-col">
+        <div class="comp-col-label">報名與資源</div>
+        <a href="https://english.ntush.hcc.edu.tw/" class="btn-link" target="_blank">前往報名網頁 →</a>
+        <div class="organizer">總承辦：新竹女中 ／ 分區：彰化女中</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="comp-card">
+    <div class="comp-card-header">
+      <h3>❸ 英語演講比賽</h3>
+      <span class="region-tag tag-north">北 3 區</span>
+    </div>
+    <div class="comp-card-body">
+      <div class="comp-col">
+        <div class="comp-col-label">重要時程</div>
+        網路報名：09.11 – 10.02<br>
+        准考證下載：10.16 起<br>
+        <span class="key-date">▶ 區域決賽：11.10（二）下午</span>
+      </div>
+      <div class="comp-col">
+        <div class="comp-col-label">考場</div>
+        <span class="venue-name">國立竹南高級中學</span>
+        <div class="venue-addr">苗栗縣竹南鎮中正路 108 號</div>
+      </div>
+      <div class="comp-col">
+        <div class="comp-col-label">報名與資源</div>
+        <a href="https://english.ntush.hcc.edu.tw/" class="btn-link" target="_blank">前往報名網頁 →</a>
+        <div class="organizer">總承辦：高科大 ／ 分區：竹南高中</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-label">三、決賽當日應試核心規範</div>
+  <div class="rules-card">
+    <div class="rule-item">
+      <strong><span class="rule-tag">作文 ／ 演講</span>身分資格限制</strong><br>
+      國小至高中階段曾在英語系國家、國內外僑學校或雙語部就讀累計滿 2 年以上者，或具英語系國家雙重國籍者，<strong>不得</strong>參加作文與演講比賽。單字比賽無此限制。
+    </div>
+    <div class="rule-item">
+      <strong><span class="rule-tag">全部賽項</span>參賽證列印</strong><br>
+      承辦人或學生須自行以空白 A4 紙張單面列印。<strong>正反面均不得塗寫任何文字或符號</strong>，違者依規扣分。
+    </div>
+    <div class="rule-item">
+      <strong><span class="rule-tag">單字比賽</span>入場查驗</strong><br>
+      當天不補發參賽證。入場須同時攜帶「參賽證」及「附照片之身分證明文件」（學生證、身分證或健保卡）。<strong>10:00 前須進場完畢，10:10 開考後禁止入場，且不得提早離場。</strong>
+    </div>
+    <div class="rule-item">
+      <strong><span class="rule-tag">演講比賽</span>即席演講後留考</strong><br>
+      完成即席演講後，須依指示在指定休息區留考，<strong>不得擅自離席，否則視同放棄資格。</strong>
+    </div>
+    <div class="rule-item">
+      <strong><span class="rule-tag">單字比賽</span>書寫格式</strong><br>
+      書寫題需使用藍色或黑色墨水筆，以<strong>印刷體</strong>書寫。除專有名詞首字母大寫外，<strong>其餘一律以小寫作答</strong>。大小寫不分或字跡潦草塗改者，該題不予計分。
+    </div>
+  </div>
+
+  <div class="footer">115 學年度全國高級中等學校英文競賽工作小組 製作 ・ 請各校承辦老師注意時程安排</div>
+</div>
