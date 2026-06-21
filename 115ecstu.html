@@ -1,0 +1,192 @@
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;700;800&family=Noto+Sans+TC:wght@400;500&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+.sg{font-family:'Noto Sans TC','Nunito',sans-serif;color:var(--color-text-primary);padding:1.5rem 0 2rem}
+.hero{background:#EAF3DE;border:0.5px solid #C0DD97;border-radius:var(--border-radius-lg);padding:1.5rem 1.75rem;margin-bottom:1.75rem;display:flex;align-items:center;gap:1.25rem}
+.hero-icon{font-size:36px;flex-shrink:0;color:#3B6D11}
+.hero-title{font-family:'Nunito',sans-serif;font-size:20px;font-weight:800;color:#27500A;line-height:1.3}
+.hero-sub{font-size:13px;color:#3B6D11;margin-top:4px}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1.75rem}
+.info-card{border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1rem 1.25rem;background:var(--color-background-primary)}
+.info-card-label{font-size:11px;font-weight:500;letter-spacing:.07em;text-transform:uppercase;margin-bottom:.6rem;display:flex;align-items:center;gap:6px}
+.label-teacher{color:#185FA5}
+.label-student{color:#854F0B}
+.info-card ul{padding-left:1rem;display:flex;flex-direction:column;gap:.5rem}
+.info-card li{font-size:13px;line-height:1.6;color:var(--color-text-primary)}
+.section-label{font-size:11px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--color-text-secondary);margin-bottom:.75rem}
+.comp{border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);margin-bottom:12px;overflow:hidden;background:var(--color-background-primary)}
+.comp-head{padding:.875rem 1.25rem;display:flex;align-items:center;justify-content:space-between;border-bottom:0.5px solid var(--color-border-tertiary)}
+.comp-head-left{display:flex;align-items:center;gap:10px}
+.comp-icon{width:36px;height:36px;border-radius:var(--border-radius-md);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.icon-essay{background:#EAF3DE;color:#3B6D11}
+.icon-vocab{background:#E6F1FB;color:#185FA5}
+.icon-speech{background:#FAEEDA;color:#633806}
+.comp-name{font-size:15px;font-weight:500;color:var(--color-text-primary)}
+.comp-date{font-size:12px;color:var(--color-text-secondary);margin-top:2px}
+.venue-tag{font-size:11px;padding:3px 10px;border-radius:20px;font-weight:500;white-space:nowrap}
+.vt-green{background:#EAF3DE;color:#27500A}
+.vt-blue{background:#E6F1FB;color:#0C447C}
+.vt-amber{background:#FAEEDA;color:#633806}
+.comp-body{padding:.875rem 1.25rem;display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.comp-col-label{font-size:11px;font-weight:500;color:var(--color-text-secondary);margin-bottom:.4rem;text-transform:uppercase;letter-spacing:.06em}
+.checkin-block{background:#FCEBEB;border:0.5px solid #F7C1C1;border-radius:var(--border-radius-md);padding:.75rem 1rem;font-size:13px;color:#791F1F;line-height:1.6}
+.checkin-block strong{color:#A32D2D}
+.prep-list{padding-left:1rem;display:flex;flex-direction:column;gap:.4rem}
+.prep-list li{font-size:13px;line-height:1.6;color:var(--color-text-primary)}
+.links-row{padding:.75rem 1.25rem;border-top:0.5px solid var(--color-border-tertiary);display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.link-btn{display:inline-flex;align-items:center;gap:5px;font-size:12px;padding:5px 12px;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);text-decoration:none;color:var(--color-text-primary);background:var(--color-background-secondary)}
+.link-btn-green{border-color:#97C459;color:#27500A;background:#EAF3DE}
+.link-btn-blue{border-color:#85B7EB;color:#0C447C;background:#E6F1FB}
+.link-btn-amber{border-color:#EF9F27;color:#633806;background:#FAEEDA}
+.cheer{background:#EEEDFE;border:0.5px solid #AFA9EC;border-radius:var(--border-radius-lg);padding:1rem 1.25rem;margin-top:.25rem;display:flex;gap:12px;align-items:flex-start}
+.cheer-icon{font-size:22px;color:#534AB7;flex-shrink:0;margin-top:2px}
+.cheer p{font-size:13px;line-height:1.7;color:#3C3489}
+.cheer strong{color:#26215C}
+</style>
+
+<div class="sg">
+  <h2 class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">115 學年度全國英文競賽學生備考指南</h2>
+
+  <div class="hero">
+    <i class="ti ti-trophy hero-icon" aria-hidden="true"></i>
+    <div>
+      <div class="hero-title">115 學年度全國英文三冠王 — 必勝備考指南</div>
+      <div class="hero-sub">帶隊老師叮嚀 × 學生考場攻略 × 練習資源一站匯整</div>
+    </div>
+  </div>
+
+  <div class="two-col">
+    <div class="info-card">
+      <div class="info-card-label label-teacher"><i class="ti ti-user" style="font-size:15px" aria-hidden="true"></i> 帶隊老師</div>
+      <ul>
+        <li><strong>出發前雙證件：</strong>提醒學生帶齊紙本參賽證（A4 單面列印）與附照片身分證件，單字賽現場絕不補發。</li>
+        <li><strong>跨區考場：</strong>作文 ／ 演講在<strong>苗栗竹南高中</strong>；單字賽要帶隊去<strong>彰化女中</strong>，勿混淆。</li>
+        <li><strong>演講留考：</strong>即席演講完畢後學生須留考至講評，請備好飲水與點心安撫等待焦慮。</li>
+      </ul>
+    </div>
+    <div class="info-card">
+      <div class="info-card-label label-student"><i class="ti ti-bolt" style="font-size:15px" aria-hidden="true"></i> 參賽學生大忌</div>
+      <ul>
+        <li><strong>單字書寫格式：</strong>藍 ／ 黑墨水筆，印刷體，除專有名詞外<strong>一律小寫</strong>。塗改或草書直接不計分。</li>
+        <li><strong>禁攜電子設備：</strong>手機、智慧錶等通訊裝置須關機並集中存放。</li>
+        <li><strong>不得提前離場：</strong>單字 ／ 演講皆禁止提早離席，否則視同放棄資格。</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section-label">各比賽 — 當日時程、進場規定與備考方向</div>
+
+  <div class="comp">
+    <div class="comp-head">
+      <div class="comp-head-left">
+        <div class="comp-icon icon-essay"><i class="ti ti-pencil" aria-hidden="true"></i></div>
+        <div>
+          <div class="comp-name">英文作文比賽</div>
+          <div class="comp-date">115 年 10 月 31 日（六）</div>
+        </div>
+      </div>
+      <span class="venue-tag vt-green">北 3 區 · 竹南高中</span>
+    </div>
+    <div class="comp-body">
+      <div>
+        <div class="comp-col-label">進場規定</div>
+        <div class="checkin-block">
+          <strong>09:30 前</strong> 建議抵達試場預備<br>
+          <strong>10:00 前</strong> 完成查驗進場<br>
+          作答時間共 <strong>100 分鐘</strong>，注意時間分配。
+        </div>
+      </div>
+      <div>
+        <div class="comp-col-label">備考方向</div>
+        <ul class="prep-list">
+          <li>著重邏輯架構、轉折詞運用與詞彙深度。</li>
+          <li>練習在 100 分鐘內完成引言 ／ 正文 ／ 結論完整論述。</li>
+          <li>多觀察時事、雙語政策、校園生活等申論題型，累積佳句。</li>
+        </ul>
+      </div>
+    </div>
+    <div class="links-row">
+      <span style="font-size:12px;color:var(--color-text-secondary)">練習資源</span>
+      <a href="https://ducj-creator.github.io/Shirley-AI-Writing/version2.html" class="link-btn link-btn-green" target="_blank"><i class="ti ti-robot" style="font-size:14px" aria-hidden="true"></i> AI 作文練習平台</a>
+      <a href="https://english.ntush.hcc.edu.tw/" class="link-btn" target="_blank"><i class="ti ti-external-link" style="font-size:14px" aria-hidden="true"></i> 歷年題目與優勝作品</a>
+    </div>
+  </div>
+
+  <div class="comp">
+    <div class="comp-head">
+      <div class="comp-head-left">
+        <div class="comp-icon icon-vocab"><i class="ti ti-abc" aria-hidden="true"></i></div>
+        <div>
+          <div class="comp-name">英文單字比賽</div>
+          <div class="comp-date">115 年 11 月 7 日（六）</div>
+        </div>
+      </div>
+      <span class="venue-tag vt-blue">中區 · 彰化女中（跨區）</span>
+    </div>
+    <div class="comp-body">
+      <div>
+        <div class="comp-col-label">進場規定（極嚴格）</div>
+        <div class="checkin-block">
+          <strong>10:00 前</strong> 進場完畢，完成身分查驗<br>
+          <strong>10:10 開考</strong>，逾時一律禁止入場<br>
+          當天<strong>不補發</strong>參賽證，未帶者無法入場<br>
+          開考後不得提早離場
+        </div>
+      </div>
+      <div>
+        <div class="comp-col-label">備考方向</div>
+        <ul class="prep-list">
+          <li>測驗含拼寫與聽力拼字，熟悉 7000 單字為基礎。</li>
+          <li>注意英美語拼法差異與語音辨識度。</li>
+          <li>多做模擬聽寫，練習在短時間內以印刷體小寫寫出完整單字。</li>
+        </ul>
+      </div>
+    </div>
+    <div class="links-row">
+      <span style="font-size:12px;color:var(--color-text-secondary)">練習資源</span>
+      <a href="https://ducj-creator.github.io/dictation.html" class="link-btn link-btn-blue" target="_blank"><i class="ti ti-headphones" style="font-size:14px" aria-hidden="true"></i> 聽寫練習系統</a>
+      <a href="https://english.ntush.hcc.edu.tw/" class="link-btn" target="_blank"><i class="ti ti-external-link" style="font-size:14px" aria-hidden="true"></i> 歷年單字題庫</a>
+    </div>
+  </div>
+
+  <div class="comp">
+    <div class="comp-head">
+      <div class="comp-head-left">
+        <div class="comp-icon icon-speech"><i class="ti ti-microphone" aria-hidden="true"></i></div>
+        <div>
+          <div class="comp-name">英語演講比賽</div>
+          <div class="comp-date">115 年 11 月 10 日（二）下午</div>
+        </div>
+      </div>
+      <span class="venue-tag vt-amber">北 3 區 · 竹南高中</span>
+    </div>
+    <div class="comp-body">
+      <div>
+        <div class="comp-col-label">進場規定</div>
+        <div class="checkin-block">
+          依准考證上之報到時段準時至竹南高中報到。<br>
+          即席演講每 <strong>2 分鐘</strong>依序號傳喚入場準備。<br>
+          演講結束後須留考至指定休息區，<strong>擅自離席視同棄賽。</strong>
+        </div>
+      </div>
+      <div>
+        <div class="comp-col-label">備考方向</div>
+        <ul class="prep-list">
+          <li>包含指定題演講與看圖即席演講兩項。</li>
+          <li>即席演講著重臨場反應、看圖說故事與語調台風。</li>
+          <li>多看時事漫畫 ／ 統計圖表，練習快速拉出 3 個演講主軸。</li>
+        </ul>
+      </div>
+    </div>
+    <div class="links-row">
+      <span style="font-size:12px;color:var(--color-text-secondary)">練習資源</span>
+      <a href="https://english.ntush.hcc.edu.tw/" class="link-btn link-btn-amber" target="_blank"><i class="ti ti-external-link" style="font-size:14px" aria-hidden="true"></i> 歷年題目與講評重點</a>
+    </div>
+  </div>
+
+  <div class="cheer">
+    <i class="ti ti-stars cheer-icon" aria-hidden="true"></i>
+    <p>英文競賽不只是實力的展現，更是抗壓力的考驗！<strong>善用上方練習資源，熟悉題型、建立手感。</strong>祝各位老師帶隊順利、參賽同學們奪得佳績，為校爭光！</p>
+  </div>
+</div>
