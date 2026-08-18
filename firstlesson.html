@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="zh-Hant">
 <head>
@@ -14,6 +15,8 @@
       --line: #c9c1b2;
       --muted: #756f64;
       --gold: #9a7b43;
+      --deep: #485048;
+      --deep-2: #596057;
       --serif: "Baskerville", "Iowan Old Style", "Times New Roman", serif;
       --sans: "Avenir Next", "Helvetica Neue", Arial, sans-serif;
     }
@@ -39,8 +42,10 @@
     }
 
     .hero {
-      min-height: 100vh;
-      background: var(--ink);
+      min-height: auto;
+      background:
+        radial-gradient(circle at 82% 28%, rgba(196, 174, 128, .18), transparent 34%),
+        linear-gradient(135deg, var(--deep), var(--deep-2));
       color: var(--cream);
       position: relative;
       overflow: hidden;
@@ -53,10 +58,11 @@
       height: 52vw;
       max-width: 760px;
       max-height: 760px;
-      border: 1px solid #615d54;
+      border: 1px solid rgba(244, 240, 231, .2);
       border-radius: 50%;
       right: -13vw;
-      top: 18vh;
+      top: 8%;
+      animation: float-ring 14s ease-in-out infinite alternate;
     }
 
     .hero::after {
@@ -64,16 +70,27 @@
       position: absolute;
       width: 20vw;
       height: 20vw;
-      border: 1px solid #615d54;
+      border: 1px solid rgba(244, 240, 231, .18);
       border-radius: 50%;
       right: 4vw;
-      top: 34vh;
+      top: 32%;
+      animation: float-ring 10s ease-in-out infinite alternate-reverse;
+    }
+
+    @keyframes float-ring {
+      from { transform: translate3d(0, -6px, 0) rotate(0deg); }
+      to { transform: translate3d(-22px, 16px, 0) rotate(8deg); }
+    }
+
+    @keyframes rise-in {
+      from { opacity: 0; transform: translateY(18px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     .topbar {
-      height: 94px;
+      height: 68px;
       margin: 0 5.5vw;
-      border-bottom: 1px solid #4a4842;
+      border-bottom: 1px solid rgba(244, 240, 231, .2);
       display: flex;
       align-items: center;
       position: relative;
@@ -116,22 +133,13 @@
       color: var(--cream);
     }
 
-    .print-button {
-      border-bottom: 1px solid #716d64;
-      color: var(--cream);
-      padding: 7px 0;
-      font: 10px/1 var(--sans);
-      letter-spacing: .16em;
-      text-transform: uppercase;
-      cursor: pointer;
-    }
-
     .hero-inner {
       width: min(820px, 80vw);
       margin: 0 auto;
-      padding: 12vh 0 11vh;
+      padding: clamp(56px, 8vh, 88px) 0 clamp(64px, 9vh, 96px);
       position: relative;
       z-index: 2;
+      animation: rise-in .9s cubic-bezier(.2, .7, .2, 1) both;
     }
 
     .eyebrow {
@@ -142,9 +150,9 @@
     }
 
     h1 {
-      font: 400 clamp(74px, 11vw, 160px)/.77 var(--serif);
+      font: 400 clamp(66px, 9vw, 126px)/.8 var(--serif);
       letter-spacing: -.055em;
-      margin: 34px 0 24px;
+      margin: 26px 0 20px;
     }
 
     h1 em {
@@ -162,7 +170,7 @@
       display: flex;
       align-items: center;
       gap: 22px;
-      margin: 52px 0 34px;
+      margin: 36px 0 26px;
     }
 
     .hero-rule::after {
@@ -182,7 +190,7 @@
 
     .welcome-en {
       max-width: 620px;
-      font: 24px/1.5 var(--serif);
+      font: 22px/1.48 var(--serif);
       margin: 0 0 14px;
     }
 
@@ -197,7 +205,7 @@
       display: inline-flex;
       gap: 26px;
       align-items: center;
-      margin-top: 44px;
+      margin-top: 30px;
       text-transform: uppercase;
       letter-spacing: .2em;
       font-size: 10px;
@@ -212,14 +220,14 @@
       position: absolute;
       right: 4vw;
       bottom: -.14em;
-      color: #23221e;
-      font: 300 clamp(170px, 29vw, 420px)/1 var(--serif);
+      color: rgba(32, 37, 32, .22);
+      font: 300 clamp(150px, 24vw, 320px)/1 var(--serif);
     }
 
     .intro-note {
       max-width: 1160px;
       margin: 0 auto;
-      padding: 100px 5vw;
+      padding: 72px 5vw;
       display: grid;
       grid-template-columns: 1fr 2fr;
       gap: 8vw;
@@ -252,7 +260,7 @@
     .chapter {
       max-width: 1160px;
       margin: 0 auto;
-      padding: 120px 5vw;
+      padding: 86px 5vw;
       border-bottom: 1px solid var(--line);
       scroll-margin-top: 20px;
     }
@@ -261,7 +269,7 @@
       display: flex;
       align-items: flex-start;
       gap: 30px;
-      margin-bottom: 64px;
+      margin-bottom: 44px;
     }
 
     .chapter-heading > span {
@@ -285,7 +293,7 @@
     }
 
     .chapter-heading h2 {
-      font: 400 clamp(54px, 7vw, 92px)/.9 var(--serif);
+      font: 400 clamp(50px, 6.4vw, 80px)/.92 var(--serif);
       letter-spacing: -.04em;
       margin: 0;
     }
@@ -305,7 +313,7 @@
     }
 
     .pledge {
-      padding: 52px 48px 58px;
+      padding: 38px 38px 44px;
     }
 
     .pledge + .pledge {
@@ -317,8 +325,8 @@
       display: flex;
       align-items: center;
       gap: 16px;
-      padding-bottom: 30px;
-      margin-bottom: 34px;
+      padding-bottom: 22px;
+      margin-bottom: 26px;
       border-bottom: 1px solid var(--line);
     }
 
@@ -362,7 +370,7 @@
     .promise-list {
       list-style: none;
       padding: 0;
-      margin: 36px 0 0;
+      margin: 28px 0 0;
       border-top: 1px solid var(--line);
     }
 
@@ -370,7 +378,7 @@
       display: grid;
       grid-template-columns: 34px 1fr;
       gap: 8px;
-      padding: 18px 0;
+      padding: 14px 0;
       border-bottom: 1px solid var(--line);
     }
 
@@ -393,16 +401,20 @@
     }
 
     .finale {
-      background: var(--ink);
+      background:
+        radial-gradient(circle at 20% 10%, rgba(194, 168, 113, .16), transparent 30%),
+        linear-gradient(145deg, #4d514b, #5e5b53);
       color: var(--cream);
       text-align: center;
-      padding: 135px 7vw;
+      padding: 82px 7vw;
+      position: relative;
+      overflow: hidden;
     }
 
     .finale blockquote {
-      font: 400 clamp(38px, 5.8vw, 78px)/1.13 var(--serif);
+      font: 400 clamp(36px, 5vw, 66px)/1.13 var(--serif);
       letter-spacing: -.035em;
-      margin: 45px auto 24px;
+      margin: 30px auto 20px;
       max-width: 1050px;
     }
 
@@ -414,9 +426,9 @@
 
     .final-copy {
       max-width: 760px;
-      margin: 80px auto 0;
-      border-top: 1px solid #4c4942;
-      padding-top: 45px;
+      margin: 48px auto 0;
+      border-top: 1px solid rgba(244, 240, 231, .22);
+      padding-top: 32px;
     }
 
     .final-copy p:first-child {
@@ -433,7 +445,7 @@
       text-transform: uppercase;
       letter-spacing: .2em;
       font-size: 10px;
-      margin-top: 65px;
+      margin-top: 40px;
     }
 
     .closing-zh {
@@ -445,7 +457,7 @@
     .signatures {
       max-width: 1160px;
       margin: 0 auto;
-      padding: 100px 5vw 120px;
+      padding: 64px 5vw 72px;
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 8vw;
@@ -477,7 +489,7 @@
       display: flex;
       justify-content: space-between;
       gap: 30px;
-      padding: 30px 5.5vw;
+      padding: 18px 5.5vw;
       color: var(--muted);
       font-size: 9px;
       letter-spacing: .16em;
@@ -486,7 +498,7 @@
 
     @media (max-width: 760px) {
       .topbar {
-        height: 74px;
+        height: 62px;
         margin: 0 24px;
       }
 
@@ -494,14 +506,10 @@
         display: none;
       }
 
-      .print-button {
-        margin-left: auto;
-      }
-
       .hero-inner {
         width: auto;
         margin: 0 28px;
-        padding: 13vh 0 9vh;
+        padding: 52px 0 64px;
       }
 
       h1 {
@@ -513,7 +521,7 @@
       }
 
       .intro-note {
-        padding: 70px 28px;
+        padding: 54px 28px;
         display: block;
       }
 
@@ -523,11 +531,11 @@
       }
 
       .chapter {
-        padding: 82px 24px;
+        padding: 62px 24px;
       }
 
       .chapter-heading {
-        margin-bottom: 42px;
+        margin-bottom: 34px;
       }
 
       .chapter-heading h2 {
@@ -548,7 +556,7 @@
       }
 
       .finale {
-        padding: 95px 26px;
+        padding: 66px 26px;
       }
 
       .finale blockquote br {
@@ -556,12 +564,12 @@
       }
 
       .final-copy {
-        margin-top: 60px;
+        margin-top: 42px;
       }
 
       .signatures {
         grid-template-columns: 1fr;
-        padding: 70px 28px 90px;
+        padding: 54px 28px 62px;
       }
 
       footer {
@@ -575,43 +583,11 @@
       }
     }
 
-    @media print {
-      .topbar,
-      .begin-link,
-      footer {
-        display: none;
-      }
-
-      .hero {
-        min-height: auto;
-        padding: 40px 0;
-      }
-
-      .hero-inner {
-        padding: 0;
-      }
-
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
       .hero::before,
       .hero::after,
-      .hero-number {
-        display: none;
-      }
-
-      .chapter,
-      .intro-note,
-      .finale,
-      .signatures {
-        padding-top: 45px;
-        padding-bottom: 45px;
-      }
-
-      .pledge-grid {
-        break-inside: avoid;
-      }
-
-      .chapter {
-        break-before: page;
-      }
+      .hero-inner { animation: none; }
     }
   </style>
 </head>
@@ -633,7 +609,6 @@
           <a href="#effort">05</a>
         </div>
 
-        <span class="print-button">Print-ready · 可列印</span>
       </nav>
 
       <div class="hero-inner">
@@ -1470,22 +1445,5 @@
     </footer>
   </main>
 
-  <script>
-    const printButton = document.querySelector(".print-button");
-
-    printButton?.addEventListener("click", () => {
-      window.print();
-    });
-
-    printButton?.addEventListener("keydown", event => {
-      if (event.key === "Enter" || event.key === " ") {
-        event.preventDefault();
-        window.print();
-      }
-    });
-
-    printButton?.setAttribute("role", "button");
-    printButton?.setAttribute("tabindex", "0");
-  </script>
 </body>
 </html>
