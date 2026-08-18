@@ -1,0 +1,1491 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A bilingual promise for the beginning of our senior English journey.">
+  <title>The Very First Lesson | Shirley Du’s Bilingual Class</title>
+
+  <style>
+    :root {
+      --ink: #171612;
+      --cream: #f4f0e7;
+      --paper: #fbfaf6;
+      --line: #c9c1b2;
+      --muted: #756f64;
+      --gold: #9a7b43;
+      --serif: "Baskerville", "Iowan Old Style", "Times New Roman", serif;
+      --sans: "Avenir Next", "Helvetica Neue", Arial, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--sans);
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .hero {
+      min-height: 100vh;
+      background: var(--ink);
+      color: var(--cream);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      width: 52vw;
+      height: 52vw;
+      max-width: 760px;
+      max-height: 760px;
+      border: 1px solid #615d54;
+      border-radius: 50%;
+      right: -13vw;
+      top: 18vh;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      width: 20vw;
+      height: 20vw;
+      border: 1px solid #615d54;
+      border-radius: 50%;
+      right: 4vw;
+      top: 34vh;
+    }
+
+    .topbar {
+      height: 94px;
+      margin: 0 5.5vw;
+      border-bottom: 1px solid #4a4842;
+      display: flex;
+      align-items: center;
+      position: relative;
+      z-index: 3;
+    }
+
+    .wordmark {
+      font: 500 12px/1 var(--sans);
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .wordmark span {
+      border: 1px solid var(--cream);
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      font: 15px/1 var(--serif);
+      letter-spacing: 0;
+    }
+
+    .navlinks {
+      display: flex;
+      gap: 24px;
+      margin: auto;
+    }
+
+    .navlinks a {
+      color: #aaa397;
+      font-size: 11px;
+      letter-spacing: .1em;
+      transition: .2s;
+    }
+
+    .navlinks a:hover {
+      color: var(--cream);
+    }
+
+    .print-button {
+      border-bottom: 1px solid #716d64;
+      color: var(--cream);
+      padding: 7px 0;
+      font: 10px/1 var(--sans);
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+
+    .hero-inner {
+      width: min(820px, 80vw);
+      margin: 0 auto;
+      padding: 12vh 0 11vh;
+      position: relative;
+      z-index: 2;
+    }
+
+    .eyebrow {
+      color: #b5ad9e;
+      text-transform: uppercase;
+      letter-spacing: .27em;
+      font-size: 10px;
+    }
+
+    h1 {
+      font: 400 clamp(74px, 11vw, 160px)/.77 var(--serif);
+      letter-spacing: -.055em;
+      margin: 34px 0 24px;
+    }
+
+    h1 em {
+      font-weight: 400;
+      color: var(--gold);
+    }
+
+    .hero-zh {
+      font-family: var(--serif);
+      letter-spacing: .3em;
+      color: #d4cfc4;
+    }
+
+    .hero-rule {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      margin: 52px 0 34px;
+    }
+
+    .hero-rule::after {
+      content: "";
+      width: 100%;
+      height: 1px;
+      background: #47443e;
+    }
+
+    .hero-rule span {
+      width: 7px;
+      height: 7px;
+      background: var(--gold);
+      transform: rotate(45deg);
+      flex: none;
+    }
+
+    .welcome-en {
+      max-width: 620px;
+      font: 24px/1.5 var(--serif);
+      margin: 0 0 14px;
+    }
+
+    .welcome-zh {
+      max-width: 620px;
+      color: #aaa397;
+      font: 15px/1.9 var(--serif);
+      letter-spacing: .04em;
+    }
+
+    .begin-link {
+      display: inline-flex;
+      gap: 26px;
+      align-items: center;
+      margin-top: 44px;
+      text-transform: uppercase;
+      letter-spacing: .2em;
+      font-size: 10px;
+    }
+
+    .begin-link span {
+      color: var(--gold);
+      font-size: 18px;
+    }
+
+    .hero-number {
+      position: absolute;
+      right: 4vw;
+      bottom: -.14em;
+      color: #23221e;
+      font: 300 clamp(170px, 29vw, 420px)/1 var(--serif);
+    }
+
+    .intro-note {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 100px 5vw;
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 8vw;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .intro-label {
+      text-transform: uppercase;
+      letter-spacing: .2em;
+      font-size: 10px;
+      color: var(--gold);
+    }
+
+    .intro-note div {
+      border-left: 1px solid var(--line);
+      padding-left: 50px;
+    }
+
+    .intro-note div p:first-child {
+      font: 22px/1.6 var(--serif);
+      margin: 0 0 20px;
+    }
+
+    .intro-note div p:last-child {
+      color: var(--muted);
+      font: 15px/1.9 var(--serif);
+      margin: 0;
+    }
+
+    .chapter {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 120px 5vw;
+      border-bottom: 1px solid var(--line);
+      scroll-margin-top: 20px;
+    }
+
+    .chapter-heading {
+      display: flex;
+      align-items: flex-start;
+      gap: 30px;
+      margin-bottom: 64px;
+    }
+
+    .chapter-heading > span {
+      color: var(--gold);
+      font: 11px/1 var(--sans);
+      letter-spacing: .15em;
+      padding-top: 14px;
+    }
+
+    .chapter-heading > div {
+      border-left: 1px solid var(--line);
+      padding-left: 30px;
+    }
+
+    .chapter-heading p {
+      margin: 0 0 2px;
+      color: var(--muted);
+      text-transform: uppercase;
+      font-size: 10px;
+      letter-spacing: .24em;
+    }
+
+    .chapter-heading h2 {
+      font: 400 clamp(54px, 7vw, 92px)/.9 var(--serif);
+      letter-spacing: -.04em;
+      margin: 0;
+    }
+
+    .chapter-heading .chapter-zh {
+      font-family: var(--serif);
+      color: var(--gold);
+      font-size: 14px;
+      letter-spacing: .28em;
+      margin-top: 15px;
+    }
+
+    .pledge-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border: 1px solid var(--line);
+    }
+
+    .pledge {
+      padding: 52px 48px 58px;
+    }
+
+    .pledge + .pledge {
+      border-left: 1px solid var(--line);
+      background: #f2eee5;
+    }
+
+    .role {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding-bottom: 30px;
+      margin-bottom: 34px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .role > span {
+      width: 34px;
+      height: 34px;
+      border: 1px solid var(--ink);
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font: 16px/1 var(--serif);
+    }
+
+    .role p {
+      font: 12px/1.35 var(--sans);
+      text-transform: uppercase;
+      letter-spacing: .16em;
+      margin: 0;
+    }
+
+    .role small {
+      display: block;
+      color: var(--muted);
+      font: 12px/1.5 var(--serif);
+      letter-spacing: .15em;
+      margin-top: 3px;
+    }
+
+    .body-en {
+      font: 19px/1.62 var(--serif);
+      margin: 0 0 16px;
+    }
+
+    .body-zh {
+      font: 14px/1.9 var(--serif);
+      letter-spacing: .025em;
+      color: var(--muted);
+      margin: 0;
+    }
+
+    .promise-list {
+      list-style: none;
+      padding: 0;
+      margin: 36px 0 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .promise-list li {
+      display: grid;
+      grid-template-columns: 34px 1fr;
+      gap: 8px;
+      padding: 18px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .list-no {
+      color: var(--gold);
+      font: 9px/1.6 var(--sans);
+      letter-spacing: .12em;
+    }
+
+    .en-line {
+      display: block;
+      font: 15px/1.55 var(--serif);
+    }
+
+    .zh-line {
+      display: block;
+      color: var(--muted);
+      font: 12px/1.7 var(--serif);
+      margin-top: 5px;
+    }
+
+    .finale {
+      background: var(--ink);
+      color: var(--cream);
+      text-align: center;
+      padding: 135px 7vw;
+    }
+
+    .finale blockquote {
+      font: 400 clamp(38px, 5.8vw, 78px)/1.13 var(--serif);
+      letter-spacing: -.035em;
+      margin: 45px auto 24px;
+      max-width: 1050px;
+    }
+
+    .quote-zh {
+      color: var(--gold);
+      font: 17px/1.8 var(--serif);
+      letter-spacing: .12em;
+    }
+
+    .final-copy {
+      max-width: 760px;
+      margin: 80px auto 0;
+      border-top: 1px solid #4c4942;
+      padding-top: 45px;
+    }
+
+    .final-copy p:first-child {
+      font: 20px/1.65 var(--serif);
+    }
+
+    .final-copy p:last-child {
+      color: #aaa397;
+      font: 14px/1.9 var(--serif);
+    }
+
+    .closing {
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: .2em;
+      font-size: 10px;
+      margin-top: 65px;
+    }
+
+    .closing-zh {
+      color: #aaa397;
+      font: 13px/1.6 var(--serif);
+      letter-spacing: .1em;
+    }
+
+    .signatures {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 100px 5vw 120px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8vw;
+    }
+
+    .signatures div {
+      display: grid;
+      gap: 20px;
+    }
+
+    .signatures span {
+      text-transform: uppercase;
+      color: var(--muted);
+      letter-spacing: .2em;
+      font-size: 9px;
+    }
+
+    .signatures i {
+      border-bottom: 1px solid var(--ink);
+      height: 40px;
+    }
+
+    .signatures strong {
+      font: 400 14px/1 var(--serif);
+    }
+
+    footer {
+      background: #e9e3d7;
+      display: flex;
+      justify-content: space-between;
+      gap: 30px;
+      padding: 30px 5.5vw;
+      color: var(--muted);
+      font-size: 9px;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+    }
+
+    @media (max-width: 760px) {
+      .topbar {
+        height: 74px;
+        margin: 0 24px;
+      }
+
+      .navlinks {
+        display: none;
+      }
+
+      .print-button {
+        margin-left: auto;
+      }
+
+      .hero-inner {
+        width: auto;
+        margin: 0 28px;
+        padding: 13vh 0 9vh;
+      }
+
+      h1 {
+        font-size: 70px;
+      }
+
+      .welcome-en {
+        font-size: 20px;
+      }
+
+      .intro-note {
+        padding: 70px 28px;
+        display: block;
+      }
+
+      .intro-note div {
+        margin-top: 30px;
+        padding-left: 25px;
+      }
+
+      .chapter {
+        padding: 82px 24px;
+      }
+
+      .chapter-heading {
+        margin-bottom: 42px;
+      }
+
+      .chapter-heading h2 {
+        font-size: 52px;
+      }
+
+      .pledge-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .pledge {
+        padding: 38px 27px 45px;
+      }
+
+      .pledge + .pledge {
+        border-left: 0;
+        border-top: 1px solid var(--line);
+      }
+
+      .finale {
+        padding: 95px 26px;
+      }
+
+      .finale blockquote br {
+        display: none;
+      }
+
+      .final-copy {
+        margin-top: 60px;
+      }
+
+      .signatures {
+        grid-template-columns: 1fr;
+        padding: 70px 28px 90px;
+      }
+
+      footer {
+        display: block;
+        line-height: 1.8;
+      }
+
+      footer span {
+        display: block;
+        margin-top: 8px;
+      }
+    }
+
+    @media print {
+      .topbar,
+      .begin-link,
+      footer {
+        display: none;
+      }
+
+      .hero {
+        min-height: auto;
+        padding: 40px 0;
+      }
+
+      .hero-inner {
+        padding: 0;
+      }
+
+      .hero::before,
+      .hero::after,
+      .hero-number {
+        display: none;
+      }
+
+      .chapter,
+      .intro-note,
+      .finale,
+      .signatures {
+        padding-top: 45px;
+        padding-bottom: 45px;
+      }
+
+      .pledge-grid {
+        break-inside: avoid;
+      }
+
+      .chapter {
+        break-before: page;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main>
+    <header class="hero" id="top">
+      <nav class="topbar" aria-label="Primary navigation">
+        <a class="wordmark" href="#top">
+          <span>SD</span>
+          Bilingual Class
+        </a>
+
+        <div class="navlinks">
+          <a href="#responsibility">01</a>
+          <a href="#respect">02</a>
+          <a href="#habits">03</a>
+          <a href="#discipline">04</a>
+          <a href="#effort">05</a>
+        </div>
+
+        <span class="print-button">Print-ready · 可列印</span>
+      </nav>
+
+      <div class="hero-inner">
+        <p class="eyebrow">Senior English · Lesson No. 01</p>
+
+        <h1>
+          The Very<br>
+          <em>First</em> Lesson
+        </h1>
+
+        <p class="hero-zh">嬋娟老師高中雙語課 · 開學第一課</p>
+
+        <div class="hero-rule">
+          <span></span>
+        </div>
+
+        <p class="welcome-en">
+          Hello, everyone! Welcome to your senior English class With Tr. Shirley. From today, you are
+          beginning a new journey—one that will be challenging, exciting,
+          and deeply rewarding.
+        </p>
+
+        <p class="welcome-zh">
+          歡迎來到杜老師的高中英語課。從今天起，你將展開一段全新的學習旅程——
+          它或許充滿挑戰，也必將帶來驚喜與收穫。
+        </p>
+
+        <a class="begin-link" href="#responsibility">
+          Begin the journey <span>↓</span>
+        </a>
+      </div>
+
+      <div class="hero-number">01</div>
+    </header>
+
+    <section class="intro-note">
+      <p class="intro-label">A note before we begin · 開始之前</p>
+
+      <div>
+        <p>
+          To make sure you understand what is expected of you—and what you
+          can expect from Tr. Shirley during your senior high school English learning journey,read this bilingual guide
+          carefully and review it regularly. More importantly, make the promises and keep them.
+        </p>
+
+        <p>
+          為了讓你清楚了解老師對你的期待，也知道你可以從老師這裡得到什麼，
+          請仔細讀懂這份雙語指南，保持常看常新。更重要的是：做出承諾，信守承諾！
+        </p>
+      </div>
+    </section>
+
+    <section class="chapter" id="responsibility">
+      <div class="chapter-heading">
+        <span>01</span>
+
+        <div>
+          <p>About</p>
+          <h2>Responsibility</h2>
+          <p class="chapter-zh">關於責任</p>
+        </div>
+      </div>
+
+      <div class="pledge-grid">
+        <article class="pledge student">
+          <div class="role">
+            <span>S</span>
+
+            <p>
+              Student’s promise
+              <small>學生的承諾</small>
+            </p>
+          </div>
+
+          <p class="body-en">
+            I understand that my parents and teachers will offer guidance,
+            supervision, and support. However, I—and I alone—am ultimately
+            responsible for my future and my life. The choices I make and
+            the way I act will shape what I achieve.
+          </p>
+
+          <p class="body-zh">
+            我明白，父母和老師會給予我教導、督促與支持；然而，最終能為我的未來
+            與人生負責的，只有我自己。我的每一個選擇與行動，都將塑造我最後的成就。
+          </p>
+
+          <ul class="promise-list">
+            <li>
+              <span class="list-no">01</span>
+              <span>
+                <span class="en-line">follow my teacher’s guidance;</span>
+                <span class="zh-line">聽從老師的教導；</span>
+              </span>
+            </li>
+
+            <li>
+              <span class="list-no">02</span>
+              <span>
+                <span class="en-line">listen attentively in class;</span>
+                <span class="zh-line">上課專心聽講；</span>
+              </span>
+            </li>
+
+            <li>
+              <span class="list-no">03</span>
+              <span>
+                <span class="en-line">
+                  complete every assignment on time and to the best of my ability;
+                </span>
+                <span class="zh-line">
+                  按時並盡己所能完成每一項作業；
+                </span>
+              </span>
+            </li>
+
+            <li>
+              <span class="list-no">04</span>
+              <span>
+                <span class="en-line">
+                  give my best effort to every task; and
+                </span>
+                <span class="zh-line">全力以赴完成每一項任務；並且</span>
+              </span>
+            </li>
+
+            <li>
+              <span class="list-no">05</span>
+              <span>
+                <span class="en-line">
+                  keep learning, reflecting, and improving.
+                </span>
+                <span class="zh-line">
+                  持續學習、反思，讓自己變得更好。
+                </span>
+              </span>
+            </li>
+          </ul>
+        </article>
+
+        <article class="pledge teacher">
+          <div class="role">
+            <span>T</span>
+
+            <p>
+              Teacher’s promise
+              <small>老師的承諾</small>
+            </p>
+          </div>
+
+          <p class="body-en">
+            I understand that a teacher’s essential role is to share wisdom,
+            impart knowledge, and answer questions. My responsibility is to
+            guide, support, and encourage my students so that they can grow
+            and achieve more.
+          </p>
+
+          <p class="body-zh">
+            我明白，教師的核心使命是「傳道、授業、解惑」。我的責任是引導、
+            支持並鼓勵學生，陪伴他們持續成長，走得更遠。
+          </p>
+
+          <ul class="promise-list">
+            <li>
+              <span class="list-no">01</span>
+              <span>
+                <span class="en-line">
+                  communicate the syllabus, curriculum, and assessment system clearly;
+                </span>
+                <span class="zh-line">
+                  清楚說明教學大綱、課程內容與評量方式；
+                </span>
+              </span>
+            </li>
+
+            <li>
+              <span class="list-no">02</span>
+              <span>
+                <span class="en-line">prepare thoroughly for every lesson;</span>
+                <span class="zh-line">用心準備每一堂課；</span>
+              </span>
+            </li>
+
+            <li>
+              <span class="list-no">03</span>
+              <span>
+                <span class="en-line">present knowledge and skills clearly;</span>
+                <span class="zh-line">清晰傳授知識與技能；</span>
+              </span>
+            </li>
+
+            <li>
+              <span class="list-no">04</span>
+              <span>
+                <span class="en-line">
+                  design meaningful tasks with an appropriate workload;
+                </span>
+                <span class="zh-line">
+                  設計質量兼具、份量合宜的學習任務；
+                </span>
+              </span>
+            </li>
+
+            <li>
+              <span class="list-no">05</span>
+              <span>
+                <span class="en-line">
+                  provide timely feedback and use it to refine my teaching; and
+                </span>
+                <span class="zh-line">
+                  及時提供回饋，並據此調整教學；以及
+                </span>
+              </span>
+            </li>
+
+            <li>
+              <span class="list-no">06</span>
+              <span>
+                <span class="en-line">
+                  help you learn how to learn and become an independent learner.
+                </span>
+                <span class="zh-line">
+                  引導你學會學習，成為獨立自主的學習者。
+                </span>
+              </span>
+            </li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="chapter" id="respect">
+      <div class="chapter-heading">
+        <span>02</span>
+
+        <div>
+          <p>About</p>
+          <h2>Respect</h2>
+          <p class="chapter-zh">關於尊重</p>
+        </div>
+      </div>
+
+      <div class="pledge-grid">
+        <article class="pledge student">
+          <div class="role">
+            <span>S</span>
+
+            <p>
+              Student’s promise
+              <small>學生的承諾</small>
+            </p>
+          </div>
+
+          <p class="body-en">
+            I understand that respect means accepting others for who they are,
+            even when they are different from me or when we disagree. In and
+            out of class, I will respect my classmates and teacher by listening
+            patiently to their views and needs while expressing my own openly
+            and thoughtfully.
+          </p>
+
+          <p class="body-zh">
+            我明白，尊重就是接納彼此的不同，即使我們看法不一。無論課堂內外，
+            我都會耐心傾聽同學與老師的觀點和需求，也會坦誠而有分寸地表達自己。
+          </p>
+        </article>
+
+        <article class="pledge teacher">
+          <div class="role">
+            <span>T</span>
+
+            <p>
+              Teacher’s promise
+              <small>老師的承諾</small>
+            </p>
+          </div>
+
+          <p class="body-en">
+            I understand that respect is earned, not demanded. You respect me
+            not simply because I am a teacher, but because I strive to be your
+            teacher: one who understands her responsibilities, respects your
+            unique talents, interests, and personality, and creates harmony
+            without demanding uniformity.
+          </p>
+
+          <p class="body-zh">
+            我明白，尊重不是索取得來的，而是用行動贏得的。你尊重我，不只是因為
+            我是一名教師，更因為我努力成為真正屬於你們的老師：明白自身責任，
+            尊重每個人的天賦、興趣與個性，在差異中建立和諧。
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section class="chapter" id="habits">
+      <div class="chapter-heading">
+        <span>03</span>
+
+        <div>
+          <p>About</p>
+          <h2>Habits</h2>
+          <p class="chapter-zh">關於習慣</p>
+        </div>
+      </div>
+
+      <div class="pledge-grid">
+        <article class="pledge student">
+          <div class="role">
+            <span>S</span>
+
+            <p>
+              Student’s promise
+              <small>學生的承諾</small>
+            </p>
+          </div>
+
+          <p class="body-en">
+            I understand that first I shape my habits, and then my habits
+            shape me. The secret of success lies in what I choose to do each day.
+          </p>
+
+          <p class="body-zh">
+            我明白，起初是我塑造習慣，而後習慣將塑造我。成功的秘密，
+            就藏在每天看似細微的選擇裡。
+          </p>
+
+          <ul class="promise-list">
+            <li>
+              <span class="list-no">01</span>
+              <span>
+                <span class="en-line">plan my learning proactively;</span>
+                <span class="zh-line">主動規劃學習；</span>
+              </span>
+            </li>
+
+            <li>
+              <span class="list-no">02</span>
+              <span>
+                <span class="en-line">
+                  take risks and not be afraid of making mistakes;
+                </span>
+                <span class="zh-line">勇於嘗試，不害怕犯錯；</span>
+              </span>
+            </li>
+
+            <li>
+              <span class="list-no">03</span>
+              <span>
+                <span class="en-line">
+                  ask questions and seek feedback promptly;
+                </span>
+                <span class="zh-line">
+                  及時提問並主動尋求回饋；
+                </span>
+              </span>
+            </li>
+
+            <li>
+              <span class="list-no">04</span>
+              <span>
+                <span class="en-line">
+                  practise beyond the classroom and keep the momentum going;
+                </span>
+                <span class="zh-line">
+                  把練習延伸到課堂之外，保持學習動能；
+                </span>
+              </span>
+            </li>
+
+            <li>
+              <span class="list-no">05</span>
+              <span>
+                <span class="en-line">track my learning and progress;</span>
+                <span class="zh-line">觀察並記錄自己的學習進程；</span>
+              </span>
+            </li>
+
+            <li>
+              <span class="list-no">06</span>
+              <span>
+                <span class="en-line">
+                  take thoughtful notes and review them regularly; and
+                </span>
+                <span class="zh-line">
+                  認真做筆記並定期複習；以及
+                </span>
+              </span>
+            </li>
+
+            <li>
+              <span class="list-no">07</span>
+              <span>
+                <span class="en-line">
+                  learn English in active and engaging ways.
+                </span>
+                <span class="zh-line">
+                  以主動、投入且有趣的方式學習英語。
+                </span>
+              </span>
+            </li>
+          </ul>
+        </article>
+
+        <article class="pledge teacher">
+          <div class="role">
+            <span>T</span>
+
+            <p>
+              Teacher’s promise
+              <small>老師的承諾</small>
+            </p>
+          </div>
+
+          <p class="body-en">
+            I understand the power of habits: good habits open the door to
+            success, while poor habits quietly lead us away from it. I will
+            model positive learning habits and help you build routines you
+            can sustain.
+          </p>
+
+          <p class="body-zh">
+            我深知習慣的力量：好習慣為成功開門，壞習慣則讓人不知不覺偏離目標。
+            我會以身作則，也會陪你建立真正能長久維持的學習習慣。
+          </p>
+
+          <ul class="promise-list">
+            <li>
+              <span class="list-no">01</span>
+              <span>
+                <span class="en-line">set SMART learning goals;</span>
+                <span class="zh-line">設定 SMART 學習目標；</span>
+              </span>
+            </li>
+
+            <li>
+              <span class="list-no">02</span>
+              <span>
+                <span class="en-line">
+                  turn those goals into clear, practical plans;
+                </span>
+                <span class="zh-line">
+                  把目標化為清楚可行的計畫；
+                </span>
+              </span>
+            </li>
+
+            <li>
+              <span class="list-no">03</span>
+              <span>
+                <span class="en-line">
+                  make repetition purposeful and enjoyable;
+                </span>
+                <span class="zh-line">
+                  讓重複練習變得有意義、有趣；
+                </span>
+              </span>
+            </li>
+
+            <li>
+              <span class="list-no">04</span>
+              <span>
+                <span class="en-line">
+                  stay flexible when circumstances change; and
+                </span>
+                <span class="zh-line">
+                  在環境改變時保持彈性；以及
+                </span>
+              </span>
+            </li>
+
+            <li>
+              <span class="list-no">05</span>
+              <span>
+                <span class="en-line">build a strong network of support.</span>
+                <span class="zh-line">建立一個有力的支持系統。</span>
+              </span>
+            </li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="chapter" id="discipline">
+      <div class="chapter-heading">
+        <span>04</span>
+
+        <div>
+          <p>About</p>
+          <h2>Discipline</h2>
+          <p class="chapter-zh">關於紀律</p>
+        </div>
+      </div>
+
+      <div class="pledge-grid">
+        <article class="pledge student">
+          <div class="role">
+            <span>S</span>
+
+            <p>
+              Student’s promise
+              <small>學生的承諾</small>
+            </p>
+          </div>
+
+          <p class="body-en">
+            I understand that nothing worthwhile can be achieved without
+            sound standards and boundaries. As a member of a community,
+            I sometimes need to regulate my behaviour, put the common good
+            before selfish impulses, and set aside personal preferences.
+          </p>
+
+          <p class="body-zh">
+            我明白，「不依規矩，不成方圓」。身為群體的一員，我有時需要節制自己的
+            行為，把共同利益放在一己之便之前，也懂得適時放下個人偏好。
+          </p>
+
+          <ul class="promise-list">
+            <li>
+              <span class="list-no">01</span>
+              <span>
+                <span class="en-line">
+                  follow school policies and classroom expectations so that
+                  everyone can learn fairly in a positive, well-ordered
+                  environment; and
+                </span>
+                <span class="zh-line">
+                  遵守校規與課堂約定，讓每個人都能在公平、正向且有秩序的
+                  環境中學習；並且
+                </span>
+              </span>
+            </li>
+
+            <li>
+              <span class="list-no">02</span>
+              <span>
+                <span class="en-line">
+                  do what I need to do before doing what I feel like doing.
+                </span>
+                <span class="zh-line">
+                  先完成應該做的事，再做自己想做的事。
+                </span>
+              </span>
+            </li>
+          </ul>
+        </article>
+
+        <article class="pledge teacher">
+          <div class="role">
+            <span>T</span>
+
+            <p>
+              Teacher’s promise
+              <small>老師的承諾</small>
+            </p>
+          </div>
+
+          <p class="body-en">
+            I understand that I must discipline myself before asking the
+            same of my students. I will establish clear classroom expectations,
+            explain their purpose, and apply them consistently and fairly.
+          </p>
+
+          <p class="body-zh">
+            我明白，要求學生自律之前，我必須先律己。我會建立清楚的課堂約定，
+            說明其目的，並以一致而公平的方式實行。
+          </p>
+
+          <ul class="promise-list">
+            <li>
+              <span class="list-no">01</span>
+              <span>
+                <span class="en-line">
+                  Respect one another and listen when someone is speaking.
+                </span>
+                <span class="zh-line">
+                  彼此尊重；他人發言時，專心傾聽。
+                </span>
+              </span>
+            </li>
+
+            <li>
+              <span class="list-no">02</span>
+              <span>
+                <span class="en-line">
+                  Come to class and every task well prepared.
+                </span>
+                <span class="zh-line">
+                  為每一堂課與每一項任務做好準備。
+                </span>
+              </span>
+            </li>
+
+            <li>
+              <span class="list-no">03</span>
+              <span>
+                <span class="en-line">
+                  Be punctual and manage time wisely.
+                </span>
+                <span class="zh-line">
+                  準時守時，妥善管理時間。
+                </span>
+              </span>
+            </li>
+
+            <li>
+              <span class="list-no">04</span>
+              <span>
+                <span class="en-line">
+                  Share, collaborate, and help one another succeed.
+                </span>
+                <span class="zh-line">
+                  樂於分享、協作共學。
+                </span>
+              </span>
+            </li>
+
+            <li>
+              <span class="list-no">05</span>
+              <span>
+                <span class="en-line">
+                  Keep a constructive attitude and treat others with kindness.
+                </span>
+                <span class="zh-line">
+                  保持正向態度，友善待人。
+                </span>
+              </span>
+            </li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="chapter" id="effort">
+      <div class="chapter-heading">
+        <span>05</span>
+
+        <div>
+          <p>About</p>
+          <h2>Effort</h2>
+          <p class="chapter-zh">關於努力</p>
+        </div>
+      </div>
+
+      <div class="pledge-grid">
+        <article class="pledge student">
+          <div class="role">
+            <span>S</span>
+
+            <p>
+              Student’s promise
+              <small>學生的承諾</small>
+            </p>
+          </div>
+
+          <p class="body-en">
+            I understand that everything is difficult before it becomes easy,
+            which is why steady effort matters. I also understand that effort
+            can matter more than talent: hard work beats talent when talent
+            does not work hard.
+          </p>
+
+          <p class="body-zh">
+            我明白，萬事起頭難，因此持續而穩定的努力格外重要。我也明白，
+            努力往往比天賦更關鍵：當天賦不肯努力，努力終將超越天賦。
+          </p>
+
+          <ul class="promise-list">
+            <li>
+              <span class="list-no">01</span>
+              <span>
+                <span class="en-line">
+                  Whatever result I achieved in the junior-high English exam
+                  belongs to the past. The effort I make from today onward
+                  will shape my future.
+                </span>
+                <span class="zh-line">
+                  無論國中教育會考的英語成績如何，那都只代表過去；
+                  從今天起付出的努力，才會塑造我的未來。
+                </span>
+              </span>
+            </li>
+
+            <li>
+              <span class="list-no">02</span>
+              <span>
+                <span class="en-line">
+                  Learning is like rowing upstream: if I stop moving forward,
+                  I drift back.
+                </span>
+                <span class="zh-line">
+                  學如逆水行舟，不進則退。
+                </span>
+              </span>
+            </li>
+
+            <li>
+              <span class="list-no">03</span>
+              <span>
+                <span class="en-line">
+                  No one can force me to learn. Genuine, effective learning
+                  begins when motivation comes from within and I choose to act.
+                </span>
+                <span class="zh-line">
+                  沒有人能逼我真正學會。真實而有效的學習，
+                  始於內在的動機與自發的行動。
+                </span>
+              </span>
+            </li>
+
+            <li>
+              <span class="list-no">04</span>
+              <span>
+                <span class="en-line">
+                  If I cannot fly, I will run. If I cannot run, I will walk.
+                  If I cannot walk, I will crawl—but whatever I do,
+                  I will keep moving forward.
+                </span>
+                <span class="zh-line">
+                  如果不能飛，我就跑；如果不能跑，我就走；如果不能走，
+                  我就爬。無論如何，我都會繼續向前。
+                </span>
+              </span>
+            </li>
+          </ul>
+        </article>
+
+        <article class="pledge teacher">
+          <div class="role">
+            <span>T</span>
+
+            <p>
+              Teacher’s promise
+              <small>老師的承諾</small>
+            </p>
+          </div>
+
+          <p class="body-en">
+            Whatever your starting point, I will remain positive, supportive,
+            encouraging, and ready to inspire you. Growth takes time; even
+            sunlight takes about 8.3 minutes to reach Earth. Be patient,
+            enjoy learning, and keep moving forward.
+          </p>
+
+          <p class="body-zh">
+            無論你的起點在哪裡，我都會給予正向的支持、鼓勵與啟發。
+            成長需要時間；就連陽光抵達地球，也要走約 8.3 分鐘。
+            請保持耐心、享受學習，並繼續向前。
+          </p>
+
+          <ul class="promise-list">
+            <li>
+              <span class="list-no">01</span>
+              <span>
+                <span class="en-line">
+                  help you understand the value of effort, motivation,
+                  attitude, and perseverance; and
+                </span>
+                <span class="zh-line">
+                  幫助你理解努力、動機、態度與毅力的價值；並且
+                </span>
+              </span>
+            </li>
+
+            <li>
+              <span class="list-no">02</span>
+              <span>
+                <span class="en-line">
+                  show you how small, consistent improvements create a
+                  powerful compound effect—the 1% principle.
+                </span>
+                <span class="zh-line">
+                  帶你看見微小而持續的進步如何產生強大的複利效應——
+                  0.01 法則。
+                </span>
+              </span>
+            </li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="finale">
+      <p class="eyebrow">One final thought · 最後</p>
+
+      <blockquote>
+        “Do something today that your<br>
+        future self will thank you for.”
+      </blockquote>
+
+      <p class="quote-zh">
+        請讓未來的你，能夠感謝今天拼命努力的你。
+      </p>
+
+      <div class="final-copy">
+        <p>
+          ChungHsin may once have felt like your “next-best choice.”
+          From now on, let it become your best choice—not because the
+          school itself has changed, but because you have chosen to make
+          the very best of your time here.
+        </p>
+
+        <p>
+          也許忠信曾是你當初「退而求其次」的選擇。從現在起，請讓它成為
+          你最好的選擇——不是因為學校突然改變，而是因為你決定珍惜在這裡
+          的每一天，成為最好的自己。
+        </p>
+      </div>
+
+      <p class="closing">
+        Work with purpose. Rest without regret. Keep becoming.
+      </p>
+
+      <p class="closing-zh">
+        努力有方向，休息無愧疚，持續成為更好的自己。
+      </p>
+    </section>
+
+    <section class="signatures">
+      <div>
+        <span>Written &amp; delivered by</span>
+        <i></i>
+        <strong>Shirley Du · 嬋娟老師</strong>
+      </div>
+
+      <div>
+        <span>Read &amp; understood by</span>
+        <i></i>
+        <strong>Student · 學生</strong>
+      </div>
+    </section>
+
+    <footer>
+      <a href="#top">Shirley Du’s Bilingual Class</a>
+      <span>First lesson · First promise · A new beginning</span>
+    </footer>
+  </main>
+
+  <script>
+    const printButton = document.querySelector(".print-button");
+
+    printButton?.addEventListener("click", () => {
+      window.print();
+    });
+
+    printButton?.addEventListener("keydown", event => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        window.print();
+      }
+    });
+
+    printButton?.setAttribute("role", "button");
+    printButton?.setAttribute("tabindex", "0");
+  </script>
+</body>
+</html>
