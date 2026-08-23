@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>iVocab 教師端 操作流程組訓</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --bg-color: #f8fafc;
+      --card-bg: #ffffff;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --border-color: #e2e8f0;
+      --accent-green: #10b981;
+    }
+
+    * { box-sizing: border-box; }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      margin: 0;
+      padding: 0;
+      padding-bottom: 120px; /* 留出底部固定控制列空間 */
+    }
+
+    /* 頂部標題 */
+    header {
+      background: var(--card-bg);
+      border-bottom: 1px solid var(--border-color);
+      padding: 20px;
+      text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+    }
+
+    header h1 {
+      margin: 0 0 8px 0;
+      font-size: 24px;
+    }
+
+    header p {
+      margin: 0;
+      color: var(--text-muted);
+      font-size: 14px;
+    }
+
+    /* 主流程容器 */
+    .flow-container {
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 0 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* 步驟卡片 */
+    .step-card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+      width: 100%;
+      padding: 24px;
+      display: flex;
+      gap: 24px;
+      animation: fadeInUp 0.4s ease forwards;
+      position: relative;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* 手機畫面區 */
+    .phone-mockup {
+      width: 240px;
+      height: 420px;
+      background: #1e293b;
+      border-radius: 28px;
+      padding: 10px;
+      flex-shrink: 0;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .phone-screen {
+      background: #ffffff;
+      border-radius: 20px;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .phone-screen img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .image-placeholder {
+      padding: 20px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 14px;
+    }
+
+    .image-placeholder i {
+      font-size: 40px;
+      margin-bottom: 12px;
+      color: #cbd5e1;
+    }
+
+    /* 步驟說明區 */
+    .step-info {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .step-badge {
+      display: inline-block;
+      background: #eff6ff;
+      color: var(--primary);
+      font-weight: 700;
+      font-size: 14px;
+      padding: 4px 12px;
+      border-radius: 20px;
+      margin-bottom: 12px;
+      width: fit-content;
+    }
+
+    .step-info h3 {
+      margin: 0 0 12px 0;
+      font-size: 20px;
+    }
+
+    .step-info p {
+      margin: 0;
+      color: var(--text-muted);
+      line-height: 1.6;
+      font-size: 15px;
+    }
+
+    /* 連接箭頭號 */
+    .flow-arrow {
+      color: var(--primary);
+      font-size: 24px;
+      margin: 16px 0;
+      animation: fadeIn 0.3s ease;
+    }
+
+    /* 底部固定控制列 */
+    .bottom-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: var(--card-bg);
+      border-top: 1px solid var(--border-color);
+      padding: 16px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 -4px 20px rgba(0,0,0,0.08);
+      z-index: 100;
+    }
+
+    .progress-info {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      min-width: 180px;
+    }
+
+    .progress-text {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    .progress-bar-bg {
+      height: 8px;
+      background: #e2e8f0;
+      border-radius: 4px;
+      overflow: hidden;
+      width: 100%;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      background: var(--primary);
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 12px;
+    }
+
+    button {
+      padding: 12px 24px;
+      border-radius: 8px;
+      border: none;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-next {
+      background: var(--primary);
+      color: white;
+    }
+
+    .btn-next:hover {
+      background: var(--primary-hover);
+    }
+
+    .btn-next:disabled {
+      background: #cbd5e1;
+      cursor: not-allowed;
+    }
+
+    .btn-reset {
+      background: #f1f5f9;
+      color: var(--text-main);
+      border: 1px solid var(--border-color);
+    }
+
+    .btn-reset:hover {
+      background: #e2e8f0;
+    }
+
+    /* 響應式微調 (手機版) */
+    @media (max-width: 640px) {
+      .step-card {
+        flex-direction: column;
+        align-items: center;
+      }
+      .phone-mockup {
+        width: 100%;
+        max-width: 260px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>iVocab2.0 教師端 操作流程組訓</h1>
+    <p>請老師們對照1Campus-iVocab2.0，逐步熟悉操作</p>
+  </header>
+
+  <!-- 流程動態生成的容器 -->
+  <div class="flow-container" id="flowContainer"></div>
+
+  <!-- 底部固定控制列 -->
+  <div class="bottom-bar">
+    <div class="progress-info">
+      <span class="progress-text" id="progressText">進度：步驟 1 / 12</span>
+      <div class="progress-bar-bg">
+        <div class="progress-bar-fill" id="progressBar"></div>
+      </div>
+    </div>
+
+    <div class="btn-group">
+      <button class="btn-reset" onclick="resetFlow()">
+        <i class="fa-solid fa-rotate-right"></i> 重新再來一次
+      </button>
+      <button class="btn-next" id="nextBtn" onclick="nextStep()">
+        下一步 <i class="fa-solid fa-arrow-down"></i>
+      </button>
+    </div>
+  </div>
+
+  <script>
+    // ==========================================
+    // 【修改區】在這裡替換與增加你的步驟資料 (可新增超過10個)
+    // ==========================================
+    const stepsData = [
+      {
+        title: "1Campus(高中/國中)-iVocab2.0 體驗版 ",
+        desc: "依教務系統相同操作方式，在1Campus頁面一系列的圖標中找到iVocab2.0體驗版，點擊即進入App。",
+        image: "step1.png" // 可換成你的截圖檔名，例如: "images/step1.png"
+      },
+      {
+        title: "進入iVocab2.0 App頁面",
+        desc: "這裡就是App的主頁面，教師/學生均相同。高中六級字彙/國中會考2000單可切換顯示。🔍為單字搜尋功能；綠/黃/紅星為單字星標；iVogo為單字拼寫闖關模式。",
+        image: "step2.png"
+      },
+      {
+        title: "高中六級字彙頁面",
+        desc: "這是內建六級單字庫，是本App的主體，後續也將主要以此來展示說明。我們的課程設置對應：初一Level1；初二Level2；高一普Level3；高一職Level2；高二普Level4；高二職Level2-3；高三普Level5；高三職Level3。",
+        image: "step3.png"
+      },
+      {
+        title: "國中會考2000單頁面",
+        desc: "初三，綜合複習會考L1L2單字使用。",
+        image: "step4.png"
+      },
+      {
+        title: "單元單字學習模式(以Level3為例)",
+        desc: "點擊進入Level3，顯示共50個單元，為一學年的常規學習進度。點擊進入單元，即可開始學習。",
+        image: "step5.png"
+      },
+      {
+        title: "單元學習模式1",
+        desc: "瀏覽模式：從頭滑到尾，點擊有例句，有發音，將單字歸星標：已精熟；待加強；學習中。一個單元滑到底後，“尚未學習”的狀態會變成當前的學習時間。",
+        image: "step6.png"
+      },
+      {
+        title: "單元學習模式2(右上角第一個圖標)",
+        desc: "閃卡模式：開啟閃卡模式：右滑已精熟；左滑待加強；下滑陌生字，同樣將單字以星標歸類。",
+        image: "step7.png"
+      },
+      {
+        title: "單元練習模式(右上角第二個圖標)",
+        desc: "本App提供三種練習模式：單字認知(英選中)；單字拼寫；句子填空(學測題型；AI即時生成)。為學生提供全方位的練習。PS：另外兩個圖標分別為列印單字卡及單字排序。",
+        image: "step8.png"
+      },
+      {
+        title: "測驗模式(教師派發)",
+        desc: "學生通過點擊頁面右上角的三條橫線後可切換至測驗頁面，在這裡於規定時間內完成教師指派的測驗(教師後台功能說明附後)。測驗有時間限制，且只有一次機會。",
+        image: "step9.png"
+      },
+      {
+        title: "教師後台管理頁面",
+        desc: "同樣點擊頁面右上角的三條橫線後，教師可進入後台管理頁面。進入後可製作/指派單字文件夾、製作/派發測驗、查看/匯總學生測驗數據、查看/匯總學生練習數據。其中，文件夾功能主要供英文老師將在英文教學過程中試教學情況補充的英文單字提供給學生在線練習。",
+        image: "step10.png"
+      },
+      {
+        title: "測驗",
+        desc: "任何教師都可以通過後台的測驗功能，製作並派發測驗給班級同學。製作過程很簡單，勾選預檢核的單元單字即可。",
+        image: "step11.png"
+      },
+      {
+        title: "學生數據查看",
+        desc: "教師後台最重要的功能，就是可以查看班級學生的測驗及練習情況，並匯出報表。(注意：學期開始課程導入系統後，老師要先指派一個任務(文件夾或測驗)到班級，這樣才能激活關聯班級學生的練習數據)。",
+        image: "step12.png"
+      }
+    ];
+
+    let currentStepIndex = 0;
+
+    // 初始化：渲染第一個步驟
+    window.onload = function() {
+      renderStep(currentStepIndex);
+      updateUI();
+    };
+
+    // 渲染指定 index 的步驟卡片
+    function renderStep(index) {
+      const container = document.getElementById('flowContainer');
+      const data = stepsData[index];
+
+      // 如果不是第一個步驟，先加一個向下指示箭頭
+      if (index > 0) {
+        const arrow = document.createElement('div');
+        arrow.className = 'flow-arrow';
+        arrow.innerHTML = '<i class="fa-solid fa-circle-chevron-down"></i>';
+        container.appendChild(arrow);
+      }
+
+      // 建立卡片元素
+      const card = document.createElement('div');
+      card.className = 'step-card';
+      card.id = `step-card-${index}`;
+
+      // 圖片載入邏輯：如果圖片不存在或預設檔名，顯示佔位圖案
+      const imageHTML = `
+        <img src="${data.image}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" alt="步驟畫面">
+        <div class="image-placeholder" style="display: none;">
+          <i class="fa-solid fa-mobile-screen"></i>
+          <div>（請替換圖片：${data.image}）</div>
+        </div>
+      `;
+
+      card.innerHTML = `
+        <div class="phone-mockup">
+          <div class="phone-screen">
+            ${imageHTML}
+          </div>
+        </div>
+        <div class="step-info">
+          <span class="step-badge">STEP ${index + 1} / ${stepsData.length}</span>
+          <h3>${data.title}</h3>
+          <p>${data.desc}</p>
+        </div>
+      `;
+
+      container.appendChild(card);
+
+      // 自動平滑捲動到最新產生的卡片
+      if (index > 0) {
+        card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }
+
+    // 按下「下一步」
+    function nextStep() {
+      if (currentStepIndex < stepsData.length - 1) {
+        currentStepIndex++;
+        renderStep(currentStepIndex);
+        updateUI();
+      }
+    }
+
+    // 按下「重新再來一次」
+    function resetFlow() {
+      currentStepIndex = 0;
+      document.getElementById('flowContainer').innerHTML = '';
+      renderStep(currentStepIndex);
+      updateUI();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // 更新進度條與按鈕狀態
+    function updateUI() {
+      const total = stepsData.length;
+      const current = currentStepIndex + 1;
+      const percentage = (current / total) * 100;
+
+      document.getElementById('progressText').innerText = `進度：步驟 ${current} / ${total}`;
+      document.getElementById('progressBar').style.width = `${percentage}%`;
+
+      const nextBtn = document.getElementById('nextBtn');
+      if (currentStepIndex === total - 1) {
+        nextBtn.disabled = true;
+        nextBtn.innerHTML = '已完成全部流程 <i class="fa-solid fa-check"></i>';
+        nextBtn.style.background = 'var(--accent-green)';
+      } else {
+        nextBtn.disabled = false;
+        nextBtn.innerHTML = '下一步 <i class="fa-solid fa-arrow-down"></i>';
+        nextBtn.style.background = 'var(--primary)';
+      }
+    }
+  </script>
+</body>
+</html>
