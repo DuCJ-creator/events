@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>iVocab 教師端 操作流程組訓</title>
+  <title>iVocab2.0 教師端 操作流程組訓</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <style>
     :root {
@@ -25,7 +25,7 @@
       color: var(--text-main);
       margin: 0;
       padding: 0;
-      padding-bottom: 120px; /* 留出底部固定控制列空間 */
+      padding-bottom: 120px;
     }
 
     /* 頂部標題 */
@@ -53,7 +53,7 @@
 
     /* 主流程容器 */
     .flow-container {
-      max-width: 800px;
+      max-width: 840px;
       margin: 40px auto;
       padding: 0 20px;
       display: flex;
@@ -88,25 +88,46 @@
 
     /* 手機畫面區 */
     .phone-mockup {
-      width: 240px;
-      height: 420px;
-      background: #1e293b;
+      width: 260px;
+      height: 480px;
+      background: #0f172a;
       border-radius: 28px;
       padding: 10px;
       flex-shrink: 0;
       box-shadow: 0 8px 20px rgba(0,0,0,0.15);
       display: flex;
       flex-direction: column;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .phone-mockup::after {
+      content: "🔍 點擊放大範例";
+      position: absolute;
+      bottom: 14px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, 0.65);
+      color: #fff;
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 10px;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+      pointer-events: none;
+    }
+
+    .phone-mockup:hover::after {
+      opacity: 1;
     }
 
     .phone-screen {
-      background: #ffffff;
+      background: #000;
       border-radius: 20px;
       width: 100%;
       height: 100%;
       overflow: hidden;
       display: flex;
-      flex-direction: column;
       align-items: center;
       justify-content: center;
       position: relative;
@@ -115,7 +136,8 @@
     .phone-screen img {
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      object-fit: contain; /* 確保圖片不被切頭切尾 */
+      background-color: #000;
     }
 
     .image-placeholder {
@@ -154,6 +176,7 @@
     .step-info h3 {
       margin: 0 0 12px 0;
       font-size: 20px;
+      color: var(--text-main);
     }
 
     .step-info p {
@@ -257,7 +280,37 @@
       background: #e2e8f0;
     }
 
-    /* 響應式微調 (手機版) */
+    /* Modal 圖片大圖檢視區 */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.85);
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content {
+      max-width: 90%;
+      max-height: 90%;
+      border-radius: 8px;
+      box-shadow: 0 0 20px rgba(255,255,255,0.2);
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      color: #fff;
+      font-size: 35px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
     @media (max-width: 640px) {
       .step-card {
         flex-direction: column;
@@ -266,6 +319,7 @@
       .phone-mockup {
         width: 100%;
         max-width: 260px;
+        height: 440px;
       }
     }
   </style>
@@ -274,7 +328,7 @@
 
   <header>
     <h1>iVocab2.0 教師端 操作流程組訓</h1>
-    <p>請老師們對照1Campus-iVocab2.0，逐步熟悉操作</p>
+    <p>請老師們對照 1Campus-iVocab2.0，逐步熟悉操作（可點擊截圖放大檢視，或使用方向鍵 鍵盤操控）</p>
   </header>
 
   <!-- 流程動態生成的容器 -->
@@ -299,15 +353,18 @@
     </div>
   </div>
 
+  <!-- 全螢幕燈箱 Modal -->
+  <div id="imgModal" class="modal" onclick="closeModal()">
+    <span class="modal-close">&times;</span>
+    <img class="modal-content" id="modalImg">
+  </div>
+
   <script>
-    // ==========================================
-    // 【修改區】在這裡替換與增加你的步驟資料 (可新增超過10個)
-    // ==========================================
     const stepsData = [
       {
-        title: "1Campus(高中/國中)-iVocab2.0 體驗版 ",
+        title: "1Campus(高中/國中)-iVocab2.0 體驗版",
         desc: "依教務系統相同操作方式，在1Campus頁面一系列的圖標中找到iVocab2.0體驗版，點擊即進入App。",
-        image: "step1.png" // 可換成你的截圖檔名，例如: "images/step1.png"
+        image: "step1.png"
       },
       {
         title: "進入iVocab2.0 App頁面",
@@ -368,18 +425,15 @@
 
     let currentStepIndex = 0;
 
-    // 初始化：渲染第一個步驟
     window.onload = function() {
       renderStep(currentStepIndex);
       updateUI();
     };
 
-    // 渲染指定 index 的步驟卡片
     function renderStep(index) {
       const container = document.getElementById('flowContainer');
       const data = stepsData[index];
 
-      // 如果不是第一個步驟，先加一個向下指示箭頭
       if (index > 0) {
         const arrow = document.createElement('div');
         arrow.className = 'flow-arrow';
@@ -387,22 +441,20 @@
         container.appendChild(arrow);
       }
 
-      // 建立卡片元素
       const card = document.createElement('div');
       card.className = 'step-card';
       card.id = `step-card-${index}`;
 
-      // 圖片載入邏輯：如果圖片不存在或預設檔名，顯示佔位圖案
       const imageHTML = `
         <img src="${data.image}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" alt="步驟畫面">
         <div class="image-placeholder" style="display: none;">
           <i class="fa-solid fa-mobile-screen"></i>
-          <div>（請替換圖片：${data.image}）</div>
+          <div>（未找到圖片：${data.image}）</div>
         </div>
       `;
 
       card.innerHTML = `
-        <div class="phone-mockup">
+        <div class="phone-mockup" onclick="openModal('${data.image}')">
           <div class="phone-screen">
             ${imageHTML}
           </div>
@@ -416,13 +468,11 @@
 
       container.appendChild(card);
 
-      // 自動平滑捲動到最新產生的卡片
       if (index > 0) {
         card.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
     }
 
-    // 按下「下一步」
     function nextStep() {
       if (currentStepIndex < stepsData.length - 1) {
         currentStepIndex++;
@@ -431,7 +481,6 @@
       }
     }
 
-    // 按下「重新再來一次」
     function resetFlow() {
       currentStepIndex = 0;
       document.getElementById('flowContainer').innerHTML = '';
@@ -440,7 +489,6 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // 更新進度條與按鈕狀態
     function updateUI() {
       const total = stepsData.length;
       const current = currentStepIndex + 1;
@@ -460,6 +508,30 @@
         nextBtn.style.background = 'var(--primary)';
       }
     }
+
+    // Modal 燈箱切換
+    function openModal(imgSrc) {
+      const modal = document.getElementById("imgModal");
+      const modalImg = document.getElementById("modalImg");
+      modal.style.display = "flex";
+      modalImg.src = imgSrc;
+    }
+
+    function closeModal() {
+      document.getElementById("imgModal").style.display = "none";
+    }
+
+    // 鍵盤操控簡報進度
+    document.addEventListener('keydown', function(event) {
+      if (event.key === "ArrowRight" || event.key === "ArrowDown" || event.key === " ") {
+        event.preventDefault();
+        nextStep();
+      } else if (event.key === "r" || event.key === "R") {
+        resetFlow();
+      } else if (event.key === "Escape") {
+        closeModal();
+      }
+    });
   </script>
 </body>
 </html>
