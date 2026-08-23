@@ -56,7 +56,7 @@
       font-size: 14px;
     }
 
-    /* 主流程容器：加寬至 900px 讓左右呈現黃金比例 */
+    /* 主流程容器 */
     .flow-container {
       max-width: 900px;
       margin: 36px auto;
@@ -93,11 +93,11 @@
       }
     }
 
-    /* 畫面展示區：改為寬度自適應 + 取消固定高度 */
+    /* 畫面展示區 */
     .phone-mockup {
-      width: 320px;               /* 放寬展示區 */
-      max-width: 45%;             /* 限制最大卡片佔比 */
-      height: auto;               /* 高度自動，消除上下留白 */
+      width: 320px;
+      max-width: 45%;
+      height: auto;
       background: #ffffff;
       border: 1px solid var(--card-border);
       border-radius: 12px;
@@ -150,8 +150,8 @@
 
     .phone-screen img {
       width: 100%;
-      height: auto;              /* 圖片依自然比例滿版呈現 */
-      max-height: 480px;          /* 防止超長截圖拉爆卡片 */
+      height: auto;
+      max-height: 480px;
       display: block;
       object-fit: contain;
     }
@@ -266,7 +266,7 @@
     }
 
     button {
-      padding: 10px 20px;
+      padding: 10px 18px;
       border-radius: 6px;
       border: none;
       font-size: 14px;
@@ -294,13 +294,13 @@
       box-shadow: none;
     }
 
-    .btn-reset {
+    .btn-reset, .btn-pdf {
       background: #f8fafc;
       color: #475569;
       border: 1px solid #cbd5e1;
     }
 
-    .btn-reset:hover {
+    .btn-reset:hover, .btn-pdf:hover {
       background: #f1f5f9;
       color: var(--primary);
     }
@@ -339,15 +339,93 @@
       cursor: pointer;
     }
 
-    @media (max-width: 640px) {
-      .step-card {
-        flex-direction: column;
-        align-items: stretch;
-        padding: 20px;
+    /* ==========================================
+       🖨️ PDF / 列印單頁 Flowchart 專屬排版 CSS
+       ========================================== */
+    @media print {
+      @page {
+        size: A4 landscape; /* 強制 A4 橫向 */
+        margin: 5mm;
       }
+
+      body {
+        background: #ffffff !important;
+        padding: 0 !important;
+        color: #000000 !important;
+      }
+
+      header p, .bottom-bar, .flow-arrow, .modal, .phone-mockup::after {
+        display: none !important;
+      }
+
+      header {
+        position: static !important;
+        box-shadow: none !important;
+        border: none !important;
+        padding: 4px 0 8px 0 !important;
+      }
+
+      header h1 {
+        font-size: 18px !important;
+        margin: 0 !important;
+      }
+
+      .flow-container {
+        max-width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        display: grid !important;
+        grid-template-columns: repeat(4, 1fr) !important; /* 4 欄 */
+        grid-template-rows: repeat(3, 1fr) !important;    /* 3 列 = 12 格一頁紙 */
+        gap: 6px !important;
+      }
+
+      .step-card {
+        border: 1px solid #cbd5e1 !important;
+        border-left: 3px solid #1e3a8a !important;
+        box-shadow: none !important;
+        padding: 6px !important;
+        border-radius: 6px !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: flex-start !important;
+        gap: 4px !important;
+        page-break-inside: avoid !important;
+        height: 100% !important;
+      }
+
       .phone-mockup {
-        width: 100%;
-        max-width: 100%;
+        width: 100% !important;
+        max-width: 100% !important;
+        height: 100px !important;
+        padding: 2px !important;
+        border-radius: 4px !important;
+        border: none !important;
+        box-shadow: none !important;
+        background: transparent !important;
+      }
+
+      .phone-screen img {
+        max-height: 96px !important;
+        object-fit: contain !important;
+      }
+
+      .step-badge {
+        font-size: 9px !important;
+        padding: 1px 4px !important;
+        margin-bottom: 2px !important;
+      }
+
+      .step-info h3 {
+        font-size: 11px !important;
+        margin: 0 0 2px 0 !important;
+        line-height: 1.2 !important;
+      }
+
+      .step-info p {
+        font-size: 9px !important;
+        line-height: 1.25 !important;
+        color: #334155 !important;
       }
     }
   </style>
@@ -370,8 +448,11 @@
     </div>
 
     <div class="btn-group">
+      <button class="btn-pdf" onclick="exportPDF()">
+        <i class="fa-solid fa-file-pdf"></i> 匯出 PDF 流程圖
+      </button>
       <button class="btn-reset" onclick="resetFlow()">
-        <i class="fa-solid fa-rotate-right"></i> 重新再來一次
+        <i class="fa-solid fa-rotate-right"></i> 重新再來
       </button>
       <button class="btn-next" id="nextBtn" onclick="nextStep()">
         下一步 <i class="fa-solid fa-arrow-down"></i>
@@ -387,63 +468,63 @@
   <script>
     const stepsData = [
       {
-        title: "1Campus(高中/國中)-iVocab2.0 體驗版",
-        desc: "依教務系統相同操作方式，在1Campus頁面一系列的圖標中找到iVocab2.0體驗版，點擊即進入App。",
+        title: "1Campus-iVocab2.0 體驗版",
+        desc: "依教務系統相同操作方式，在1Campus頁面找到iVocab2.0體驗版點擊進入。",
         image: "step1.png"
       },
       {
         title: "進入iVocab2.0 App頁面",
-        desc: "這裡就是App的主頁面，教師/學生均相同。高中六級字彙/國中會考2000單可切換顯示。🔍為單字搜尋功能；綠/黃/紅星為單字星標；iVogo為單字拼寫闖關模式。",
+        desc: "App主頁面，高中六級/國中會考單字可切換。🔍搜尋、星標歸類與iVogo闖關。",
         image: "step2.png"
       },
       {
         title: "高中六級字彙頁面",
-        desc: "這是內建六級單字庫，是本App的主體，後續也將主要以此來展示說明。我們的課程設置對應：初一Level1；初二Level2；高一普Level3；高一職Level2；高二普Level4；高二職Level2-3；高三普Level5；高三職Level3。",
+        desc: "內建六級單字庫。課程對應：初一L1、初二L2、高一普L3、高二普L4、高三普L5等。",
         image: "step3.png"
       },
       {
         title: "國中會考2000單頁面",
-        desc: "初三，綜合複習會考L1L2單字使用。",
+        desc: "供初三綜合複習會考 L1 & L2 單字使用。",
         image: "step4.png"
       },
       {
-        title: "單元單字學習模式(以Level3為例)",
-        desc: "點擊進入Level3，顯示共50個單元，為一學年的常規學習進度。點擊進入單元，即可開始學習。",
+        title: "單元單字學習(以L3為例)",
+        desc: "進入Level3，顯示50個單元（一學年進度）。點擊單元即可開始學習。",
         image: "step5.png"
       },
       {
-        title: "單元學習模式1",
-        desc: "瀏覽模式：從頭滑到尾，點擊有例句，有發音，將單字歸星標：已精熟；待加強；學習中。一個單元滑到底後，“尚未學習”的狀態會變成當前的學習時間。",
+        title: "單元學習模式1 (瀏覽)",
+        desc: "瀏覽模式有例句發音，歸類星標：已精熟/待加強/學習中。滑到底更新學習時間。",
         image: "step6.png"
       },
       {
-        title: "單元學習模式2(右上角第一個圖標)",
-        desc: "閃卡模式：開啟閃卡模式：右滑已精熟；左滑待加強；下滑陌生字，同樣將單字以星標歸類。",
+        title: "單元學習模式2 (閃卡)",
+        desc: "閃卡模式：右滑已精熟、左滑待加強、下滑陌生字，快速星標歸類。",
         image: "step7.png"
       },
       {
-        title: "單元練習模式(右上角第二個圖標)",
-        desc: "本App提供三種練習模式：單字認知(英選中)；單字拼寫；句子填空(學測題型；AI即時生成)。為學生提供全方位的練習。PS：另外兩個圖標分別為列印單字卡及單字排序。",
+        title: "單元練習模式",
+        desc: "提供三種練習：單字認知(英選中)、單字拼寫、句子填空(AI生成)。可印單字卡。",
         image: "step8.png"
       },
       {
         title: "測驗模式(教師派發)",
-        desc: "學生通過點擊頁面右上角的三條橫線後可切換至測驗頁面，在這裡於規定時間內完成教師指派的測驗(教師後台功能說明附後)。測驗有時間限制，且只有一次機會。",
+        desc: "學生由右上角「☰」選單切換至測驗頁面，限時完成派發測驗（僅限一次機會）。",
         image: "step9.png"
       },
       {
         title: "教師後台管理頁面",
-        desc: "同樣點擊頁面右上角的三條橫線後，教師可進入後台管理頁面。進入後可製作/指派單字文件夾、製作/派發測驗、查看/匯總學生測驗數據、查看/匯總學生練習數據。其中，文件夾功能主要供英文老師將在英文教學過程中試教學情況補充的英文單字提供給學生在線練習。",
+        desc: "教師後台可製作/派發文件夾與測驗、查看/匯總學生練習數據與報表。",
         image: "step10.png"
       },
       {
-        title: "測驗",
-        desc: "任何教師都可以通過後台的測驗功能，製作並派發測驗給班級同學。製作過程很簡單，勾選預檢核的單元單字即可。",
+        title: "製作與派發測驗",
+        desc: "後台勾選預檢核的單元單字，即可快速製作並派發測驗給班級學生。",
         image: "step11.png"
       },
       {
         title: "學生數據查看",
-        desc: "教師後台最重要的功能，就是可以查看班級學生的測驗及練習情況，並匯出報表。(注意：學期開始課程導入系統後，老師要先指派一個任務(文件夾或測驗)到班級，這樣才能激活關聯班級學生的練習數據)。",
+        desc: "查看班級學生測驗/練習情況並匯出報表。(需先指派一次任務激活關聯數據)。",
         image: "step12.png"
       }
     ];
@@ -512,6 +593,31 @@
       renderStep(currentStepIndex);
       updateUI();
       window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    /* 🖨️ 匯出單頁 12 步驟 Flowchart PDF */
+    function exportPDF() {
+      const savedIndex = currentStepIndex;
+      const container = document.getElementById('flowContainer');
+      
+      // 1. 暫時將 12 個步驟一次性完整渲染出
+      container.innerHTML = '';
+      for (let i = 0; i < stepsData.length; i++) {
+        renderStep(i);
+      }
+
+      // 2. 調起瀏覽器列印視窗（在目標印表機選擇「另存為 PDF」）
+      setTimeout(() => {
+        window.print();
+
+        // 3. 列印結束後自動回復為原本的組訓進度
+        container.innerHTML = '';
+        for (let i = 0; i <= savedIndex; i++) {
+          renderStep(i);
+        }
+        currentStepIndex = savedIndex;
+        updateUI();
+      }, 200);
     }
 
     function updateUI() {
