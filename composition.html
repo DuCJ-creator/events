@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Composition Contest — Preparation Pack</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-0:#0a0f1a;
+    --bg-1:#0f1524;
+    --bg-2:#131b2e;
+    --glass-fill: rgba(255,255,255,0.045);
+    --glass-fill-hover: rgba(255,255,255,0.07);
+    --glass-border: rgba(255,255,255,0.10);
+    --gold: #c6a15b;
+    --gold-dim: #8d7440;
+    --ink: #e9ebf1;
+    --ink-dim: #9aa3b5;
+    --ink-faint: #626c7f;
+    --serif: 'Newsreader', serif;
+    --sans: 'Inter', sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    min-height:100vh;
+    background:
+      radial-gradient(ellipse 900px 500px at 15% -10%, rgba(198,161,91,0.10), transparent 60%),
+      radial-gradient(ellipse 900px 600px at 100% 20%, rgba(90,110,170,0.12), transparent 55%),
+      radial-gradient(ellipse 800px 700px at 30% 110%, rgba(120,90,170,0.08), transparent 55%),
+      linear-gradient(180deg, var(--bg-0), var(--bg-1) 40%, var(--bg-2));
+    background-attachment:fixed;
+    font-family: var(--sans);
+    color: var(--ink);
+    -webkit-font-smoothing:antialiased;
+    padding: 64px 20px 100px;
+    position:relative;
+    overflow-x:hidden;
+  }
+  body::before{
+    content:"";
+    position:fixed; inset:0;
+    background:
+      radial-gradient(600px 400px at 80% 75%, rgba(198,161,91,0.06), transparent 60%);
+    animation: drift 26s ease-in-out infinite alternate;
+    pointer-events:none;
+    z-index:0;
+  }
+  @keyframes drift{
+    from{ transform: translate(0,0); }
+    to{ transform: translate(-3%, 2%); }
+  }
+  @media (prefers-reduced-motion: reduce){
+    body::before{ animation:none; }
+  }
+
+  .wrap{ max-width: 760px; margin: 0 auto; position:relative; z-index:1; }
+
+  /* ---------- Hero (small, restrained) ---------- */
+  .hero{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    gap:24px;
+    padding-bottom: 28px;
+    margin-bottom: 34px;
+    border-bottom: 1px solid var(--glass-border);
+  }
+  .hero h1{
+    font-family: var(--serif);
+    font-weight:500;
+    font-size: 27px;
+    line-height:1.25;
+    margin:0;
+    color: var(--ink);
+    letter-spacing: 0.1px;
+  }
+  .hero .who{
+    font-size: 12.5px;
+    color: var(--ink-faint);
+    white-space:nowrap;
+    font-variant-numeric: tabular-nums;
+    padding-top:4px;
+  }
+
+  /* ---------- Section list ---------- */
+  .index{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+  }
+
+  .card{
+    background: var(--glass-fill);
+    border: 1px solid var(--glass-border);
+    border-radius: 14px;
+    backdrop-filter: blur(18px) saturate(140%);
+    -webkit-backdrop-filter: blur(18px) saturate(140%);
+    overflow:hidden;
+    transition: background .25s ease, border-color .25s ease;
+  }
+  .card:hover{ background: var(--glass-fill-hover); }
+  .card.open{ border-color: rgba(198,161,91,0.35); }
+
+  .card-head{
+    width:100%;
+    display:flex;
+    align-items:center;
+    gap:16px;
+    padding: 18px 20px;
+    background:none;
+    border:none;
+    cursor:pointer;
+    text-align:left;
+    color:inherit;
+    font-family:inherit;
+  }
+  .card-num{
+    font-family: var(--serif);
+    font-style:italic;
+    font-size:14px;
+    color: var(--gold);
+    width: 18px;
+    flex-shrink:0;
+  }
+  .card-titles{ flex:1; min-width:0; }
+  .card-titles h2{
+    font-family: var(--serif);
+    font-weight:500;
+    font-size: 17px;
+    margin:0 0 3px;
+    color: var(--ink);
+  }
+  .card-titles p{
+    margin:0;
+    font-size: 12.5px;
+    color: var(--ink-dim);
+    font-weight:400;
+  }
+  .chev{
+    flex-shrink:0;
+    width:16px; height:16px;
+    color: var(--ink-faint);
+    transition: transform .35s ease, color .25s ease;
+  }
+  .card.open .chev{ transform: rotate(180deg); color: var(--gold); }
+
+  .card-body{
+    display:grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows .38s ease;
+  }
+  .card.open .card-body{ grid-template-rows: 1fr; }
+  .card-body-inner{ overflow:hidden; }
+  .card-content{
+    padding: 2px 22px 26px 54px;
+    font-size: 14.5px;
+    line-height:1.68;
+    color: var(--ink-dim);
+  }
+  .card-content h3{
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: 14.5px;
+    color: var(--ink);
+    margin: 18px 0 6px;
+  }
+  .card-content h3:first-child{ margin-top:2px; }
+  .card-content p{ margin: 0 0 12px; }
+  .card-content ul{ margin: 0 0 12px; padding-left: 18px; }
+  .card-content li{ margin-bottom: 8px; }
+  .card-content li::marker{ color: var(--gold-dim); }
+  .card-content strong{ color: var(--ink); font-weight:600; }
+  .card-content em{ color: var(--gold); font-style:normal; }
+
+  .vocab{
+    display:flex; flex-wrap:wrap; gap:6px;
+    margin: 4px 0 14px;
+  }
+  .vocab span{
+    font-size:12px;
+    padding: 3px 10px;
+    border-radius: 999px;
+    background: rgba(198,161,91,0.08);
+    border:1px solid rgba(198,161,91,0.22);
+    color: #d9c393;
+  }
+
+  .plate{
+    display:flex; align-items:flex-start; gap:10px;
+    margin: 10px 0;
+    padding: 10px 12px;
+    border-left: 2px solid rgba(198,161,91,0.35);
+    background: rgba(255,255,255,0.02);
+    border-radius: 0 8px 8px 0;
+  }
+  .plate b{
+    flex-shrink:0;
+    font-size:11px;
+    letter-spacing:.3px;
+    color: var(--gold);
+    font-weight:600;
+    width: 20px;
+    padding-top:1px;
+  }
+  .plate span{ font-size:13.5px; color: var(--ink-dim); line-height:1.6; }
+
+  /* essay sub-tabs */
+  .tabs{
+    display:flex; gap:6px;
+    margin: 4px 0 16px;
+    flex-wrap:wrap;
+  }
+  .tab-btn{
+    font-family: var(--sans);
+    font-size: 12.5px;
+    padding: 7px 13px;
+    border-radius: 8px;
+    border: 1px solid var(--glass-border);
+    background: rgba(255,255,255,0.03);
+    color: var(--ink-dim);
+    cursor:pointer;
+    transition: all .2s ease;
+  }
+  .tab-btn:hover{ color:var(--ink); }
+  .tab-btn.active{
+    background: rgba(198,161,91,0.14);
+    border-color: rgba(198,161,91,0.4);
+    color: #ecd9ab;
+  }
+  .essay{ display:none; }
+  .essay.active{ display:block; }
+  .essay h4{
+    font-family: var(--serif);
+    font-style:italic;
+    font-weight:500;
+    font-size:15px;
+    color: var(--ink);
+    margin: 0 0 12px;
+  }
+
+  footer{
+    text-align:center;
+    margin-top: 46px;
+    font-size:11.5px;
+    color: var(--ink-faint);
+  }
+
+  @media (max-width: 560px){
+    body{ padding: 44px 14px 80px; }
+    .hero{ flex-direction:column; gap:6px; align-items:flex-start; }
+    .card-content{ padding-left: 22px; }
+    .card-head{ padding:16px; gap:12px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hero">
+    <h1>Senior High School<br>Composition Contest — Preparation Pack</h1>
+    <div class="who">Shirley Du · CHHS</div>
+  </div>
+
+  <div class="index" id="accordion">
+
+    <!-- 1 -->
+    <div class="card">
+      <button class="card-head" onclick="toggle(this)">
+        <span class="card-num">I</span>
+        <span class="card-titles">
+          <h2>Key Features of the Writing Prompts</h2>
+          <p>How prompts evolved, 111–114, and the four dominant themes</p>
+        </span>
+        <svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="card-body"><div class="card-body-inner"><div class="card-content">
+        <p>Between the 111 and 114 academic years, prompts shifted from abstract philosophical inquiries toward exploring the intersection of personal identity and societal impact. Fluency alone no longer wins — success requires synthesizing individual agency with a national narrative.</p>
+        <h3>Four dominant categories</h3>
+        <ul>
+          <li><strong>Abstract Ethics (111)</strong> — the fundamental necessity of ethics for a cohesive society.</li>
+          <li><strong>Futuristic Speculation (112)</strong> — conceptualizing inventions that foster a more <em>improved and harmonious</em> world.</li>
+          <li><strong>Societal Debates (113)</strong> — the duality of technology: a cornucopia of information, or a source of harm.</li>
+          <li><strong>Cultural Reflection (114)</strong> — the core beliefs defining Taiwanese identity and its intangible cultural heritages.</li>
+        </ul>
+        <p>The 114 "Cultural Identity" prompt marks the peak of this trend — it asks students to define a <strong>polity</strong> and <strong>civic nature</strong> through shared values, not simply describe tradition.</p>
+      </div></div></div>
+    </div>
+
+    <!-- 2 -->
+    <div class="card">
+      <button class="card-head" onclick="toggle(this)">
+        <span class="card-num">II</span>
+        <span class="card-titles">
+          <h2>Excellence: How</h2>
+          <p>The three Success Pillars behind winning essays</p>
+        </span>
+        <svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="card-body"><div class="card-body-inner"><div class="card-content">
+        <p>In competition, excellence transcends grammar — it is measured by depth of insight and the use of <strong>Current Event Anchors</strong> to demonstrate civic awareness.</p>
+        <h3>Thematic Resonance & "Sentimental Taiwan"</h3>
+        <p>High-scoring papers link personal narrative to the national psyche — recognizing everyday treasures, such as the "Heroes of Shovel" who swarmed into Hualien after the recent disaster, called by conscience.</p>
+        <h3>Lexical Sophistication</h3>
+        <div class="vocab">
+          <span>synergy</span><span>indomitable</span><span>pervasive</span><span>manifestations</span><span>myriad</span><span>cornucopia</span>
+        </div>
+        <h3>Strategic Structure</h3>
+        <p>Essays move from the <strong>Specific</strong> (personal anecdote) to the <strong>Universal</strong> (national or global implication) — the "Taiwan Can Help" slogan is a classic bridge into Taiwan's role as a global citizen.</p>
+      </div></div></div>
+    </div>
+
+    <!-- 3 -->
+    <div class="card">
+      <button class="card-head" onclick="toggle(this)">
+        <span class="card-num">III</span>
+        <span class="card-titles">
+          <h2>Key Preparation Tips</h2>
+          <p>A three-pronged strategy for competition day</p>
+        </span>
+        <svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="card-body"><div class="card-body-inner"><div class="card-content">
+        <h3>1. Thematic mapping of the 19 issues</h3>
+        <p>Align the 108 Curriculum's major issues with likely prompts — e.g. "Gender Equity Education" folds into a "Multicultural Education" prompt via the legalization of same-sex marriage as a "live and let live" attitude.</p>
+        <h3>2. The PEEL command</h3>
+        <p>Every body paragraph follows <strong>Point → Evidence → Explanation → Link</strong>. The Explanation must go beyond restating facts, analyzing the social or philosophical implication of the evidence.</p>
+        <h3>3. Personal archive building</h3>
+        <p>Develop a bank of versatile narratives. One story of community volunteering can be reshaped to fit Character Education, Disaster Prevention Education, or Social Participation.</p>
+      </div></div></div>
+    </div>
+
+    <!-- 4 -->
+    <div class="card">
+      <button class="card-head" onclick="toggle(this)">
+        <span class="card-num">IV</span>
+        <span class="card-titles">
+          <h2>Suggested Writing Prompts</h2>
+          <p>Three practice prompts modeled on the 112 / 114 formats</p>
+        </span>
+        <svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="card-body"><div class="card-body-inner"><div class="card-content">
+        <h3>Prompt 1 · Environmental Education — The Tension Between Growth and Preservation</h3>
+        <p>Taiwan is an island "straddling the Pacific," blessed with a cornucopia of natural treasures, yet industrial progress often threatens these landscapes. Describe a specific environmental challenge and how a virtuous cycle can balance society and the "Mother of Nature."</p>
+        <h3>Prompt 2 · Multicultural Education — Resilience Through Diversity</h3>
+        <p>Taiwan's identity is an amalgamation of Indigenous, Hakka, and immigrant influences. Discuss the challenges and benefits of this diversifying society and how inclusiveness engines social harmony.</p>
+        <h3>Prompt 3 · Technology / Information Education — Digital Responsibility in the AI Era</h3>
+        <p>Modern technology offers groundbreaking potential but creates a fragile digital social fabric. Describe the ethical responsibility individuals hold, and how online actions manifest a sincere belief in human dignity.</p>
+      </div></div></div>
+    </div>
+
+    <!-- 5 -->
+    <div class="card">
+      <button class="card-head" onclick="toggle(this)">
+        <span class="card-num">V</span>
+        <span class="card-titles">
+          <h2>Cracking Each Prompt</h2>
+          <p>Blueprints — objective, "so what?" angle, vocabulary bank</p>
+        </span>
+        <svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="card-body"><div class="card-body-inner"><div class="card-content">
+
+        <h3>Blueprint 1 — Environmental Education</h3>
+        <p><strong>Core objective:</strong> balancing economic utility with ecological stewardship.<br>
+        <strong>So what?</strong> linking conservation to intergenerational justice — progress must not compromise the "Mother of Nature" for future residents.</p>
+        <div class="vocab"><span>highly touted</span><span>straddling the Pacific</span><span>indomitable bond</span><span>virtuous cycle</span><span>precarious</span><span>stewardship</span></div>
+
+        <h3>Blueprint 2 — Multicultural Education</h3>
+        <p><strong>Core objective:</strong> the evolution of a shared identity through diverse cultural heritages.<br>
+        <strong>So what?</strong> positioning tolerance as an active civic competence, not passive acceptance.</p>
+        <div class="vocab"><span>intangible cultural heritages</span><span>empathy</span><span>synergy</span><span>multifaceted</span><span>ingrained</span><span>social harmony</span></div>
+
+        <h3>Blueprint 3 — Technology / Information Education</h3>
+        <p><strong>Core objective:</strong> defining human ethics in an automated era.<br>
+        <strong>So what?</strong> digital responsibility as a manifestation of Self-Affirmation — technology as a beam of hope, not chaos.</p>
+        <div class="vocab"><span>groundbreaking</span><span>digital footprint</span><span>manifestation</span><span>collective effort</span><span>pervasive</span><span>meticulous</span></div>
+
+      </div></div></div>
+    </div>
+
+    <!-- 6 -->
+    <div class="card">
+      <button class="card-head" onclick="toggle(this)">
+        <span class="card-num">VI</span>
+        <span class="card-titles">
+          <h2>Model Essays</h2>
+          <p>One five-paragraph model per prompt</p>
+        </span>
+        <svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="card-body"><div class="card-body-inner"><div class="card-content">
+
+        <div class="tabs">
+          <button class="tab-btn active" onclick="showEssay(this,'e1')">Growth & Preservation</button>
+          <button class="tab-btn" onclick="showEssay(this,'e2')">Strength in Diversity</button>
+          <button class="tab-btn" onclick="showEssay(this,'e3')">Digital Responsibility</button>
+        </div>
+
+        <div class="essay active" id="e1">
+          <h4>The Tension Between Growth and Preservation</h4>
+          <p><strong>Introduction</strong> — Taiwan, eminently touted for its cornucopia of natural treasures, from Mount Jade to Taroko Gorge, sits at a precarious intersection of progress and preservation. As a nation straddling the Pacific, we prioritized industrial development to join the "Asian Tigers." Yet our true Taiwanese identity is not found in steel and silicon, but in our indomitable bond with the Mother of Nature — one that demands a virtuous cycle of sustainable stewardship.</p>
+          <div class="plate"><b>P</b><span>Local resilience is often the most potent defense against environmental degradation.</span></div>
+          <div class="plate"><b>E</b><span>During recent Hualien landslides, the "Heroes of Shovel" swarmed the mud-caked villages, restoring the land with meticulous dedication.</span></div>
+          <div class="plate"><b>E</b><span>This collective mobilization proves that Disaster Prevention is a communal virtue rooted in a sincere belief in protecting our homeland — not merely a technical skill.</span></div>
+          <div class="plate"><b>L</b><span>This spirit of local activism founds a more resilient, environmentally conscious society.</span></div>
+          <div class="plate"><b>P</b><span>Nationally, we must shift from exploitation toward an Environmental Education that values intangible heritages.</span></div>
+          <div class="plate"><b>E</b><span>The conflict between semiconductor expansion and water conservation shows the need for policy-driven synergy between technology and nature.</span></div>
+          <div class="plate"><b>E</b><span>Integrating conservation into national identity affirms that growth is unsustainable if it severs the bond between people and land.</span></div>
+          <div class="plate"><b>L</b><span>National policy must reflect the same empathy citizens show their environment during a crisis.</span></div>
+          <div class="plate"><b>P</b><span>Globally, ecological health is a prerequisite for Taiwan's status as a respected global citizen.</span></div>
+          <div class="plate"><b>E</b><span>"Taiwan Can Help" should extend beyond medical resources into marine education and biodiversity preservation.</span></div>
+          <div class="plate"><b>E</b><span>Failing to steward our landscapes risks losing the very traits that make us "Formosa."</span></div>
+          <div class="plate"><b>L</b><span>Environmental ethics are a vital component of our international competence, not merely a local concern.</span></div>
+          <p><strong>Conclusion</strong> — This tension is a test of our collective wisdom and Self-Affirmation. Drawing on solidarity and resilience, economic success need not cost our natural heritage — protecting the Mother of Nature paves a greener future for the next generation.</p>
+        </div>
+
+        <div class="essay" id="e2">
+          <h4>Strength in Diversity</h4>
+          <p><strong>Introduction</strong> — Taiwan's cultural fabric is a tapestry woven from a myriad of beliefs and traditions — Indigenous groups, Hakka people, post-1949 migrants, and recent immigrants — into a functionally independent polity defined by its inclusive nature. Our diversity is our most significant competitive advantage, fostering an open-minded civic nature for a harmonious, globalized world.</p>
+          <div class="plate"><b>P</b><span>Everyday kindness shows how Multicultural Education is ingrained in Taiwanese hearts.</span></div>
+          <div class="plate"><b>E</b><span>We see it in hospitality toward foreigners on public transport — seat-yielding, unconditioned assistance.</span></div>
+          <div class="plate"><b>E</b><span>This hospitality is an intangible cultural heritage: social participation predicated on empathy that transcends urban self-interest.</span></div>
+          <div class="plate"><b>L</b><span>These micro-interactions form the bedrock of a tolerant, cooperative community.</span></div>
+          <div class="plate"><b>P</b><span>Broader traditions — the Mazu pilgrimage, Mid-Autumn Festival — serve as "Sentimental Taiwan" anchors.</span></div>
+          <div class="plate"><b>E</b><span>Hakka, Hokkien, and immigrant communities gather at these events to share food and togetherness.</span></div>
+          <div class="plate"><b>E</b><span>Cooperation during ritual proves social harmony comes from synergy of unique characteristics, not cultural erasure.</span></div>
+          <div class="plate"><b>L</b><span>Shared rituals are the glue maintaining national solidarity amid internal diversity.</span></div>
+          <div class="plate"><b>P</b><span>Globally, Taiwan's commitment to diversity and human rights sets a profound example.</span></div>
+          <div class="plate"><b>E</b><span>As the first Asian nation to legalize same-sex marriage, Taiwan manifested "live and let live."</span></div>
+          <div class="plate"><b>E</b><span>This inclusiveness broadens our global vision, letting us participate in discourse as a progressive democracy.</span></div>
+          <div class="plate"><b>L</b><span>Internal diversity is the primary engine of our international relevance and moral authority.</span></div>
+          <p><strong>Conclusion</strong> — Taiwanese culture embraces a multitude of backgrounds while holding indomitable solidarity. Through everyday empathy and tolerance enshrined in law, we've built a peaceful paradise — and diversity will keep guiding Taiwan as a beam of hope on the world stage.</p>
+        </div>
+
+        <div class="essay" id="e3">
+          <h4>Digital Responsibility in the Age of Intelligence</h4>
+          <p><strong>Introduction</strong> — Entering the AI era, technology presents a groundbreaking duality: a cornucopia of information, and a threat to the fragile bonds of our social fabric. Information Education is no longer a technical requirement but a moral imperative — integrity and Social Participation must be meticulously manifested online, so technology serves a more improved and harmonious world.</p>
+          <div class="plate"><b>P</b><span>Personal integrity online is the most indispensable factor in preventing the erosion of trust.</span></div>
+          <div class="plate"><b>E</b><span>During the Hualien disaster, citizens used the internet to coordinate the "Heroes of Shovel" without seeking personal benefit.</span></div>
+          <div class="plate"><b>E</b><span>Technology "called by our conscience" becomes a beam of hope piercing the darkness of crisis.</span></div>
+          <div class="plate"><b>L</b><span>Our digital footprints must reflect real-world commitment to the common good.</span></div>
+          <div class="plate"><b>P</b><span>Societal harmony depends on our collective ability to amplify "Sentimental Taiwan" online.</span></div>
+          <div class="plate"><b>E</b><span>"Taiwan Can Help," which trended globally, was a digital manifestation of willingness to assist during COVID-19.</span></div>
+          <div class="plate"><b>E</b><span>Choosing warmth over misinformation creates a virtuous cycle reinforcing our compassionate, capable identity.</span></div>
+          <div class="plate"><b>L</b><span>Digital responsibility extends Character Education and civic duty.</span></div>
+          <div class="plate"><b>P</b><span>Globally, ethical technology use protects human dignity against narrowly defined success.</span></div>
+          <div class="plate"><b>E</b><span>Used without empathy, AI and the internet risk rendering nations into isolation and chaos.</span></div>
+          <div class="plate"><b>E</b><span>As global citizens, futuristic inventions must respect an inclusive world — "no man is an island."</span></div>
+          <div class="plate"><b>L</b><span>The synergy of human ethics and digital power is the only path to a future lit rather than shadowed.</span></div>
+          <p><strong>Conclusion</strong> — Technology changes our tools, not the intangible heritage of the heart. Applying ingrained hospitality and resilience to the digital world lets us build a future both technologically advanced and humanely connected.</p>
+        </div>
+
+      </div></div></div>
+    </div>
+
+  </div>
+
+  <footer>National High School English Writing Contest — Preparation Pack</footer>
+</div>
+
+<script>
+function toggle(btn){
+  btn.parentElement.classList.toggle('open');
+}
+function showEssay(btn, id){
+  const tabs = btn.parentElement.querySelectorAll('.tab-btn');
+  const essays = btn.closest('.card-content').querySelectorAll('.essay');
+  tabs.forEach(t=>t.classList.remove('active'));
+  essays.forEach(e=>e.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(id).classList.add('active');
+}
+</script>
+</body>
+</html>
