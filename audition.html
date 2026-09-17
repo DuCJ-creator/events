@@ -52,7 +52,7 @@ body{
     radial-gradient(ellipse 800px 600px at 90% 82%, rgba(123,102,130,0.16), transparent 60%),
     radial-gradient(ellipse 800px 600px at 10% 86%, rgba(203,200,169,0.28), transparent 60%);
   background-repeat:no-repeat;
-  animation:driftGlow 26s ease-in-out infinite alternate;
+  animation:none;
 }
 .sheen{
   position:fixed;
@@ -67,7 +67,8 @@ body{
     rgba(255,255,255,0) 58%,
     transparent 100%);
   background-size:260% 260%;
-  animation:sweepShine 9s linear infinite;
+  display:none;
+  animation:none;
 }
 @keyframes driftGlow{
   0%{ transform:translate3d(0,0,0) scale(1); }
@@ -474,16 +475,15 @@ body::before{
 }
 .ambient{
   opacity:.8;
+  animation:none;
   background:
     radial-gradient(ellipse 520px 380px at 22% 18%, rgba(74,157,207,.22), transparent 68%),
     radial-gradient(ellipse 600px 450px at 82% 58%, rgba(177,77,124,.18), transparent 66%),
     radial-gradient(ellipse 420px 320px at 50% 100%, rgba(212,174,91,.12), transparent 70%);
 }
 .sheen{
-  opacity:.38;
-  mix-blend-mode:screen;
-  background:linear-gradient(115deg, transparent 0%, transparent 42%, rgba(255,239,190,.8) 49%, transparent 56%, transparent 100%);
-  background-size:280% 280%;
+  display:none;
+  animation:none;
 }
 .stage{ max-width:1240px; padding:0 34px 80px; }
 .hero{
@@ -600,7 +600,7 @@ h1{
   padding:18px 52px;
   background:linear-gradient(100deg,#7c294b,#b95872 48%,#7c294b);
   background-size:200% 100%;
-  animation:buttonSheen 5s ease-in-out infinite;
+  animation:none;
   border-color:rgba(255,241,191,.72);
   color:#fff1bf;
   box-shadow:0 0 0 1px rgba(230,201,131,.2),0 15px 40px rgba(108,24,58,.45),inset 0 1px 0 rgba(255,255,255,.28);
@@ -763,6 +763,7 @@ h1{
       {name:"黃則睿", en:"Jerry"},
       {name:"鄭棋文", en:"Poli"},
       {name:"李翎瑄", en:"Angeline"},
+      {name:"賴逸軒", en:""}
     ],
     ms: [
       {name:"許茂盈", en:"Tony"},
