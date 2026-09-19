@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<title>National Vocabulary Contest Mock 全國單字大賽模擬</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          bee: {
+            navy:   '#1B2A4A',
+            navy2:  '#233A63',
+            gold:   '#F0B429',
+            gold2:  '#D99A1B',
+            cream:  '#FFF8E6',
+            maroon: '#8A2E2E',
+            ink:    '#2B2210'
+          }
+        },
+        fontFamily: {
+          display: ['"Fredoka"', 'sans-serif'],
+          sans: ['"Noto Sans TC"', '"Fredoka"', 'sans-serif']
+        }
+      }
+    }
+  }
+</script>
+<style>
+  body { background-color: #FFF8E6; background-image: radial-gradient(#F0B429 0.5px, transparent 0.5px); background-size: 18px 18px; background-position: -9px -9px; }
+  .ribbon-shadow { box-shadow: 0 10px 0 -2px rgba(27,42,74,0.08), 0 14px 24px -10px rgba(27,42,74,0.35); }
+  .bee-card { transition: transform .18s ease, box-shadow .18s ease; }
+  .bee-card:hover { transform: translateY(-4px) rotate(-0.3deg); }
+  .tab-btn { transition: all .15s ease; }
+  .tab-btn.active { background: #1B2A4A; color: #F0B429; box-shadow: inset 0 -3px 0 #F0B429; }
+  .letter-btn { transition: all .12s ease; }
+  .letter-btn.selected { background: #1B2A4A; color: #F0B429; border-color: #1B2A4A; transform: scale(1.08); }
+  .spell-input { border-bottom: 3px solid #D99A1B; background: transparent; }
+  .spell-input:focus { border-color: #1B2A4A; outline: none; }
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-thumb { background: #E9C368; border-radius: 8px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+</style>
+</head>
+<body class="font-sans text-bee-ink min-h-screen flex flex-col">
+
+  <!-- Header -->
+  <header class="bg-bee-navy px-6 py-4 flex items-center justify-between shadow-lg relative z-10">
+    <div class="flex items-center gap-3 cursor-pointer" onclick="showDashboard()">
+      <div class="w-12 h-12 rounded-full bg-bee-gold flex items-center justify-center text-2xl ribbon-shadow">🐝</div>
+      <div>
+        <h1 class="font-display font-bold text-xl md:text-2xl text-bee-gold tracking-wide leading-tight">National Vocabulary Contest Mock</h1>
+        <p class="text-xs md:text-sm text-white/80 font-sans">全國單字大賽模擬　·　<a class="underline hover:text-bee-gold" href="https://shs.k12ea.gov.tw/site/vocabulary" target="_blank" rel="noopener">Adapted from shs.k12ea.gov.tw/site/vocabulary</a></p>
+      </div>
+    </div>
+    <button id="backBtn" onclick="showDashboard()" class="hidden bg-bee-gold hover:bg-bee-gold2 text-bee-navy font-display font-bold px-4 py-2 rounded-full text-sm transition">
+      ← 返回選單 Menu
+    </button>
+  </header>
+
+  <main class="flex-1 p-4 md:p-6 max-w-7xl mx-auto w-full">
+
+    <!-- Dashboard -->
+    <div id="dashboardSection">
+      <div class="text-center my-8">
+        <div class="inline-flex items-center gap-2 bg-white/70 border-2 border-bee-gold rounded-full px-5 py-1.5 mb-3 ribbon-shadow">
+          <span class="text-lg">🏆</span>
+          <span class="font-display font-semibold text-bee-navy text-sm">Choose your contest year</span>
+        </div>
+        <h2 class="font-display font-bold text-3xl md:text-4xl text-bee-navy mb-2">請選擇歷屆考古題年度</h2>
+        <p class="text-bee-navy/60">Test 1 聽音拼寫 &nbsp;+&nbsp; Test 2 詞彙單選，各 50 題</p>
+      </div>
+
+      <div id="cardGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mt-8">
+        <div class="col-span-full text-center py-12">
+          <div class="inline-block animate-spin rounded-full h-10 w-10 border-4 border-bee-navy border-t-bee-gold"></div>
+          <p class="mt-3 text-bee-navy/50">正在讀取題庫清單...</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Exam View -->
+    <div id="examSection" class="hidden flex flex-col gap-4">
+
+      <!-- Title + Tabs + Score -->
+      <div class="bg-white rounded-2xl p-4 shadow-sm border-2 border-bee-gold/40 flex flex-wrap items-center justify-between gap-3 ribbon-shadow">
+        <div class="flex items-center gap-3">
+          <span class="w-10 h-10 rounded-full bg-bee-navy text-bee-gold flex items-center justify-center text-lg font-display font-bold">🎗️</span>
+          <h3 id="examTitle" class="font-display font-bold text-lg text-bee-navy">Contest</h3>
+        </div>
+        <div class="flex gap-2">
+          <button id="tabTest1" onclick="switchTab('test1')" class="tab-btn active font-display font-semibold text-sm px-4 py-2 rounded-full border-2 border-bee-navy text-bee-navy">
+            🎧 Test 1 聽音拼寫
+          </button>
+          <button id="tabTest2" onclick="switchTab('test2')" class="tab-btn font-display font-semibold text-sm px-4 py-2 rounded-full border-2 border-bee-navy text-bee-navy">
+            📖 Test 2 詞彙題
+          </button>
+        </div>
+        <span id="scoreBadge" class="hidden px-4 py-2 bg-bee-gold text-bee-navy font-display font-bold rounded-full text-sm ribbon-shadow"></span>
+      </div>
+
+      <!-- ===== Test 1: Listening & Spelling ===== -->
+      <div id="test1View" class="flex flex-col gap-4">
+        <div class="bg-white rounded-2xl p-4 shadow-sm border-2 border-bee-gold/40 flex items-center gap-4 ribbon-shadow">
+          <span class="p-2 bg-bee-gold/30 rounded-full text-2xl">🎧</span>
+          <div class="flex-1">
+            <p id="audioHint" class="text-xs text-bee-navy/50 mb-1">點擊播放器開始聽力答題　Listen carefully — each word plays twice.</p>
+            <audio id="audioPlayer" controls class="w-full h-10"></audio>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-2xl p-5 shadow-sm border-2 border-bee-gold/40 ribbon-shadow">
+          <div id="test1Grid" class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-5 gap-x-4 gap-y-5"></div>
+        </div>
+      </div>
+
+      <!-- ===== Test 2: Vocabulary (split view) ===== -->
+      <div id="test2View" class="hidden flex-1 grid grid-cols-1 lg:grid-cols-12 auto-rows-fr gap-4 min-h-0 h-[calc(100vh-260px)]">
+        <div class="lg:col-span-7 bg-white rounded-2xl p-2 shadow-sm border-2 border-bee-gold/40 flex flex-col h-full min-h-0 ribbon-shadow">
+          <div class="px-3 py-2 text-xs font-semibold text-bee-navy/60 flex justify-between items-center border-b border-bee-gold/30 mb-2">
+            <span>📄 試題卷（測驗二：詞彙題）</span>
+            <span class="text-bee-navy/30">獨立捲動 · 不受右側影響</span>
+          </div>
+          <iframe id="pdfFrame" class="w-full flex-1 rounded-xl border-0" src=""></iframe>
+        </div>
+
+        <div class="lg:col-span-5 bg-white rounded-2xl p-4 shadow-sm border-2 border-bee-gold/40 flex flex-col h-full min-h-0 ribbon-shadow">
+          <div class="pb-3 border-b border-bee-gold/30 mb-3 flex items-center justify-between">
+            <h4 class="font-display font-bold text-bee-navy flex items-center gap-2"><span>✍️</span> 答題卡 Answer Sheet</h4>
+            <span class="text-xs text-bee-navy/40">A–F</span>
+          </div>
+          <div class="flex-1 min-h-0 overflow-y-auto pr-1">
+            <div id="test2List" class="space-y-2"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Submit bar (grades both tests together) -->
+      <div class="bg-white rounded-2xl p-4 shadow-sm border-2 border-bee-gold/40 ribbon-shadow">
+        <button id="submitBtn" onclick="gradeExam()" class="w-full bg-bee-navy hover:bg-bee-navy2 text-bee-gold font-display font-bold py-3 rounded-xl transition transform active:scale-95">
+          🐝 Submit &amp; Grade 提交答案並批改
+        </button>
+      </div>
+    </div>
+
+  </main>
+
+  <script>
+    // ============================================================
+    // 純靜態版本，檔案採「扁平」命名慣例，皆與 index.html 放在同一層：
+    //   <year>.pdf              題本 PDF（Test 1 + Test 2 都在同一份裡）
+    //   <year> audio.mp3        聽力音檔（注意年份與 audio 之間有空格）
+    //   <year>answer.json       答案資料，格式：
+    //     {
+    //       "test_1_listening_spelling": [{ "id": 1, "answer": "word" }, ...],
+    //       "test_2_vocabulary":         [{ "id": 1, "answer": "C" }, ...]
+    //     }
+    //   拼字若有多種可接受拼法，用 "/" 分隔，例如 "mustache/moustache"
+    //
+    // 題目文字與選項內容一律不解析、不重複輸入——直接看左側 PDF 題本即可，
+    // JSON 只需要存正確答案。
+    //
+    // 加新年度時，只要把三個檔案依上面命名規則放進同一層，並把年份加進
+    // 下面的 YEARS 陣列即可，不用改其他程式碼。
+    // ============================================================
+
+    const YEARS = ['110', '111', '112', '113', '114'];
+    const QUESTION_COUNT = 50; // 每份題本固定 Test1 50 題 + Test2 50 題，答題面板一律照這個數字畫出來，不管答案 JSON 有沒有載到
+
+    const pdfPath    = (year) => `${year}.pdf`;
+    const audioPath  = (year) => encodeURI(`${year} audio.mp3`);
+    // Answers may be bundled beside this page, in a per-year folder, or in
+    // the original site2 folder used by the downloaded question set.
+    const answerPaths = (year) => [
+      `${year}answer.json`,
+      `${year}/answer.json`,
+      `../site2/${year}answer.json`
+    ];
+
+    let answerCache = {};   // year -> { test1Map: {id: accepted[]}, test2Map: {id: 'A'}, test1Count, test2Count }
+    let currentYear = null;
+
+    window.onload = async function () {
+      await Promise.all(YEARS.map(async (year) => {
+        let lastError;
+        for (const path of answerPaths(year)) {
+          try {
+            const res = await fetch(path, { cache: 'no-store' });
+            if (!res.ok) throw new Error(`HTTP ${res.status}`);
+            const data = await res.json();
+            const normalized = normalizeAnswerData(data);
+            if (normalized.test1Count || normalized.test2Count) {
+              answerCache[year] = normalized;
+              return;
+            }
+            throw new Error('答案資料為空');
+          } catch (e) {
+            lastError = e;
+          }
+        }
+        answerCache[year] = {
+          test1Map: {}, test2Map: {}, test1Count: 0, test2Count: 0,
+          error: lastError?.message || '找不到答案檔'
+        };
+      }));
+      renderCards();
+    };
+
+    function normalizeAnswerData(data) {
+      const test1Map = {};
+      (data.test_1_listening_spelling || []).forEach(item => {
+        test1Map[item.id] = String(item.answer).split('/').map(w => w.trim().toLowerCase()).filter(Boolean);
+      });
+      const test2Map = {};
+      (data.test_2_vocabulary || []).forEach(item => {
+        test2Map[item.id] = String(item.answer).trim().toUpperCase();
+      });
+      return {
+        test1Map, test2Map,
+        test1Count: (data.test_1_listening_spelling || []).length,
+        test2Count: (data.test_2_vocabulary || []).length
+      };
+    }
+
+    function renderCards() {
+      const grid = document.getElementById('cardGrid');
+      grid.innerHTML = '';
+
+      YEARS.forEach((year, idx) => {
+        const cache = answerCache[year] || { test1Count: 0, test2Count: 0 };
+        const hasAnswers = cache.test1Count > 0 || cache.test2Count > 0;
+        const card = document.createElement('div');
+        card.className = "bee-card bg-white rounded-3xl p-6 border-2 border-bee-gold/50 hover:border-bee-gold cursor-pointer ribbon-shadow flex flex-col justify-between";
+        card.onclick = () => openExam(year);
+
+        card.innerHTML = `
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <span class="px-3 py-1 rounded-full text-xs font-display font-bold bg-bee-navy text-bee-gold">${year} 學年度</span>
+              <span class="text-2xl">🏅</span>
+            </div>
+            <h3 class="font-display font-bold text-xl text-bee-navy mb-1">${year} Vocabulary Bee</h3>
+            <p class="text-xs text-bee-navy/50">${hasAnswers ? `答案已備妥　(Test1 ${cache.test1Count} · Test2 ${cache.test2Count})` : `共 ${QUESTION_COUNT * 2} 題可作答　(答案尚未上傳，僅供練習)`}</p>
+          </div>
+          <div class="mt-6 flex items-center text-bee-gold2 font-display font-bold text-sm">
+            <span>Enter Contest 進入答題</span>
+            <span class="ml-1">→</span>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    function openExam(year) {
+      currentYear = year;
+      const cache = answerCache[year] || { test1Map: {}, test2Map: {}, test1Count: 0, test2Count: 0 };
+
+      document.getElementById('dashboardSection').classList.add('hidden');
+      document.getElementById('examSection').classList.remove('hidden');
+      document.getElementById('backBtn').classList.remove('hidden');
+      document.getElementById('examTitle').innerText = `${year} 年全國單字比賽模擬卷`;
+
+      // Test 1: audio
+      const audioPlayer = document.getElementById('audioPlayer');
+      const audioHint = document.getElementById('audioHint');
+      audioPlayer.src = audioPath(year);
+      audioHint.innerText = '點擊播放器開始聽力答題　Listen carefully — each word plays twice.';
+      audioPlayer.onerror = () => {
+        audioHint.innerText = `⚠️ 尚未找到音檔（${year} audio.mp3），請確認已上傳到同一層資料夾。`;
+      };
+
+      // Test 2: PDF
+      document.getElementById('pdfFrame').src = pdfPath(year);
+
+      renderTest1();
+      renderTest2();
+      document.getElementById('scoreBadge').classList.add('hidden');
+      switchTab('test1');
+    }
+
+    function switchTab(tab) {
+      document.getElementById('test1View').classList.toggle('hidden', tab !== 'test1');
+      document.getElementById('test2View').classList.toggle('hidden', tab !== 'test2');
+      document.getElementById('test2View').classList.toggle('flex', tab === 'test2');
+      document.getElementById('tabTest1').classList.toggle('active', tab === 'test1');
+      document.getElementById('tabTest2').classList.toggle('active', tab === 'test2');
+    }
+
+    function renderTest1() {
+      const grid = document.getElementById('test1Grid');
+      grid.innerHTML = '';
+
+      for (let id = 1; id <= QUESTION_COUNT; id++) {
+        const cell = document.createElement('div');
+        cell.id = `s1Card_${id}`;
+        cell.className = "flex items-center gap-2";
+        cell.innerHTML = `
+          <span class="w-7 h-7 flex-shrink-0 rounded-full bg-bee-navy text-bee-gold font-display font-bold text-xs flex items-center justify-center">${id}</span>
+          <input type="text" id="s1_${id}" autocomplete="off"
+                 class="spell-input flex-1 px-1 py-1.5 text-sm font-mono focus:ring-0"
+                 placeholder="spell it...">
+        `;
+        grid.appendChild(cell);
+      }
+    }
+
+    function renderTest2() {
+      const list = document.getElementById('test2List');
+      list.innerHTML = '';
+
+      const LETTERS = ['A', 'B', 'C', 'D', 'E', 'F'];
+
+      for (let id = 1; id <= QUESTION_COUNT; id++) {
+        const row = document.createElement('div');
+        row.id = `s2Card_${id}`;
+        row.className = "p-2.5 rounded-xl border border-bee-gold/30 bg-bee-cream/60 flex items-center gap-2 flex-wrap";
+        row.innerHTML = `
+          <span class="w-7 h-7 flex-shrink-0 rounded-full bg-bee-navy text-bee-gold font-display font-bold text-xs flex items-center justify-center">${id}</span>
+          <div class="flex gap-1.5" data-qid="${id}">
+            ${LETTERS.map(L => `
+              <button type="button" data-letter="${L}"
+                onclick="selectLetter(${id}, '${L}')"
+                class="letter-btn w-8 h-8 rounded-full border-2 border-bee-navy/30 text-bee-navy font-display font-bold text-sm">
+                ${L}
+              </button>`).join('')}
+          </div>
+          <span id="s2result_${id}" class="ml-auto text-xs font-bold"></span>
+        `;
+        list.appendChild(row);
+      }
+    }
+
+    function selectLetter(qid, letter) {
+      const group = document.querySelector(`#s2Card_${qid} [data-qid="${qid}"]`);
+      group.dataset.selected = letter;
+      group.querySelectorAll('.letter-btn').forEach(btn => {
+        btn.classList.toggle('selected', btn.dataset.letter === letter);
+      });
+    }
+
+    function gradeExam() {
+      if (!currentYear) return;
+      const cache = answerCache[currentYear] || { test1Map: {}, test2Map: {} };
+
+      let correct = 0;
+      let graded = 0; // 只計算「有正確答案資料」的題目，答案尚未上傳的題目不計入分母
+
+      // Test 1 grading
+      for (let id = 1; id <= QUESTION_COUNT; id++) {
+        const accepted = cache.test1Map[id];
+        const input = document.getElementById(`s1_${id}`);
+        input.classList.remove('border-emerald-400', 'border-rose-400');
+        input.style.borderColor = '';
+        input.title = '';
+        if (!accepted) continue; // 該題答案尚未上傳，僅供作答練習，不計分
+        graded++;
+        const userAns = input.value.trim().toLowerCase();
+        const isCorrect = accepted.includes(userAns);
+        if (isCorrect) correct++;
+        input.style.borderColor = isCorrect ? '#34d399' : '#fb7185';
+        input.title = isCorrect ? '' : `正確答案：${accepted.join(' / ')}`;
+      }
+
+      // Test 2 grading
+      for (let id = 1; id <= QUESTION_COUNT; id++) {
+        const answer = cache.test2Map[id];
+        const group = document.querySelector(`#s2Card_${id} [data-qid="${id}"]`);
+        const result = document.getElementById(`s2result_${id}`);
+        const card = document.getElementById(`s2Card_${id}`);
+        if (!answer) {
+          result.innerText = '';
+          card.className = "p-2.5 rounded-xl border border-bee-gold/30 bg-bee-cream/60 flex items-center gap-2 flex-wrap";
+          continue; // 該題答案尚未上傳，僅供作答練習，不計分
+        }
+        graded++;
+        const selected = group ? group.dataset.selected : null;
+        const isCorrect = selected === answer;
+        if (isCorrect) correct++;
+        if (isCorrect) {
+          result.innerText = '✓';
+          result.className = 'ml-auto text-xs font-bold text-emerald-500';
+          card.className = "p-2.5 rounded-xl border-2 border-emerald-300 bg-emerald-50 flex items-center gap-2 flex-wrap";
+        } else {
+          result.innerText = `✗ 正解 ${answer}`;
+          result.className = 'ml-auto text-xs font-bold text-rose-500';
+          card.className = "p-2.5 rounded-xl border-2 border-rose-300 bg-rose-50 flex items-center gap-2 flex-wrap";
+        }
+      }
+
+      const badge = document.getElementById('scoreBadge');
+      if (graded === 0) {
+        badge.innerText = `⚠️ 尚無正確答案資料，僅供作答練習`;
+      } else {
+        const score = Math.round((correct / graded) * 100);
+        badge.innerText = `🏆 得分 ${score} 分 (${correct}/${graded}${graded < QUESTION_COUNT * 2 ? `，另有 ${QUESTION_COUNT * 2 - graded} 題尚無答案資料` : ''})`;
+      }
+      badge.classList.remove('hidden');
+    }
+
+    function showDashboard() {
+      document.getElementById('examSection').classList.add('hidden');
+      document.getElementById('dashboardSection').classList.remove('hidden');
+      document.getElementById('backBtn').classList.add('hidden');
+      const audioPlayer = document.getElementById('audioPlayer');
+      audioPlayer.pause();
+      audioPlayer.src = '';
+    }
+  </script>
+</body>
+</html>
