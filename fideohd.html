@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sopa de Fideo 講義手冊｜墨西哥家常細麵湯</title>
+    <style>
+        /* ===== 基本設定 ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Calibri', 'Segoe UI', 'Microsoft JhengHei', '新細明體', sans-serif;
+            font-size: 11pt;
+            line-height: 1.5;
+            color: #1a1a1a;
+            background: #e2e6e9;
+            padding: 20px;
+        }
+
+        /* ===== 列印按鈕（列印時隱藏） ===== */
+        .print-toolbar {
+            position: sticky;
+            top: 10px;
+            background: linear-gradient(135deg, #006847, #ce1126);
+            padding: 14px 24px;
+            border-radius: 40px;
+            text-align: center;
+            margin: 0 auto 25px;
+            max-width: 800px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            gap: 18px;
+            flex-wrap: wrap;
+        }
+
+        .print-toolbar button {
+            background: white;
+            border: none;
+            padding: 10px 28px;
+            font-size: 15px;
+            font-weight: bold;
+            border-radius: 30px;
+            cursor: pointer;
+            color: #006847;
+            transition: all 0.3s;
+            font-family: inherit;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+        }
+
+        .print-toolbar button:hover {
+            background: #f4a261;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+        }
+
+        /* ===== 講義容器 ===== */
+        .handout {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: white;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            border-radius: 4px;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        /* ===== 每一頁 ===== */
+        .page {
+            padding: 45px 50px;
+            page-break-after: always;
+            position: relative;
+            min-height: 100vh;
+            border-bottom: 1px dashed #ccc;
+        }
+
+        .page:last-child {
+            border-bottom: none;
+        }
+
+        /* ===== 頁首裝飾 ===== */
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 15px;
+            border-bottom: 3px solid;
+            border-image: linear-gradient(90deg, #006847 0%, #006847 33%, #ffffff 33%, #ffffff 66%, #ce1126 66%, #ce1126 100%) 1;
+            margin-bottom: 30px;
+        }
+
+        .page-header .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 13px;
+            font-weight: bold;
+            color: #006847;
+        }
+
+        .page-header .page-num {
+            font-size: 12px;
+            color: #999;
+            font-weight: bold;
+        }
+
+        /* ===== 標題樣式 ===== */
+        h1 {
+            font-size: 28pt;
+            font-weight: bold;
+            text-align: center;
+            margin: 30px 0 15px;
+            color: #006847;
+            line-height: 1.3;
+        }
+
+        h2 {
+            font-size: 18pt;
+            font-weight: bold;
+            margin: 25px 0 12px;
+            color: #006847;
+            border-left: 6px solid #f4a261;
+            padding-left: 14px;
+            line-height: 1.3;
+        }
+
+        h3 {
+            font-size: 14pt;
+            font-weight: bold;
+            margin: 18px 0 10px;
+            color: #ce1126;
+        }
+
+        /* ===== 雙語文字 ===== */
+        .eng {
+            font-weight: 500;
+            color: #006847;
+        }
+
+        .chi {
+            font-weight: normal;
+            color: #333;
+        }
+
+        .dual {
+            margin: 10px 0;
+        }
+
+        .dual .eng {
+            display: block;
+            font-size: 12pt;
+            margin-bottom: 2px;
+        }
+
+        .dual .chi {
+            display: block;
+            font-size: 11pt;
+            color: #555;
+        }
+
+        /* ===== 封面 ===== */
+        .cover {
+            text-align: center;
+            padding: 60px 40px;
+            background: linear-gradient(135deg, #006847 0%, #00875a 50%, #ce1126 100%);
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cover::before {
+            content: '🌮 🍜 🌶️ 🥑 🍅 🌽 🍋';
+            position: absolute;
+            top: 20px;
+            left: 0;
+            right: 0;
+            font-size: 50px;
+            opacity: 0.12;
+            letter-spacing: 40px;
+            white-space: nowrap;
+        }
+
+        .cover h1 {
+            color: white;
+            font-size: 32pt;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .cover h2 {
+            color: #ffe8d6;
+            font-size: 20pt;
+            font-weight: normal;
+            border: none;
+            padding: 0;
+            margin-bottom: 30px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .cover .badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.25);
+            backdrop-filter: blur(5px);
+            color: white;
+            padding: 14px 32px;
+            border-radius: 40px;
+            font-size: 16px;
+            font-weight: bold;
+            border: 2px solid rgba(255,255,255,0.5);
+            margin-bottom: 50px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .cover .info-block {
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px 50px;
+            border: 2px solid rgba(255,255,255,0.3);
+            position: relative;
+            z-index: 2;
+        }
+
+        .cover .info-block p {
+            font-size: 15pt;
+            margin: 12px 0;
+            text-align: left;
+            color: white;
+        }
+
+        .cover .info-block .label {
+            font-weight: bold;
+            color: #ffe8d6;
+        }
+
+        /* ===== 表格 ===== */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            font-size: 11pt;
+        }
+
+        th, td {
+            border: 1px solid #c9a99a;
+            padding: 10px 12px;
+            vertical-align: top;
+            text-align: left;
+        }
+
+        th {
+            background: linear-gradient(135deg, #006847, #00875a);
+            color: white;
+            font-weight: bold;
+        }
+
+        .timeline-table td:first-child {
+            background: #fdf2e9;
+            font-weight: bold;
+            color: #ce1126;
+            width: 25%;
+        }
+
+        /* ===== 特殊區塊 ===== */
+        .highlight {
+            background: linear-gradient(135deg, #fff4e6, #ffe8d6);
+            border-left: 6px solid #f4a261;
+            padding: 16px 22px;
+            border-radius: 12px;
+            margin: 18px 0;
+            font-size: 11pt;
+            color: #7b2d26;
+        }
+
+        .step-box {
+            background: #fbf5f0;
+            padding: 16px 22px;
+            margin: 14px 0;
+            border-radius: 12px;
+            border: 1px solid #e6d3c8;
+            border-left: 5px solid #e76f51;
+        }
+
+        .step-box strong {
+            color: #ce1126;
+            font-size: 12pt;
+        }
+
+        .recipe-card {
+            background: #fff4e6;
+            border: 3px dashed #e76f51;
+            padding: 25px 30px;
+            margin: 20px 0;
+            border-radius: 20px;
+        }
+
+        .recipe-card h3 {
+            text-align: center;
+            color: #ce1126;
+            font-size: 16pt;
+            margin-bottom: 15px;
+        }
+
+        /* ===== 清單 ===== */
+        ul, ol {
+            margin: 12px 0 12px 25px;
+        }
+
+        li {
+            margin-bottom: 8px;
+            line-height: 1.6;
+        }
+
+        /* ===== 筆記區 ===== */
+        .note-lines {
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 2px dashed #ccc;
+        }
+
+        .note-lines p {
+            margin-bottom: 18px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+            min-height: 24px;
+        }
+
+        /* ===== 頁尾 ===== */
+        .page-footer {
+            position: absolute;
+            bottom: 20px;
+            left: 50px;
+            right: 50px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 9pt;
+            color: #999;
+            border-top: 1px solid #eee;
+            padding-top: 10px;
+        }
+
+        /* ===== 列印設定 ===== */
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+                margin: 0;
+            }
+
+            .print-toolbar {
+                display: none !important;
+            }
+
+            .handout {
+                box-shadow: none;
+                border-radius: 0;
+                max-width: 100%;
+            }
+
+            .page {
+                padding: 15mm 18mm;
+                min-height: auto;
+                border-bottom: none;
+                page-break-after: always;
+            }
+
+            .page:last-child {
+                page-break-after: auto;
+            }
+
+            .cover {
+                min-height: 100vh;
+                page-break-after: always;
+            }
+
+            @page {
+                size: A4;
+                margin: 0;
+            }
+        }
+
+        /* ===== 螢幕響應式 ===== */
+        @media (max-width: 768px) {
+            .page {
+                padding: 25px 20px;
+            }
+            .cover h1 { font-size: 24pt; }
+            .cover h2 { font-size: 16pt; }
+            .cover .info-block { padding: 20px 25px; }
+            .cover .info-block p { font-size: 13pt; }
+            h1 { font-size: 22pt; }
+            h2 { font-size: 16pt; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ===== 列印工具列 ===== -->
+<div class="print-toolbar">
+    <button onclick="window.print();">🖨️ 列印 / 另存為 PDF</button>
+    <button onclick="downloadPDF();">📥 直接下載 PDF</button>
+</div>
+
+<div class="handout">
+
+    <!-- ================= 封面頁 ================= -->
+    <div class="page cover">
+        <h1>🍜 Sopa de Fideo 🍅</h1>
+        <h2>墨西哥家常細麵湯<br>從家庭廚房到文化餐桌的溫暖滋味</h2>
+        <div class="badge">⏱️ 2 小時講座 + 實作 ｜ 🌶️ 觀光科美食旅遊講座</div>
+        <div class="info-block">
+            <p><span class="label">Name／姓名：</span>_________________________________</p>
+            <p><span class="label">Date／日期：</span>_________________________________</p>
+            <p><span class="label">Instructor／主講人：</span>___________________________</p>
+            <p><span class="label">Group／組別：</span>_________________________________</p>
+        </div>
+        <p style="margin-top: 40px; font-size: 12pt; opacity: 0.8; position: relative; z-index: 2;">
+            🇲🇽 Tourism Gastronomy Workshop Series
+        </p>
+    </div>
+
+    <!-- ================= 第1頁：講座目標 + 流程表 ================= -->
+    <div class="page">
+        <div class="page-header">
+            <div class="brand">🌮 Sopa de Fideo 講座講義</div>
+            <div class="page-num">Page 1</div>
+        </div>
+
+        <h2>Lecture Objectives ／ 講座目標</h2>
+        <div class="dual">
+            <span class="eng">After this 2-hour lecture and workshop, you will be able to:</span>
+            <span class="chi">完成2小時講座與實作後，你將能夠：</span>
+        </div>
+        <ol>
+            <li><span class="eng">Understand the cultural significance of Sopa de Fideo in Mexican cuisine</span><br><span class="chi">認識 Sopa de Fideo 在墨西哥飲食文化中的地位</span></li>
+            <li><span class="eng">Learn the history and regional variations of this comfort soup</span><br><span class="chi">了解這道家常湯品的歷史與地區變化</span></li>
+            <li><span class="eng">Make an authentic Sopa de Fideo from scratch</span><br><span class="chi">親手製作一份道地的 Sopa de Fideo</span></li>
+            <li><span class="eng">Apply food storytelling to tourism experience design</span><br><span class="chi">將美食故事應用於旅遊體驗設計</span></li>
+        </ol>
+
+        <h3>⏱️ 2-Hour Agenda ／ 2小時流程表</h3>
+        <table class="timeline-table">
+            <tr>
+                <th>Time／時間</th>
+                <th>Activity／活動</th>
+                <th>Duration</th>
+            </tr>
+            <tr>
+                <td>0:00 – 0:10</td>
+                <td><strong>Opening + Mexican Soup Culture</strong><br>開場 + 墨西哥湯品文化介紹</td>
+                <td>10 min</td>
+            </tr>
+            <tr>
+                <td>0:10 – 0:20</td>
+                <td><strong>History & Regional Variations</strong><br>Sopa de Fideo 歷史與地區變化</td>
+                <td>10 min</td>
+            </tr>
+            <tr>
+                <td>0:20 – 0:25</td>
+                <td><strong>Ingredients & Tools Intro</strong><br>食材與工具介紹</td>
+                <td>5 min</td>
+            </tr>
+            <tr>
+                <td>0:25 – 0:45</td>
+                <td><strong>Hands-On Part 1: Toasting Fideo & Making Salsa Base</strong><br>實作①：炒細麵 + 製作番茄基底</td>
+                <td>20 min</td>
+            </tr>
+            <tr>
+                <td>0:45 – 1:10</td>
+                <td><strong>Hands-On Part 2: Simmering & Plating</strong><br>實作②：熬煮湯頭 + 盛盤裝飾</td>
+                <td>25 min</td>
+            </tr>
+            <tr>
+                <td>1:10 – 1:30</td>
+                <td><strong>Eat Together! Sharing & Photo Moment</strong><br>一起享用！分享討論 + 拍照</td>
+                <td>20 min</td>
+            </tr>
+            <tr>
+                <td>1:30 – 1:45</td>
+                <td><strong>Tourism Pro Tips + Group Activity</strong><br>觀光應用技巧 + 小組活動設計</td>
+                <td>15 min</td>
+            </tr>
+            <tr>
+                <td>1:45 – 2:00</td>
+                <td><strong>Group Sharing + Conclusion & Q&A</strong><br>小組分享 + 結語 + 問答</td>
+                <td>15 min</td>
+            </tr>
+        </table>
+
+        <div class="highlight">
+            💡 <strong>Pro Tip for Instructor／老師小提醒：</strong> 炒細麵時需不斷攪拌避免燒焦，可讓學生輪流操作，同時講解番茄基底的做法。
+        </div>
+
+        <div class="page-footer">
+            <span>🇲🇽 Sopa de Fideo Workshop</span>
+            <span>Page 1 of 10</span>
+        </div>
+    </div>
+
+    <!-- ================= 第2頁：文化背景 ================= -->
+    <div class="page">
+        <div class="page-header">
+            <div class="brand">🌮 Sopa de Fideo 講座講義</div>
+            <div class="page-num">Page 2</div>
+        </div>
+
+        <h2>What is Sopa de Fideo? – Culture & Origin<br>Sopa de Fideo 是什麼？——文化與起源</h2>
+
+        <p><strong class="eng">Origin／起源：</strong> A humble Mexican noodle soup with Spanish and Mediterranean roots, adopted into everyday home cooking.<br>一道樸實的墨西哥細麵湯，融合西班牙與地中海根源，成為日常家庭料理。</p>
+
+        <p><strong class="eng">Meaning／意義：</strong> "Fideo" means thin noodles; "Sopa" means soup. It is often the first solid food for Mexican children.<br>「Fideo」指細麵，「Sopa」指湯。常是墨西哥孩童的第一口副食品。</p>
+
+        <p><strong class="eng">Comfort food／療癒食物：</strong> Served in homes, markets, and comedores across Mexico.<br>遍布墨西哥家庭、市場與小餐館。</p>
+
+        <h3>Why is it Important in Food Tourism?<br>為什麼它在美食旅遊中重要？</h3>
+        <ul>
+            <li><span class="eng">Represents everyday Mexican life, not just festival food</span><br><span class="chi">代表墨西哥日常，而非節慶食物</span></li>
+            <li><span class="eng">Easy to adapt for tourists with dietary needs</span><br><span class="chi">容易依遊客飲食需求調整</span></li>
+            <li><span class="eng">Great storytelling dish: family, memory, and comfort</span><br><span class="chi">極佳的故事載體：家庭、記憶與療癒</span></li>
+            <li><span class="eng">Low-cost, high-satisfaction experience</span><br><span class="chi">低成本、高滿足感的體驗</span></li>
+        </ul>
+
+        <div class="page-footer">
+            <span>🇲🇽 Sopa de Fideo Workshop</span>
+            <span>Page 2 of 10</span>
+        </div>
+    </div>
+
+    <!-- ================= 第3頁：歷史與地區變化 ================= -->
+    <div class="page">
+        <div class="page-header">
+            <div class="brand">🌮 Sopa de Fideo 講座講義</div>
+            <div class="page-num">Page 3</div>
+        </div>
+
+        <h2>History & Regional Variations<br>歷史與地區變化</h2>
+
+        <ul>
+            <li><span class="eng">Introduced by Spanish colonizers, adapted with local tomatoes and chilies</span><br><span class="chi">由西班牙殖民者傳入，融入當地番茄與辣椒</span></li>
+            <li><span class="eng">Northern Mexico: often with chicken broth and potatoes</span><br><span class="chi">墨西哥北部：常加入雞湯與馬鈴薯</span></li>
+            <li><span class="eng">Central Mexico: tomato-based, sometimes with avocado</span><br><span class="chi">墨西哥中部：以番茄為基底，有時加酪梨</span></li>
+            <li><span class="eng">Coastal areas: may include seafood or fish stock</span><br><span class="chi">沿海地區：可能加入海鮮或魚高湯</span></li>
+        </ul>
+
+        <div class="highlight">
+            <strong>✨ Tourism Highlight – Local Comedor 旅遊亮點：在地小餐館</strong><br>
+            <span class="eng">Visit a neighborhood comedor to see how Sopa de Fideo is served daily.</span><br>
+            <span class="chi">走訪社區小餐館，觀察 Sopa de Fideo 如何每日上桌。</span><br>
+            <strong class="eng">Tourism application:</strong> <span class="chi">設計「家常湯品體驗」，讓遊客感受真實墨西哥生活。</span>
+        </div>
+
+        <div class="page-footer">
+            <span>🇲🇽 Sopa de Fideo Workshop</span>
+            <span>Page 3 of 10</span>
+        </div>
+    </div>
+
+    <!-- ================= 第4頁：食材清單 ================= -->
+    <div class="page">
+        <div class="page-header">
+            <div class="brand">🌮 Sopa de Fideo 講座講義</div>
+            <div class="page-num">Page 4</div>
+        </div>
+
+        <h2>Sopa de Fideo Workshop – Ingredients<br>Sopa de Fideo 實作——食材清單</h2>
+
+        <table>
+            <tr>
+                <th width="50%">For the soup base／湯底</th>
+                <th>For the noodles／麵條</th>
+            </tr>
+            <tr>
+                <td>□ Tomatoes 番茄<br>□ White onion 白洋蔥<br>□ Garlic 大蒜<br>□ Chicken or vegetable broth 雞高湯或蔬菜高湯<br>□ Salt & pepper 鹽與胡椒<br>□ Cumin (optional) 孜然(可選)</td>
+                <td>□ Fideo noodles (thin vermicelli) 細麵<br>□ Vegetable oil 植物油</td>
+            </tr>
+        </table>
+
+        <h3>Garnishes & Optional Add-ins ／ 裝飾與可選配料</h3>
+        <ul>
+            <li>□ Cilantro 香菜</li>
+            <li>□ Avocado slices 酪梨片</li>
+            <li>□ Queso fresco 墨西哥起司</li>
+            <li>□ Lime wedges 萊姆角</li>
+            <li>□ Cooked chicken or potato (optional) 熟雞肉或馬鈴薯(可選)</li>
+        </ul>
+
+        <div class="page-footer">
+            <span>🇲🇽 Sopa de Fideo Workshop</span>
+            <span>Page 4 of 10</span>
+        </div>
+    </div>
+
+    <!-- ================= 第5頁：實作步驟 Part 1 ================= -->
+    <div class="page">
+        <div class="page-header">
+            <div class="brand">🌮 Sopa de Fideo 講座講義</div>
+            <div class="page-num">Page 5</div>
+        </div>
+
+        <h2>Step-by-Step Workshop (Part 1)<br>實作步驟（前半）—— 炒麵與番茄基底</h2>
+
+        <div class="step-box">
+            <strong>Step 1 – Toast the fideo ／ 炒細麵 (5-8 minutes)</strong><br>
+            1. Heat oil in a pan. 在鍋中加熱油。<br>
+            2. Add fideo noodles, stir constantly until golden brown. 加入細麵，不斷攪拌至金黃。<br>
+            3. Be careful not to burn. 注意不要燒焦。<br>
+            4. Set aside. 盛起備用。
+        </div>
+
+        <div class="step-box">
+            <strong>Step 2 – Make the tomato base ／ 製作番茄基底 (5 minutes)</strong><br>
+            1. Blend tomatoes, onion, garlic until smooth. 將番茄、洋蔥、大蒜打成泥。<br>
+            2. Strain if desired. 可過濾。<br>
+            3. Set aside. 備用。<br>
+            ⚠️ <span class="eng">Food safety: Keep raw ingredients separate from cooked noodles.</span> <span class="chi">生食材與熟麵條請分開處理。</span>
+        </div>
+
+        <div class="page-footer">
+            <span>🇲🇽 Sopa de Fideo Workshop</span>
+            <span>Page 5 of 10</span>
+        </div>
+    </div>
+
+    <!-- ================= 第6頁：實作步驟 Part 2 ================= -->
+    <div class="page">
+        <div class="page-header">
+            <div class="brand">🌮 Sopa de Fideo 講座講義</div>
+            <div class="page-num">Page 6</div>
+        </div>
+
+        <h2>Step-by-Step Workshop (Part 2)<br>實作步驟（後半）—— 熬煮與盛盤</h2>
+
+        <div class="step-box">
+            <strong>Step 3 – Simmer the soup ／ 熬煮湯頭 (15-20 minutes)</strong><br>
+            ▪ In a pot, add tomato base and broth. 鍋中加入番茄基底與高湯。<br>
+            ▪ Bring to a boil, then add toasted fideo. 煮滾後加入炒過的細麵。<br>
+            ▪ Simmer until noodles are soft. 熬煮至麵條變軟。<br>
+            ▪ Season with salt, pepper, cumin. 以鹽、胡椒、孜然調味。<br>
+            <span style="color:#a63f2e;">⚠️ Safety: Stir occasionally, keep heat low. 偶爾攪拌，保持小火。</span>
+        </div>
+
+        <div class="step-box">
+            <strong>Step 4 – Plate and garnish ／ 盛盤與裝飾</strong><br>
+            ▪ Ladle soup into bowls. 將湯盛入碗中。<br>
+            ▪ Top with cilantro, avocado, queso fresco. 放上香菜、酪梨、起司。<br>
+            ▪ Add lime wedge on the side. 旁邊放萊姆角。<br>
+            ▪ Optional: add chicken or potato. 可選：加入雞肉或馬鈴薯。
+        </div>
+
+        <div class="page-footer">
+            <span>🇲🇽 Sopa de Fideo Workshop</span>
+            <span>Page 6 of 10</span>
+        </div>
+    </div>
+
+    <!-- ================= 第7頁：享用與分享 ================= -->
+    <div class="page">
+        <div class="page-header">
+            <div class="brand">🌮 Sopa de Fideo 講座講義</div>
+            <div class="page-num">Page 7</div>
+        </div>
+
+        <h2>Let's Eat Together! – Sharing & Reflection<br>一起享用！—— 分享與反思 (20 min)</h2>
+
+        <p><span class="eng">After cooking, we will all enjoy the soup together as a class.</span><br><span class="chi">烹煮完成後，全班將一起享用自己製作的湯品。</span></p>
+
+        <p><strong>📸 Photo moment 拍照時間：</strong> Let's take a picture of everyone with their bowl of Sopa de Fideo! 大家一起拿著自己的湯拍照！</p>
+
+        <h3>Discussion questions while we eat 享用時的討論問題：</h3>
+        <ol>
+            <li><span class="eng">What does this soup remind you of? (home, comfort, warmth?)</span><br><span class="chi">這碗湯讓你想到什麼？（家、療癒、溫暖？）</span></li>
+            <li><span class="eng">If you were a tour guide, how would you introduce this dish to tourists?</span><br><span class="chi">如果你是導遊，你會如何向遊客介紹這道菜？</span></li>
+            <li><span class="eng">How does this dish reflect everyday Mexican life?</span><br><span class="chi">這道菜如何反映墨西哥的日常生活？</span></li>
+        </ol>
+
+        <div class="note-lines">
+            <p><strong>Notes／筆記：</strong></p>
+            <p>_________________________________________________________________</p>
+            <p>_________________________________________________________________</p>
+            <p>_________________________________________________________________</p>
+        </div>
+
+        <div class="page-footer">
+            <span>🇲🇽 Sopa de Fideo Workshop</span>
+            <span>Page 7 of 10</span>
+        </div>
+    </div>
+
+    <!-- ================= 第8頁：觀光小技巧 ================= -->
+    <div class="page">
+        <div class="page-header">
+            <div class="brand">🌮 Sopa de Fideo 講座講義</div>
+            <div class="page-num">Page 8</div>
+        </div>
+
+        <h2>Tourism Pro Tips<br>觀光職人小技巧：如何將一道湯品變成旅遊賣點</h2>
+
+        <ul>
+            <li><span class="eng"><strong>Storytelling 說故事</strong> – Share memories of family kitchens and comfort food.</span><br><span class="chi">分享家庭廚房與療癒食物的記憶。</span></li>
+            <li><span class="eng"><strong>Hands-on experience 動手體驗</strong> – Let tourists toast the fideo and blend the tomato base.</span><br><span class="chi">讓遊客親手炒細麵、打番茄基底。</span></li>
+            <li><span class="eng"><strong>Social media moment 社群亮點</strong> – Film the golden fideo toasting moment.</span><br><span class="chi">拍攝細麵炒至金黃的瞬間。</span></li>
+            <li><span class="eng"><strong>Sustainable tourism 永續旅遊</strong> – Use local vegetables and seasonal ingredients.</span><br><span class="chi">使用在地蔬菜與當季食材。</span></li>
+        </ul>
+
+        <div class="page-footer">
+            <span>🇲🇽 Sopa de Fideo Workshop</span>
+            <span>Page 8 of 10</span>
+        </div>
+    </div>
+
+    <!-- ================= 第9頁：小組活動 ================= -->
+    <div class="page">
+        <div class="page-header">
+            <div class="brand">🌮 Sopa de Fideo 講座講義</div>
+            <div class="page-num">Page 9</div>
+        </div>
+
+        <h2>Group Activity ／ 小組活動 (15 min)</h2>
+
+        <p><strong>Design a 2-Hour Sopa de Fideo Experience<br>設計一條2小時的 Sopa de Fideo 體驗行程</strong></p>
+
+        <p><span class="eng">In small groups (10 minutes), design a "2-hour Sopa de Fideo Experience" including 4 elements:</span><br><span class="chi">以小組為單位（10分鐘設計 + 5分鐘分享），為遊客設計「2小時 Sopa de Fideo 體驗行程」，需包含：</span></p>
+
+        <ul>
+            <li><span class="eng">A short story about the soup</span><br><span class="chi">一個關於這道湯的短故事</span></li>
+            <li><span class="eng">One hands-on activity (toasting, blending, simmering...)</span><br><span class="chi">一個動手做的活動（炒麵、打基底、熬煮）</span></li>
+            <li><span class="eng">One photo moment for social media</span><br><span class="chi">一個適合拍照的社群亮點</span></li>
+            <li><span class="eng">A catchy social media caption (English or Chinese)</span><br><span class="chi">一個吸引人的社群貼文標題（英文或中文）</span></li>
+        </ul>
+
+        <p><strong>Your group's tour design／你們小組的行程設計：</strong></p>
+        <div class="note-lines">
+            <p>_________________________________________________________________</p>
+            <p>_________________________________________________________________</p>
+            <p>_________________________________________________________________</p>
+            <p>_________________________________________________________________</p>
+        </div>
+
+        <p><span class="eng">Sharing time: 2-3 minutes per group</span><br><span class="chi">分享時間：每組2-3分鐘</span></p>
+
+        <div class="page-footer">
+            <span>🇲🇽 Sopa de Fideo Workshop</span>
+            <span>Page 9 of 10</span>
+        </div>
+    </div>
+
+    <!-- ================= 第10頁：結語 + 食譜卡 ================= -->
+    <div class="page">
+        <div class="page-header">
+            <div class="brand">🌮 Sopa de Fideo 講座講義</div>
+            <div class="page-num">Page 10</div>
+        </div>
+
+        <h2>Conclusion ／ 結語</h2>
+        <p><span class="eng"><strong>Sopa de Fideo = Family + Comfort + Cultural Identity</strong></span><br><span class="chi">Sopa de Fideo = 家庭 + 療癒 + 文化認同</span></p>
+
+        <div class="highlight">
+            <p><span class="eng">A simple soup can tell the story of a nation's everyday life.</span><br><span class="chi">一道簡單的湯，就能訴說一個國家的日常故事。</span></p>
+            <p><span class="eng">Today, you didn't just cook a soup – you tasted a piece of Mexican home.</span><br><span class="chi">今天，你不只是煮了一碗湯——你品嚐了墨西哥家庭的一角。</span></p>
+        </div>
+
+        <h2>Q&A Session ／ 問答時間</h2>
+
+        <div class="recipe-card">
+            <h3>🎓 Sopa de Fideo Recipe Card ／ 食譜卡</h3>
+            <table style="border: none;">
+                <tr>
+                    <td style="border: none; width: 50%;">
+                        <strong>Ingredients (2 servings)</strong><br>
+                        ▪ Fideo noodles 100g<br>
+                        ▪ Tomatoes 2 pcs<br>
+                        ▪ Onion ¼ pc<br>
+                        ▪ Garlic 1 clove<br>
+                        ▪ Broth 500ml<br>
+                        ▪ Oil 1 tbsp<br>
+                        ▪ Salt, pepper, cumin<br>
+                        ▪ Cilantro, avocado, queso fresco
+                    </td>
+                    <td style="border: none;">
+                        <strong>Steps</strong><br>
+                        1. Toast fideo in oil until golden<br>
+                        2. Blend tomato, onion, garlic<br>
+                        3. Add tomato base + broth to pot<br>
+                        4. Add toasted fideo, simmer 15 min<br>
+                        5. Season and garnish<br>
+                        6. Enjoy with classmates!
+                    </td>
+                </tr>
+            </table>
+            <p style="text-align: center; margin-top: 15px; color: #ce1126; font-weight: bold;">
+                ✨ 從家庭廚房到文化餐桌的溫暖滋味 ✨<br>
+                A Warm Bowl of Mexican Comfort
+            </p>
+        </div>
+
+        <p style="margin-top: 20px; text-align: center; color: #999; font-size: 10pt;">
+            <em>Instructor contact info／老師聯絡方式：____________________</em>
+        </p>
+
+        <div class="page-footer">
+            <span>🇲🇽 Sopa de Fideo Workshop</span>
+            <span>Page 10 of 10</span>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    // 直接下載 PDF（使用瀏覽器列印功能）
+    function downloadPDF() {
+        window.print();
+    }
+
+    // 鍵盤快捷鍵：Ctrl + P 列印
+    document.addEventListener('keydown', function(e) {
+        if ((e.ctrlKey || e.metaKey) && e.key === 'p') {
+            e.preventDefault();
+            window.print();
+        }
+    });
+</script>
+
+</body>
+</html>
