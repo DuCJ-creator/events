@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>颱風防災 Word Search</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@500;900&display=swap" rel="stylesheet">
+<style>
+:root{--sky:#0a1519;--slate:#1c3039;--cell:#243d48;--warn:#ffc21a;--cyan:#52d6e8;--fog:#d9e7ea;--ink:#0a1519;--glow:hsl(0,80%,55%);
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;color:var(--fog);font-family:"Noto Sans TC",system-ui,sans-serif;
+background:linear-gradient(180deg,#16262d 0,var(--sky) 70%) var(--sky);
+display:flex;flex-direction:column;align-items:center;-webkit-user-select:none;user-select:none}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.18;
+background:repeating-linear-gradient(105deg,transparent 0 14px,rgba(200,235,245,.8) 14px 15px,transparent 15px 38px);
+background-size:60px 120px;animation:rain .5s linear infinite}
+@keyframes rain{to{background-position:-20px 120px}}
+@keyframes spin{to{transform:rotate(360deg)}}
+header{text-align:center;margin:22px 12px 6px;position:relative}
+.storm{width:96px;height:96px;margin:0 auto 10px;border-radius:50%;position:relative;
+box-shadow:0 0 34px var(--glow)}
+.storm i{position:absolute;inset:0;border-radius:50%;animation:spin 2s linear infinite;
+background:conic-gradient(from 0deg,#e9f4f6,#5f7f8a 12%,#1c3039 22%,#e9f4f6 40%,#5f7f8a 55%,#1c3039 68%,#e9f4f6 85%,#5f7f8a)}
+.storm b{position:absolute;inset:36px;border-radius:50%;background:var(--sky);box-shadow:0 0 0 3px var(--glow)}
+h1{font-weight:900;font-size:clamp(1.6rem,6vw,2.3rem);margin:0;letter-spacing:.1em;color:var(--warn)}
+.sub{margin:4px 0 0;opacity:.8;font-size:.9rem}
+.wrap{width:95vw;max-width:600px;display:flex;flex-direction:column;gap:16px;padding-bottom:40px;position:relative}
+.bar{display:flex;justify-content:space-between;align-items:center;font-size:.95rem}
+#grid{display:grid;grid-template-columns:repeat(12,1fr);gap:2px;padding:6px;border-radius:6px;touch-action:none;
+background:repeating-linear-gradient(-45deg,var(--warn) 0 12px,var(--ink) 12px 24px)}
+.cell{aspect-ratio:1;display:flex;align-items:center;justify-content:center;background:var(--cell);border-radius:3px;
+font-weight:900;font-size:clamp(.8rem,3.6vw,1.3rem);cursor:pointer}
+.cell.sel{background:var(--cyan);color:var(--ink)}
+.cell.found{background:var(--warn);color:var(--ink)}
+button{font:inherit;background:none;color:var(--fog);border:1px solid var(--cyan);border-radius:4px;padding:6px 16px;cursor:pointer}
+button:hover,button:focus-visible{background:var(--cyan);color:var(--ink);outline:none}
+#list{list-style:none;margin:0;padding:16px;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;
+background:rgba(10,21,25,.75);border:1px solid var(--slate);border-left:6px solid var(--warn);border-radius:6px}
+#list li{text-align:center;font-size:.85rem;padding:4px 2px;font-weight:500}
+#list li small{display:block;opacity:.7;font-size:.75rem}
+#list li.done{color:var(--warn);text-decoration:line-through;opacity:.6}
+#win{display:none;text-align:center;padding:14px;border-radius:6px;background:#3ed17a;color:var(--ink);font-weight:900}
+.tip{font-size:.8rem;opacity:.7;text-align:center;margin:0}
+@media(max-width:480px){#list{grid-template-columns:repeat(2,1fr)}}
+@media(prefers-reduced-motion:reduce){body::before,.storm i{animation:none}}
+</style>
+</head>
+<body>
+<header>
+  <div class="storm" id="storm"><i id="spin"></i><b></b></div>
+  <h1>颱風防災大搜查</h1>
+  <p class="sub">薔琵颱風來襲，找出防颱關鍵字，風眼會慢慢轉為平靜</p>
+</header>
+<div class="wrap">
+  <div class="bar"><span id="count">0 / 15</span><button id="again">重新出題</button></div>
+  <div id="grid"></div>
+  <div id="win">颱風過境，全員平安！你找到全部單字了</div>
+  <ul id="list"></ul>
+  <p class="tip">遊戲之外：請待在安全的室內，並以中央氣象署的最新警報為準。</p>
+</div>
+<script>
+const N=12;
+const WORDS={TYPHOON:"颱風",EVACUATE:"疏散",SANDBAG:"沙包",FLASHLIGHT:"手電筒",SHELTER:"避難所",WARNING:"警報",
+LANDSLIDE:"土石流",BLACKOUT:"停電",RAINFALL:"降雨",BATTERY:"電池",RADIO:"收音機",WATER:"飲用水",SIGNAL:"訊號",FLOOD:"淹水",EYE:"颱風眼"};
+const KEYS=Object.keys(WORDS);
+const DIRS=[[0,1],[1,0],[1,1],[0,-1],[-1,0],[-1,-1],[1,-1],[-1,1]];
+let g,found,sel,active,start;
+const $=id=>document.getElementById(id);
+function build(){
+  for(;;){
+    g=Array(N*N).fill("");
+    if([...KEYS].sort((a,b)=>b.length-a.length).every(place))break;
+  }
+  for(let i=0;i<g.length;i++)if(!g[i])g[i]=String.fromCharCode(65+Math.random()*26|0);
+}
+function place(w){
+  for(let t=0;t<200;t++){
+    const [dr,dc]=DIRS[Math.random()*DIRS.length|0],r=Math.random()*N|0,c=Math.random()*N|0;
+    const er=r+dr*(w.length-1),ec=c+dc*(w.length-1);
+    if(er<0||er>=N||ec<0||ec>=N)continue;
+    let fit=true;
+    for(let i=0;i<w.length;i++){const v=g[(r+dr*i)*N+c+dc*i];if(v&&v!==w[i]){fit=false;break}}
+    if(!fit)continue;
+    for(let i=0;i<w.length;i++)g[(r+dr*i)*N+c+dc*i]=w[i];
+    return true;
+  }
+  return false;
+}
+function render(){
+  const ge=$("grid");ge.innerHTML="";
+  g.forEach((l,i)=>{const d=document.createElement("div");d.className="cell";d.textContent=l;d.dataset.i=i;ge.appendChild(d)});
+  const ul=$("list");ul.innerHTML="";
+  [...KEYS].sort().forEach(w=>{const li=document.createElement("li");li.id="w-"+w;li.innerHTML=w+"<small>"+WORDS[w]+"</small>";ul.appendChild(li)});
+  update();
+}
+function update(){
+  const p=found.length/KEYS.length;
+  $("count").textContent=found.length+" / "+KEYS.length;
+  $("spin").style.animationDuration=(2+p*14)+"s";
+  $("storm").style.setProperty("--glow","hsl("+Math.round(p*130)+",80%,55%)");
+  $("win").style.display=p===1?"block":"none";
+}
+function cellAt(e){
+  const el=document.elementFromPoint(e.clientX,e.clientY);
+  return el&&el.classList.contains("cell")?+el.dataset.i:null;
+}
+function line(a,b){
+  const r0=a/N|0,c0=a%N,dr=(b/N|0)-r0,dc=b%N-c0;
+  if(dr&&dc&&Math.abs(dr)!==Math.abs(dc))return null;
+  const n=Math.max(Math.abs(dr),Math.abs(dc)),sr=Math.sign(dr),sc=Math.sign(dc),out=[];
+  for(let i=0;i<=n;i++)out.push((r0+sr*i)*N+c0+sc*i);
+  return out;
+}
+function paint(){
+  document.querySelectorAll(".cell.sel").forEach(c=>c.classList.remove("sel"));
+  sel.forEach(i=>$("grid").children[i].classList.add("sel"));
+}
+function setup(){
+  const ge=$("grid");
+  ge.addEventListener("pointerdown",e=>{
+    const i=cellAt(e);if(i===null)return;
+    active=true;start=i;sel=[i];paint();
+    ge.setPointerCapture&&ge.setPointerCapture(e.pointerId);
+  });
+  ge.addEventListener("pointermove",e=>{
+    if(!active)return;
+    const i=cellAt(e);if(i===null)return;
+    const l=line(start,i);if(l){sel=l;paint()}
+  });
+  const end=()=>{
+    if(!active)return;active=false;
+    const s=sel.map(i=>g[i]).join(""),r=[...s].reverse().join("");
+    KEYS.forEach(w=>{
+      if((s===w||r===w)&&!found.includes(w)){
+        found.push(w);
+        sel.forEach(i=>ge.children[i].classList.add("found"));
+        $("w-"+w).classList.add("done");
+      }
+    });
+    sel=[];paint();update();
+  };
+  ge.addEventListener("pointerup",end);
+  ge.addEventListener("pointercancel",end);
+}
+function restart(){found=[];sel=[];active=false;build();render()}
+setup();
+$("again").onclick=restart;
+restart();
+</script>
+</body>
+</html>
