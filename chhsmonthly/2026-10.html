@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>颱風防災 Word Search</title>
+<title>Typhoon Safety Word Search</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@500;900&display=swap" rel="stylesheet">
 <style>
 :root{--sky:#0a1519;--slate:#1c3039;--cell:#243d48;--warn:#ffc21a;--cyan:#52d6e8;--fog:#d9e7ea;--ink:#0a1519;--glow:hsl(0,80%,55%);
@@ -50,15 +50,15 @@ background:rgba(10,21,25,.75);border:1px solid var(--slate);border-left:6px soli
 <body>
 <header>
   <div class="storm" id="storm"><i id="spin"></i><b></b></div>
-  <h1>颱風防災大搜查</h1>
-  <p class="sub">薔琵颱風來襲，找出防颱關鍵字，風眼會慢慢轉為平靜</p>
+  <h1>Typhoon Safety Word Search</h1>
+  <p class="sub">Typhoon Champi is here. Find the safety words and the eye of the storm will calm down.</p>
 </header>
 <div class="wrap">
-  <div class="bar"><span id="count">0 / 15</span><button id="again">重新出題</button></div>
+  <div class="bar"><span id="count">0 / 15</span><button id="again">New puzzle</button></div>
   <div id="grid"></div>
-  <div id="win">颱風過境，全員平安！你找到全部單字了</div>
+  <div id="win">The typhoon has passed and everyone is safe! You found all the words.</div>
   <ul id="list"></ul>
-  <p class="tip">遊戲之外：請待在安全的室內，並以中央氣象署的最新警報為準。</p>
+  <p class="tip">Outside the game: stay indoors where it is safe, and follow the latest warnings from the Central Weather Administration.</p>
 </div>
 <script>
 const N=12;
@@ -92,7 +92,7 @@ function render(){
   const ge=$("grid");ge.innerHTML="";
   g.forEach((l,i)=>{const d=document.createElement("div");d.className="cell";d.textContent=l;d.dataset.i=i;ge.appendChild(d)});
   const ul=$("list");ul.innerHTML="";
-  [...KEYS].sort().forEach(w=>{const li=document.createElement("li");li.id="w-"+w;li.innerHTML=w+"<small>"+WORDS[w]+"</small>";ul.appendChild(li)});
+  [...KEYS].sort().forEach(w=>{const li=document.createElement("li");li.id="w-"+w;li.textContent=w;ul.appendChild(li)});
   update();
 }
 function update(){
