@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>忠信文化月朗讀比賽--英文版 自主練習網頁</title>
+<style>
+  :root {
+    --hero-bg-main: #7A1C1C; /* 褚紅色 */
+    --hero-bg-dark: #4A0E0E;
+    --primary-color: #1a365d;
+    --secondary-color: #c5a059; /* 典雅金 */
+    --bg-color: #f0f2f5;
+    --card-bg: #ffffff;
+    --text-color: #2d3748;
+  }
+
+  body {
+    font-family: "Segoe UI", Arial, "Microsoft JhengHei", sans-serif;
+    line-height: 1.85;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+  }
+
+  /* 英雄區 (Hero Section) */
+  .hero-section {
+    position: relative;
+    background: linear-gradient(135deg, var(--hero-bg-main) 0%, #611414 50%, var(--hero-bg-dark) 100%);
+    color: white;
+    padding: 40px 20px 30px 20px;
+    text-align: center;
+    box-shadow: 0 8px 25px rgba(122, 28, 28, 0.25);
+    border-bottom: 5px solid var(--secondary-color);
+    overflow: hidden;
+  }
+
+  .hero-section::before, .hero-section::after {
+    content: "";
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+    background: rgba(197, 160, 89, 0.15);
+    animation: flowBg 14s infinite linear;
+    pointer-events: none;
+  }
+
+  .hero-section::before { top: -100px; left: -80px; }
+  .hero-section::after { bottom: -120px; right: -80px; animation-duration: 18s; animation-direction: reverse; background: rgba(255, 255, 255, 0.08); }
+
+  @keyframes flowBg {
+    0% { transform: rotate(0deg) scale(1); }
+    50% { transform: rotate(180deg) scale(1.12); }
+    100% { transform: rotate(360deg) scale(1); }
+  }
+
+  .hero-content { position: relative; z-index: 2; }
+
+  .school-logo {
+    max-width: 110px;
+    height: auto;
+    margin-bottom: 10px;
+    filter: drop-shadow(0px 4px 8px rgba(0,0,0,0.4));
+  }
+
+  .hero-section h1 {
+    margin: 0 0 6px 0;
+    font-size: 2.1em;
+    letter-spacing: 1.5px;
+    color: #ffffff;
+    text-shadow: 1px 2px 4px rgba(0,0,0,0.4);
+  }
+
+  .hero-section .subtitle {
+    color: var(--secondary-color);
+    font-size: 1em;
+    font-weight: 500;
+    margin-top: 4px;
+  }
+
+  /* 篇目選擇卡片標籤頁 (Tab Control) */
+  .nav-bar-section {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    padding: 14px 20px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+    margin-bottom: 25px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    border-bottom: 1px solid rgba(197, 160, 89, 0.3);
+  }
+
+  .nav-container {
+    max-width: 950px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .tab-btn {
+    color: var(--hero-bg-main);
+    font-weight: 700;
+    padding: 8px 20px;
+    border-radius: 25px;
+    background: #ffffff;
+    border: 2px solid var(--hero-bg-main);
+    transition: all 0.25s ease;
+    font-size: 0.95em;
+    cursor: pointer;
+  }
+
+  .tab-btn:hover {
+    background: rgba(122, 28, 28, 0.08);
+    transform: translateY(-2px);
+  }
+
+  .tab-btn.active {
+    background: linear-gradient(135deg, var(--hero-bg-main) 0%, var(--hero-bg-dark) 100%);
+    color: #ffffff;
+    border-color: var(--secondary-color);
+    box-shadow: 0 4px 12px rgba(122, 28, 28, 0.3);
+  }
+
+  .main-wrapper {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 0 20px 40px 20px;
+  }
+
+  .legend {
+    background: #ffffff;
+    border-left: 5px solid var(--secondary-color);
+    padding: 15px 20px;
+    border-radius: 8px;
+    margin-bottom: 25px;
+    font-size: 0.93em;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.04);
+  }
+
+  .legend ul { margin: 6px 0 0 0; padding-left: 20px; }
+
+  /* 卡片與內容 */
+  .tab-content {
+    display: none;
+    background: var(--card-bg);
+    border-radius: 14px;
+    padding: 35px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.06);
+    border: 1px solid #e2e8f0;
+  }
+
+  .tab-content.active {
+    display: block;
+    animation: slideFadeIn 0.35s ease;
+  }
+
+  @keyframes slideFadeIn {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .passage-header {
+    border-bottom: 2px solid #edf2f7;
+    padding-bottom: 15px;
+    margin-bottom: 22px;
+  }
+
+  .passage-title {
+    color: var(--hero-bg-main);
+    font-size: 1.5em;
+    margin: 0 0 10px 0;
+    font-weight: 700;
+  }
+
+  .audio-player {
+    width: 100%;
+    max-width: 460px;
+    margin-top: 6px;
+    height: 40px;
+    outline: none;
+  }
+
+  .passage-text {
+    font-size: 1.12em;
+    line-height: 2.5;
+    margin-bottom: 30px;
+  }
+
+  /* 4. 高對比度與高識別度 Chunking 色塊 (顯著色彩區分) */
+  .c1 { background-color: #dbeafe; color: #1e3a8a; border: 1px solid #bfdbfe; font-weight: 500; } /* 寶藍 */
+  .c2 { background-color: #dcfce7; color: #065f46; border: 1px solid #bbf7d0; font-weight: 500; } /* 翡翠綠 */
+  .c3 { background-color: #ffedd5; color: #9a3412; border: 1px solid #fed7aa; font-weight: 500; } /* 鮮橘 */
+  .c4 { background-color: #f3e8ff; color: #6b21a8; border: 1px solid #e9d5ff; font-weight: 500; } /* 紫羅蘭 */
+  .c5 { background-color: #e0f2fe; color: #075985; border: 1px solid #bae6fd; font-weight: 500; } /* 青藍 */
+
+  .c1, .c2, .c3, .c4, .c5 {
+    display: inline-block;
+    padding: 3px 9px;
+    border-radius: 6px;
+    margin: 3px 2px;
+    transition: all 0.2s ease;
+  }
+
+  .c1:hover, .c2:hover, .c3:hover, .c4:hover, .c5:hover {
+    transform: scale(1.03);
+    box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+  }
+
+  /* 主動詞劃線 */
+  .mv {
+    font-weight: 800;
+    text-decoration: underline;
+    text-decoration-thickness: 2.5px;
+    text-underline-offset: 3.5px;
+    color: #000000;
+  }
+
+  /* 文章內單字點擊發音按鈕 (Inline Pronunciation Tag) */
+  .word-spk {
+    display: inline-flex;
+    align-items: center;
+    background: rgba(123, 28, 28, 0.08);
+    color: var(--hero-bg-main);
+    padding: 0px 6px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    border: 1px solid rgba(122, 28, 28, 0.2);
+    transition: all 0.2s ease;
+    margin: 0 1px;
+  }
+
+  .word-spk:hover {
+    background: var(--hero-bg-main);
+    color: #ffffff;
+  }
+
+  .word-spk::after {
+    content: " 🔊";
+    font-size: 0.8em;
+    margin-left: 3px;
+  }
+
+  /* 單字表 */
+  .vocab-section {
+    background-color: #f8fafc;
+    border-radius: 12px;
+    padding: 22px;
+    border: 1px solid #e2e8f0;
+  }
+
+  .vocab-section h4 {
+    margin-top: 0;
+    margin-bottom: 14px;
+    color: var(--hero-bg-main);
+    font-size: 1.1em;
+    border-left: 4px solid var(--secondary-color);
+    padding-left: 10px;
+  }
+
+  .vocab-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.93em;
+  }
+
+  .vocab-table th, .vocab-table td {
+    text-align: left;
+    padding: 9px 12px;
+    border-bottom: 1px solid #e2e8f0;
+  }
+
+  .vocab-table th {
+    background-color: #edf2f7;
+    color: #4a5568;
+  }
+
+  .kk {
+    font-family: "Lucida Sans Unicode", "Arial Unicode MS", sans-serif;
+    color: #c53030;
+    font-weight: 600;
+  }
+
+  .audio-btn {
+    background: var(--hero-bg-main);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85em;
+    transition: all 0.2s ease;
+  }
+
+  .audio-btn:hover {
+    background: var(--secondary-color);
+    transform: scale(1.12);
+  }
+
+  /* 頁腳 (Footer) */
+  footer {
+    text-align: center;
+    padding: 25px 20px;
+    background: #e2e8f0;
+    color: #4a5568;
+    font-size: 0.9em;
+    font-weight: 600;
+    border-top: 1px solid #cbd5e1;
+    margin-top: 40px;
+  }
+
+  @media print {
+    .nav-bar-section { display: none; }
+    body { background: white; }
+    .main-wrapper { max-width: 100%; margin: 0; padding: 0; }
+    .tab-content { display: block !important; box-shadow: none; border: 1px solid #ccc; margin-bottom: 20px; }
+    .audio-player { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- 5. 英雄區 Title -->
+<header class="hero-section">
+  <div class="hero-content">
+    <img src="logo.png" alt="忠信學校 Logo" class="school-logo">
+    <h1>忠信文化月朗讀比賽--英文版 自主練習網頁</h1>
+    <div class="subtitle">(參賽者任選其一備賽及參賽；比賽時間2分鐘，不一定讀完全篇)</div>
+  </div>
+</header>
+
+<!-- 篇目卡片切換選單 (Hero 區正下方) -->
+<nav class="nav-bar-section">
+  <div class="nav-container">
+    <button class="tab-btn active" onclick="switchTab(event, 'passage1')">Passage 1</button>
+    <button class="tab-btn" onclick="switchTab(event, 'passage2')">Passage 2</button>
+    <button class="tab-btn" onclick="switchTab(event, 'passage3')">Passage 3</button>
+    <button class="tab-btn" onclick="switchTab(event, 'passage4')">Passage 4</button>
+    <button class="tab-btn" onclick="switchTab(event, 'passage5')">Passage 5</button>
+  </div>
+</nav>
+
+<div class="main-wrapper">
+
+  <div class="legend">
+    <strong>📌 朗讀與自主練習說明：</strong>
+    <ul>
+      <li><span style="font-weight:bold; text-decoration:underline;">粗體加劃底線</span>：標示為句子的<strong>主動詞 (Main Verb)</strong>。</li>
+      <li>高對比彩虹色塊：標示為<strong>朗讀意群 (Chunking)</strong>，請順暢朗讀同色區塊，並在色塊交界處作自然停頓。</li>
+      <li>文章內帶 🔊 圖示之單字，點擊即可<strong>直接發音</strong>練習；文末生字表亦提供完整美式 KK 音標與發音按鈕。</li>
+    </ul>
+  </div>
+
+  <!-- PASSAGE 1 -->
+  <div class="tab-content active" id="passage1">
+    <div class="passage-header">
+      <h3 class="passage-title">Passage 1: The Core That Lies in ChungHsin Culture</h3>
+      <!-- GitHub 專屬路徑音檔 -->
+      <audio controls class="audio-player">
+        <source src="passage 1.mp3" type="audio/mpeg">
+        您的瀏覽器不支援音訊播放器。
+      </audio>
+    </div>
+    
+    <div class="passage-text">
+      <span class="c1">Culture—*wen hua* in Chinese—</span><span class="c2"><span class="mv"><u>begins</u></span> with what humans leave behind.</span> 
+      <span class="c3">*Wen* <span class="mv"><u>refers</u></span> to the <span class="word-spk" onclick="speak('humanities')">humanities</span>:</span><span class="c4">the marks we humans leave on Earth</span><span class="c5">with our own hands.</span> 
+      <span class="c1">*Hua* <span class="mv"><u>refers</u></span> to <span class="word-spk" onclick="speak('internalization')">internalization</span>:</span><span class="c2">the <span class="word-spk" onclick="speak('accumulated')">accumulated</span> experiences of a group of people</span><span class="c3">in their daily lives,</span><span class="c4">gradually <span class="word-spk" onclick="speak('absorbed')">absorbed</span> into a shared way of living.</span> 
+      <span class="c5">Simply put,</span><span class="c1">culture <span class="mv"><u>is</u></span> the shared lifestyle and <span class="word-spk" onclick="speak('essence')">essence</span></span><span class="c2">that a group of people <span class="word-spk" onclick="speak('preserves')">preserves</span> and passes down.</span> 
+      <span class="c3">ChungHsin culture, then, <span class="mv"><u>is</u></span> the shared way</span><span class="c4">of learning, living, and being</span><span class="c5">that <span class="word-spk" onclick="speak('defines')">defines</span> all of us at ChungHsin.</span><br><br>
+
+      <span class="c1">This way of life <span class="mv"><u>has</u></span> clear, visible expressions.</span> 
+      <span class="c2">We <span class="mv"><u>live</u></span> it</span><span class="c3">through every aspect of our daily routine:</span><span class="c4">our dress code,</span><span class="c5">our Qunyu Ban (a class-based <span class="word-spk" onclick="speak('collectivity')">collectivity</span> program),</span><span class="c1">our dining <span class="word-spk" onclick="speak('etiquette')">etiquette</span> using chopsticks,</span><span class="c2">our morning assemblies, and more.</span> 
+      <span class="c3">Its true <span class="word-spk" onclick="speak('essence')">essence</span>, however, <span class="mv"><u>remains</u></span> invisible.</span> 
+      <span class="c4">It <span class="mv"><u>is</u></span> <span class="word-spk" onclick="speak('intangible')">intangible</span> yet real,</span><span class="c5">and it <span class="mv"><u>shapes</u></span> our lives:</span><span class="c1">the values we hold,</span><span class="c2">our <span class="word-spk" onclick="speak('optimistic')">optimistic</span> attitude,</span><span class="c3">and our <span class="word-spk" onclick="speak('relentless')">relentless</span> spirit of <span class="word-spk" onclick="speak('striving')">striving</span>.</span><br><br>
+
+      <span class="c4">ChungHsin <span class="mv"><u>is</u></span> a school</span><span class="c5">dedicated to carrying forward and promoting</span><span class="c1">the finest traditions of Chinese culture.</span> 
+      <span class="c2">We <span class="mv"><u>welcome</u></span> students and parents</span><span class="c3">who <span class="word-spk" onclick="speak('affirm')">affirm</span> the <span class="word-spk" onclick="speak('essence')">essence</span> of a ChungHsin education,</span><span class="c4">who are willing to make <span class="word-spk" onclick="speak('commitments')">commitments</span>,</span><span class="c5">and who expect to receive a quality education—</span><span class="c1">and only those who do.</span> 
+      <span class="c2">On this foundation,</span><span class="c3">a unique ChungHsin learning culture <span class="mv"><u>has taken</u></span> shape.</span><br><br>
+
+      <span class="c4">ChungHsin's learning <span class="mv"><u>emphasizes</u></span> honesty.</span> 
+      <span class="c5">*Chung* <span class="mv"><u>means</u></span> being honest with yourself,</span><span class="c1">and *Hsin* <span class="mv"><u>means</u></span> being honest with others.</span> 
+      <span class="c2">Only by practicing both *Chung* and *Hsin*</span><span class="c3"><span class="mv"><u>can</u></span> we <span class="mv"><u>live</u></span> together in <span class="word-spk" onclick="speak('harmony')">harmony</span>.</span>
+    </div>
+
+    <div class="vocab-section">
+      <h4>Passage 1 B1+ 重點與進階單字表 (美式 KK 音標)</h4>
+      <table class="vocab-table">
+        <thead>
+          <tr><th>單字</th><th>詞性</th><th>KK 音標</th><th>發音</th><th>中文釋義</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>humanities</td><td>n. pl.</td><td><span class="kk">[hjuˈmænətɪz]</span></td><td><button class="audio-btn" onclick="speak('humanities')">🔊</button></td><td>人文學科；人道</td></tr>
+          <tr><td>internalization</td><td>n.</td><td><span class="kk">[ɪnˌtɝnəlɪˈzeʃən]</span></td><td><button class="audio-btn" onclick="speak('internalization')">🔊</button></td><td>內化</td></tr>
+          <tr><td>accumulated</td><td>adj.</td><td><span class="kk">[əˈkjumjəˌletɪd]</span></td><td><button class="audio-btn" onclick="speak('accumulated')">🔊</button></td><td>累積的</td></tr>
+          <tr><td>absorbed</td><td>v./adj.</td><td><span class="kk">[əbˈsɔrbd]</span></td><td><button class="audio-btn" onclick="speak('absorbed')">🔊</button></td><td>吸收；理解</td></tr>
+          <tr><td>essence</td><td>n.</td><td><span class="kk">[ˈɛsns]</span></td><td><button class="audio-btn" onclick="speak('essence')">🔊</button></td><td>本質；精髓</td></tr>
+          <tr><td>preserve</td><td>v.</td><td><span class="kk">[prɪˈzɝv]</span></td><td><button class="audio-btn" onclick="speak('preserve')">🔊</button></td><td>保存；維護</td></tr>
+          <tr><td>define</td><td>v.</td><td><span class="kk">[dɪˈfaɪn]</span></td><td><button class="audio-btn" onclick="speak('define')">🔊</button></td><td>定義；界定</td></tr>
+          <tr><td>collectivity</td><td>n.</td><td><span class="kk">[kəˌlɛktɪvətɪ]</span></td><td><button class="audio-btn" onclick="speak('collectivity')">🔊</button></td><td>集體；集體性</td></tr>
+          <tr><td>etiquette</td><td>n.</td><td><span class="kk">[ˈɛtɪkɛt]</span></td><td><button class="audio-btn" onclick="speak('etiquette')">🔊</button></td><td>禮儀；規矩</td></tr>
+          <tr><td>intangible</td><td>adj.</td><td><span class="kk">[ɪnˈtændʒəbl]</span></td><td><button class="audio-btn" onclick="speak('intangible')">🔊</button></td><td>無形的；觸摸不到的</td></tr>
+          <tr><td>optimistic</td><td>adj.</td><td><span class="kk">[ˌɑptəˈmɪstɪk]</span></td><td><button class="audio-btn" onclick="speak('optimistic')">🔊</button></td><td>樂觀的</td></tr>
+          <tr><td>relentless</td><td>adj.</td><td><span class="kk">[rɪˈlɛntləs]</span></td><td><button class="audio-btn" onclick="speak('relentless')">🔊</button></td><td>持續不斷的；不屈不撓的</td></tr>
+          <tr><td>strive</td><td>v.</td><td><span class="kk">[straɪv]</span></td><td><button class="audio-btn" onclick="speak('strive')">🔊</button></td><td>努力；奮鬥</td></tr>
+          <tr><td>affirm</td><td>v.</td><td><span class="kk">[əˈfɝm]</span></td><td><button class="audio-btn" onclick="speak('affirm')">🔊</button></td><td>肯定；認同</td></tr>
+          <tr><td>commitment</td><td>n.</td><td><span class="kk">[kəˈmɪtmənt]</span></td><td><button class="audio-btn" onclick="speak('commitment')">🔊</button></td><td>承諾；奉獻</td></tr>
+          <tr><td>harmony</td><td>n.</td><td><span class="kk">[ˈhɑrməni]</span></td><td><button class="audio-btn" onclick="speak('harmony')">🔊</button></td><td>和諧；融洽</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- PASSAGE 2 -->
+  <div class="tab-content" id="passage2">
+    <div class="passage-header">
+      <h3 class="passage-title">Passage 2: Living Our Principles and Honoring Our Heritage</h3>
+      <audio controls class="audio-player">
+        <source src="passage 2.mp3" type="audio/mpeg">
+        您的瀏覽器不支援音訊播放器。
+      </audio>
+    </div>
+    
+    <div class="passage-text">
+      <span class="c1">At ChungHsin,</span><span class="c2">education <span class="mv"><u>centers</u></span> on three timeless <span class="word-spk" onclick="speak('virtues')">virtues</span>:</span><span class="c3">Zhi (Wisdom), Ren (<span class="word-spk" onclick="speak('benevolence')">Benevolence</span>), and Yong (Courage).</span> 
+      <span class="c4">From a Confucian view,</span><span class="c5">good character <span class="mv"><u>means</u></span> knowing the good—</span><span class="c1">Zhi, the <span class="word-spk" onclick="speak('cognitive')">cognitive</span> <span class="word-spk" onclick="speak('dimension')">dimension</span>;</span><span class="c2">loving the good—</span><span class="c3">Ren, the <span class="word-spk" onclick="speak('dimension')">dimension</span> of feeling and emotion;</span><span class="c4">and doing the good—</span><span class="c5">Yong, the <span class="word-spk" onclick="speak('dimension')">dimension</span> of action and behavior.</span> 
+      <span class="c1">We <span class="mv"><u>try</u></span> to <span class="word-spk" onclick="speak('incorporate')">incorporate</span> this knowing, loving, and doing of the good</span><span class="c2">into all aspects of our educational approach,</span><span class="c3">since character building—the <span class="word-spk" onclick="speak('engraving')">engraving</span> of good qualities—</span><span class="c4"><span class="mv"><u>is</u></span> a <span class="word-spk" onclick="speak('fundamental')">fundamental</span> element of education.</span><br><br>
+
+      <span class="c5">We also <span class="mv"><u>practice</u></span> Shu—<span class="word-spk" onclick="speak('reciprocity')">reciprocity</span>, or mutual respect—</span><span class="c1">putting ourselves in others' shoes:</span><span class="c2">"Do not do to others</span><span class="c3">what you would not wish done to yourself."</span> 
+      <span class="c4">We <span class="mv"><u>practice</u></span> self-discipline as well,</span><span class="c5">knowing that only through self-discipline</span><span class="c1"><span class="mv"><u>can</u></span> we <span class="mv"><u>achieve</u></span> true freedom.</span><br><br>
+
+      <span class="c2">When we <span class="mv"><u>distill</u></span> these qualities</span><span class="c3">and <span class="mv"><u>place</u></span> them into the daily learning life of everyone at ChungHsin,</span><span class="c4">they <span class="mv"><u>become</u></span> our school motto:</span><span class="c5">"Be <span class="word-spk" onclick="speak('optimistic')">Optimistic</span> and <span class="word-spk" onclick="speak('strive')">Strive</span>;</span><span class="c1">Sincerely Hold Fast to the Mean."</span> 
+      <span class="c2">They <span class="mv"><u>become</u></span> our school <span class="word-spk" onclick="speak('ethos')">ethos</span>:</span><span class="c3">“Perfect the self through Chung,</span><span class="c4">serve others with Hsin;</span><span class="c5">walk with others in the Mean,</span><span class="c1">rooted in Shu;</span><span class="c2">seek truth and <span class="word-spk" onclick="speak('substance')">substance</span>,</span><span class="c3"><span class="word-spk" onclick="speak('persevere')">persevere</span> with <span class="word-spk" onclick="speak('constancy')">constancy</span>;</span><span class="c4">rejoice in our community,</span><span class="c5">and let our voice ring out.”</span><br><br>
+
+      <span class="c1">Every year,</span><span class="c2">ChungHsin Culture Month <span class="mv"><u>is held</u></span> around the anniversary of Dr. Sun Yat-sen's birthday.</span> 
+      <span class="c3">It <span class="mv"><u>is</u></span> a time to honor our roots, our school, and our <span class="word-spk" onclick="speak('heritage')">heritage</span>.</span> 
+      <span class="c4">At the same time,</span><span class="c5">it <span class="mv"><u>challenges</u></span> us to study <span class="word-spk" onclick="speak('diligently')">diligently</span>,</span><span class="c1">to <span class="word-spk" onclick="speak('strive')">strive</span> upward,</span><span class="c2">to think independently,</span><span class="c3">and to rise above distractions—</span><span class="c4">not to fear those who play tricks and put on airs,</span><span class="c5">not to become blind followers of others,</span><span class="c1">but to stand tall, proud and <span class="word-spk" onclick="speak('upright')">upright</span>,</span><span class="c2">with both Chung and Hsin.</span>
+    </div>
+
+    <div class="vocab-section">
+      <h4>Passage 2 B1+ 重點與進階單字表 (美式 KK 音標)</h4>
+      <table class="vocab-table">
+        <thead>
+          <tr><th>單字</th><th>詞性</th><th>KK 音標</th><th>發音</th><th>中文釋義</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>virtue</td><td>n.</td><td><span class="kk">[ˈvɝtʃu]</span></td><td><button class="audio-btn" onclick="speak('virtue')">🔊</button></td><td>美德；德行</td></tr>
+          <tr><td>benevolence</td><td>n.</td><td><span class="kk">[bəˈnɛvələns]</span></td><td><button class="audio-btn" onclick="speak('benevolence')">🔊</button></td><td>仁慈；慈悲</td></tr>
+          <tr><td>cognitive</td><td>adj.</td><td><span class="kk">[ˈkɑɡnətɪv]</span></td><td><button class="audio-btn" onclick="speak('cognitive')">🔊</button></td><td>認知的</td></tr>
+          <tr><td>dimension</td><td>n.</td><td><span class="kk">[dɪˈmɛnʃən]</span></td><td><button class="audio-btn" onclick="speak('dimension')">🔊</button></td><td>面向；維度</td></tr>
+          <tr><td>incorporate</td><td>v.</td><td><span class="kk">[ɪnˈkɔrpəˌret]</span></td><td><button class="audio-btn" onclick="speak('incorporate')">🔊</button></td><td>融合；納入</td></tr>
+          <tr><td>engraving</td><td>n.</td><td><span class="kk">[ɪnˈgrevɪŋ]</span></td><td><button class="audio-btn" onclick="speak('engraving')">🔊</button></td><td>銘刻；雕刻</td></tr>
+          <tr><td>fundamental</td><td>adj.</td><td><span class="kk">[ˌfʌndəˈmɛntl]</span></td><td><button class="audio-btn" onclick="speak('fundamental')">🔊</button></td><td>根本的；基礎的</td></tr>
+          <tr><td>reciprocity</td><td>n.</td><td><span class="kk">[ˌrɛsəˈprɑsətɪ]</span></td><td><button class="audio-btn" onclick="speak('reciprocity')">🔊</button></td><td>互惠；恕道</td></tr>
+          <tr><td>distill</td><td>v.</td><td><span class="kk">[dɪˈstɪl]</span></td><td><button class="audio-btn" onclick="speak('distill')">🔊</button></td><td>提煉；蒸餾</td></tr>
+          <tr><td>optimistic</td><td>adj.</td><td><span class="kk">[ˌɑptəˈmɪstɪk]</span></td><td><button class="audio-btn" onclick="speak('optimistic')">🔊</button></td><td>樂觀的</td></tr>
+          <tr><td>strive</td><td>v.</td><td><span class="kk">[straɪv]</span></td><td><button class="audio-btn" onclick="speak('strive')">🔊</button></td><td>努力；奮鬥</td></tr>
+          <tr><td>ethos</td><td>n.</td><td><span class="kk">[ˈiθɑs]</span></td><td><button class="audio-btn" onclick="speak('ethos')">🔊</button></td><td>精神特質；風氣</td></tr>
+          <tr><td>substance</td><td>n.</td><td><span class="kk">[ˈsʌbstəns]</span></td><td><button class="audio-btn" onclick="speak('substance')">🔊</button></td><td>實質；內容</td></tr>
+          <tr><td>persevere</td><td>v.</td><td><span class="kk">[ˌpɝsəˈvɪr]</span></td><td><button class="audio-btn" onclick="speak('persevere')">🔊</button></td><td>堅持不懈</td></tr>
+          <tr><td>constancy</td><td>n.</td><td><span class="kk">[ˈkɑnstənsi]</span></td><td><button class="audio-btn" onclick="speak('constancy')">🔊</button></td><td>恆心；堅貞</td></tr>
+          <tr><td>heritage</td><td>n.</td><td><span class="kk">[ˈhɛrətɪdʒ]</span></td><td><button class="audio-btn" onclick="speak('heritage')">🔊</button></td><td>遺產；傳統</td></tr>
+          <tr><td>diligently</td><td>adv.</td><td><span class="kk">[ˈdɪlədʒəntlɪ]</span></td><td><button class="audio-btn" onclick="speak('diligently')">🔊</button></td><td>勤奮地</td></tr>
+          <tr><td>upright</td><td>adj.</td><td><span class="kk">[ˈʌpˌraɪt]</span></td><td><button class="audio-btn" onclick="speak('upright')">🔊</button></td><td>正直的；挺拔的</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- PASSAGE 3 -->
+  <div class="tab-content" id="passage3">
+    <div class="passage-header">
+      <h3 class="passage-title">Passage 3: The Purpose of Education</h3>
+      <audio controls class="audio-player">
+        <source src="passage 3.mp3" type="audio/mpeg">
+        您的瀏覽器不支援音訊播放器。
+      </audio>
+    </div>
+    
+    <div class="passage-text">
+      <span class="c1">“What <span class="mv"><u>is</u></span> the purpose of education?”</span> 
+      <span class="c2">The theme of this year's PAPE (the Pan-Pacific Association of Private School Education) Congress,</span><span class="c3">“The Total Development of the Human Person,”</span><span class="c4"><span class="mv"><u>provides</u></span> us with an opportunity</span><span class="c5">to further re-examine this <span class="word-spk" onclick="speak('extensively')">extensively</span> debated question.</span><br><br>
+
+      <span class="c1">Education <span class="mv"><u>has been seen</u></span> as a tool</span><span class="c2">to <span class="word-spk" onclick="speak('sustain')">sustain</span> social progress and national development;</span><span class="c3">in fact,</span><span class="c4">they <span class="mv"><u>were</u></span> the major functions of public schooling</span><span class="c5">in the past 200 years.</span> 
+      <span class="c1">In the last two to three decades,</span><span class="c2">there <span class="mv"><u>has been</u></span> a strong voice</span><span class="c3"><span class="word-spk" onclick="speak('advocating')">advocating</span> the development of the whole person in education</span><span class="c4">by pointing out</span><span class="c5">that education <span class="mv"><u>should</u></span> not only <span class="mv"><u>be</u></span> <span class="word-spk" onclick="speak('primarily')">primarily</span> <span class="word-spk" onclick="speak('involved')">involved</span> in shaping and molding our young people</span><span class="c1">into future workers or citizens.</span> 
+      <span class="c2">But, education <span class="mv"><u>should</u></span> also <span class="mv"><u>be concerned</u></span></span><span class="c3">with all aspects of a person.</span><br><br>
+
+      <span class="c4">I <span class="mv"><u>believe</u></span></span><span class="c5">that my colleagues from Taiwan and educators here,</span><span class="c1"><span class="mv"><u>accept</u></span> the idea</span><span class="c2">that the development of the whole person</span><span class="c3"><span class="mv"><u>is</u></span> our <span class="word-spk" onclick="speak('fundamental')">fundamental</span> responsibility as educators.</span> 
+      <span class="c4">More importantly,</span><span class="c5">such an idea <span class="mv"><u>is</u></span> exactly</span><span class="c1">what we as private school educators <span class="mv"><u>have been insisting</u></span> upon and <span class="mv"><u>striving</u></span> for over the years</span><span class="c2">in order to help our young people</span><span class="c3">to achieve their <span class="word-spk" onclick="speak('potential')">potential</span>.</span>
+    </div>
+
+    <div class="vocab-section">
+      <h4>Passage 3 B1+ 重點與進階單字表 (美式 KK 音標)</h4>
+      <table class="vocab-table">
+        <thead>
+          <tr><th>單字</th><th>詞性</th><th>KK 音標</th><th>發音</th><th>中文釋義</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>extensively</td><td>adv.</td><td><span class="kk">[ɪkˈstɛnsɪvli]</span></td><td><button class="audio-btn" onclick="speak('extensively')">🔊</button></td><td>廣泛地</td></tr>
+          <tr><td>sustain</td><td>v.</td><td><span class="kk">[səˈsten]</span></td><td><button class="audio-btn" onclick="speak('sustain')">🔊</button></td><td>維持；持續</td></tr>
+          <tr><td>advocate</td><td>v.</td><td><span class="kk">[ˈædvəˌket]</span></td><td><button class="audio-btn" onclick="speak('advocate')">🔊</button></td><td>提倡；主張</td></tr>
+          <tr><td>primarily</td><td>adv.</td><td><span class="kk">[praɪˈmɛrəlɪ]</span></td><td><button class="audio-btn" onclick="speak('primarily')">🔊</button></td><td>主要地</td></tr>
+          <tr><td>involved</td><td>adj.</td><td><span class="kk">[ɪnˈvɑlvd]</span></td><td><button class="audio-btn" onclick="speak('involved')">🔊</button></td><td>參與的；涉及的</td></tr>
+          <tr><td>fundamental</td><td>adj.</td><td><span class="kk">[ˌfʌndəˈmɛntl]</span></td><td><button class="audio-btn" onclick="speak('fundamental')">🔊</button></td><td>根本的；基礎的</td></tr>
+          <tr><td>strive</td><td>v.</td><td><span class="kk">[straɪv]</span></td><td><button class="audio-btn" onclick="speak('strive')">🔊</button></td><td>努力；奮鬥</td></tr>
+          <tr><td>potential</td><td>n.</td><td><span class="kk">[pəˈtɛnʃl]</span></td><td><button class="audio-btn" onclick="speak('potential')">🔊</button></td><td>潛力；潛能</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- PASSAGE 4 -->
+  <div class="tab-content" id="passage4">
+    <div class="passage-header">
+      <h3 class="passage-title">Passage 4: Holistic Education</h3>
+      <audio controls class="audio-player">
+        <source src="passage 4.mp3" type="audio/mpeg">
+        您的瀏覽器不支援音訊播放器。
+      </audio>
+    </div>
+    
+    <div class="passage-text">
+      <span class="c1">By “<span class="word-spk" onclick="speak('holistic')">holistic</span>”</span><span class="c2">I <span class="mv"><u>mean</u></span> we <span class="mv"><u>are concerned</u></span> with the whole human being</span><span class="c3">as a fully functioning <span class="word-spk" onclick="speak('integrative')">integrative</span> system—</span><span class="c4">the entire human <span class="word-spk" onclick="speak('essence')">essence</span>---</span><span class="c5">rather than just dealing with an <span class="word-spk" onclick="speak('isolated')">isolated</span> element</span><span class="c1">like only the academic part.</span><br><br>
+
+      <span class="c2">We <span class="mv"><u>are dedicated</u></span> to providing a positive learning environment</span><span class="c3">that emphasizes the development of the whole person</span><span class="c4">for meeting the challenges of living.</span> 
+      <span class="c5">As well as,</span><span class="c1">we <span class="mv"><u>are committed</u></span> to helping each person</span><span class="c2">to reach his/her <span class="word-spk" onclick="speak('potential')">potential</span></span><span class="c3">for achieving human goodness and even greatness.</span><br><br>
+
+      <span class="c4"><span class="word-spk" onclick="speak('Holistic')">Holistic</span> education <span class="mv"><u>is</u></span> a process</span><span class="c5">that fully engages the mind, body, emotions, and spirit…</span><span class="c1">all of which <span class="mv"><u>are nurtured</u></span> <span class="word-spk" onclick="speak('simultaneously')">simultaneously</span>.</span> 
+      <span class="c2">In our approach,</span><span class="c3">we <span class="mv"><u>blend</u></span> together six <span class="word-spk" onclick="speak('interrelated')">interrelated</span> realms of inquiry and development</span><span class="c4">as part of our concept of providing “<span class="word-spk" onclick="speak('comprehensive')">comprehensive</span> education”</span><span class="c5">in order to educate the whole person.</span><br><br>
+
+      <span class="c1">This six-dimensional model <span class="mv"><u>includes</u></span>:</span><span class="c2">Cognitive-Academic Development;</span><span class="c3">Emotional Intelligence (EQ);</span><span class="c4">Character-Building;</span><span class="c5">Citizenship;</span><span class="c1"><span class="word-spk" onclick="speak('spirituality')">Spirituality</span>;</span><span class="c2">and, Fitness and Health.</span>
+    </div>
+
+    <div class="vocab-section">
+      <h4>Passage 4 B1+ 重點與進階單字表 (美式 KK 音標)</h4>
+      <table class="vocab-table">
+        <thead>
+          <tr><th>單字</th><th>詞性</th><th>KK 音標</th><th>發音</th><th>中文釋義</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>holistic</td><td>adj.</td><td><span class="kk">[hoˈlɪstɪk]</span></td><td><button class="audio-btn" onclick="speak('holistic')">🔊</button></td><td>全人的；整體的</td></tr>
+          <tr><td>integrative</td><td>adj.</td><td><span class="kk">[ˈɪntəˌgre tɪv]</span></td><td><button class="audio-btn" onclick="speak('integrative')">🔊</button></td><td>整合的</td></tr>
+          <tr><td>essence</td><td>n.</td><td><span class="kk">[ˈɛsns]</span></td><td><button class="audio-btn" onclick="speak('essence')">🔊</button></td><td>本質；精髓</td></tr>
+          <tr><td>isolated</td><td>adj.</td><td><span class="kk">[ˈaɪsəˌletɪd]</span></td><td><button class="audio-btn" onclick="speak('isolated')">🔊</button></td><td>孤立的；單一的</td></tr>
+          <tr><td>dedicated</td><td>adj.</td><td><span class="kk">[ˈdɛdəˌketɪd]</span></td><td><button class="audio-btn" onclick="speak('dedicated')">🔊</button></td><td>全心投入的</td></tr>
+          <tr><td>committed</td><td>adj.</td><td><span class="kk">[kəˈmɪtɪd]</span></td><td><button class="audio-btn" onclick="speak('committed')">🔊</button></td><td>堅定承諾的</td></tr>
+          <tr><td>potential</td><td>n.</td><td><span class="kk">[pəˈtɛnʃl]</span></td><td><button class="audio-btn" onclick="speak('potential')">🔊</button></td><td>潛力；潛能</td></tr>
+          <tr><td>nurture</td><td>v.</td><td><span class="kk">[ˈnɝtʃɚ]</span></td><td><button class="audio-btn" onclick="speak('nurture')">🔊</button></td><td>培養；滋養</td></tr>
+          <tr><td>simultaneously</td><td>adv.</td><td><span class="kk">[ˌsaɪmlˈteniəsli]</span></td><td><button class="audio-btn" onclick="speak('simultaneously')">🔊</button></td><td>同時地</td></tr>
+          <tr><td>interrelated</td><td>adj.</td><td><span class="kk">[ˌɪntɚrɪˈletɪd]</span></td><td><button class="audio-btn" onclick="speak('interrelated')">🔊</button></td><td>相互關聯的</td></tr>
+          <tr><td>comprehensive</td><td>adj.</td><td><span class="kk">[ˌkɑmprɪˈhɛnsɪv]</span></td><td><button class="audio-btn" onclick="speak('comprehensive')">🔊</button></td><td>全方位的；綜合的</td></tr>
+          <tr><td>spirituality</td><td>n.</td><td><span class="kk">[ˌspɪrɪtʃuˈæləti]</span></td><td><button class="audio-btn" onclick="speak('spirituality')">🔊</button></td><td>心靈；精神層面</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- PASSAGE 5 -->
+  <div class="tab-content" id="passage5">
+    <div class="passage-header">
+      <h3 class="passage-title">Passage 5: Empowering Future Global Citizens</h3>
+      <audio controls class="audio-player">
+        <source src="passage 5.mp3" type="audio/mpeg">
+        您的瀏覽器不支援音訊播放器。
+      </audio>
+    </div>
+    
+    <div class="passage-text">
+      <span class="c1">As educators,</span><span class="c2">we <span class="mv"><u>face</u></span> <span class="word-spk" onclick="speak('enormous')">enormous</span> challenges in the 21st century,</span><span class="c3">the <span class="word-spk" onclick="speak('paramount')">paramount</span> one <span class="mv"><u>is</u></span> the need to help our students</span><span class="c4">to become aware and prepared to live in a world</span><span class="c5">vastly different from the one most of us were raised in.</span> 
+      <span class="c1">We <span class="mv"><u>can</u></span> no longer <span class="mv"><u>afford</u></span> to only teach our students</span><span class="c2">what has been taught in the past.</span> 
+      <span class="c3">Instead,</span><span class="c4">we <span class="mv"><u>need</u></span> to seek out new <span class="word-spk" onclick="speak('paradigms')">paradigms</span>,</span><span class="c5">and one such framework <span class="mv"><u>is</u></span> the <span class="word-spk" onclick="speak('holistic')">holistic</span> educational approach</span><span class="c1">discussed here today.</span><br><br>
+
+      <span class="c2">We now <span class="mv"><u>live</u></span> in a “global village”,</span><span class="c3">which is <span class="word-spk" onclick="speak('borderless')">borderless</span>,</span><span class="c4">increasing in <span class="word-spk" onclick="speak('complexity')">complexity</span>,</span><span class="c5">and changing at an <span class="word-spk" onclick="speak('accelerating')">accelerating</span> pace.</span> 
+      <span class="c1">Given this context,</span><span class="c2">we as educators <span class="mv"><u>need</u></span> to provide our students</span><span class="c3">with a <span class="word-spk" onclick="speak('holistic')">holistic</span> “world view” of life on the Earth,</span><span class="c4">and the <span class="word-spk" onclick="speak('emerging')">emerging</span> global community.</span> 
+      <span class="c5">Learning <span class="word-spk" onclick="speak('holistic')">holistic</span> <span class="word-spk" onclick="speak('perspectives')">perspectives</span> <span class="mv"><u>will enable</u></span> our students</span><span class="c1">to <span class="word-spk" onclick="speak('perceive')">perceive</span> and understand the various contexts</span><span class="c2">that shape and give meaning to life.</span><br><br>
+
+      <span class="c3">Furthermore,</span><span class="c4">a <span class="word-spk" onclick="speak('holistic')">holistic</span> approach <span class="mv"><u>offers</u></span> educators an opportunity</span><span class="c5">to <span class="word-spk" onclick="speak('facilitate')">facilitate</span> the development of whole human beings,</span><span class="c1">who are capable of dealing with life as a whole.</span> 
+      <span class="c2">A significant aspect of our <span class="word-spk" onclick="speak('holistic')">holistic</span> educational approach <span class="mv"><u>is</u></span></span><span class="c3">that we <span class="mv"><u>can inculcate</u></span> in our students a real <span class="word-spk" onclick="speak('passionate')">passionate</span> love for learning</span><span class="c4">that will last for their entire lifetimes.</span><br><br>
+
+      <span class="c5">Finally,</span><span class="c1">we <span class="mv"><u>can lead</u></span> our students along the path</span><span class="c2">toward accepting being responsible to themselves,</span><span class="c3">to their societies and countries,</span><span class="c4">and to becoming participating world citizens.</span>
+    </div>
+
+    <div class="vocab-section">
+      <h4>Passage 5 B1+ 重點與進階單字表 (美式 KK 音標)</h4>
+      <table class="vocab-table">
+        <thead>
+          <tr><th>單字</th><th>詞性</th><th>KK 音標</th><th>發音</th><th>中文釋義</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>enormous</td><td>adj.</td><td><span class="kk">[ɪˈnɔrməs]</span></td><td><button class="audio-btn" onclick="speak('enormous')">🔊</button></td><td>巨大的；龐大的</td></tr>
+          <tr><td>paramount</td><td>adj.</td><td><span class="kk">[ˈpærəˌmaʊnt]</span></td><td><button class="audio-btn" onclick="speak('paramount')">🔊</button></td><td>最主要的；首要的</td></tr>
+          <tr><td>paradigm</td><td>n.</td><td><span class="kk">[ˈpærəˌdaɪm]</span></td><td><button class="audio-btn" onclick="speak('paradigm')">🔊</button></td><td>典範；範式</td></tr>
+          <tr><td>holistic</td><td>adj.</td><td><span class="kk">[hoˈlɪstɪk]</span></td><td><button class="audio-btn" onclick="speak('holistic')">🔊</button></td><td>全人的；整體的</td></tr>
+          <tr><td>borderless</td><td>adj.</td><td><span class="kk">[ˈbɔrdɚləs]</span></td><td><button class="audio-btn" onclick="speak('borderless')">🔊</button></td><td>無國界的</td></tr>
+          <tr><td>complexity</td><td>n.</td><td><span class="kk">[kəmˈplɛksətɪ]</span></td><td><button class="audio-btn" onclick="speak('complexity')">🔊</button></td><td>複雜性</td></tr>
+          <tr><td>accelerating</td><td>adj.</td><td><span class="kk">[ækˈsɛləˌretɪŋ]</span></td><td><button class="audio-btn" onclick="speak('accelerating')">🔊</button></td><td>加速的</td></tr>
+          <tr><td>emerging</td><td>adj.</td><td><span class="kk">[ɪˈmɝdʒɪŋ]</span></td><td><button class="audio-btn" onclick="speak('emerging')">🔊</button></td><td>新興的</td></tr>
+          <tr><td>perspective</td><td>n.</td><td><span class="kk">[pɚˈspɛktɪv]</span></td><td><button class="audio-btn" onclick="speak('perspective')">🔊</button></td><td>觀點；視角</td></tr>
+          <tr><td>perceive</td><td>v.</td><td><span class="kk">[pɚˈsiv]</span></td><td><button class="audio-btn" onclick="speak('perceive')">🔊</button></td><td>感知；理解</td></tr>
+          <tr><td>facilitate</td><td>v.</td><td><span class="kk">[fəˈsɪləˌtet]</span></td><td><button class="audio-btn" onclick="speak('facilitate')">🔊</button></td><td>促進；推動</td></tr>
+          <tr><td>inculcate</td><td>v.</td><td><span class="kk">[ɪnˈkʌlket]</span></td><td><button class="audio-btn" onclick="speak('inculcate')">🔊</button></td><td>灌輸；反覆叮嚀</td></tr>
+          <tr><td>passionate</td><td>adj.</td><td><span class="kk">[ˈpæʃənət]</span></td><td><button class="audio-btn" onclick="speak('passionate')">🔊</button></td><td>熱情洋溢的</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+<!-- 6. 頁腳註明 -->
+<footer>
+  Prepared by Shirley Du @ FRP 雙語教案；Practice Makes Perfect
+</footer>
+
+<script>
+  function switchTab(evt, passageId) {
+    const contents = document.querySelectorAll('.tab-content');
+    contents.forEach(content => content.classList.remove('active'));
+
+    const buttons = document.querySelectorAll('.tab-btn');
+    buttons.forEach(btn => btn.classList.remove('active'));
+
+    document.getElementById(passageId).classList.add('active');
+    evt.currentTarget.classList.add('active');
+
+    const audios = document.querySelectorAll('audio');
+    audios.forEach(audio => { audio.pause(); });
+  }
+
+  function speak(word) {
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(word);
+      utterance.lang = 'en-US';
+      utterance.rate = 0.85;
+      window.speechSynthesis.speak(utterance);
+    } else {
+      alert('您的瀏覽器不支援線上發音功能。');
+    }
+  }
+</script>
+
+</body>
+</html>
