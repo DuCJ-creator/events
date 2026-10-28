@@ -617,6 +617,150 @@
             .fun-item { animation: none; }
         }
 
+
+        /* ───────── 按鈕 ───────── */
+        .btn {
+            cursor: pointer;
+            font: inherit;
+            font-weight: 500;
+            padding: 10px 22px;
+            border-radius: 999px;
+            border: 1px solid var(--glass-border);
+            background: rgba(255, 255, 255, .1);
+            color: var(--text);
+            transition: background .2s, transform .2s;
+        }
+        .btn:hover { background: rgba(255, 255, 255, .2); transform: translateY(-1px); }
+        .btn-primary { background: var(--c, #8ab4ff); color: #0a0f1f; border-color: transparent; font-weight: 700; }
+        .btn-primary:hover { background: var(--c, #8ab4ff); filter: brightness(1.12); }
+        .btn-row { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+        /* ───────── 單字消消樂 ───────── */
+        .game-section { border-top: 1px solid var(--glass-border); padding-top: 24px; }
+        .game-intro {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            flex-wrap: wrap;
+            padding: 18px 20px;
+            border-radius: 22px;
+            background: rgba(255, 255, 255, .06);
+            border: 1px solid var(--glass-border);
+        }
+        .game-intro p { font-size: .9rem; color: var(--text-soft); flex: 1 1 260px; }
+
+        .game-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; }
+        .game-stats { display: flex; gap: 10px; align-items: center; }
+        .stat-chip {
+            padding: 6px 14px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, .08);
+            border: 1px solid var(--glass-border);
+            font-size: .85rem;
+            color: var(--text-soft);
+        }
+        .stat-chip b { font-family: var(--font-display); font-size: 1.1rem; color: var(--text); font-variant-numeric: tabular-nums; }
+        .btn-sm { padding: 6px 16px; font-size: .85rem; }
+
+        .match-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+        @media (max-width: 640px) { .match-grid { grid-template-columns: repeat(2, 1fr); } }
+
+        .tile {
+            cursor: pointer;
+            font: inherit;
+            font-size: .88rem;
+            line-height: 1.35;
+            color: var(--text);
+            min-height: 66px;
+            padding: 10px 12px;
+            border-radius: 16px;
+            border: 1px solid var(--glass-border);
+            background: rgba(255, 255, 255, .08);
+            display: grid;
+            place-items: center;
+            text-align: center;
+            transition: background .2s, transform .2s, border-color .2s;
+        }
+        .tile.en { font-family: var(--font-display); font-weight: 500; font-size: .95rem; }
+        .tile:hover { background: rgba(255, 255, 255, .17); }
+        .tile.sel { background: color-mix(in srgb, var(--c) 38%, transparent); border-color: var(--c); transform: scale(1.05); }
+        .tile.bad { animation: tile-shake .4s; border-color: #f87171; background: rgba(248, 113, 113, .28); }
+        .tile.gone { animation: tile-pop .38s forwards; pointer-events: none; }
+        @keyframes tile-shake { 20%, 60% { transform: translateX(-6px); } 40%, 80% { transform: translateX(6px); } }
+        @keyframes tile-pop { 35% { transform: scale(1.18); } 100% { transform: scale(0); opacity: 0; } }
+
+        .game-result { text-align: center; padding: 20px 8px 6px; }
+        .game-result .big {
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: clamp(2.4rem, 8vw, 3.6rem);
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+            margin: 6px 0 4px;
+        }
+        .game-result p { color: var(--text-soft); margin-bottom: 20px; }
+        .game-result .emoji { font-size: 2.6rem; }
+
+        /* ───────── 綜合檢查 Quiz ───────── */
+        .quiz-card {
+            --c: #8ab4ff;
+            border-radius: 28px;
+            padding: 28px 32px;
+            min-height: 360px;
+            margin-top: 64px;
+        }
+        @media (max-width: 640px) { .quiz-card { padding: 22px 18px; } }
+
+        .quiz-start { text-align: center; padding: 26px 8px; }
+        .quiz-start .emoji { font-size: 3rem; }
+        .quiz-start h2 { font-family: var(--font-display); font-size: clamp(1.5rem, 3vw, 2rem); margin: 8px 0; letter-spacing: -0.02em; }
+        .quiz-start p { color: var(--text-soft); max-width: 52ch; margin: 0 auto 8px; font-size: .95rem; }
+        .rules { list-style: none; display: inline-grid; gap: 6px; text-align: left; margin: 14px 0 24px; font-size: .92rem; color: var(--text-soft); }
+        .rules li::before { content: "•"; color: var(--c); margin-right: 8px; }
+
+        .quiz-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+        .quiz-top .game-stats { flex-wrap: wrap; }
+        .qbar { height: 6px; border-radius: 99px; background: rgba(255, 255, 255, .12); margin: 16px 0 24px; overflow: hidden; }
+        .qbar span { display: block; height: 100%; border-radius: 99px; background: linear-gradient(90deg, #60a5fa, #c4a1ff); transition: width .4s; }
+
+        .q-word { text-align: center; margin-bottom: 24px; }
+        .q-word .chip { display: inline-block; font-size: .8rem; padding: 3px 12px; border-radius: 99px; background: rgba(255, 255, 255, .08); border: 1px solid var(--glass-border); color: var(--text-soft); margin-bottom: 10px; }
+        .q-word .en { font-family: var(--font-display); font-weight: 800; font-size: clamp(1.8rem, 5vw, 2.8rem); line-height: 1.2; letter-spacing: -0.02em; }
+
+        .opts { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+        @media (max-width: 640px) { .opts { grid-template-columns: 1fr; } }
+        .opt {
+            cursor: pointer;
+            font: inherit;
+            font-size: 1rem;
+            color: var(--text);
+            text-align: left;
+            padding: 16px 18px;
+            border-radius: 18px;
+            border: 1px solid var(--glass-border);
+            background: rgba(255, 255, 255, .08);
+            transition: background .2s, transform .2s, border-color .2s;
+            display: flex;
+            gap: 12px;
+            align-items: baseline;
+        }
+        .opt .k { font-family: var(--font-display); font-weight: 700; color: var(--text-faint); }
+        .opt:hover:not(:disabled) { background: rgba(255, 255, 255, .18); transform: translateY(-2px); }
+        .opt:disabled { cursor: default; }
+        .opt.correct { background: rgba(52, 211, 153, .3); border-color: #34d399; }
+        .opt.wrong { background: rgba(248, 113, 113, .3); border-color: #f87171; }
+
+        .q-feedback { min-height: 64px; margin-top: 18px; text-align: center; }
+        .q-feedback .msg { font-weight: 500; margin-bottom: 12px; }
+        .q-feedback .msg.ok { color: #6ee7b7; }
+        .q-feedback .msg.no { color: #fca5a5; }
+
+        .result-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 12px; margin: 22px 0 26px; }
+        .result-grid div { padding: 14px; border-radius: 18px; background: rgba(255, 255, 255, .07); border: 1px solid var(--glass-border); }
+        .result-grid .n { font-family: var(--font-display); font-weight: 700; font-size: 1.6rem; display: block; }
+        .result-grid .l { font-size: .8rem; color: var(--text-faint); }
+
         /* ───────── 頁尾 ───────── */
         footer {
             max-width: 1160px;
@@ -663,7 +807,7 @@
                 <img src="chhs.png" alt="財團法人私立忠信學校 Chung Hsin School, N.P.O.">
             </div>
             <div class="header-badge">
-                <i class="fa-solid fa-graduation-cap"></i> 115學年度 40分鐘沉浸式雙語體驗
+                <i class="fa-solid fa-graduation-cap"></i> 115學年度 沉浸式雙語體驗
             </div>
         </div>
     </header>
@@ -679,8 +823,8 @@
         <section class="concept-card glass">
             <div class="concept-icon"><i class="fa-solid fa-circle-info"></i></div>
             <h2>課程設計核心理念 (Core Concepts)</h2>
-            <div class="zh-desc">本雙語體驗課由忠信學校 FRP雙語教案為竹仁國小「雙語課程體驗」專案設計，共計四門課程，每門課程採 40 分鐘精準節奏架構。結合動手實作（Hands-on DIY）、自然科學實驗、樂高程式控制與音樂感知，引導學生在沉浸式雙語情境中建立跨領域核心素養。</div>
-            <div class="en-desc">This bilingual curriculum is designed by Chung Hsin School FRP Bilingual Lesson Plans for the "Bilingual Course Experience" project tailored for Chujen Elementary School. Designed in a precise 40-minute structure, each course integrates hands-on DIY, natural science experiments, Lego robotics coding, and musical perception to build cross-disciplinary core competencies.</div>
+            <div class="zh-desc">本課程由忠信學校 FRP雙語教案為竹仁國小「雙語課程體驗」專案設計，每門課程40分鐘精準節奏架構。結合動手實作（Hands-on DIY）、自然科學實驗、樂高程式控制與音樂感知，引導學生在沉浸式雙語情境中建立跨領域核心素養。</div>
+            <div class="en-desc">This curriculum is designed by Chung Hsin School FRP Bilingual Lesson Plans for the "Bilingual Course Experience" project tailored for Chujen Elementary School. Designed in a precise 40-minute structure, each course integrates hands-on DIY, natural science experiments, Lego robotics coding, and musical perception to build cross-disciplinary core competencies.</div>
         </section>
 
         <!-- 課程總覽 -->
@@ -889,6 +1033,12 @@
             </article>
 
         </section>
+
+        <div class="section-head" style="margin-top:64px">
+            <h2>綜合檢查：單字挑戰賽</h2>
+            <p>四門課的全部單字，看英文選出正確的中文</p>
+        </div>
+        <section class="quiz-card glass" id="quizCard" aria-live="polite" style="margin-top:0"></section>
     </main>
 
     <footer>
@@ -915,6 +1065,45 @@
         </div>
     </div>
 
+    <script>
+    window.VOCAB = {
+        health: [
+            ['Oats','燕麥'],['Chunky peanut butter','粗粒花生醬'],['Honey','蜂蜜'],['Salt','鹽'],
+            ['Pumpkin seeds','南瓜子'],['Sunflower seeds','葵花子'],['Walnuts','核桃'],['Pecans','胡桃'],
+            ['Pistachios','開心果'],['Cashews','腰果'],['Cinnamon','肉桂粉'],['Cranberry','蔓越莓乾'],
+            ['Chocolate','巧克力'],['Protein','蛋白質'],['Healthy Fats','健康油脂'],['Dietary Fiber','膳食纖維'],
+            ['Zero Hunger (SDG 2)','消除飢餓（聯合國永續發展目標二）'],
+            ['Measure','測量 / 量取'],['Pour','倒入'],['Mix / Stir','混合 / 攪拌'],['Bind','黏合'],
+            ['Press hard','用力壓實 / 壓平'],['Chill','冷藏靜置']
+        ],
+        tech: [
+            ['EV3 Brick','樂高 EV3 程式主機'],['Touch Sensor','觸碰感應器'],['Motor','伺服馬達'],
+            ['Input Ports (1-4)','輸入端（連接感應器）'],['Output Ports (A-D)','輸出端（連接馬達）'],
+            ['USB cable / Bluetooth','USB 線 / 藍芽連線'],['Wait block','等待指令'],['Timer','計時器'],
+            ['Reset','重置 / 歸零'],['Variable','變數（存放數值的盒子）'],['Math block','數學運算積木'],
+            ['Loop','迴圈（重複執行）'],['Display / Sound','顯示 / 聲音指令'],['Inner Clock','生理時鐘'],
+            ['CPS (Clicks Per Second)','每秒點擊次數（手速測試）']
+        ],
+        eco: [
+            ['Capillarity / Capillary Action','毛細現象'],['Upcycling','升級再造（廢棄物改造）'],
+            ['Adhesion','附著力（水與容器微孔）'],['Cohesion','內聚力（水分子相連）'],['Micro-tubes','微細管道'],
+            ['Planter / Pot','盆栽 / 花盆'],['SDG 12 / SDG 15','負責任的消費與生產 / 陸域生態保全'],
+            ['Cut','裁切（寶特瓶）'],['Thread','穿過 / 穿繩（棉繩穿過瓶蓋）'],['Fill soil','填土'],
+            ['Transplant','移植（小苗）'],['Absorb water','吸收水分']
+        ],
+        music: [
+            ['Snare Drum','小鼓'],['Drumstick','鼓棒'],['Practice Pad','打擊練習板'],['Whole Note','全音符（4拍）'],
+            ['Half Note','二分音符（2拍）'],['Quarter Note','四分音符（1拍）'],['Eighth Note','八分音符（半拍）'],
+            ['Rest','休止符'],['4/4 Common Time','四四拍（每小節四拍）'],['Count the beat','唱拍 / 數拍子'],
+            ['Echo / Repeat','覆奏 / 模仿節奏'],['Rhythm Relay','節奏接龍'],['Ensemble','合奏']
+        ]
+    };
+    window.shuffle = function (a) {
+        a = a.slice();
+        for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; }
+        return a;
+    };
+    </script>
     <script>
     (function () {
         /* ── Logo：載入失敗就直接隱藏，不顯示任何替代文字 ── */
@@ -951,6 +1140,8 @@
             document.getElementById('modalEn').textContent = card.querySelector('.en-name').textContent;
             body.innerHTML = card.querySelector('.detail').innerHTML;
             body.scrollTop = 0;
+            if (stopGame) stopGame();
+            body.appendChild(buildGame(card.dataset.theme));
 
             // 依各階段分鐘數建立時間比例條
             var badges = body.querySelectorAll('.time-badge');
@@ -968,6 +1159,103 @@
             }
         }
 
+
+
+        /* ── 單字消消樂：每局隨機抽 11 組中英 ── */
+        var stopGame = null;
+
+        function fmtTime(ms) {
+            var t = ms / 1000, m = Math.floor(t / 60), sec = (t - m * 60).toFixed(1);
+            return m ? m + ' 分 ' + (sec < 10 ? '0' : '') + sec + ' 秒' : sec + ' 秒';
+        }
+
+        function buildGame(theme) {
+            var vocab = VOCAB[theme];
+            var wrap = document.createElement('div');
+            wrap.className = 'game-section';
+            var timer = null;
+
+            function stopTimer() { if (timer) { clearInterval(timer); timer = null; } }
+            stopGame = stopTimer;
+
+            function renderIntro() {
+                stopTimer();
+                wrap.innerHTML =
+                    '<div class="section-label"><i class="fa-solid fa-puzzle-piece"></i> 單字消消樂 (Match & Clear)</div>' +
+                    '<div class="game-intro"><p>本課共 ' + vocab.length + ' 個單字，每局隨機抽出 11 組。點一個英文、再點對應的中文，配對正確就會消失，全部消完即完成！</p>' +
+                    '<button class="btn btn-primary" type="button">開始遊戲</button></div>';
+                wrap.querySelector('button').onclick = startGame;
+            }
+
+            function startGame() {
+                stopTimer();
+                var pairs = shuffle(vocab).slice(0, 11), tiles = [];
+                pairs.forEach(function (p, i) {
+                    tiles.push({ id: i, lang: 'en', text: p[0] });
+                    tiles.push({ id: i, lang: 'zh', text: p[1] });
+                });
+                tiles = shuffle(tiles);
+
+                wrap.innerHTML =
+                    '<div class="section-label"><i class="fa-solid fa-puzzle-piece"></i> 單字消消樂 (Match & Clear)</div>' +
+                    '<div class="game-bar"><div class="game-stats">' +
+                    '<span class="stat-chip"><i class="fa-regular fa-clock"></i> <b class="t">0.0</b> 秒</span>' +
+                    '<span class="stat-chip">剩餘 <b class="left">11</b> 組</span></div>' +
+                    '<button class="btn btn-sm" type="button">退出</button></div>' +
+                    '<div class="match-grid"></div>';
+                var grid = wrap.querySelector('.match-grid');
+                var tEl = wrap.querySelector('.t'), leftEl = wrap.querySelector('.left');
+                wrap.querySelector('.btn-sm').onclick = renderIntro;
+
+                var t0 = Date.now(), left = 11, mistakes = 0, sel = null, lock = false;
+                timer = setInterval(function () { tEl.textContent = ((Date.now() - t0) / 1000).toFixed(1); }, 100);
+
+                tiles.forEach(function (t) {
+                    var b = document.createElement('button');
+                    b.type = 'button';
+                    b.className = 'tile ' + t.lang;
+                    b.textContent = t.text;
+                    b.onclick = function () {
+                        if (lock || b.classList.contains('gone')) return;
+                        if (sel === b) { b.classList.remove('sel'); sel = null; return; }
+                        if (!sel) { sel = b; b.classList.add('sel'); return; }
+                        if (sel.className.indexOf(t.lang) !== -1 && sel._t.lang === t.lang) {   // 同語言：改選這一個
+                            sel.classList.remove('sel'); sel = b; b.classList.add('sel'); return;
+                        }
+                        var a = sel; sel = null; a.classList.remove('sel');
+                        if (a._t.id === t.id) {
+                            a.classList.add('gone'); b.classList.add('gone');
+                            left--; leftEl.textContent = left;
+                            if (left === 0) finish(Date.now() - t0, mistakes);
+                        } else {
+                            mistakes++; lock = true;
+                            a.classList.add('bad'); b.classList.add('bad');
+                            setTimeout(function () { a.classList.remove('bad'); b.classList.remove('bad'); lock = false; }, 420);
+                        }
+                    };
+                    b._t = t;
+                    grid.appendChild(b);
+                });
+            }
+
+            function finish(ms, mistakes) {
+                stopTimer();
+                setTimeout(function () {
+                    wrap.innerHTML =
+                        '<div class="game-result"><div class="emoji">🎉</div>' +
+                        '<div class="section-label" style="justify-content:center">全部消完了！</div>' +
+                        '<div class="big">' + fmtTime(ms) + '</div>' +
+                        '<p>' + (mistakes ? '配錯 ' + mistakes + ' 次，再玩一局挑戰更快的時間吧！' : '一次都沒配錯，太厲害了！') + '</p>' +
+                        '<div class="btn-row"><button class="btn btn-primary" data-a="again" type="button">再來一局</button>' +
+                        '<button class="btn" data-a="exit" type="button">退出</button></div></div>';
+                    wrap.querySelector('[data-a=again]').onclick = startGame;
+                    wrap.querySelector('[data-a=exit]').onclick = renderIntro;
+                }, 450);
+            }
+
+            renderIntro();
+            return wrap;
+        }
 
         /* ── 各課程專屬的跳動元素 ── */
         var funLayer = document.getElementById('funLayer');
@@ -1043,6 +1331,7 @@
             busy = true;
             var card = activeCard;
             function done() {
+                if (stopGame) stopGame();
                 panel.getAnimations().forEach(function (a) { a.cancel(); });
                 backdrop.getAnimations().forEach(function (a) { a.cancel(); });
                 funLayer.getAnimations().forEach(function (a) { a.cancel(); });
@@ -1079,6 +1368,133 @@
                 else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
             }
         });
+    })();
+    </script>
+
+    <script>
+    (function () {
+        var card = document.getElementById('quizCard');
+        var THEMES = {
+            health: { name: '補充能量吧！', icon: '🥜' },
+            tech:   { name: '機器人GO！', icon: '🤖' },
+            eco:    { name: '綠色Fun水盆栽', icon: '🌱' },
+            music:  { name: '鼓動Beat！', icon: '🥁' }
+        };
+        var ALL = [];
+        Object.keys(VOCAB).forEach(function (t) {
+            VOCAB[t].forEach(function (w) { ALL.push({ en: w[0], zh: w[1], theme: t }); });
+        });
+        function esc(x) { return x.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+
+        var st, tm;
+
+        function renderStart() {
+            clearTimeout(tm);
+            card.innerHTML =
+                '<div class="quiz-start"><div class="emoji">🏆</div><h2>綜合檢查：單字挑戰賽</h2>' +
+                '<p>共 ' + ALL.length + ' 個單字，來自全部四門課程。看英文，選出正確的中文意思。</p>' +
+                '<ul class="rules"><li>連續答對加分：第 1 題 +5、第 2 題 +10、第 3 題 +15 …</li>' +
+                '<li>答錯扣 5 分，並顯示正確答案；選擇繼續後，連對重新從 +5 開始算</li>' +
+                '<li>題目不重複，全部答完就結算；中途隨時可以退出</li></ul>' +
+                '<div class="btn-row"><button class="btn btn-primary" type="button">開始挑戰</button></div></div>';
+            card.querySelector('button').onclick = startQuiz;
+        }
+
+        function startQuiz() {
+            st = { pool: shuffle(ALL), i: 0, score: 0, streak: 0, best: 0, right: 0, done: 0, locked: false };
+            renderQuestion();
+        }
+
+        function renderQuestion() {
+            var w = st.pool[st.i], th = THEMES[w.theme];
+            var distract = shuffle(ALL.filter(function (x) { return x.zh !== w.zh; })).slice(0, 3);
+            var seen = {}, opts = [];
+            shuffle([w].concat(distract)).forEach(function (o) { if (!seen[o.zh]) { seen[o.zh] = 1; opts.push(o); } });
+
+            card.innerHTML =
+                '<div class="quiz-top"><div class="game-stats">' +
+                '<span class="stat-chip">分數 <b id="qScore">' + st.score + '</b></span>' +
+                '<span class="stat-chip">連對 <b id="qStreak">' + st.streak + '</b></span>' +
+                '<span class="stat-chip">答對可得 <b>+' + 5 * (st.streak + 1) + '</b></span>' +
+                '<span class="stat-chip">第 <b>' + (st.i + 1) + '</b> / ' + st.pool.length + ' 題</span></div>' +
+                '<button class="btn btn-sm" id="qExit" type="button">退出</button></div>' +
+                '<div class="qbar"><span style="width:' + (st.i / st.pool.length * 100) + '%"></span></div>' +
+                '<div class="q-word"><span class="chip">' + th.icon + ' ' + th.name + '</span><div class="en">' + esc(w.en) + '</div></div>' +
+                '<div class="opts"></div><div class="q-feedback"></div>';
+
+            var box = card.querySelector('.opts'), fb = card.querySelector('.q-feedback');
+            card.querySelector('#qExit').onclick = function () { showResult(false); };
+            st.locked = false;
+
+            opts.forEach(function (o, k) {
+                var b = document.createElement('button');
+                b.type = 'button';
+                b.className = 'opt';
+                b.innerHTML = '<span class="k">' + 'ABCD'[k] + '</span><span>' + esc(o.zh) + '</span>';
+                b.onclick = function () { answer(o.zh === w.zh, b, box, fb, w); };
+                box.appendChild(b);
+            });
+        }
+
+        function answer(ok, btn, box, fb, w) {
+            if (st.locked) return;
+            st.locked = true;
+            st.done++;
+            var all = box.querySelectorAll('.opt');
+            all.forEach(function (b) {
+                b.disabled = true;
+                if (b.lastChild.textContent === w.zh) b.classList.add('correct');
+            });
+            if (ok) {
+                var gain = 5 * (st.streak + 1);
+                st.score += gain; st.streak++; st.right++;
+                if (st.streak > st.best) st.best = st.streak;
+                fb.innerHTML = '<div class="msg ok">答對了！+' + gain + ' 分（連對 ' + st.streak + '）</div>';
+                card.querySelector('#qScore').textContent = st.score;
+                card.querySelector('#qStreak').textContent = st.streak;
+                tm = setTimeout(next, 1000);
+            } else {
+                btn.classList.add('wrong');
+                st.score -= 5; st.streak = 0;
+                card.querySelector('#qScore').textContent = st.score;
+                card.querySelector('#qStreak').textContent = 0;
+                var last = st.i + 1 >= st.pool.length;
+                fb.innerHTML = '<div class="msg no">答錯了，扣 5 分。<b>' + esc(w.en) + '</b> 的意思是「' + esc(w.zh) + '」</div>' +
+                    '<div class="btn-row"><button class="btn btn-primary" data-a="go" type="button">' + (last ? '查看結算' : '繼續遊戲') + '</button>' +
+                    '<button class="btn" data-a="quit" type="button">退出</button></div>';
+                fb.querySelector('[data-a=go]').onclick = next;
+                fb.querySelector('[data-a=quit]').onclick = function () { showResult(false); };
+            }
+        }
+
+        function next() {
+            clearTimeout(tm);
+            st.i++;
+            if (st.i >= st.pool.length) showResult(true); else renderQuestion();
+        }
+
+        function showResult(finished) {
+            clearTimeout(tm);
+            var acc = st.done ? Math.round(st.right / st.done * 100) : 0;
+            var emoji = finished ? '🎉' : '👋';
+            var title = finished ? '全部單字完成！' : '本次結算';
+            card.innerHTML =
+                '<div class="game-result"><div class="emoji">' + emoji + '</div>' +
+                '<div class="section-label" style="justify-content:center">' + title + '</div>' +
+                '<div class="big">' + st.score + ' 分</div>' +
+                '<p>' + (finished ? '你已答完全部 ' + st.pool.length + ' 題。' : '已作答 ' + st.done + ' / ' + st.pool.length + ' 題。') + '</p>' +
+                '<div class="result-grid">' +
+                '<div><span class="n">' + st.right + '</span><span class="l">答對題數</span></div>' +
+                '<div><span class="n">' + (st.done - st.right) + '</span><span class="l">答錯題數</span></div>' +
+                '<div><span class="n">' + acc + '%</span><span class="l">正確率</span></div>' +
+                '<div><span class="n">' + st.best + '</span><span class="l">最高連對</span></div></div>' +
+                '<div class="btn-row"><button class="btn btn-primary" data-a="again" type="button">再玩一次</button>' +
+                '<button class="btn" data-a="home" type="button">返回</button></div></div>';
+            card.querySelector('[data-a=again]').onclick = startQuiz;
+            card.querySelector('[data-a=home]').onclick = renderStart;
+        }
+
+        renderStart();
     })();
     </script>
 </body>
