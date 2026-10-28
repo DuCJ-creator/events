@@ -161,26 +161,25 @@
 
         /* Hero */
         .hero {
-            padding: clamp(48px, 9vw, 104px) 0 40px;
+            padding: clamp(24px, 4vw, 40px) 0 22px;
         }
 
         .hero h1 {
             font-family: var(--font-display);
             font-weight: 800;
-            font-size: clamp(2.2rem, 6.4vw, 4.6rem);
-            line-height: 1.08;
-            letter-spacing: -0.03em;
-            max-width: 15ch;
-            background: linear-gradient(180deg, #ffffff 30%, rgba(255, 255, 255, .62));
+            font-size: clamp(1.5rem, 4.2vw, 2.7rem);
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+            background: linear-gradient(180deg, #ffffff 40%, rgba(255, 255, 255, .7));
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
         }
+        .hero h1 .nw { white-space: nowrap; }
 
         .hero .sub-title {
-            margin-top: 18px;
-            max-width: 56ch;
-            font-size: 1.02rem;
+            margin-top: 8px;
+            font-size: .95rem;
             color: var(--text-soft);
             font-weight: 300;
         }
@@ -215,8 +214,8 @@
         }
 
         .concept-text { display: contents; }
-        .concept-card .zh-desc { font-size: .95rem; color: var(--text); grid-column: 2; }
-        .concept-card .en-desc { font-size: .86rem; color: var(--text-faint); grid-column: 3; line-height: 1.6; }
+        .concept-card .zh-desc { font-size: 1.02rem; color: var(--text); grid-column: 2; line-height: 1.75; }
+        .concept-card .en-desc { font-size: 1.02rem; color: var(--text-soft); grid-column: 3; line-height: 1.7; }
         .concept-icon { grid-row: 1 / 3; grid-column: 1; }
 
         @media (max-width: 860px) {
@@ -226,7 +225,7 @@
 
         /* 區段標題 */
         .section-head {
-            margin: 64px 0 22px;
+            margin: 40px 0 20px;
             display: flex;
             align-items: baseline;
             justify-content: space-between;
@@ -586,6 +585,38 @@
         .step-content .zh-step { font-size: .95rem; font-weight: 500; }
         .step-content .en-step { font-size: .83rem; color: var(--text-faint); margin-top: 2px; }
 
+
+        /* ───────── 課程主題跳動元素 ───────── */
+        .fun-layer {
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+            pointer-events: none;
+        }
+        .fun-item {
+            position: absolute;
+            font-size: var(--size, 2.6rem);
+            line-height: 1;
+            cursor: pointer;
+            pointer-events: auto;
+            user-select: none;
+            filter: drop-shadow(0 10px 14px rgba(0, 0, 0, .35));
+            animation:
+                fun-pop .6s cubic-bezier(.3, 1.6, .5, 1) var(--delay, 0s) backwards,
+                fun-bounce var(--dur, 1.6s) cubic-bezier(.3, 0, .5, 1) calc(var(--delay, 0s) + .6s) infinite;
+        }
+        .fun-item.spin { animation: fun-spin .7s ease-out; }
+        @keyframes fun-pop { from { transform: scale(0) rotate(-40deg); opacity: 0; } }
+        @keyframes fun-bounce {
+            0%, 100% { transform: translateY(0) scale(1.08, .88) rotate(calc(var(--rot, 8deg) * -1)); animation-timing-function: cubic-bezier(.2, .7, .4, 1); }
+            45%      { transform: translateY(calc(var(--amp, 40px) * -1)) scale(.94, 1.08) rotate(var(--rot, 8deg)); animation-timing-function: cubic-bezier(.6, 0, .8, .4); }
+        }
+        @keyframes fun-spin { to { transform: rotate(360deg) scale(1.5); opacity: .2; } }
+
+        @media (prefers-reduced-motion: reduce) {
+            .fun-item { animation: none; }
+        }
+
         /* ───────── 頁尾 ───────── */
         footer {
             max-width: 1160px;
@@ -632,7 +663,7 @@
                 <img src="chhs.png" alt="財團法人私立忠信學校 Chung Hsin School, N.P.O.">
             </div>
             <div class="header-badge">
-                <i class="fa-solid fa-graduation-cap"></i> 115學年度 沉浸式雙語體驗
+                <i class="fa-solid fa-graduation-cap"></i> 115學年度 40分鐘沉浸式雙語體驗
             </div>
         </div>
     </header>
@@ -640,7 +671,7 @@
     <main>
         <!-- Hero -->
         <section class="hero">
-            <h1>竹仁國小「雙語體驗課程」@ 忠信學校</h1>
+            <h1><span class="nw">竹仁國小「雙語體驗課程」</span> <span class="nw">@ 忠信學校</span></h1>
             <p class="sub-title">Chujen Elementary School Bilingual Experience @ Chung Hsin School (115 Academic Year)</p>
         </section>
 
@@ -648,8 +679,8 @@
         <section class="concept-card glass">
             <div class="concept-icon"><i class="fa-solid fa-circle-info"></i></div>
             <h2>課程設計核心理念 (Core Concepts)</h2>
-            <div class="zh-desc">本課程由忠信學校 FRP雙語教案為竹仁國小「雙語課程體驗」專案設計，採 40 分鐘精準節奏架構。結合動手實作（Hands-on DIY）、自然科學實驗、樂高程式控制與音樂感知，引導學生在沉浸式雙語情境中建立跨領域核心素養。</div>
-            <div class="en-desc">This curriculum is designed by Chung Hsin School FRP Bilingual Lesson Plans for the "Bilingual Course Experience" project tailored for Chujen Elementary School. Designed in a precise 40-minute structure, it integrates hands-on DIY, natural science experiments, Lego robotics coding, and musical perception to build cross-disciplinary core competencies.</div>
+            <div class="zh-desc">本雙語體驗課由忠信學校 FRP雙語教案為竹仁國小「雙語課程體驗」專案設計，共計四門課程，每門課程採 40 分鐘精準節奏架構。結合動手實作（Hands-on DIY）、自然科學實驗、樂高程式控制與音樂感知，引導學生在沉浸式雙語情境中建立跨領域核心素養。</div>
+            <div class="en-desc">This bilingual curriculum is designed by Chung Hsin School FRP Bilingual Lesson Plans for the "Bilingual Course Experience" project tailored for Chujen Elementary School. Designed in a precise 40-minute structure, each course integrates hands-on DIY, natural science experiments, Lego robotics coding, and musical perception to build cross-disciplinary core competencies.</div>
         </section>
 
         <!-- 課程總覽 -->
@@ -680,7 +711,6 @@
                     <div class="meta-list">
                         <div class="meta-item"><div class="label">領域重點 (Domain)</div><div class="value">健康 / 營養 / 食育 (Health & Nutrition / SDG 2)</div></div>
                         <div class="meta-item"><div class="label">授課地點 (Location)</div><div class="value">明廳 (Ming Hall)</div></div>
-                        <div class="meta-item"><div class="label">授課教師 (Instructor)</div><div class="value">Miguel 老師（搭配外師 Teacher Miguel & Foreign Teacher）</div></div>
                     </div>
 
                     <div>
@@ -727,15 +757,14 @@
                 </div>
                 <ul class="overview-meta">
                     <li><i class="fa-solid fa-microchip"></i> 資訊科技 / 邏輯程式</li>
-                    <li><i class="fa-solid fa-location-dot"></i> 花田生活科技館 (Huatian Living Tech Hall)</li>
+                    <li><i class="fa-solid fa-location-dot"></i> 花田生活科技館 (Huatian Sci&Tech Hall)</li>
                 </ul>
                 <button class="card-open" type="button" aria-haspopup="dialog">查看課程內容 <span class="arrow"><i class="fa-solid fa-arrow-right"></i></span></button>
 
                 <div class="detail" hidden>
                     <div class="meta-list">
                         <div class="meta-item"><div class="label">領域重點 (Domain)</div><div class="value">資訊科技 / 邏輯程式 (Robotics & Coding Logic)</div></div>
-                        <div class="meta-item"><div class="label">授課地點 (Location)</div><div class="value">花田生活科技館 (Huatian Living Tech Hall)</div></div>
-                        <div class="meta-item"><div class="label">授課教師 (Instructor)</div><div class="value">曾才勳 + Rafe 老師 (Teacher Tseng & Teacher Rafe)</div></div>
+                        <div class="meta-item"><div class="label">授課地點 (Location)</div><div class="value">花田生活科技館 (Huatian Sci&Tech Hall)</div></div>
                     </div>
 
                     <div>
@@ -785,7 +814,6 @@
                     <div class="meta-list">
                         <div class="meta-item"><div class="label">領域重點 (Domain)</div><div class="value">永續 / 毛細現象 (Sustainability & Science / SDG 12 & 15)</div></div>
                         <div class="meta-item"><div class="label">授課地點 (Location)</div><div class="value">美工廠 (Art & Design Studio)</div></div>
-                        <div class="meta-item"><div class="label">授課教師 (Instructor)</div><div class="value">潘韻如 + 杜嬋娟 老師 (Teacher Pan & Teacher Du)</div></div>
                     </div>
 
                     <div>
@@ -825,15 +853,14 @@
                 </div>
                 <ul class="overview-meta">
                     <li><i class="fa-solid fa-music"></i> 音樂 / 打擊樂合奏</li>
-                    <li><i class="fa-solid fa-location-dot"></i> 未央廳 (Weiyang Hall)</li>
+                    <li><i class="fa-solid fa-location-dot"></i> 愛樂屋 (Music Hall)</li>
                 </ul>
                 <button class="card-open" type="button" aria-haspopup="dialog">查看課程內容 <span class="arrow"><i class="fa-solid fa-arrow-right"></i></span></button>
 
                 <div class="detail" hidden>
                     <div class="meta-list">
                         <div class="meta-item"><div class="label">領域重點 (Domain)</div><div class="value">音樂 / 打擊樂合奏 (Music & Percussion Ensemble)</div></div>
-                        <div class="meta-item"><div class="label">授課地點 (Location)</div><div class="value">未央廳 (Weiyang Hall)</div></div>
-                        <div class="meta-item"><div class="label">授課教師 (Instructor)</div><div class="value">鍾邵丞 + 歐倖如 老師 (Teacher Chung & Teacher Ou)</div></div>
+                        <div class="meta-item"><div class="label">授課地點 (Location)</div><div class="value">愛樂屋 (Music Hall)</div></div>
                     </div>
 
                     <div>
@@ -874,6 +901,7 @@
     <!-- 課程詳細卡 Modal -->
     <div class="modal" id="modal" hidden>
         <div class="modal-backdrop" id="modalBackdrop"></div>
+        <div class="fun-layer" id="funLayer" aria-hidden="true"></div>
         <div class="modal-panel glass" id="modalPanel" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
             <div class="modal-head">
                 <div class="icon-chip sm" id="modalIcon"></div>
@@ -940,6 +968,48 @@
             }
         }
 
+
+        /* ── 各課程專屬的跳動元素 ── */
+        var funLayer = document.getElementById('funLayer');
+        var FUN = {
+            health: ['🥜', '🍯', '🌰', '🍫', '🥣', '🍎', '🌻', '🫐'],
+            tech:   ['🤖', '⚙️', '🔋', '💡', '🕹️', '🧠', '⏱️', '🔌'],
+            eco:    ['🌱', '💧', '♻️', '🪴', '🌿', '🍃', '💦', '🌍'],
+            music:  ['🥁', '🎵', '🎶', '🎸', '🎼', '🔔', '🎤', '🎧']
+        };
+
+        function spawnFun(theme) {
+            funLayer.innerHTML = '';
+            var list = FUN[theme] || [];
+            var wide = window.innerWidth > 980;
+            var count = wide ? 14 : 9;
+            for (var i = 0; i < count; i++) {
+                var el = document.createElement('span');
+                el.className = 'fun-item';
+                el.textContent = list[i % list.length];
+                var x;
+                if (wide) {   // 大螢幕：集中在詳細卡左右兩側
+                    var side = i % 2 === 0;
+                    x = side ? 2 + Math.random() * 11 : 87 + Math.random() * 10;
+                } else {      // 小螢幕：散佈在毛玻璃後方
+                    x = 4 + Math.random() * 86;
+                }
+                el.style.left = x + '%';
+                el.style.top = (8 + Math.random() * 78) + '%';
+                el.style.setProperty('--size', (2 + Math.random() * 1.8).toFixed(2) + 'rem');
+                el.style.setProperty('--amp', (24 + Math.random() * 46).toFixed(0) + 'px');
+                el.style.setProperty('--dur', (1.1 + Math.random() * 1.2).toFixed(2) + 's');
+                el.style.setProperty('--delay', (0.15 + Math.random() * 0.7).toFixed(2) + 's');
+                el.style.setProperty('--rot', (6 + Math.random() * 14).toFixed(0) + 'deg');
+                el.addEventListener('click', function (e) {   // 點一下就轉圈圈再回來
+                    var t = e.currentTarget;
+                    t.classList.add('spin');
+                    setTimeout(function () { t.classList.remove('spin'); }, 700);
+                });
+                funLayer.appendChild(el);
+            }
+        }
+
         function fromTransform(rect) {
             var to = panel.getBoundingClientRect();
             var dx = rect.left - to.left, dy = rect.top - to.top;
@@ -952,6 +1022,7 @@
             busy = true;
             activeCard = card;
             fill(card);
+            spawnFun(card.dataset.theme);
             modal.hidden = false;
             document.body.classList.add('modal-open');
 
@@ -974,6 +1045,8 @@
             function done() {
                 panel.getAnimations().forEach(function (a) { a.cancel(); });
                 backdrop.getAnimations().forEach(function (a) { a.cancel(); });
+                funLayer.getAnimations().forEach(function (a) { a.cancel(); });
+                funLayer.innerHTML = '';
                 modal.hidden = true;
                 document.body.classList.remove('modal-open');
                 busy = false;
@@ -982,6 +1055,7 @@
             if (reduce || !card) return done();
             var rect = card.getBoundingClientRect();
             backdrop.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 300, fill: 'forwards' });
+            funLayer.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 250, fill: 'forwards' });
             panel.animate(
                 [{ transform: 'none', opacity: 1 }, { transform: fromTransform(rect), opacity: 0 }],
                 { duration: 380, easing: 'cubic-bezier(.4,0,.2,1)', fill: 'forwards' }
