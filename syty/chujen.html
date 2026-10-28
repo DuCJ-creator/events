@@ -4,419 +4,684 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>竹仁國小雙語體驗課程 @ 忠信學校 - 115學年度 | Chujen Bilingual Experience @ Chung Hsin School</title>
-    <!-- Google Fonts & Font Awesome Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    
+
     <style>
         :root {
-            /* 學術進階現代色調 Design System Colors */
-            --primary-navy: #0f172a;
-            --secondary-navy: #1e293b;
-            --accent-blue: #2563eb;
-            --text-main: #1e293b;
-            --text-muted: #64748b;
-            --bg-canvas: #f8fafc;
-            --card-bg: #ffffff;
-            --border-color: #e2e8f0;
-            
-            /* 四大主題質感特調 Accent Themes */
-            --theme-health: #9a3412;       /* 溫潤琥珀琥珀棕 */
-            --theme-tech: #1d4ed8;         /* 科技深海藍 */
-            --theme-eco: #047857;          /* 沉穩永續翡翠綠 */
-            --theme-music: #6b21a8;        /* 典雅打擊樂紫 */
+            --ink: #0a0f1f;
+            --text: #f4f6fb;
+            --text-soft: rgba(244, 246, 251, .72);
+            --text-faint: rgba(244, 246, 251, .52);
 
-            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --glass: rgba(255, 255, 255, .07);
+            --glass-strong: rgba(255, 255, 255, .12);
+            --glass-border: rgba(255, 255, 255, .18);
+            --glass-hi: rgba(255, 255, 255, .35);
+
+            --health: #fb923c;
+            --tech: #60a5fa;
+            --eco: #34d399;
+            --music: #c4a1ff;
+
+            --font-display: 'Bricolage Grotesque', 'Noto Sans TC', sans-serif;
+            --font-body: 'Noto Sans TC', 'Bricolage Grotesque', sans-serif;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Inter', 'Noto Sans TC', sans-serif;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        [hidden] { display: none !important; }
+
+        html { scroll-behavior: smooth; }
 
         body {
-            background-color: var(--bg-canvas);
-            color: var(--text-main);
-            line-height: 1.6;
+            font-family: var(--font-body);
+            color: var(--text);
+            background: var(--ink);
+            line-height: 1.65;
+            min-height: 100vh;
             -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
         }
 
-        /* 頂部 Header & 學校 Logo 區塊 */
+        body.modal-open { overflow: hidden; }
+
+        :focus-visible {
+            outline: 2px solid #fff;
+            outline-offset: 3px;
+            border-radius: 8px;
+        }
+
+        /* ───────── 極光背景 Aurora backdrop ───────── */
+        .aurora {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            overflow: hidden;
+            background:
+                radial-gradient(120% 80% at 50% 0%, #131a38 0%, var(--ink) 60%);
+        }
+
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(90px);
+            opacity: .55;
+            will-change: transform;
+        }
+        .orb.o1 { width: 46vmax; height: 46vmax; background: #f97316; top: -14vmax; left: -12vmax; animation: drift1 26s ease-in-out infinite alternate; }
+        .orb.o2 { width: 42vmax; height: 42vmax; background: #2563eb; top: 8vmax; right: -14vmax; animation: drift2 30s ease-in-out infinite alternate; }
+        .orb.o3 { width: 40vmax; height: 40vmax; background: #059669; bottom: -16vmax; left: 6vmax; animation: drift2 34s ease-in-out infinite alternate-reverse; }
+        .orb.o4 { width: 38vmax; height: 38vmax; background: #9333ea; bottom: -10vmax; right: -8vmax; animation: drift1 28s ease-in-out infinite alternate-reverse; }
+
+        @keyframes drift1 { to { transform: translate(8vmax, 6vmax) scale(1.12); } }
+        @keyframes drift2 { to { transform: translate(-7vmax, -5vmax) scale(.92); } }
+
+        /* ───────── 玻璃擬態基底 Glass base ───────── */
+        .glass {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            -webkit-backdrop-filter: blur(24px) saturate(170%);
+            backdrop-filter: blur(24px) saturate(170%);
+            box-shadow:
+                inset 0 1px 0 var(--glass-hi),
+                inset 0 -1px 0 rgba(255, 255, 255, .04),
+                0 24px 60px -20px rgba(0, 0, 0, .55);
+        }
+
+        @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+            .glass { background: rgba(30, 38, 70, .86); }
+        }
+
+        /* ───────── 頁頭 Header ───────── */
         header {
-            background: #ffffff;
-            border-bottom: 1px solid var(--border-color);
             position: sticky;
-            top: 0;
-            z-index: 50;
-            box-shadow: var(--shadow-sm);
+            top: 14px;
+            z-index: 40;
+            padding: 0 16px;
         }
 
-        .header-container {
-            max-width: 1200px;
+        .header-bar {
+            max-width: 1160px;
             margin: 0 auto;
-            padding: 16px 24px;
+            padding: 10px 14px 10px 12px;
+            border-radius: 999px;
             display: flex;
-            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
             gap: 16px;
         }
 
-        .logo-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 20px;
-            padding-bottom: 12px;
-            border-bottom: 1px dashed var(--border-color);
-        }
-
-        /* 圖片容器：設定相對路徑供 GitHub 同層讀取 */
-        .logo-wrapper {
+        /* 兩校 Logo：同一個白色霧面膠囊、等高、置中對齊 */
+        .logos {
             display: flex;
             align-items: center;
-            justify-content: center;
-            min-height: 60px;
-            min-width: 200px;
-            background: #f1f5f9;
-            border-radius: 8px;
-            padding: 6px 16px;
-            border: 1px dashed #cbd5e1;
+            gap: 18px;
+            padding: 6px 22px;
+            background: rgba(255, 255, 255, .9);
+            border-radius: 999px;
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .6), 0 6px 20px -8px rgba(0, 0, 0, .4);
         }
 
-        .logo-wrapper img {
-            max-height: 55px;
+        .logos img {
+            height: 44px;
             width: auto;
+            max-width: 170px;
             object-fit: contain;
             display: block;
         }
 
-        .title-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-            flex-wrap: wrap;
-            gap: 12px;
-        }
-
-        .main-title h1 {
-            font-size: 1.65rem;
-            font-weight: 700;
-            color: var(--primary-navy);
-            letter-spacing: -0.025em;
-        }
-
-        .main-title .sub-title {
-            font-size: 0.92rem;
-            color: var(--text-muted);
-            font-weight: 400;
-            margin-top: 2px;
+        .logo-divider {
+            width: 1px;
+            height: 28px;
+            background: linear-gradient(to bottom, transparent, #94a3b8, transparent);
         }
 
         .header-badge {
             display: inline-flex;
             align-items: center;
-            gap: 6px;
-            background: #eff6ff;
-            color: var(--accent-blue);
-            border: 1px solid #bfdbfe;
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 600;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: 999px;
+            font-size: .85rem;
+            font-weight: 500;
+            color: var(--text);
+            background: var(--glass-strong);
+            border: 1px solid var(--glass-border);
+            white-space: nowrap;
         }
 
-        /* 主主體區域 Container */
-        .main-wrapper {
-            max-width: 1200px;
-            margin: 32px auto 60px;
+        /* ───────── 主體 ───────── */
+        main {
+            max-width: 1160px;
+            margin: 0 auto;
             padding: 0 24px;
         }
 
-        /* 專案權屬聲明卡片 Concept Card */
-        .concept-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-left: 5px solid var(--accent-blue);
-            border-radius: 12px;
-            padding: 24px 28px;
-            margin-bottom: 32px;
-            box-shadow: var(--shadow-sm);
-            transition: box-shadow 0.2s ease;
+        /* Hero */
+        .hero {
+            padding: clamp(48px, 9vw, 104px) 0 40px;
         }
 
-        .concept-card:hover {
-            box-shadow: var(--shadow-md);
+        .hero h1 {
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: clamp(2.2rem, 6.4vw, 4.6rem);
+            line-height: 1.08;
+            letter-spacing: -0.03em;
+            max-width: 15ch;
+            background: linear-gradient(180deg, #ffffff 30%, rgba(255, 255, 255, .62));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
         }
 
-        .concept-card h2 {
-            font-size: 1.25rem;
-            color: var(--primary-navy);
-            font-weight: 700;
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .concept-card .zh-desc {
-            font-size: 0.98rem;
-            color: var(--text-main);
-            margin-bottom: 6px;
-        }
-
-        .concept-card .en-desc {
-            font-size: 0.88rem;
-            color: var(--text-muted);
-            line-height: 1.5;
-        }
-
-        /* 四大課程 Grid 雙欄布局 */
-        .courses-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 28px;
-        }
-
-        @media (max-width: 960px) {
-            .courses-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* 課程卡片 Course Card */
-        .course-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: var(--shadow-sm);
-            display: flex;
-            flex-direction: column;
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .course-card:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-lg);
-        }
-
-        .card-header {
-            padding: 20px 24px;
-            color: #ffffff;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .card-header.health { background: linear-gradient(135deg, #7c2d12, #9a3412); }
-        .card-header.tech { background: linear-gradient(135deg, #1e40af, #1d4ed8); }
-        .card-header.eco { background: linear-gradient(135deg, #065f46, #047857); }
-        .card-header.music { background: linear-gradient(135deg, #581c87, #6b21a8); }
-
-        .card-header .title-box h3 {
-            font-size: 1.3rem;
-            font-weight: 700;
-            margin-bottom: 2px;
-        }
-
-        .card-header .title-box .en-name {
-            font-size: 0.85rem;
-            opacity: 0.9;
+        .hero .sub-title {
+            margin-top: 18px;
+            max-width: 56ch;
+            font-size: 1.02rem;
+            color: var(--text-soft);
             font-weight: 300;
         }
 
-        .card-header .header-icon {
-            font-size: 2rem;
-            opacity: 0.85;
+        /* 核心理念 */
+        .concept-card {
+            border-radius: 28px;
+            padding: 28px 32px;
+            display: grid;
+            grid-template-columns: auto 1fr 1fr;
+            gap: 28px;
+            align-items: start;
         }
 
-        .card-body {
-            padding: 24px;
+        .concept-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 16px;
+            display: grid;
+            place-items: center;
+            font-size: 1.3rem;
+            background: linear-gradient(135deg, rgba(255, 255, 255, .28), rgba(255, 255, 255, .06));
+            border: 1px solid var(--glass-border);
+        }
+
+        .concept-card h2 {
+            font-family: var(--font-display);
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            grid-column: 2 / 4;
+        }
+
+        .concept-text { display: contents; }
+        .concept-card .zh-desc { font-size: .95rem; color: var(--text); grid-column: 2; }
+        .concept-card .en-desc { font-size: .86rem; color: var(--text-faint); grid-column: 3; line-height: 1.6; }
+        .concept-icon { grid-row: 1 / 3; grid-column: 1; }
+
+        @media (max-width: 860px) {
+            .concept-card { grid-template-columns: 1fr; padding: 24px; gap: 14px; }
+            .concept-icon, .concept-card h2, .concept-card .zh-desc, .concept-card .en-desc { grid-column: 1; grid-row: auto; }
+        }
+
+        /* 區段標題 */
+        .section-head {
+            margin: 64px 0 22px;
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 8px 20px;
+        }
+        .section-head h2 {
+            font-family: var(--font-display);
+            font-size: clamp(1.5rem, 3vw, 2rem);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+        .section-head p { color: var(--text-faint); font-size: .92rem; }
+
+        /* ───────── 課程總覽 Overview Grid ───────── */
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+        }
+
+        @media (max-width: 760px) {
+            .courses-grid { grid-template-columns: 1fr; }
+        }
+
+        .course-card {
+            --c: var(--health);
+            position: relative;
+            border-radius: 28px;
+            padding: 28px;
+            min-height: 300px;
             display: flex;
             flex-direction: column;
-            gap: 20px;
-            flex-grow: 1;
+            gap: 18px;
+            overflow: hidden;
+            isolation: isolate;
+            transition: transform .35s cubic-bezier(.2, .8, .2, 1), background .3s, border-color .3s;
         }
 
-        /* 課程基本數據列表 Meta Table */
-        .meta-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.88rem;
+        .course-card[data-theme="health"] { --c: var(--health); }
+        .course-card[data-theme="tech"]   { --c: var(--tech); }
+        .course-card[data-theme="eco"]    { --c: var(--eco); }
+        .course-card[data-theme="music"]  { --c: var(--music); }
+
+        /* 卡片內的主題光暈 */
+        .course-card::before {
+            content: "";
+            position: absolute;
+            width: 280px;
+            height: 280px;
+            right: -90px;
+            top: -110px;
+            border-radius: 50%;
+            background: var(--c);
+            filter: blur(70px);
+            opacity: .38;
+            z-index: -1;
+            transition: opacity .35s, transform .5s;
         }
 
-        .meta-table td {
-            padding: 8px 12px;
-            border-bottom: 1px solid #f1f5f9;
+        .course-card:hover,
+        .course-card:focus-within {
+            transform: translateY(-6px);
+            background: var(--glass-strong);
+            border-color: rgba(255, 255, 255, .32);
+        }
+        .course-card:hover::before,
+        .course-card:focus-within::before { opacity: .6; transform: scale(1.15); }
+
+        .card-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 16px;
         }
 
-        .meta-table td.label {
-            font-weight: 600;
-            color: var(--text-muted);
-            width: 32%;
+        .icon-chip {
+            width: 60px;
+            height: 60px;
+            border-radius: 20px;
+            display: grid;
+            place-items: center;
+            font-size: 1.6rem;
+            color: #fff;
+            background: linear-gradient(135deg, color-mix(in srgb, var(--c) 85%, #fff 15%), color-mix(in srgb, var(--c) 45%, transparent));
+            border: 1px solid rgba(255, 255, 255, .4);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, .5), 0 12px 28px -10px var(--c);
+            flex-shrink: 0;
         }
 
-        .meta-table td.value {
-            color: var(--text-main);
+        .duration-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 5px 12px;
+            border-radius: 999px;
+            font-size: .78rem;
             font-weight: 500;
+            color: var(--text-soft);
+            background: rgba(255, 255, 255, .08);
+            border: 1px solid var(--glass-border);
         }
 
-        /* 區塊標題與標籤 Tags System */
-        .section-label {
-            font-size: 0.9rem;
+        .course-card h3 {
+            font-family: var(--font-display);
+            font-size: 1.65rem;
             font-weight: 700;
-            color: var(--primary-navy);
-            margin-bottom: 10px;
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+        }
+
+        .course-card .en-name {
+            margin-top: 4px;
+            font-size: .88rem;
+            color: var(--text-soft);
+            font-weight: 300;
+        }
+
+        .overview-meta {
+            list-style: none;
+            display: grid;
+            gap: 8px;
+            font-size: .88rem;
+            color: var(--text-soft);
+            margin-top: auto;
+        }
+        .overview-meta li { display: flex; gap: 10px; align-items: baseline; }
+        .overview-meta i { width: 16px; text-align: center; color: var(--c); font-size: .85rem; }
+
+        .card-open {
+            all: unset;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-size: .92rem;
+            font-weight: 500;
+            color: var(--text);
+        }
+        /* 讓整張卡都可點擊 */
+        .card-open::after { content: ""; position: absolute; inset: 0; border-radius: inherit; z-index: 1; }
+        .card-open:focus-visible { outline: none; }
+        .course-card:has(.card-open:focus-visible) { outline: 2px solid #fff; outline-offset: 3px; }
+
+        .card-open .arrow {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            background: var(--c);
+            color: #0a0f1f;
+            font-size: .8rem;
+            transition: transform .3s;
+        }
+        .course-card:hover .arrow { transform: translateX(4px) rotate(-45deg); }
+
+        /* ───────── 課程詳細 Modal ───────── */
+        .modal {
+            position: fixed;
+            inset: 0;
+            z-index: 100;
+            display: grid;
+            place-items: center;
+            padding: 24px;
+        }
+
+        .modal-backdrop {
+            position: absolute;
+            inset: 0;
+            background: rgba(6, 9, 20, .55);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+        }
+
+        .modal-panel {
+            --c: var(--health);
+            position: relative;
+            width: min(820px, 100%);
+            max-height: min(88vh, 900px);
+            display: flex;
+            flex-direction: column;
+            border-radius: 32px;
+            overflow: hidden;
+            transform-origin: top left;
+            background: rgba(20, 26, 52, .55);
+            isolation: isolate;
+        }
+        .modal-panel[data-theme="health"] { --c: var(--health); }
+        .modal-panel[data-theme="tech"]   { --c: var(--tech); }
+        .modal-panel[data-theme="eco"]    { --c: var(--eco); }
+        .modal-panel[data-theme="music"]  { --c: var(--music); }
+
+        .modal-panel::before {
+            content: "";
+            position: absolute;
+            width: 420px;
+            height: 420px;
+            right: -140px;
+            top: -200px;
+            border-radius: 50%;
+            background: var(--c);
+            filter: blur(90px);
+            opacity: .45;
+            z-index: -1;
+        }
+
+        .modal-head {
             display: flex;
             align-items: center;
-            gap: 8px;
-            border-bottom: 1.5px solid #f1f5f9;
-            padding-bottom: 6px;
+            gap: 18px;
+            padding: 28px 80px 22px 32px;
+            border-bottom: 1px solid var(--glass-border);
+            position: relative;
         }
+        .modal-head h3 {
+            font-family: var(--font-display);
+            font-size: clamp(1.4rem, 3.4vw, 1.9rem);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            line-height: 1.2;
+        }
+        .modal-head .en-name { font-size: .88rem; color: var(--text-soft); font-weight: 300; margin-top: 2px; }
 
-        .tag-group {
+        .modal-close {
+            all: unset;
+            cursor: pointer;
+            position: absolute;
+            top: 22px;
+            right: 22px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            background: rgba(255, 255, 255, .12);
+            border: 1px solid var(--glass-border);
+            transition: background .2s, transform .3s;
+        }
+        .modal-close:hover { background: rgba(255, 255, 255, .24); transform: rotate(90deg); }
+        .modal-close:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+
+        .modal-body {
+            overflow-y: auto;
+            padding: 26px 32px 34px;
             display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
+            flex-direction: column;
+            gap: 28px;
+            overscroll-behavior: contain;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(255, 255, 255, .3) transparent;
         }
 
+        @media (max-width: 640px) {
+            .modal { padding: 0; place-items: end center; }
+            .modal-panel { max-height: 94vh; border-radius: 28px 28px 0 0; }
+            .modal-head { padding: 22px 70px 18px 22px; gap: 14px; }
+            .modal-body { padding: 20px 22px 30px; }
+            .icon-chip.sm { width: 48px; height: 48px; font-size: 1.3rem; border-radius: 16px; }
+        }
+
+        /* 基本資訊 */
+        .meta-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 12px;
+        }
+        .meta-item {
+            padding: 14px 16px;
+            border-radius: 18px;
+            background: rgba(255, 255, 255, .06);
+            border: 1px solid var(--glass-border);
+        }
+        .meta-item .label { font-size: .78rem; color: var(--text-faint); margin-bottom: 2px; }
+        .meta-item .value { font-size: .92rem; font-weight: 500; line-height: 1.5; }
+
+        /* 區塊標題 */
+        .section-label {
+            font-family: var(--font-display);
+            font-size: 1rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+        .section-label i { color: var(--c); }
+
+        /* 標籤 */
+        .tag-group { display: flex; flex-wrap: wrap; gap: 8px; }
         .tag-pill {
-            background: #f1f5f9;
-            color: #334155;
-            padding: 4px 10px;
-            border-radius: 6px;
-            font-size: 0.8rem;
-            font-weight: 500;
-            border: 1px solid #e2e8f0;
+            padding: 5px 12px;
+            border-radius: 999px;
+            font-size: .82rem;
+            font-weight: 400;
+            color: var(--text-soft);
+            background: rgba(255, 255, 255, .07);
+            border: 1px solid var(--glass-border);
         }
-
         .tag-highlight {
-            background: #fef3c7;
-            color: #78350f;
-            border-color: #fde68a;
-            font-weight: 600;
+            color: #fff;
+            font-weight: 500;
+            background: color-mix(in srgb, var(--c) 28%, transparent);
+            border-color: color-mix(in srgb, var(--c) 70%, transparent);
         }
 
-        /* 時間軸列表 Timeline */
+        /* 時間比例條 */
+        .time-bar {
+            display: flex;
+            gap: 4px;
+            height: 10px;
+            margin-bottom: 20px;
+        }
+        .time-bar span {
+            border-radius: 99px;
+            background: var(--c);
+            opacity: .35;
+        }
+        .time-bar span:nth-child(odd) { opacity: .9; }
+
+        /* 時間軸 */
         .timeline-list {
             list-style: none;
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 0;
+            position: relative;
         }
-
         .timeline-item {
-            display: flex;
-            gap: 12px;
-            font-size: 0.86rem;
+            display: grid;
+            grid-template-columns: 52px 1fr;
+            gap: 16px;
+            padding-bottom: 18px;
+            position: relative;
         }
-
+        .timeline-item:not(:last-child)::before {
+            content: "";
+            position: absolute;
+            left: 25px;
+            top: 34px;
+            bottom: 2px;
+            width: 1px;
+            background: linear-gradient(to bottom, var(--c), transparent);
+            opacity: .55;
+        }
         .time-badge {
-            background: #f1f5f9;
-            color: var(--primary-navy);
-            font-weight: 700;
-            font-size: 0.78rem;
-            padding: 3px 8px;
-            border-radius: 4px;
             height: fit-content;
-            min-width: 38px;
             text-align: center;
-            border: 1px solid #e2e8f0;
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: .82rem;
+            padding: 4px 0;
+            border-radius: 99px;
+            color: #0a0f1f;
+            background: var(--c);
         }
+        .step-content .zh-step { font-size: .95rem; font-weight: 500; }
+        .step-content .en-step { font-size: .83rem; color: var(--text-faint); margin-top: 2px; }
 
-        .step-content .zh-step {
-            color: var(--text-main);
-            font-weight: 500;
-        }
-
-        .step-content .en-step {
-            color: var(--text-muted);
-            font-size: 0.8rem;
-            margin-top: 1px;
-        }
-
-        /* 頁尾 Footer */
+        /* ───────── 頁尾 ───────── */
         footer {
-            background: var(--primary-navy);
-            color: #cbd5e1;
+            max-width: 1160px;
+            margin: 80px auto 32px;
+            padding: 0 24px;
+        }
+        .footer-card {
+            border-radius: 24px;
+            padding: 24px 28px;
             text-align: center;
-            padding: 28px 24px;
-            font-size: 0.88rem;
-            margin-top: 60px;
-            border-top: 1px solid #334155;
+            font-size: .88rem;
+            color: var(--text-soft);
+        }
+        .footer-card b { color: var(--text); font-weight: 500; }
+        .footer-card .en-footer { font-size: .8rem; color: var(--text-faint); margin-top: 4px; }
+
+        @media (max-width: 640px) {
+            .header-bar { border-radius: 28px; flex-direction: column; padding: 10px; gap: 8px; }
+            .logos { padding: 6px 16px; gap: 14px; }
+            .logos img { height: 36px; max-width: 130px; }
+            main { padding: 0 16px; }
+            .course-card { padding: 22px; min-height: 0; }
         }
 
-        footer .en-footer {
-            font-size: 0.82rem;
-            color: #94a3b8;
-            margin-top: 4px;
+        @media (prefers-reduced-motion: reduce) {
+            .orb { animation: none; }
+            .course-card, .card-open .arrow, .modal-close { transition: none; }
         }
     </style>
 </head>
 <body>
 
-    <!-- 頁頭 Header (預留同層相對路徑 GitHub Fetch 空間) -->
-    <header>
-        <div class="header-container">
-            <div class="logo-row">
-                <!-- 竹仁國小 Logo 相對路徑框 -->
-                <div class="logo-wrapper">
-                    <img src="chujen.png" 
-                         alt="新竹縣竹仁國小 Hsinchu County Chujen Elementary School" 
-                         onerror="this.style.display='none'; this.parentNode.innerHTML='<span style=\"font-size:12px;color:#64748b;font-weight:600;\">【新竹縣竹仁國小 Logo 位置】</span>';">
-                </div>
-                
-                <!-- 忠信學校 Logo 相對路徑框 -->
-                <div class="logo-wrapper">
-                    <img src="chhs.png" 
-                         alt="財團法人私立忠信學校 Chung Hsin School, N.P.O." 
-                         onerror="this.style.display='none'; this.parentNode.innerHTML='<span style=\"font-size:12px;color:#64748b;font-weight:600;\">【私立忠信學校 Logo 位置】</span>';">
-                </div>
-            </div>
+    <!-- 極光背景 -->
+    <div class="aurora" aria-hidden="true">
+        <span class="orb o1"></span><span class="orb o2"></span><span class="orb o3"></span><span class="orb o4"></span>
+    </div>
 
-            <div class="title-row">
-                <div class="main-title">
-                    <h1>竹仁國小「雙語體驗課程」@ 忠信學校</h1>
-                    <div class="sub-title">Chujen Elementary School Bilingual Experience @ Chung Hsin School (115 Academic Year)</div>
-                </div>
-                <div class="header-badge">
-                    <i class="fa-solid fa-graduation-cap"></i> 115學年度 40分鐘沉浸式雙語體驗
-                </div>
+    <!-- 頁頭：兩校 Logo 並列於同一膠囊 -->
+    <header>
+        <div class="header-bar glass">
+            <div class="logos" id="logos">
+                <img src="chujen.png" alt="新竹縣竹仁國小 Hsinchu County Chujen Elementary School">
+                <span class="logo-divider" aria-hidden="true"></span>
+                <img src="chhs.png" alt="財團法人私立忠信學校 Chung Hsin School, N.P.O.">
+            </div>
+            <div class="header-badge">
+                <i class="fa-solid fa-graduation-cap"></i> 115學年度 沉浸式雙語體驗
             </div>
         </div>
     </header>
 
-    <div class="main-wrapper">
-        <!-- 專案權屬聲明卡片 Concept Card -->
-        <div class="concept-card">
-            <h2><i class="fa-solid fa-circle-info"></i> 課程設計核心理念 (Core Concepts)</h2>
+    <main>
+        <!-- Hero -->
+        <section class="hero">
+            <h1>竹仁國小「雙語體驗課程」@ 忠信學校</h1>
+            <p class="sub-title">Chujen Elementary School Bilingual Experience @ Chung Hsin School (115 Academic Year)</p>
+        </section>
+
+        <!-- 核心理念 -->
+        <section class="concept-card glass">
+            <div class="concept-icon"><i class="fa-solid fa-circle-info"></i></div>
+            <h2>課程設計核心理念 (Core Concepts)</h2>
             <div class="zh-desc">本課程由忠信學校 FRP雙語教案為竹仁國小「雙語課程體驗」專案設計，採 40 分鐘精準節奏架構。結合動手實作（Hands-on DIY）、自然科學實驗、樂高程式控制與音樂感知，引導學生在沉浸式雙語情境中建立跨領域核心素養。</div>
             <div class="en-desc">This curriculum is designed by Chung Hsin School FRP Bilingual Lesson Plans for the "Bilingual Course Experience" project tailored for Chujen Elementary School. Designed in a precise 40-minute structure, it integrates hands-on DIY, natural science experiments, Lego robotics coding, and musical perception to build cross-disciplinary core competencies.</div>
+        </section>
+
+        <!-- 課程總覽 -->
+        <div class="section-head">
+            <h2>四門體驗課程</h2>
+            <p>點選課程卡，查看教學流程與雙語詞彙 (Select a course to see its flow and vocabulary)</p>
         </div>
 
-        <!-- 四大課程 2x2 排版網格 -->
-        <div class="courses-grid">
+        <section class="courses-grid" id="courses">
 
-            <!-- 課程 1：健康／營養 -->
-            <div class="course-card">
-                <div class="card-header health">
-                    <div class="title-box">
-                        <h3>1. 補充能量吧！</h3>
-                        <div class="en-name">Power Up Bar — Healthy Energy Snack (SDG 2)</div>
-                    </div>
-                    <i class="fa-solid fa-apple-whole header-icon"></i>
+            <!-- 課程 1 -->
+            <article class="course-card glass" data-theme="health" data-icon="fa-apple-whole">
+                <div class="card-top">
+                    <div class="icon-chip"><i class="fa-solid fa-apple-whole"></i></div>
+                    <span class="duration-chip"><i class="fa-regular fa-clock"></i> 40 min</span>
                 </div>
-                <div class="card-body">
-                    <table class="meta-table">
-                        <tr><td class="label">領域重點 (Domain)</td><td class="value">健康 / 營養 / 食育 (Health & Nutrition / SDG 2)</td></tr>
-                        <tr><td class="label">授課地點 (Location)</td><td class="value">明廳 (Ming Hall)</td></tr>
-                        <tr><td class="label">授課教師 (Instructor)</td><td class="value">Miguel 老師（搭配外師 Teacher Miguel & Foreign Teacher）</td></tr>
-                    </table>
+                <div>
+                    <h3>1. 補充能量吧！</h3>
+                    <div class="en-name">Power Up Bar — Healthy Energy Snack (SDG 2)</div>
+                </div>
+                <ul class="overview-meta">
+                    <li><i class="fa-solid fa-heart-pulse"></i> 健康 / 營養 / 食育</li>
+                    <li><i class="fa-solid fa-location-dot"></i> 明廳 (Ming Hall)</li>
+                </ul>
+                <button class="card-open" type="button" aria-haspopup="dialog">查看課程內容 <span class="arrow"><i class="fa-solid fa-arrow-right"></i></span></button>
+
+                <div class="detail" hidden>
+                    <div class="meta-list">
+                        <div class="meta-item"><div class="label">領域重點 (Domain)</div><div class="value">健康 / 營養 / 食育 (Health & Nutrition / SDG 2)</div></div>
+                        <div class="meta-item"><div class="label">授課地點 (Location)</div><div class="value">明廳 (Ming Hall)</div></div>
+                        <div class="meta-item"><div class="label">授課教師 (Instructor)</div><div class="value">Miguel 老師（搭配外師 Teacher Miguel & Foreign Teacher）</div></div>
+                    </div>
 
                     <div>
                         <div class="section-label"><i class="fa-solid fa-wheat-awn"></i> 13項指定食材 (13 Designated Ingredients)</div>
@@ -440,61 +705,38 @@
                     <div>
                         <div class="section-label"><i class="fa-solid fa-clock"></i> 40分鐘教學流程 (40-Min Activity Flow)</div>
                         <ul class="timeline-list">
-                            <li class="timeline-item">
-                                <span class="time-badge">5m</span>
-                                <div class="step-content">
-                                    <div class="zh-step">Warm-up: 導入 SDG 2 (Zero Hunger) 與 Power Up 能量概念</div>
-                                    <div class="en-step">Introduce SDG 2 Zero Hunger and Power Up concepts.</div>
-                                </div>
-                            </li>
-                            <li class="timeline-item">
-                                <span class="time-badge">8m</span>
-                                <div class="step-content">
-                                    <div class="zh-step">Stage 1: 堅果種子英文認知與三大熱量來源解析</div>
-                                    <div class="en-step">Learn nuts & seeds English terms and nutrition sources.</div>
-                                </div>
-                            </li>
-                            <li class="timeline-item">
-                                <span class="time-badge">15m</span>
-                                <div class="step-content">
-                                    <div class="zh-step">Stage 2: DIY 實作（Measure, Pour, Mix, Press hard）</div>
-                                    <div class="en-step">Hands-on bar making: Measure, pour, mix, and press hard.</div>
-                                </div>
-                            </li>
-                            <li class="timeline-item">
-                                <span class="time-badge">7m</span>
-                                <div class="step-content">
-                                    <div class="zh-step">Stage 3: 食育討論（高能量密度點心對急難救援的作用）</div>
-                                    <div class="en-step">Discuss the role of high-energy snacks in disaster relief.</div>
-                                </div>
-                            </li>
-                            <li class="timeline-item">
-                                <span class="time-badge">5m</span>
-                                <div class="step-content">
-                                    <div class="zh-step">Wrap-up: 品嚐能量棒與雙語學習單填寫</div>
-                                    <div class="en-step">Tasting session and completing bilingual worksheets.</div>
-                                </div>
-                            </li>
+                            <li class="timeline-item"><span class="time-badge">5m</span><div class="step-content"><div class="zh-step">Warm-up: 導入 SDG 2 (Zero Hunger) 與 Power Up 能量概念</div><div class="en-step">Introduce SDG 2 Zero Hunger and Power Up concepts.</div></div></li>
+                            <li class="timeline-item"><span class="time-badge">8m</span><div class="step-content"><div class="zh-step">Stage 1: 堅果種子英文認知與三大熱量來源解析</div><div class="en-step">Learn nuts & seeds English terms and nutrition sources.</div></div></li>
+                            <li class="timeline-item"><span class="time-badge">15m</span><div class="step-content"><div class="zh-step">Stage 2: DIY 實作（Measure, Pour, Mix, Press hard）</div><div class="en-step">Hands-on bar making: Measure, pour, mix, and press hard.</div></div></li>
+                            <li class="timeline-item"><span class="time-badge">7m</span><div class="step-content"><div class="zh-step">Stage 3: 食育討論（高能量密度點心對急難救援的作用）</div><div class="en-step">Discuss the role of high-energy snacks in disaster relief.</div></div></li>
+                            <li class="timeline-item"><span class="time-badge">5m</span><div class="step-content"><div class="zh-step">Wrap-up: 品嚐能量棒與雙語學習單填寫</div><div class="en-step">Tasting session and completing bilingual worksheets.</div></div></li>
                         </ul>
                     </div>
                 </div>
-            </div>
+            </article>
 
-            <!-- 課程 2：資訊科技 (樂高 EV3 完整更新) -->
-            <div class="course-card">
-                <div class="card-header tech">
-                    <div class="title-box">
-                        <h3>2. 機器人GO！</h3>
-                        <div class="en-name">Lego Bot Go! — LEGO EV3 Robot Programming</div>
-                    </div>
-                    <i class="fa-solid fa-robot header-icon"></i>
+            <!-- 課程 2 -->
+            <article class="course-card glass" data-theme="tech" data-icon="fa-robot">
+                <div class="card-top">
+                    <div class="icon-chip"><i class="fa-solid fa-robot"></i></div>
+                    <span class="duration-chip"><i class="fa-regular fa-clock"></i> 40 min</span>
                 </div>
-                <div class="card-body">
-                    <table class="meta-table">
-                        <tr><td class="label">領域重點 (Domain)</td><td class="value">資訊科技 / 邏輯程式 (Robotics & Coding Logic)</td></tr>
-                        <tr><td class="label">授課地點 (Location)</td><td class="value">花田生活科技館 (Huatian Living Tech Hall)</td></tr>
-                        <tr><td class="label">授課教師 (Instructor)</td><td class="value">曾才勳 + Rafe 老師 (Teacher Tseng & Teacher Rafe)</td></tr>
-                    </table>
+                <div>
+                    <h3>2. 機器人GO！</h3>
+                    <div class="en-name">Lego Bot Go! — LEGO EV3 Robot Programming</div>
+                </div>
+                <ul class="overview-meta">
+                    <li><i class="fa-solid fa-microchip"></i> 資訊科技 / 邏輯程式</li>
+                    <li><i class="fa-solid fa-location-dot"></i> 花田生活科技館 (Huatian Living Tech Hall)</li>
+                </ul>
+                <button class="card-open" type="button" aria-haspopup="dialog">查看課程內容 <span class="arrow"><i class="fa-solid fa-arrow-right"></i></span></button>
+
+                <div class="detail" hidden>
+                    <div class="meta-list">
+                        <div class="meta-item"><div class="label">領域重點 (Domain)</div><div class="value">資訊科技 / 邏輯程式 (Robotics & Coding Logic)</div></div>
+                        <div class="meta-item"><div class="label">授課地點 (Location)</div><div class="value">花田生活科技館 (Huatian Living Tech Hall)</div></div>
+                        <div class="meta-item"><div class="label">授課教師 (Instructor)</div><div class="value">曾才勳 + Rafe 老師 (Teacher Tseng & Teacher Rafe)</div></div>
+                    </div>
 
                     <div>
                         <div class="section-label"><i class="fa-solid fa-code"></i> 雙語軟硬體積木 (EV3 Hardware & Blocks)</div>
@@ -513,61 +755,38 @@
                     <div>
                         <div class="section-label"><i class="fa-solid fa-clock"></i> 40分鐘教學流程 (40-Min Activity Flow)</div>
                         <ul class="timeline-list">
-                            <li class="timeline-item">
-                                <span class="time-badge">5m</span>
-                                <div class="step-content">
-                                    <div class="zh-step">Warm-up: EV3 機器人情境導覽與「精準生理時鐘」提問</div>
-                                    <div class="en-step">Robot video introduction & Inner Clock challenge warmup.</div>
-                                </div>
-                            </li>
-                            <li class="timeline-item">
-                                <span class="time-badge">10m</span>
-                                <div class="step-content">
-                                    <div class="zh-step">Stage 1: EV3 Brick 構造 (Input/Output) 與程式積木解析</div>
-                                    <div class="en-step">EV3 hardware ports and programming blocks breakdown.</div>
-                                </div>
-                            </li>
-                            <li class="timeline-item">
-                                <span class="time-badge">15m</span>
-                                <div class="step-content">
-                                    <div class="zh-step">Stage 2: 生理時鐘默數與 5 秒 CPS 手速計數器實作 (Timer + Variable)</div>
-                                    <div class="en-step">Hands-on coding: Inner Clock & 5s Click Speed Test.</div>
-                                </div>
-                            </li>
-                            <li class="timeline-item">
-                                <span class="time-badge">5m</span>
-                                <div class="step-content">
-                                    <div class="zh-step">Stage 3: 雙人 CPS 手速 PK 競賽與英文成績發表</div>
-                                    <div class="en-step">2-Player CPS challenge and English score sharing.</div>
-                                </div>
-                            </li>
-                            <li class="timeline-item">
-                                <span class="time-badge">5m</span>
-                                <div class="step-content">
-                                    <div class="zh-step">Wrap-up: 關鍵詞總複習與雙語學習單紀錄寫作</div>
-                                    <div class="en-step">Vocabulary review and completing bilingual worksheets.</div>
-                                </div>
-                            </li>
+                            <li class="timeline-item"><span class="time-badge">5m</span><div class="step-content"><div class="zh-step">Warm-up: EV3 機器人情境導覽與「精準生理時鐘」提問</div><div class="en-step">Robot video introduction & Inner Clock challenge warmup.</div></div></li>
+                            <li class="timeline-item"><span class="time-badge">10m</span><div class="step-content"><div class="zh-step">Stage 1: EV3 Brick 構造 (Input/Output) 與程式積木解析</div><div class="en-step">EV3 hardware ports and programming blocks breakdown.</div></div></li>
+                            <li class="timeline-item"><span class="time-badge">15m</span><div class="step-content"><div class="zh-step">Stage 2: 生理時鐘默數與 5 秒 CPS 手速計數器實作 (Timer + Variable)</div><div class="en-step">Hands-on coding: Inner Clock & 5s Click Speed Test.</div></div></li>
+                            <li class="timeline-item"><span class="time-badge">5m</span><div class="step-content"><div class="zh-step">Stage 3: 雙人 CPS 手速 PK 競賽與英文成績發表</div><div class="en-step">2-Player CPS challenge and English score sharing.</div></div></li>
+                            <li class="timeline-item"><span class="time-badge">5m</span><div class="step-content"><div class="zh-step">Wrap-up: 關鍵詞總複習與雙語學習單紀錄寫作</div><div class="en-step">Vocabulary review and completing bilingual worksheets.</div></div></li>
                         </ul>
                     </div>
                 </div>
-            </div>
+            </article>
 
-            <!-- 課程 3：永續／自然科學 -->
-            <div class="course-card">
-                <div class="card-header eco">
-                    <div class="title-box">
-                        <h3>3. 綠色Fun水盆栽</h3>
-                        <div class="en-name">Green Auto-Watering Fun — Capillary Planter (SDG 12/15)</div>
-                    </div>
-                    <i class="fa-solid fa-seedling header-icon"></i>
+            <!-- 課程 3 -->
+            <article class="course-card glass" data-theme="eco" data-icon="fa-seedling">
+                <div class="card-top">
+                    <div class="icon-chip"><i class="fa-solid fa-seedling"></i></div>
+                    <span class="duration-chip"><i class="fa-regular fa-clock"></i> 40 min</span>
                 </div>
-                <div class="card-body">
-                    <table class="meta-table">
-                        <tr><td class="label">領域重點 (Domain)</td><td class="value">永續 / 毛細現象 (Sustainability & Science / SDG 12 & 15)</td></tr>
-                        <tr><td class="label">授課地點 (Location)</td><td class="value">美工廠 (Art & Design Studio)</td></tr>
-                        <tr><td class="label">授課教師 (Instructor)</td><td class="value">潘韻如 + 杜嬋娟 老師 (Teacher Pan & Teacher Du)</td></tr>
-                    </table>
+                <div>
+                    <h3>3. 綠色Fun水盆栽</h3>
+                    <div class="en-name">Green Auto-Watering Fun — Capillary Planter (SDG 12/15)</div>
+                </div>
+                <ul class="overview-meta">
+                    <li><i class="fa-solid fa-leaf"></i> 永續 / 毛細現象</li>
+                    <li><i class="fa-solid fa-location-dot"></i> 美工廠 (Art & Design Studio)</li>
+                </ul>
+                <button class="card-open" type="button" aria-haspopup="dialog">查看課程內容 <span class="arrow"><i class="fa-solid fa-arrow-right"></i></span></button>
+
+                <div class="detail" hidden>
+                    <div class="meta-list">
+                        <div class="meta-item"><div class="label">領域重點 (Domain)</div><div class="value">永續 / 毛細現象 (Sustainability & Science / SDG 12 & 15)</div></div>
+                        <div class="meta-item"><div class="label">授課地點 (Location)</div><div class="value">美工廠 (Art & Design Studio)</div></div>
+                        <div class="meta-item"><div class="label">授課教師 (Instructor)</div><div class="value">潘韻如 + 杜嬋娟 老師 (Teacher Pan & Teacher Du)</div></div>
+                    </div>
 
                     <div>
                         <div class="section-label"><i class="fa-solid fa-flask"></i> 科學原理與動作 (Science Terms & Action Verbs)</div>
@@ -584,61 +803,38 @@
                     <div>
                         <div class="section-label"><i class="fa-solid fa-clock"></i> 40分鐘教學流程 (40-Min Activity Flow)</div>
                         <ul class="timeline-list">
-                            <li class="timeline-item">
-                                <span class="time-badge">5m</span>
-                                <div class="step-content">
-                                    <div class="zh-step">Warm-up: 寶特瓶 Upcycling 與 Save Water 概念引導</div>
-                                    <div class="en-step">Bottle upcycling and Save Water concept warm-up.</div>
-                                </div>
-                            </li>
-                            <li class="timeline-item">
-                                <span class="time-badge">8m</span>
-                                <div class="step-content">
-                                    <div class="zh-step">Stage 1: 毛細現象與水分子附著力雙語解析</div>
-                                    <div class="en-step">Bilingual explanation of capillarity and adhesion.</div>
-                                </div>
-                            </li>
-                            <li class="timeline-item">
-                                <span class="time-badge">15m</span>
-                                <div class="step-content">
-                                    <div class="zh-step">Stage 2: 寶特瓶裁切、浸繩穿蓋與植株移植實作</div>
-                                    <div class="en-step">DIY: Cutting bottle, threading wet rope, and planting.</div>
-                                </div>
-                            </li>
-                            <li class="timeline-item">
-                                <span class="time-badge">7m</span>
-                                <div class="step-content">
-                                    <div class="zh-step">Stage 3: 科學思考題討論（水位為何不可超過瓶蓋）</div>
-                                    <div class="en-step">Science Q&A: Why water level must stay below the cap.</div>
-                                </div>
-                            </li>
-                            <li class="timeline-item">
-                                <span class="time-badge">5m</span>
-                                <div class="step-content">
-                                    <div class="zh-step">Wrap-up: 學習成果檢核與 14 天觀察記錄卡發放</div>
-                                    <div class="en-step">Learning check and distribution of 14-day plant journals.</div>
-                                </div>
-                            </li>
+                            <li class="timeline-item"><span class="time-badge">5m</span><div class="step-content"><div class="zh-step">Warm-up: 寶特瓶 Upcycling 與 Save Water 概念引導</div><div class="en-step">Bottle upcycling and Save Water concept warm-up.</div></div></li>
+                            <li class="timeline-item"><span class="time-badge">8m</span><div class="step-content"><div class="zh-step">Stage 1: 毛細現象與水分子附著力雙語解析</div><div class="en-step">Bilingual explanation of capillarity and adhesion.</div></div></li>
+                            <li class="timeline-item"><span class="time-badge">15m</span><div class="step-content"><div class="zh-step">Stage 2: 寶特瓶裁切、浸繩穿蓋與植株移植實作</div><div class="en-step">DIY: Cutting bottle, threading wet rope, and planting.</div></div></li>
+                            <li class="timeline-item"><span class="time-badge">7m</span><div class="step-content"><div class="zh-step">Stage 3: 科學思考題討論（水位為何不可超過瓶蓋）</div><div class="en-step">Science Q&A: Why water level must stay below the cap.</div></div></li>
+                            <li class="timeline-item"><span class="time-badge">5m</span><div class="step-content"><div class="zh-step">Wrap-up: 學習成果檢核與 14 天觀察記錄卡發放</div><div class="en-step">Learning check and distribution of 14-day plant journals.</div></div></li>
                         </ul>
                     </div>
                 </div>
-            </div>
+            </article>
 
-            <!-- 課程 4：音樂 -->
-            <div class="course-card">
-                <div class="card-header music">
-                    <div class="title-box">
-                        <h3>4. 鼓動Beat！搖滾小鼓手</h3>
-                        <div class="en-name">Beat the Snare Drum — Rock Drummer</div>
-                    </div>
-                    <i class="fa-solid fa-drum header-icon"></i>
+            <!-- 課程 4 -->
+            <article class="course-card glass" data-theme="music" data-icon="fa-drum">
+                <div class="card-top">
+                    <div class="icon-chip"><i class="fa-solid fa-drum"></i></div>
+                    <span class="duration-chip"><i class="fa-regular fa-clock"></i> 40 min</span>
                 </div>
-                <div class="card-body">
-                    <table class="meta-table">
-                        <tr><td class="label">領域重點 (Domain)</td><td class="value">音樂 / 打擊樂合奏 (Music & Percussion Ensemble)</td></tr>
-                        <tr><td class="label">授課地點 (Location)</td><td class="value">未央廳 (Weiyang Hall)</td></tr>
-                        <tr><td class="label">授課教師 (Instructor)</td><td class="value">鍾邵丞 + 歐倖如 老師 (Teacher Chung & Teacher Ou)</td></tr>
-                    </table>
+                <div>
+                    <h3>4. 鼓動Beat！搖滾小鼓手</h3>
+                    <div class="en-name">Beat the Snare Drum — Rock Drummer</div>
+                </div>
+                <ul class="overview-meta">
+                    <li><i class="fa-solid fa-music"></i> 音樂 / 打擊樂合奏</li>
+                    <li><i class="fa-solid fa-location-dot"></i> 未央廳 (Weiyang Hall)</li>
+                </ul>
+                <button class="card-open" type="button" aria-haspopup="dialog">查看課程內容 <span class="arrow"><i class="fa-solid fa-arrow-right"></i></span></button>
+
+                <div class="detail" hidden>
+                    <div class="meta-list">
+                        <div class="meta-item"><div class="label">領域重點 (Domain)</div><div class="value">音樂 / 打擊樂合奏 (Music & Percussion Ensemble)</div></div>
+                        <div class="meta-item"><div class="label">授課地點 (Location)</div><div class="value">未央廳 (Weiyang Hall)</div></div>
+                        <div class="meta-item"><div class="label">授課教師 (Instructor)</div><div class="value">鍾邵丞 + 歐倖如 老師 (Teacher Chung & Teacher Ou)</div></div>
+                    </div>
 
                     <div>
                         <div class="section-label"><i class="fa-solid fa-music"></i> 樂理與音符英文 (Music Theory & Rhythms)</div>
@@ -655,54 +851,161 @@
                     <div>
                         <div class="section-label"><i class="fa-solid fa-clock"></i> 40分鐘教學流程 (40-Min Activity Flow)</div>
                         <ul class="timeline-list">
-                            <li class="timeline-item">
-                                <span class="time-badge">5m</span>
-                                <div class="step-content">
-                                    <div class="zh-step">Warm-up: 音樂心跳節奏模仿與鼓棒發放</div>
-                                    <div class="en-step">Heartbeat rhythm warmup and drumstick distribution.</div>
-                                </div>
-                            </li>
-                            <li class="timeline-item">
-                                <span class="time-badge">10m</span>
-                                <div class="step-content">
-                                    <div class="zh-step">Stage 1: 四四拍音符與休止符雙語唱拍體驗</div>
-                                    <div class="en-step">Bilingual vocal counting for 4/4 notes and rests.</div>
-                                </div>
-                            </li>
-                            <li class="timeline-item">
-                                <span class="time-badge">12m</span>
-                                <div class="step-content">
-                                    <div class="zh-step">Stage 2: 打擊板節奏覆奏與分組節奏接龍</div>
-                                    <div class="en-step">Practice pad echo drumming and rhythm relay.</div>
-                                </div>
-                            </li>
-                            <li class="timeline-item">
-                                <span class="time-badge">8m</span>
-                                <div class="step-content">
-                                    <div class="zh-step">Stage 3: 小組專屬 8 拍節奏創作與搖滾發表</div>
-                                    <div class="en-step">Group 8-beat rhythm creation and rock performance.</div>
-                                </div>
-                            </li>
-                            <li class="timeline-item">
-                                <span class="time-badge">5m</span>
-                                <div class="step-content">
-                                    <div class="zh-step">Wrap-up: 音符拍數問答與雙語學習單填寫</div>
-                                    <div class="en-step">Note value Q&A and completing bilingual worksheets.</div>
-                                </div>
-                            </li>
+                            <li class="timeline-item"><span class="time-badge">5m</span><div class="step-content"><div class="zh-step">Warm-up: 音樂心跳節奏模仿與鼓棒發放</div><div class="en-step">Heartbeat rhythm warmup and drumstick distribution.</div></div></li>
+                            <li class="timeline-item"><span class="time-badge">10m</span><div class="step-content"><div class="zh-step">Stage 1: 四四拍音符與休止符雙語唱拍體驗</div><div class="en-step">Bilingual vocal counting for 4/4 notes and rests.</div></div></li>
+                            <li class="timeline-item"><span class="time-badge">12m</span><div class="step-content"><div class="zh-step">Stage 2: 打擊板節奏覆奏與分組節奏接龍</div><div class="en-step">Practice pad echo drumming and rhythm relay.</div></div></li>
+                            <li class="timeline-item"><span class="time-badge">8m</span><div class="step-content"><div class="zh-step">Stage 3: 小組專屬 8 拍節奏創作與搖滾發表</div><div class="en-step">Group 8-beat rhythm creation and rock performance.</div></div></li>
+                            <li class="timeline-item"><span class="time-badge">5m</span><div class="step-content"><div class="zh-step">Wrap-up: 音符拍數問答與雙語學習單填寫</div><div class="en-step">Note value Q&A and completing bilingual worksheets.</div></div></li>
                         </ul>
                     </div>
                 </div>
-            </div>
+            </article>
 
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-card glass">
+            <p><b>本課程由忠信學校 FRP雙語教案為竹仁國小「雙語課程體驗」專案設計 (115學年度)</b></p>
+            <div class="en-footer">This curriculum is designed by Chung Hsin School FRP Bilingual Lesson Plans for Chujen Elementary School's "Bilingual Course Experience" Project (115 Academic Year).</div>
+        </div>
+    </footer>
+
+    <!-- 課程詳細卡 Modal -->
+    <div class="modal" id="modal" hidden>
+        <div class="modal-backdrop" id="modalBackdrop"></div>
+        <div class="modal-panel glass" id="modalPanel" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+            <div class="modal-head">
+                <div class="icon-chip sm" id="modalIcon"></div>
+                <div>
+                    <h3 id="modalTitle"></h3>
+                    <div class="en-name" id="modalEn"></div>
+                </div>
+                <button class="modal-close" id="modalClose" type="button" aria-label="關閉課程內容 Close"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body" id="modalBody"></div>
         </div>
     </div>
 
-    <!-- 頁尾 Footer -->
-    <footer>
-        <p><b>本課程由忠信學校 FRP雙語教案為竹仁國小「雙語課程體驗」專案設計 (115學年度)</b></p>
-        <div class="en-footer">This curriculum is designed by Chung Hsin School FRP Bilingual Lesson Plans for Chujen Elementary School's "Bilingual Course Experience" Project (115 Academic Year).</div>
-    </footer>
+    <script>
+    (function () {
+        /* ── Logo：載入失敗就直接隱藏，不顯示任何替代文字 ── */
+        var logos = document.getElementById('logos');
+        var imgs = logos.querySelectorAll('img');
+        var divider = logos.querySelector('.logo-divider');
 
+        function syncLogos() {
+            var visible = 0;
+            imgs.forEach(function (img) { if (!img.hidden) visible++; });
+            divider.hidden = visible < 2;
+            logos.hidden = visible === 0;
+        }
+        imgs.forEach(function (img) {
+            img.addEventListener('error', function () { img.hidden = true; syncLogos(); });
+            if (img.complete && img.naturalWidth === 0) img.hidden = true;
+        });
+        syncLogos();
+
+        /* ── 課程卡 → 展開成詳細卡 ── */
+        var modal = document.getElementById('modal');
+        var panel = document.getElementById('modalPanel');
+        var backdrop = document.getElementById('modalBackdrop');
+        var body = document.getElementById('modalBody');
+        var closeBtn = document.getElementById('modalClose');
+        var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        var activeCard = null;
+        var busy = false;
+
+        function fill(card) {
+            panel.dataset.theme = card.dataset.theme;
+            document.getElementById('modalIcon').innerHTML = '<i class="fa-solid ' + card.dataset.icon + '"></i>';
+            document.getElementById('modalTitle').textContent = card.querySelector('h3').textContent;
+            document.getElementById('modalEn').textContent = card.querySelector('.en-name').textContent;
+            body.innerHTML = card.querySelector('.detail').innerHTML;
+            body.scrollTop = 0;
+
+            // 依各階段分鐘數建立時間比例條
+            var badges = body.querySelectorAll('.time-badge');
+            var list = body.querySelector('.timeline-list');
+            if (badges.length && list) {
+                var bar = document.createElement('div');
+                bar.className = 'time-bar';
+                bar.setAttribute('aria-hidden', 'true');
+                badges.forEach(function (b) {
+                    var s = document.createElement('span');
+                    s.style.flex = parseInt(b.textContent, 10) || 1;
+                    bar.appendChild(s);
+                });
+                list.parentNode.insertBefore(bar, list);
+            }
+        }
+
+        function fromTransform(rect) {
+            var to = panel.getBoundingClientRect();
+            var dx = rect.left - to.left, dy = rect.top - to.top;
+            var sx = rect.width / to.width, sy = rect.height / to.height;
+            return 'translate(' + dx + 'px,' + dy + 'px) scale(' + sx + ',' + sy + ')';
+        }
+
+        function openCourse(card) {
+            if (busy) return;
+            busy = true;
+            activeCard = card;
+            fill(card);
+            modal.hidden = false;
+            document.body.classList.add('modal-open');
+
+            var rect = card.getBoundingClientRect();
+            if (!reduce) {
+                backdrop.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 350, easing: 'ease-out' });
+                body.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 300, delay: 220, easing: 'ease-out', fill: 'backwards' });
+                panel.animate(
+                    [{ transform: fromTransform(rect), borderRadius: '28px' }, { transform: 'none', borderRadius: '32px' }],
+                    { duration: 520, easing: 'cubic-bezier(.2,.8,.2,1)' }
+                ).finished.then(function () { busy = false; });
+            } else { busy = false; }
+            closeBtn.focus({ preventScroll: true });
+        }
+
+        function closeCourse() {
+            if (busy || modal.hidden) return;
+            busy = true;
+            var card = activeCard;
+            function done() {
+                panel.getAnimations().forEach(function (a) { a.cancel(); });
+                backdrop.getAnimations().forEach(function (a) { a.cancel(); });
+                modal.hidden = true;
+                document.body.classList.remove('modal-open');
+                busy = false;
+                if (card) card.querySelector('.card-open').focus({ preventScroll: true });
+            }
+            if (reduce || !card) return done();
+            var rect = card.getBoundingClientRect();
+            backdrop.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 300, fill: 'forwards' });
+            panel.animate(
+                [{ transform: 'none', opacity: 1 }, { transform: fromTransform(rect), opacity: 0 }],
+                { duration: 380, easing: 'cubic-bezier(.4,0,.2,1)', fill: 'forwards' }
+            ).finished.then(done);
+        }
+
+        document.querySelectorAll('.course-card').forEach(function (card) {
+            card.querySelector('.card-open').addEventListener('click', function () { openCourse(card); });
+        });
+        closeBtn.addEventListener('click', closeCourse);
+        backdrop.addEventListener('click', closeCourse);
+
+        document.addEventListener('keydown', function (e) {
+            if (modal.hidden) return;
+            if (e.key === 'Escape') { closeCourse(); return; }
+            if (e.key === 'Tab') {   // 焦點鎖定在詳細卡內
+                var f = panel.querySelectorAll('button, [href], [tabindex]:not([tabindex="-1"])');
+                if (!f.length) return;
+                var first = f[0], last = f[f.length - 1];
+                if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+                else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+            }
+        });
+    })();
+    </script>
 </body>
 </html>
