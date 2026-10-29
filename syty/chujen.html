@@ -11,19 +11,25 @@
 
     <style>
         :root {
-            --ink: #0a0f1f;
-            --text: #f4f6fb;
-            --text-soft: rgba(244, 246, 251, .72);
-            --text-faint: rgba(244, 246, 251, .52);
+            /* 竹仁國小：清亮翠竹綠　忠信學校：褚紅 */
+            --bamboo: #3ddc97;
+            --bamboo-deep: #0f9d6b;
+            --russet: #a8392d;
+            --russet-hi: #d9624f;
+            --ink: #0b0f0d;
+            --text: #f6f6f3;
+            --text-soft: rgba(246, 246, 243, .74);
+            --text-faint: rgba(246, 246, 243, .54);
 
             --glass: rgba(255, 255, 255, .07);
-            --glass-strong: rgba(255, 255, 255, .12);
-            --glass-border: rgba(255, 255, 255, .18);
-            --glass-hi: rgba(255, 255, 255, .35);
+            --glass-strong: rgba(255, 255, 255, .13);
+            --glass-border: rgba(255, 255, 255, .2);
+            --glass-hi: rgba(255, 255, 255, .38);
 
-            --health: #fb923c;
+            /* 四門課各自的點綴色（與主色綠明顯區隔） */
+            --health: #f5b53d;
             --tech: #60a5fa;
-            --eco: #34d399;
+            --eco: #c6f432;
             --music: #c4a1ff;
 
             --font-display: 'Bricolage Grotesque', 'Noto Sans TC', sans-serif;
@@ -60,7 +66,28 @@
             z-index: -1;
             overflow: hidden;
             background:
-                radial-gradient(120% 80% at 50% 0%, #131a38 0%, var(--ink) 60%);
+                radial-gradient(75% 65% at 0% 0%, rgba(18, 120, 86, .6), transparent 62%),
+                radial-gradient(75% 65% at 100% 5%, rgba(150, 48, 38, .55), transparent 62%),
+                var(--ink);
+        }
+
+
+        /* 背景的淡淡竹影 */
+        .stalk {
+            position: absolute;
+            top: -5%;
+            bottom: -5%;
+            border-radius: 99px;
+            background:
+                repeating-linear-gradient(to bottom, transparent 0 170px, rgba(210, 255, 235, .32) 170px 175px),
+                linear-gradient(90deg, rgba(150, 255, 205, .02), rgba(190, 255, 225, .2) 45%, rgba(150, 255, 205, .02));
+            opacity: .35;
+            filter: blur(1.5px);
+        }
+        .stalk.warm {
+            background:
+                repeating-linear-gradient(to bottom, transparent 0 170px, rgba(255, 190, 175, .3) 170px 175px),
+                linear-gradient(90deg, rgba(230, 120, 100, .02), rgba(235, 130, 110, .22) 45%, rgba(230, 120, 100, .02));
         }
 
         .orb {
@@ -70,10 +97,10 @@
             opacity: .55;
             will-change: transform;
         }
-        .orb.o1 { width: 46vmax; height: 46vmax; background: #f97316; top: -14vmax; left: -12vmax; animation: drift1 26s ease-in-out infinite alternate; }
-        .orb.o2 { width: 42vmax; height: 42vmax; background: #2563eb; top: 8vmax; right: -14vmax; animation: drift2 30s ease-in-out infinite alternate; }
-        .orb.o3 { width: 40vmax; height: 40vmax; background: #059669; bottom: -16vmax; left: 6vmax; animation: drift2 34s ease-in-out infinite alternate-reverse; }
-        .orb.o4 { width: 38vmax; height: 38vmax; background: #9333ea; bottom: -10vmax; right: -8vmax; animation: drift1 28s ease-in-out infinite alternate-reverse; }
+        .orb.o1 { width: 46vmax; height: 46vmax; background: #22c996; top: -14vmax; left: -12vmax; animation: drift1 26s ease-in-out infinite alternate; }
+        .orb.o2 { width: 42vmax; height: 42vmax; background: #b23a2c; top: 8vmax; right: -14vmax; animation: drift2 30s ease-in-out infinite alternate; }
+        .orb.o3 { width: 40vmax; height: 40vmax; background: #4cc97a; bottom: -16vmax; left: 6vmax; animation: drift2 34s ease-in-out infinite alternate-reverse; }
+        .orb.o4 { width: 38vmax; height: 38vmax; background: #8c2a22; bottom: -10vmax; right: -8vmax; animation: drift1 28s ease-in-out infinite alternate-reverse; }
 
         @keyframes drift1 { to { transform: translate(8vmax, 6vmax) scale(1.12); } }
         @keyframes drift2 { to { transform: translate(-7vmax, -5vmax) scale(.92); } }
@@ -91,7 +118,7 @@
         }
 
         @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-            .glass { background: rgba(30, 38, 70, .86); }
+            .glass { background: rgba(28, 32, 30, .9); }
         }
 
         /* ───────── 頁頭 Header ───────── */
@@ -170,7 +197,7 @@
             font-size: clamp(1.5rem, 4.2vw, 2.7rem);
             line-height: 1.2;
             letter-spacing: -0.02em;
-            background: linear-gradient(180deg, #ffffff 40%, rgba(255, 255, 255, .7));
+            background: linear-gradient(100deg, #ffffff 30%, #c8f7e0 62%, #ffd5cc);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
@@ -396,7 +423,7 @@
         .modal-backdrop {
             position: absolute;
             inset: 0;
-            background: rgba(6, 9, 20, .55);
+            background: rgba(6, 8, 7, .6);
             -webkit-backdrop-filter: blur(10px);
             backdrop-filter: blur(10px);
         }
@@ -411,7 +438,7 @@
             border-radius: 32px;
             overflow: hidden;
             transform-origin: top left;
-            background: rgba(20, 26, 52, .55);
+            background: rgba(16, 20, 18, .6);
             isolation: isolate;
         }
         .modal-panel[data-theme="health"] { --c: var(--health); }
@@ -631,8 +658,8 @@
             transition: background .2s, transform .2s;
         }
         .btn:hover { background: rgba(255, 255, 255, .2); transform: translateY(-1px); }
-        .btn-primary { background: var(--c, #8ab4ff); color: #0a0f1f; border-color: transparent; font-weight: 700; }
-        .btn-primary:hover { background: var(--c, #8ab4ff); filter: brightness(1.12); }
+        .btn-primary { background: var(--c, var(--bamboo)); color: #0a0f1f; border-color: transparent; font-weight: 700; }
+        .btn-primary:hover { background: var(--c, var(--bamboo)); filter: brightness(1.12); }
         .btn-row { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
 
         /* ───────── 單字消消樂 ───────── */
@@ -704,7 +731,7 @@
 
         /* ───────── 綜合檢查 Quiz ───────── */
         .quiz-card {
-            --c: #8ab4ff;
+            --c: var(--bamboo);
             border-radius: 28px;
             padding: 28px 32px;
             min-height: 360px;
@@ -722,7 +749,7 @@
         .quiz-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
         .quiz-top .game-stats { flex-wrap: wrap; }
         .qbar { height: 6px; border-radius: 99px; background: rgba(255, 255, 255, .12); margin: 16px 0 24px; overflow: hidden; }
-        .qbar span { display: block; height: 100%; border-radius: 99px; background: linear-gradient(90deg, #60a5fa, #c4a1ff); transition: width .4s; }
+        .qbar span { display: block; height: 100%; border-radius: 99px; background: linear-gradient(90deg, var(--bamboo), var(--russet-hi)); transition: width .4s; }
 
         .q-word { text-align: center; margin-bottom: 24px; }
         .q-word .chip { display: inline-block; font-size: .8rem; padding: 3px 12px; border-radius: 99px; background: rgba(255, 255, 255, .08); border: 1px solid var(--glass-border); color: var(--text-soft); margin-bottom: 10px; }
@@ -831,6 +858,51 @@
         .confetti { position: absolute; width: 9px; height: 14px; border-radius: 2px; pointer-events: none; z-index: 5; }
         .drop { position: absolute; pointer-events: none; z-index: 5; font-size: 1.3rem; }
 
+
+        /* 兩校識別：翠竹綠 × 褚紅 */
+        .logos { position: relative; }
+        .logos::after {
+            content: "";
+            position: absolute;
+            left: 24px; right: 24px; bottom: 3px;
+            height: 3px;
+            border-radius: 99px;
+            background: linear-gradient(90deg, var(--bamboo-deep), var(--bamboo) 45%, var(--russet-hi) 55%, var(--russet));
+        }
+        .header-badge {
+            background: color-mix(in srgb, var(--russet) 38%, transparent);
+            border-color: color-mix(in srgb, var(--russet-hi) 65%, transparent);
+        }
+        .hero::after {
+            content: "";
+            display: block;
+            width: 130px; height: 4px;
+            margin-top: 18px;
+            border-radius: 99px;
+            background: linear-gradient(90deg, var(--bamboo), var(--russet-hi));
+        }
+        .section-head h2::before {
+            content: "";
+            display: inline-block;
+            width: 6px; height: .9em;
+            margin-right: 12px;
+            border-radius: 99px;
+            vertical-align: -.1em;
+            background: linear-gradient(var(--bamboo), var(--russet-hi));
+        }
+        .concept-icon {
+            background: linear-gradient(135deg, color-mix(in srgb, var(--bamboo) 60%, transparent), color-mix(in srgb, var(--russet-hi) 60%, transparent));
+        }
+        .footer-card { position: relative; }
+        .footer-card::before {
+            content: "";
+            position: absolute;
+            top: -1px; left: 28px; right: 28px;
+            height: 2px;
+            border-radius: 99px;
+            background: linear-gradient(90deg, var(--bamboo), var(--russet-hi));
+        }
+
         /* ───────── 頁尾 ───────── */
         footer {
             max-width: 1160px;
@@ -866,6 +938,8 @@
     <!-- 極光背景 -->
     <div class="aurora" aria-hidden="true">
         <span class="orb o1"></span><span class="orb o2"></span><span class="orb o3"></span><span class="orb o4"></span>
+        <span class="stalk" style="left:4%;width:16px"></span><span class="stalk" style="left:9%;width:10px;opacity:.22;filter:blur(3px)"></span>
+        <span class="stalk warm" style="right:5%;width:18px"></span><span class="stalk warm" style="right:11%;width:10px;opacity:.22;filter:blur(3px)"></span>
     </div>
 
     <!-- 頁頭：兩校 Logo 並列於同一膠囊 -->
