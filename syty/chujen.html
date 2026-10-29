@@ -761,6 +761,31 @@
         .result-grid .n { font-family: var(--font-display); font-weight: 700; font-size: 1.6rem; display: block; }
         .result-grid .l { font-size: .8rem; color: var(--text-faint); }
 
+
+        /* ───────── 發音按鈕 ───────── */
+        .en-row { display: inline-flex; align-items: center; justify-content: center; gap: 14px; flex-wrap: wrap; }
+        .speak-btn {
+            cursor: pointer;
+            font: inherit;
+            font-size: 1.4rem;
+            line-height: 1;
+            width: 52px;
+            height: 52px;
+            flex-shrink: 0;
+            border-radius: 50%;
+            color: var(--text);
+            background: rgba(255, 255, 255, .12);
+            border: 1px solid var(--glass-border);
+            box-shadow: inset 0 1px 0 var(--glass-hi);
+            transition: background .2s, transform .2s;
+        }
+        .speak-btn:hover { background: rgba(255, 255, 255, .24); transform: scale(1.08); }
+        .speak-btn.playing { background: var(--c); animation: speak-pulse .8s ease-in-out infinite; }
+        @keyframes speak-pulse { 50% { transform: scale(1.14); } }
+        .auto-toggle { cursor: pointer; font: inherit; font-size: .85rem; color: var(--text-soft); background: rgba(255, 255, 255, .08); border: 1px solid var(--glass-border); border-radius: 999px; padding: 6px 14px; }
+        .auto-toggle[aria-pressed="true"] { color: var(--text); border-color: var(--c); background: color-mix(in srgb, var(--c) 28%, transparent); }
+        .quiz-actions { display: flex; gap: 8px; align-items: center; }
+
         /* ───────── 頁尾 ───────── */
         footer {
             max-width: 1160px;
@@ -1386,10 +1411,54 @@
         });
         function esc(x) { return x.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
 
+
+        /* ── 發音 (Web Speech API) ── */
+        var canSpeak = 'speechSynthesis' in window && 'SpeechSynthesisUtterance' in window;
+        var autoSpeak = true, voice = null, speakTimer = null;
+
+        function pickVoice() {
+            if (!canSpeak) return;
+            var vs = speechSynthesis.getVoices().filter(function (v) { return /^en[-_]/i.test(v.lang); });
+            voice = vs.filter(function (v) { return /en[-_]US/i.test(v.lang) && /Google|Samantha|Aaron|Microsoft (Aria|Jenny|Guy)|Natural/i.test(v.name); })[0] ||
+                    vs.filter(function (v) { return /en[-_]US/i.test(v.lang); })[0] || vs[0] || null;
+        }
+        if (canSpeak) { pickVoice(); speechSynthesis.addEventListener('voiceschanged', pickVoice); }
+
+        // 把縮寫與符號轉成適合朗讀的文字
+        function speakable(en) {
+            return en
+                .replace(/\(1-4\)/, ', 1 to 4').replace(/\(A-D\)/, ', A to D')
+                .replace(/\(([^)]*)\)/g, ', $1')
+                .replace(/4\/4/g, 'four four')
+                .replace(/EV3/g, 'E V 3').replace(/SDG/g, 'S D G')
+                .replace(/\bCPS\b/g, 'C P S').replace(/\bUSB\b/g, 'U S B')
+                .replace(/\s*\/\s*/g, ', ');
+        }
+
+        function stopSpeak() {
+            clearTimeout(speakTimer);
+            if (canSpeak) speechSynthesis.cancel();
+        }
+
+        function speak(en, btn) {
+            if (!canSpeak) return;
+            speechSynthesis.cancel();
+            var u = new SpeechSynthesisUtterance(speakable(en));
+            u.lang = 'en-US';
+            u.rate = 0.85;
+            if (voice) u.voice = voice;
+            if (btn) {
+                btn.classList.add('playing');
+                u.onend = u.onerror = function () { btn.classList.remove('playing'); };
+            }
+            speechSynthesis.speak(u);
+        }
+
         var st, tm;
 
         function renderStart() {
             clearTimeout(tm);
+            stopSpeak();
             card.innerHTML =
                 '<div class="quiz-start"><div class="emoji">🏆</div><h2>綜合檢查：單字挑戰賽</h2>' +
                 '<p>共 ' + ALL.length + ' 個單字，來自全部四門課程。看英文，選出正確的中文意思。</p>' +
@@ -1417,14 +1486,30 @@
                 '<span class="stat-chip">連對 <b id="qStreak">' + st.streak + '</b></span>' +
                 '<span class="stat-chip">答對可得 <b>+' + 5 * (st.streak + 1) + '</b></span>' +
                 '<span class="stat-chip">第 <b>' + (st.i + 1) + '</b> / ' + st.pool.length + ' 題</span></div>' +
-                '<button class="btn btn-sm" id="qExit" type="button">退出</button></div>' +
+                '<div class="quiz-actions">' +
+                (canSpeak ? '<button class="auto-toggle" id="qAuto" type="button" aria-pressed="' + autoSpeak + '">🔊 自動發音：' + (autoSpeak ? '開' : '關') + '</button>' : '') +
+                '<button class="btn btn-sm" id="qExit" type="button">退出</button></div></div>' +
                 '<div class="qbar"><span style="width:' + (st.i / st.pool.length * 100) + '%"></span></div>' +
-                '<div class="q-word"><span class="chip">' + th.icon + ' ' + th.name + '</span><div class="en">' + esc(w.en) + '</div></div>' +
+                '<div class="q-word"><span class="chip">' + th.icon + ' ' + th.name + '</span><br><div class="en-row"><div class="en">' + esc(w.en) + '</div>' +
+                (canSpeak ? '<button class="speak-btn" id="qSpeak" type="button" aria-label="播放發音 Play pronunciation" title="再聽一次">🔊</button>' : '') +
+                '</div></div>' +
                 '<div class="opts"></div><div class="q-feedback"></div>';
 
             var box = card.querySelector('.opts'), fb = card.querySelector('.q-feedback');
             card.querySelector('#qExit').onclick = function () { showResult(false); };
             st.locked = false;
+
+            if (canSpeak) {
+                var sp = card.querySelector('#qSpeak'), au = card.querySelector('#qAuto');
+                sp.onclick = function () { speak(w.en, sp); };
+                au.onclick = function () {
+                    autoSpeak = !autoSpeak;
+                    au.setAttribute('aria-pressed', autoSpeak);
+                    au.textContent = '🔊 自動發音：' + (autoSpeak ? '開' : '關');
+                };
+                stopSpeak();
+                if (autoSpeak) speakTimer = setTimeout(function () { speak(w.en, sp); }, 300);
+            }
 
             opts.forEach(function (o, k) {
                 var b = document.createElement('button');
@@ -1462,6 +1547,8 @@
                 fb.innerHTML = '<div class="msg no">答錯了，扣 5 分。<b>' + esc(w.en) + '</b> 的意思是「' + esc(w.zh) + '」</div>' +
                     '<div class="btn-row"><button class="btn btn-primary" data-a="go" type="button">' + (last ? '查看結算' : '繼續遊戲') + '</button>' +
                     '<button class="btn" data-a="quit" type="button">退出</button></div>';
+                var sp2 = card.querySelector('#qSpeak');
+                if (sp2 && autoSpeak) speak(w.en, sp2);
                 fb.querySelector('[data-a=go]').onclick = next;
                 fb.querySelector('[data-a=quit]').onclick = function () { showResult(false); };
             }
@@ -1475,6 +1562,7 @@
 
         function showResult(finished) {
             clearTimeout(tm);
+            stopSpeak();
             var acc = st.done ? Math.round(st.right / st.done * 100) : 0;
             var emoji = finished ? '🎉' : '👋';
             var title = finished ? '全部單字完成！' : '本次結算';
