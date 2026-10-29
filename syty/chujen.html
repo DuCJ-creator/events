@@ -903,6 +903,38 @@
             background: linear-gradient(90deg, var(--bamboo), var(--russet-hi));
         }
 
+
+        /* ───────── 過敏小提醒 ───────── */
+        .allergy-card {
+            border-radius: 22px;
+            padding: 20px 22px 8px;
+            background: color-mix(in srgb, #f87171 13%, transparent);
+            border: 1px solid color-mix(in srgb, #f87171 50%, transparent);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, .18);
+        }
+        .allergy-card .section-label i { color: #fca5a5; }
+        .allergy-card h4 {
+            font-size: .88rem;
+            font-weight: 700;
+            color: #fecaca;
+            margin: 4px 0 10px;
+        }
+        .notice-list { list-style: none; display: grid; gap: 12px; margin-bottom: 16px; }
+        .notice-list li { display: grid; grid-template-columns: 26px 1fr; gap: 10px; }
+        .notice-list .n {
+            width: 24px; height: 24px;
+            border-radius: 50%;
+            display: grid; place-items: center;
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: .78rem;
+            color: #4c0f0f;
+            background: #fca5a5;
+        }
+        .notice-list .n.ok { background: #fcd34d; color: #3b2a00; }
+        .notice-list .zh { font-size: .93rem; font-weight: 500; line-height: 1.55; }
+        .notice-list .en { font-size: .82rem; color: var(--text-faint); margin-top: 2px; line-height: 1.5; }
+
         /* ───────── 頁尾 ───────── */
         footer {
             max-width: 1160px;
@@ -1018,6 +1050,25 @@
                             <span class="tag-pill">Chocolate (巧克力)</span>
                             <span class="tag-pill">Salt (鹽)</span>
                         </div>
+                    </div>
+
+                    <div class="allergy-card">
+                        <div class="section-label"><i class="fa-solid fa-triangle-exclamation"></i> 堅果過敏小知識與提醒 (Nut Allergy Awareness)</div>
+
+                        <h4>認識堅果過敏 (Know the Facts)</h4>
+                        <ul class="notice-list">
+                            <li><span class="n">1</span><div><div class="zh">花生其實不是真正的堅果，而是豆科植物；核桃、胡桃、開心果、腰果則是「樹堅果」。兩種都可能引起過敏，有些人還會同時對好幾種過敏。</div><div class="en">Peanuts are legumes, not true nuts, while walnuts, pecans, pistachios and cashews are tree nuts. Either can cause allergies, and some people react to several at once.</div></div></li>
+                            <li><span class="n">2</span><div><div class="zh">過敏反應可能是皮膚癢、起疹子、嘴唇或臉腫、肚子痛、嘔吐；嚴重時會呼吸困難，需要立刻求助。</div><div class="en">Signs include itchy skin, hives, swollen lips or face, tummy ache and vomiting. Severe cases can cause trouble breathing and need help right away.</div></div></li>
+                            <li><span class="n">3</span><div><div class="zh">就算只有極少量，或是碰到共用的湯匙、量杯、沒洗的手（交叉接觸），也可能引起反應。</div><div class="en">Even a tiny amount, or cross-contact from shared spoons, cups or unwashed hands, can trigger a reaction.</div></div></li>
+                        </ul>
+
+                        <h4>上課小提醒 (Class Reminders)</h4>
+                        <ul class="notice-list">
+                            <li><span class="n ok">✓</span><div><div class="zh">對堅果、花生或種子過敏的同學，請在上課前告訴老師，不要自己嘗試。</div><div class="en">If you are allergic to nuts, peanuts or seeds, tell the teacher before class. Do not try it yourself.</div></div></li>
+                            <li><span class="n ok">✓</span><div><div class="zh">不交換、不分享自己做的能量棒，用過的工具和桌面要清洗乾淨。</div><div class="en">Do not swap or share your bar, and clean the tools and table after use.</div></div></li>
+                            <li><span class="n ok">✓</span><div><div class="zh">製作前和品嚐前都要洗手。買包裝食品時，也要養成看「過敏原標示」的習慣。</div><div class="en">Wash your hands before cooking and before tasting. Get into the habit of reading allergen labels on packaged food.</div></div></li>
+                            <li><span class="n ok">✓</span><div><div class="zh">吃了之後覺得不舒服，要馬上告訴老師或大人，不要忍著。</div><div class="en">If you feel unwell after eating, tell a teacher or an adult right away. Do not wait.</div></div></li>
+                        </ul>
                     </div>
 
                     <div>
@@ -1188,7 +1239,7 @@
     <footer>
         <div class="footer-card glass">
             <p><b>本課程由忠信學校 FRP雙語教案為竹仁國小「雙語課程體驗」專案設計 (115學年度)</b></p>
-            <div class="en-footer">This curriculum is designed by Chung Hsin School FRP Program for Chujen Elementary School's "Bilingual Course Experience" Project (115 Academic Year).</div>
+            <div class="en-footer">This curriculum is designed by Chung Hsin School FRP Bilingual Lesson Plans for Chujen Elementary School's "Bilingual Course Experience" Project (115 Academic Year).</div>
         </div>
     </footer>
 
