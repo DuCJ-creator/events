@@ -786,6 +786,51 @@
         .auto-toggle[aria-pressed="true"] { color: var(--text); border-color: var(--c); background: color-mix(in srgb, var(--c) 28%, transparent); }
         .quiz-actions { display: flex; gap: 8px; align-items: center; }
 
+
+        /* ───────── 挑戰賽：倒數、勝利與惋惜效果 ───────── */
+        .quiz-card { position: relative; overflow: hidden; }
+        .tbar { height: 8px; border-radius: 99px; background: rgba(255, 255, 255, .12); margin: -12px 0 22px; overflow: hidden; }
+        .tbar span { display: block; height: 100%; width: 100%; border-radius: 99px; background: linear-gradient(90deg, #34d399, #6ee7b7); }
+        .tbar.warn span { background: linear-gradient(90deg, #fbbf24, #fde68a); }
+        .tbar.danger span { background: linear-gradient(90deg, #f87171, #fca5a5); }
+        .tbar.danger { animation: tpulse .5s ease-in-out infinite alternate; }
+        @keyframes tpulse { to { box-shadow: 0 0 14px rgba(248, 113, 113, .75); } }
+        .stat-chip b.danger { color: #fca5a5; }
+
+        .quiz-card.win { animation: card-win .9s ease-out; }
+        @keyframes card-win { 25% { box-shadow: inset 0 1px 0 var(--glass-hi), 0 0 0 2px rgba(52, 211, 153, .85), 0 0 70px 8px rgba(52, 211, 153, .5); } }
+        .quiz-card.win .q-word .en { color: #6ee7b7; transition: color .3s; }
+
+        .quiz-card.lose { animation: card-lose .6s ease-out; }
+        @keyframes card-lose {
+            10%, 50%, 90% { transform: translateX(-10px); }
+            30%, 70% { transform: translateX(10px); }
+            20% { box-shadow: inset 0 1px 0 var(--glass-hi), 0 0 0 2px rgba(248, 113, 113, .8), 0 0 70px 8px rgba(248, 113, 113, .45); }
+        }
+        .quiz-card.lose .q-word .en { color: #fca5a5; transition: color .3s; }
+
+        .opt.correct { animation: opt-pop .55s cubic-bezier(.3, 1.6, .5, 1); }
+        .opt.wrong { animation: opt-shake .45s; }
+        @keyframes opt-pop { 40% { transform: scale(1.06); } }
+        @keyframes opt-shake { 20%, 60% { transform: translateX(-8px); } 40%, 80% { transform: translateX(8px); } }
+
+        .reaction { position: absolute; left: 50%; top: 30%; font-size: 5rem; line-height: 1; pointer-events: none; z-index: 5; transform: translate(-50%, -50%); }
+        .reaction.win { animation: react-win 1.2s cubic-bezier(.2, 1.4, .4, 1) forwards; }
+        .reaction.lose { animation: react-lose 1.4s ease-in forwards; }
+        @keyframes react-win {
+            0% { transform: translate(-50%, -30%) scale(0); opacity: 0; }
+            25% { transform: translate(-50%, -60%) scale(1.3); opacity: 1; }
+            70% { transform: translate(-50%, -80%) scale(1); opacity: 1; }
+            100% { transform: translate(-50%, -110%) scale(1); opacity: 0; }
+        }
+        @keyframes react-lose {
+            0% { transform: translate(-50%, -90%) scale(1.4); opacity: 0; }
+            20% { opacity: 1; }
+            100% { transform: translate(-50%, 40%) scale(.8) rotate(-12deg); opacity: 0; }
+        }
+        .confetti { position: absolute; width: 9px; height: 14px; border-radius: 2px; pointer-events: none; z-index: 5; }
+        .drop { position: absolute; pointer-events: none; z-index: 5; font-size: 1.3rem; }
+
         /* ───────── 頁尾 ───────── */
         footer {
             max-width: 1160px;
@@ -1456,13 +1501,136 @@
 
         var st, tm;
 
+        /* ── 音效（Web Audio 合成，不需外部檔案）與特效 ── */
+        var actx = null, sfxOn = true;
+        var reduceFx = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        function ac() {
+            if (!actx) { var C = window.AudioContext || window.webkitAudioContext; if (C) actx = new C(); }
+            if (actx && actx.state === 'suspended') actx.resume();
+            return actx;
+        }
+        function tone(freq, t0, dur, type, vol, slideTo) {
+            if (!sfxOn) return;
+            var c = ac(); if (!c) return;
+            var o = c.createOscillator(), g = c.createGain(), t = c.currentTime + t0;
+            o.type = type;
+            o.frequency.setValueAtTime(freq, t);
+            if (slideTo) o.frequency.exponentialRampToValueAtTime(slideTo, t + dur);
+            g.gain.setValueAtTime(0.0001, t);
+            g.gain.exponentialRampToValueAtTime(vol, t + 0.02);
+            g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+            o.connect(g); g.connect(c.destination);
+            o.start(t); o.stop(t + dur + 0.05);
+        }
+        // 勝利：上行琶音 + 閃亮尾音；連對越多音越高、越華麗
+        function winSound(streak) {
+            var m = Math.pow(2, Math.min(streak - 1, 6) / 12);
+            [523.25, 659.25, 783.99, 1046.5].forEach(function (f, i) { tone(f * m, i * 0.08, 0.2, 'triangle', 0.22); });
+            tone(1318.5 * m, 0.34, 0.4, 'sine', 0.16);
+            tone(1568 * m, 0.34, 0.4, 'sine', 0.1);
+            if (streak >= 3) { tone(1760 * m, 0.46, 0.25, 'triangle', 0.14); tone(2093 * m, 0.56, 0.4, 'triangle', 0.14); }
+        }
+        // 惋惜：下行「哇～哇～哇～哇～」
+        function loseSound() {
+            tone(392, 0, 0.3, 'sawtooth', 0.07);
+            tone(370, 0.32, 0.3, 'sawtooth', 0.07);
+            tone(349, 0.64, 0.3, 'sawtooth', 0.07);
+            tone(330, 0.96, 0.85, 'sawtooth', 0.08, 196);
+        }
+        function buzzSound() { tone(150, 0, 0.28, 'square', 0.07); }
+        function tick(sec) { tone(sec === 1 ? 1000 : 800, 0, 0.06, 'square', 0.04); }
+
+        function react(emoji, kind) {
+            var r = document.createElement('div');
+            r.className = 'reaction ' + kind;
+            r.textContent = emoji;
+            card.appendChild(r);
+            setTimeout(function () { r.remove(); }, 1500);
+        }
+        function confetti(src) {
+            if (reduceFx) return;
+            var cr = card.getBoundingClientRect(), sr = src.getBoundingClientRect();
+            var ox = sr.left - cr.left + sr.width / 2, oy = sr.top - cr.top + sr.height / 2;
+            var colors = ['#34d399', '#60a5fa', '#fbbf24', '#f472b6', '#c4a1ff', '#fb923c'];
+            for (var i = 0; i < 30; i++) {
+                var p = document.createElement('span');
+                p.className = 'confetti';
+                p.style.left = ox + 'px'; p.style.top = oy + 'px';
+                p.style.background = colors[i % colors.length];
+                if (i % 3 === 0) p.style.borderRadius = '50%';
+                card.appendChild(p);
+                var ang = (-160 + Math.random() * 140) * Math.PI / 180, dist = 120 + Math.random() * 220;
+                var dx = Math.cos(ang) * dist, dy = Math.sin(ang) * dist, rot = Math.random() * 720 - 360;
+                p.animate([
+                    { transform: 'translate(0,0) rotate(0deg)', opacity: 1 },
+                    { transform: 'translate(' + dx + 'px,' + dy + 'px) rotate(' + rot + 'deg)', opacity: 1, offset: 0.55 },
+                    { transform: 'translate(' + dx * 1.1 + 'px,' + (dy + 180) + 'px) rotate(' + rot * 1.5 + 'deg)', opacity: 0 }
+                ], { duration: 1100 + Math.random() * 500, easing: 'cubic-bezier(.2,.7,.3,1)' }).onfinish = (function (el) { return function () { el.remove(); }; })(p);
+            }
+        }
+        function drops() {
+            if (reduceFx) return;
+            for (var i = 0; i < 10; i++) {
+                var d = document.createElement('span');
+                d.className = 'drop';
+                d.textContent = i % 4 === 0 ? '💔' : '💧';
+                d.style.left = (8 + Math.random() * 84) + '%';
+                d.style.top = '12%';
+                card.appendChild(d);
+                d.animate([{ transform: 'translateY(0)', opacity: 0 }, { opacity: 1, offset: 0.2 }, { transform: 'translateY(' + (180 + Math.random() * 140) + 'px)', opacity: 0 }],
+                    { duration: 1100 + Math.random() * 600, delay: Math.random() * 300, easing: 'ease-in' }).onfinish = (function (el) { return function () { el.remove(); }; })(d);
+            }
+        }
+
+        /* ── 每題 8 秒倒數 ── */
+        var TIME_LIMIT = 8000, qTimer = null;
+        function stopTimer() { if (qTimer) { clearInterval(qTimer); qTimer = null; } }
+        function startTimer(w) {
+            stopTimer();
+            var t0 = Date.now(), lastSec = 99;
+            var bar = card.querySelector('.tbar'), fill = bar.firstChild, lab = card.querySelector('#qTime');
+            qTimer = setInterval(function () {
+                var left = Math.max(0, TIME_LIMIT - (Date.now() - t0)), sec = Math.ceil(left / 1000);
+                fill.style.width = (left / TIME_LIMIT * 100) + '%';
+                lab.textContent = sec;
+                lab.className = left <= 2500 ? 'danger' : '';
+                bar.className = 'tbar' + (left <= 2500 ? ' danger' : left <= 4500 ? ' warn' : '');
+                if (sec !== lastSec) { lastSec = sec; if (sec >= 1 && sec <= 3) tick(sec); }
+                if (left <= 0) { stopTimer(); timeUp(w); }
+            }, 100);
+        }
+        function timeUp(w) {
+            if (st.locked) return;
+            st.locked = true; st.done++;
+            card.querySelectorAll('.opt').forEach(function (b) {
+                b.disabled = true;
+                if (b.lastChild.textContent === w.zh) b.classList.add('correct');
+            });
+            st.score -= 5; st.streak = 0;
+            card.querySelector('#qScore').textContent = st.score;
+            card.querySelector('#qStreak').textContent = 0;
+            card.classList.add('lose');
+            buzzSound(); setTimeout(loseSound, 300);
+            react('⏰', 'lose'); drops();
+            card.querySelector('.q-feedback').innerHTML =
+                '<div class="msg no">⏰ 時間到！扣 5 分，連對歸零。<b>' + esc(w.en) + '</b> 的意思是「' + esc(w.zh) + '」</div>' +
+                '<div style="color:var(--text-faint);font-size:.85rem">即將進入下一題…</div>';
+            var sp = card.querySelector('#qSpeak');
+            if (sp && autoSpeak) speakTimer = setTimeout(function () { speak(w.en, sp); }, 1100);
+            tm = setTimeout(next, 2600);
+        }
+
         function renderStart() {
             clearTimeout(tm);
+            stopTimer();
+            card.classList.remove('win', 'lose');
             stopSpeak();
             card.innerHTML =
                 '<div class="quiz-start"><div class="emoji">🏆</div><h2>綜合檢查：單字挑戰賽</h2>' +
                 '<p>共 ' + ALL.length + ' 個單字，來自全部四門課程。看英文，選出正確的中文意思。</p>' +
                 '<ul class="rules"><li>連續答對加分：第 1 題 +5、第 2 題 +10、第 3 題 +15 …</li>' +
+                '<li>每題限時 8 秒；時間到算答錯，自動進入下一題，連對歸零</li>' +
                 '<li>答錯扣 5 分，並顯示正確答案；選擇繼續後，連對重新從 +5 開始算</li>' +
                 '<li>題目不重複，全部答完就結算；中途隨時可以退出</li></ul>' +
                 '<div class="btn-row"><button class="btn btn-primary" type="button">開始挑戰</button></div></div>';
@@ -1470,6 +1638,7 @@
         }
 
         function startQuiz() {
+            ac();   // 在使用者點擊時啟動音效
             st = { pool: shuffle(ALL), i: 0, score: 0, streak: 0, best: 0, right: 0, done: 0, locked: false };
             renderQuestion();
         }
@@ -1485,18 +1654,28 @@
                 '<span class="stat-chip">分數 <b id="qScore">' + st.score + '</b></span>' +
                 '<span class="stat-chip">連對 <b id="qStreak">' + st.streak + '</b></span>' +
                 '<span class="stat-chip">答對可得 <b>+' + 5 * (st.streak + 1) + '</b></span>' +
+                '<span class="stat-chip">⏱ <b id="qTime">8</b> 秒</span>' +
                 '<span class="stat-chip">第 <b>' + (st.i + 1) + '</b> / ' + st.pool.length + ' 題</span></div>' +
                 '<div class="quiz-actions">' +
+                '<button class="auto-toggle" id="qSfx" type="button" aria-pressed="' + sfxOn + '">🎵 音效：' + (sfxOn ? '開' : '關') + '</button>' +
                 (canSpeak ? '<button class="auto-toggle" id="qAuto" type="button" aria-pressed="' + autoSpeak + '">🔊 自動發音：' + (autoSpeak ? '開' : '關') + '</button>' : '') +
                 '<button class="btn btn-sm" id="qExit" type="button">退出</button></div></div>' +
                 '<div class="qbar"><span style="width:' + (st.i / st.pool.length * 100) + '%"></span></div>' +
+                '<div class="tbar"><span></span></div>' +
                 '<div class="q-word"><span class="chip">' + th.icon + ' ' + th.name + '</span><br><div class="en-row"><div class="en">' + esc(w.en) + '</div>' +
                 (canSpeak ? '<button class="speak-btn" id="qSpeak" type="button" aria-label="播放發音 Play pronunciation" title="再聽一次">🔊</button>' : '') +
                 '</div></div>' +
                 '<div class="opts"></div><div class="q-feedback"></div>';
 
             var box = card.querySelector('.opts'), fb = card.querySelector('.q-feedback');
+            card.classList.remove('win', 'lose');
             card.querySelector('#qExit').onclick = function () { showResult(false); };
+            var sx = card.querySelector('#qSfx');
+            sx.onclick = function () {
+                sfxOn = !sfxOn;
+                sx.setAttribute('aria-pressed', sfxOn);
+                sx.textContent = '🎵 音效：' + (sfxOn ? '開' : '關');
+            };
             st.locked = false;
 
             if (canSpeak) {
@@ -1519,11 +1698,13 @@
                 b.onclick = function () { answer(o.zh === w.zh, b, box, fb, w); };
                 box.appendChild(b);
             });
+            startTimer(w);
         }
 
         function answer(ok, btn, box, fb, w) {
             if (st.locked) return;
             st.locked = true;
+            stopTimer();
             st.done++;
             var all = box.querySelectorAll('.opt');
             all.forEach(function (b) {
@@ -1534,21 +1715,28 @@
                 var gain = 5 * (st.streak + 1);
                 st.score += gain; st.streak++; st.right++;
                 if (st.streak > st.best) st.best = st.streak;
-                fb.innerHTML = '<div class="msg ok">答對了！+' + gain + ' 分（連對 ' + st.streak + '）</div>';
+                var hot = st.streak >= 3;
+                fb.innerHTML = '<div class="msg ok">' + (hot ? '🔥 太強了！' : '🎉 答對了！') + '+' + gain + ' 分（連對 ' + st.streak + '）</div>';
+                card.classList.add('win');
+                winSound(st.streak);
+                confetti(btn);
+                react(st.streak >= 5 ? '🔥' : hot ? '🌟' : '🎉', 'win');
                 card.querySelector('#qScore').textContent = st.score;
                 card.querySelector('#qStreak').textContent = st.streak;
                 tm = setTimeout(next, 1000);
             } else {
                 btn.classList.add('wrong');
+                card.classList.add('lose');
+                loseSound(); react('😢', 'lose'); drops();
                 st.score -= 5; st.streak = 0;
                 card.querySelector('#qScore').textContent = st.score;
                 card.querySelector('#qStreak').textContent = 0;
                 var last = st.i + 1 >= st.pool.length;
-                fb.innerHTML = '<div class="msg no">答錯了，扣 5 分。<b>' + esc(w.en) + '</b> 的意思是「' + esc(w.zh) + '」</div>' +
+                fb.innerHTML = '<div class="msg no">😢 答錯了，扣 5 分。<b>' + esc(w.en) + '</b> 的意思是「' + esc(w.zh) + '」</div>' +
                     '<div class="btn-row"><button class="btn btn-primary" data-a="go" type="button">' + (last ? '查看結算' : '繼續遊戲') + '</button>' +
                     '<button class="btn" data-a="quit" type="button">退出</button></div>';
                 var sp2 = card.querySelector('#qSpeak');
-                if (sp2 && autoSpeak) speak(w.en, sp2);
+                if (sp2 && autoSpeak) speakTimer = setTimeout(function () { speak(w.en, sp2); }, 1300);
                 fb.querySelector('[data-a=go]').onclick = next;
                 fb.querySelector('[data-a=quit]').onclick = function () { showResult(false); };
             }
@@ -1562,7 +1750,9 @@
 
         function showResult(finished) {
             clearTimeout(tm);
+            stopTimer();
             stopSpeak();
+            card.classList.remove('win', 'lose');
             var acc = st.done ? Math.round(st.right / st.done * 100) : 0;
             var emoji = finished ? '🎉' : '👋';
             var title = finished ? '全部單字完成！' : '本次結算';
