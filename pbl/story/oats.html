@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>漫遊故事林 之 手作課：燕麥大冒險 To Wander in Stories: The Adventure of Oats</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        oat: {
+                            50: '#fffbf0',
+                            100: '#fef3d6',
+                            200: '#fde4ab',
+                            300: '#fcd075',
+                            400: '#fbb53b',
+                            500: '#f79617',
+                            600: '#d9720b',
+                            700: '#b4520a',
+                            800: '#8f3e0f',
+                            900: '#753412',
+                        },
+                        choco: '#4a2c11',
+                        honey: '#f59e0b',
+                        matcha: '#65a30d'
+                    },
+                    fontFamily: {
+                        display: ['"Fredoka One"', 'cursive', 'sans-serif'],
+                        body: ['"Quicksand"', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: linear-gradient(135deg, #fffbf0 0%, #fef3d6 50%, #ffe8d6 100%);
+            min-height: 100vh;
+        }
+        .font-display {
+            font-family: 'Fredoka One', cursive;
+        }
+        .bounce-hover:hover {
+            transform: translateY(-4px) scale(1.02);
+            transition: all 0.2s ease-in-out;
+        }
+        .cup-layer {
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #fef3d6;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #fbb53b;
+            border-radius: 4px;
+        }
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-8px) rotate(3deg); }
+        }
+        .animate-float {
+            animation: floatSlow 4s ease-in-out infinite;
+        }
+        .sparkle-bg {
+            background-image: radial-gradient(#fbb53b 1.5px, transparent 1.5px);
+            background-size: 24px 24px;
+        }
+    </style>
+</head>
+<body class="text-choco sparkle-bg antialiased pb-16">
+
+    <!-- Header / Navigation -->
+    <header class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b-4 border-oat-300 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-oat-400 to-amber-300 flex items-center justify-center text-white text-2xl shadow-md animate-bounce">
+                    <i class="fa-solid fa-cookie-bite"></i>
+                </div>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs font-bold tracking-wider uppercase text-oat-600 bg-oat-100 px-2 py-0.5 rounded-full">漫遊故事林 To Wander in Stories</span>
+                        <span class="text-xs font-bold bg-amber-400 text-white px-2 py-0.5 rounded-full">⚡ 40 Mins Lesson</span>
+                    </div>
+                    <h1 class="text-lg md:text-xl font-display text-choco tracking-wide">
+                        手作課：燕麥大冒險 <span class="text-sm font-sans text-amber-800 font-semibold block sm:inline">The Adventure of Oats</span>
+                    </h1>
+                </div>
+            </div>
+
+            <!-- Nav Tabs -->
+            <nav class="hidden md:flex items-center gap-2">
+                <a href="#quest" class="px-3 py-2 rounded-xl text-sm font-bold text-choco hover:bg-oat-100 transition"><i class="fa-solid fa-map-location-dot text-oat-500 mr-1.5"></i>故事關卡 Story Quest</a>
+                <a href="#builder" class="px-3 py-2 rounded-xl text-sm font-bold text-choco hover:bg-oat-100 transition"><i class="fa-solid fa-wand-magic-sparkles text-oat-500 mr-1.5"></i>手作模擬器 Cup Builder</a>
+                <a href="#wordbank" class="px-3 py-2 rounded-xl text-sm font-bold text-choco hover:bg-oat-100 transition"><i class="fa-solid fa-comments text-oat-500 mr-1.5"></i>感官語音 Audio</a>
+                <a href="#showcase" class="px-3 py-2 rounded-xl text-sm font-bold text-choco hover:bg-oat-100 transition"><i class="fa-solid fa-stopwatch text-oat-500 mr-1.5"></i>40分鐘流程 40-Min Plan</a>
+            </nav>
+
+            <button onclick="scrollToBuilder()" class="bg-gradient-to-r from-oat-500 to-amber-500 hover:from-oat-600 hover:to-amber-600 text-white font-bold px-5 py-2.5 rounded-2xl shadow-lg shadow-oat-500/30 bounce-hover flex items-center gap-2 text-sm">
+                <i class="fa-solid fa-bowl-food"></i>
+                <span>做能量杯 Build Cup!</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="relative overflow-hidden py-10 lg:py-14">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-12 gap-8 items-center">
+                <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+                    
+                    <div class="inline-flex items-center gap-2 bg-amber-100 border-2 border-amber-300 text-amber-900 px-4 py-1.5 rounded-full text-sm font-bold shadow-sm">
+                        <span class="animate-pulse">✨</span>
+                        <span>互動式飲食英文課堂 Culinary English Activity</span>
+                        <span class="bg-amber-500 text-xs text-white px-2 py-0.5 rounded-full uppercase">Fast 40-Min Flow</span>
+                    </div>
+
+                    <h1 class="text-3xl sm:text-4xl lg:text-5xl font-display text-choco leading-tight">
+                        漫遊故事林 之 <br class="hidden sm:inline"><span class="text-transparent bg-clip-text bg-gradient-to-r from-oat-500 via-amber-500 to-orange-500">手作課：燕麥大冒險！</span> 🌾⚡
+                        <span class="block text-xl sm:text-2xl font-sans text-amber-800/80 font-bold mt-1">To Wander in Stories: The Adventure of Oats</span>
+                    </h1>
+
+                    <p class="text-base sm:text-lg text-amber-900/80 font-medium leading-relaxed max-w-2xl mx-auto lg:mx-0">
+                        跟著小燕麥 <strong>Oaty</strong> 展開一場 40 分鐘的驚險故事之旅！結合英文繪本導讀、感官單字體驗與動手作，一起調配美味充滿能量的 <strong>燕麥能量杯 (Oats Energy Cups)</strong>！
+                    </p>
+
+                    <!-- Food Badges Grid -->
+                    <div class="pt-2 flex flex-wrap justify-center lg:justify-start gap-2.5">
+                        <div class="flex items-center gap-2 bg-white px-3.5 py-1.5 rounded-2xl border-2 border-oat-200 shadow-sm text-sm font-bold text-choco">
+                            <span>🥣</span> 燕麥基底 Oats Base
+                        </div>
+                        <div class="flex items-center gap-2 bg-white px-3.5 py-1.5 rounded-2xl border-2 border-oat-200 shadow-sm text-sm font-bold text-choco">
+                            <span>🥜</span> 粗粒花生醬 Peanut Butter
+                        </div>
+                        <div class="flex items-center gap-2 bg-white px-3.5 py-1.5 rounded-2xl border-2 border-oat-200 shadow-sm text-sm font-bold text-choco">
+                            <span>🍯</span> 金黃蜂蜜 Honey River
+                        </div>
+                        <div class="flex items-center gap-2 bg-white px-3.5 py-1.5 rounded-2xl border-2 border-oat-200 shadow-sm text-sm font-bold text-choco">
+                            <span>🍫</span> 巧克力與果乾 Chocolate &amp; Gems
+                        </div>
+                    </div>
+
+                    <div class="pt-4 flex flex-col sm:flex-row justify-center lg:justify-start gap-4">
+                        <a href="#builder" class="bg-oat-500 hover:bg-oat-600 text-white font-display text-lg px-8 py-3.5 rounded-2xl shadow-xl shadow-oat-500/30 text-center bounce-hover flex items-center justify-center gap-3">
+                            <i class="fa-solid fa-play"></i> 開啟手作模擬器 Interactive Cup Builder
+                        </a>
+                        <a href="#showcase" class="bg-white hover:bg-oat-50 text-choco font-display text-lg px-8 py-3.5 rounded-2xl border-2 border-oat-300 text-center shadow-md bounce-hover flex items-center justify-center gap-3">
+                            <i class="fa-solid fa-stopwatch"></i> 查看 40 分鐘流程 40-Min Timeline
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Hero Graphic / Interactive Card -->
+                <div class="lg:col-span-5 flex justify-center">
+                    <div class="relative w-full max-w-md bg-white border-4 border-oat-300 rounded-3xl p-6 shadow-2xl animate-float">
+                        <div class="absolute -top-4 -right-4 bg-red-500 text-white font-display text-xs px-3 py-1.5 rounded-full shadow-md uppercase tracking-wider rotate-12">
+                            40-Min Special
+                        </div>
+                        
+                        <div class="bg-gradient-to-b from-oat-100 to-amber-50 rounded-2xl p-6 text-center border-2 border-dashed border-oat-300">
+                            <div class="text-7xl mb-2">🥣⚡</div>
+                            <h3 class="font-display text-2xl text-choco">探險家能量杯 Oaty's Explorer Cup</h3>
+                            <p class="text-sm font-semibold text-oat-700 mt-1">特殊能力：閱讀能量加倍！ Reading Power Up!</p>
+                            
+                            <div class="mt-4 grid grid-cols-3 gap-2 text-center text-xs font-bold">
+                                <div class="bg-white p-2 rounded-xl border border-oat-200">
+                                    <div class="text-oat-600 text-base">85%</div>
+                                    <div class="text-gray-500">酥脆度 Crunchy</div>
+                                </div>
+                                <div class="bg-white p-2 rounded-xl border border-oat-200">
+                                    <div class="text-amber-600 text-base">90%</div>
+                                    <div class="text-gray-500">甜美度 Sweetness</div>
+                                </div>
+                                <div class="bg-white p-2 rounded-xl border border-oat-200">
+                                    <div class="text-green-600 text-base">40 MIN</div>
+                                    <div class="text-gray-500">課堂時間 Class Time</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-4 flex items-center justify-between text-xs font-bold text-amber-900/70">
+                            <span><i class="fa-solid fa-clock mr-1 text-oat-500"></i> 手作製作: 15 Mins</span>
+                            <span><i class="fa-solid fa-fire-burner mr-1 text-oat-500"></i> 免烤箱 No-Bake!</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 1: Story Quest Map -->
+    <section id="quest" class="py-12 bg-white/70 backdrop-blur-sm border-y-2 border-oat-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-10">
+                <span class="bg-oat-100 text-oat-700 font-bold px-4 py-1.5 rounded-full text-sm">故事闖關關卡 Interactive Story Quest</span>
+                <h2 class="text-3xl sm:text-4xl font-display text-choco mt-2">燕麥的英雄冒險地圖 Oaty's Hero Journey Map 🗺️</h2>
+                <p class="text-amber-900/80 font-medium mt-2">點擊各個章節聆聽故事劇情與相對應的手作步驟！</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Chapter 1 -->
+                <div onclick="playChapterSound(1)" class="cursor-pointer bg-white border-2 border-oat-200 hover:border-oat-400 rounded-3xl p-6 shadow-md bounce-hover flex flex-col justify-between group">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="bg-oat-500 text-white font-display text-sm px-3 py-1 rounded-xl">Ch. 1</span>
+                            <span class="text-3xl group-hover:scale-125 transition-transform">🌾</span>
+                        </div>
+                        <h3 class="font-display text-xl text-choco mb-2">離家出發 The Departure</h3>
+                        <p class="text-sm text-gray-600 leading-relaxed">小燕麥 Oaty 離開安靜的農場去探索大世界！</p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-oat-100 text-xs font-bold text-oat-700 bg-oat-50 p-3 rounded-2xl">
+                        <i class="fa-solid fa-hand-holding-hand mr-1 text-oat-500"></i> 手作：量取燕麥片倒入大碗中。
+                    </div>
+                </div>
+
+                <!-- Chapter 2 -->
+                <div onclick="playChapterSound(2)" class="cursor-pointer bg-white border-2 border-oat-200 hover:border-oat-400 rounded-3xl p-6 shadow-md bounce-hover flex flex-col justify-between group">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="bg-amber-500 text-white font-display text-sm px-3 py-1 rounded-xl">Ch. 2</span>
+                            <span class="text-3xl group-hover:scale-125 transition-transform">🐿️</span>
+                        </div>
+                        <h3 class="font-display text-xl text-choco mb-2">結交盟友 Meeting Allies</h3>
+                        <p class="text-sm text-gray-600 leading-relaxed">Oaty 遇到了香脆堅果、種子與蔓越莓寶石。 </p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-oat-100 text-xs font-bold text-amber-700 bg-amber-50 p-3 rounded-2xl">
+                        <i class="fa-solid fa-hand-holding-hand mr-1 text-amber-500"></i> 手作：加入現場現有的種子堅果。
+                    </div>
+                </div>
+
+                <!-- Chapter 3 -->
+                <div onclick="playChapterSound(3)" class="cursor-pointer bg-white border-2 border-oat-200 hover:border-oat-400 rounded-3xl p-6 shadow-md bounce-hover flex flex-col justify-between group">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="bg-orange-500 text-white font-display text-sm px-3 py-1 rounded-xl">Ch. 3</span>
+                            <span class="text-3xl group-hover:scale-125 transition-transform">🍯</span>
+                        </div>
+                        <h3 class="font-display text-xl text-choco mb-2">跨越黏黏河 Sticky River</h3>
+                        <p class="text-sm text-gray-600 leading-relaxed">金黃蜂蜜與花生醬將所有夥伴緊緊凝聚！</p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-oat-100 text-xs font-bold text-orange-700 bg-orange-50 p-3 rounded-2xl">
+                        <i class="fa-solid fa-hand-holding-hand mr-1 text-orange-500"></i> 手作：淋上蜂蜜並均勻攪拌。
+                    </div>
+                </div>
+
+                <!-- Chapter 4 -->
+                <div onclick="playChapterSound(4)" class="cursor-pointer bg-white border-2 border-oat-200 hover:border-oat-400 rounded-3xl p-6 shadow-md bounce-hover flex flex-col justify-between group">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="bg-green-600 text-white font-display text-sm px-3 py-1 rounded-xl">Ch. 4</span>
+                            <span class="text-3xl group-hover:scale-125 transition-transform">🏆</span>
+                        </div>
+                        <h3 class="font-display text-xl text-choco mb-2">能量城堡 Cup Fortress</h3>
+                        <p class="text-sm text-gray-600 leading-relaxed">夥伴們緊緊團結，化為充滿力量的能量杯！</p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-oat-100 text-xs font-bold text-green-700 bg-green-50 p-3 rounded-2xl">
+                        <i class="fa-solid fa-hand-holding-hand mr-1 text-green-500"></i> 手作：壓實至小杯子模具中！
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 2: Interactive Build Your Energy Cup Simulator -->
+    <section id="builder" class="py-14 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-3xl mx-auto mb-10">
+            <span class="bg-amber-100 text-amber-800 font-bold px-4 py-1.5 rounded-full text-sm">食譜模擬體驗 Interactive Recipe Simulator</span>
+            <h2 class="text-3xl sm:text-4xl font-display text-choco mt-2">創作你的燕麥能量杯 Build Your Oats Energy Cup 🎨🥣</h2>
+            <p class="text-amber-900/80 font-medium mt-2">自由選擇配料、切換堅果庫存狀態，客製化專屬於你的故事能量杯！</p>
+        </div>
+
+        <div class="grid lg:grid-cols-12 gap-8 items-start">
+            
+            <!-- Ingredient Selector Controls -->
+            <div class="lg:col-span-7 space-y-6">
+                
+                <!-- Nut Availability Global Toggle -->
+                <div class="bg-amber-100/80 border-2 border-amber-300 rounded-3xl p-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <div class="flex items-center gap-3 text-center sm:text-left">
+                        <div class="w-10 h-10 rounded-2xl bg-amber-400 text-white flex items-center justify-center text-lg flex-shrink-0">
+                            <i class="fa-solid fa-triangle-exclamation"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-display text-base text-choco">堅果庫存與過敏狀態 (Nut Availability Check)</h4>
+                            <p class="text-xs text-amber-900/80 font-semibold">視現場食材或學生過敏狀況一鍵關閉/開啟堅果配料。</p>
+                        </div>
+                    </div>
+                    <button id="toggleNutsBtn" onclick="toggleAllNutsAvailability()" class="bg-white border-2 border-amber-400 hover:bg-amber-50 text-choco font-bold text-xs px-4 py-2 rounded-xl shadow-sm transition whitespace-nowrap">
+                        關閉/開啟堅果選項 (Toggle Nuts)
+                    </button>
+                </div>
+
+                <!-- Ingredients Grid -->
+                <div class="bg-white border-3 border-oat-300 rounded-3xl p-6 shadow-xl space-y-6">
+                    
+                    <!-- Base & Binder (Mandatory) -->
+                    <div>
+                        <h4 class="font-display text-sm text-oat-700 uppercase tracking-wider mb-3">
+                            1. 基底與黏著劑 Base &amp; Binder (Core Ingredients)
+                        </h4>
+                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                            <label class="ingredient-card bg-oat-50 border-2 border-oat-400 rounded-2xl p-3 flex items-center gap-3 cursor-pointer select-none">
+                                <input type="checkbox" checked disabled class="accent-oat-600 w-4 h-4">
+                                <span class="text-2xl">🌾</span>
+                                <div>
+                                    <div class="font-bold text-xs">Oats (燕麥)</div>
+                                    <div class="text-[10px] text-gray-500">Base Grain</div>
+                                </div>
+                            </label>
+
+                            <label class="ingredient-card bg-oat-50 border-2 border-oat-400 rounded-2xl p-3 flex items-center gap-3 cursor-pointer select-none">
+                                <input type="checkbox" checked disabled class="accent-oat-600 w-4 h-4">
+                                <span class="text-2xl">🥜</span>
+                                <div>
+                                    <div class="font-bold text-xs">Chunky Peanut Butter</div>
+                                    <div class="text-[10px] text-gray-500">粗粒花生醬</div>
+                                </div>
+                            </label>
+
+                            <label class="ingredient-card bg-oat-50 border-2 border-oat-400 rounded-2xl p-3 flex items-center gap-3 cursor-pointer select-none">
+                                <input type="checkbox" checked disabled class="accent-oat-600 w-4 h-4">
+                                <span class="text-2xl">🍯</span>
+                                <div>
+                                    <div class="font-bold text-xs">Honey (蜂蜜)</div>
+                                    <div class="text-[10px] text-gray-500">Sweet River</div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Spices & Mix-ins -->
+                    <div>
+                        <h4 class="font-display text-sm text-oat-700 uppercase tracking-wider mb-3">
+                            2. 風味與配料 Spices &amp; Flavor Drops
+                        </h4>
+                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                            <label onclick="updateCupState()" class="ingredient-card bg-white border-2 border-oat-200 hover:border-oat-400 rounded-2xl p-3 flex items-center gap-3 cursor-pointer select-none">
+                                <input type="checkbox" id="ing-cinnamon" checked class="accent-oat-600 w-4 h-4">
+                                <span class="text-2xl">🍂</span>
+                                <div>
+                                    <div class="font-bold text-xs">Cinnamon (肉桂)</div>
+                                </div>
+                            </label>
+
+                            <label onclick="updateCupState()" class="ingredient-card bg-white border-2 border-oat-200 hover:border-oat-400 rounded-2xl p-3 flex items-center gap-3 cursor-pointer select-none">
+                                <input type="checkbox" id="ing-cranberry" checked class="accent-oat-600 w-4 h-4">
+                                <span class="text-2xl">🍒</span>
+                                <div>
+                                    <div class="font-bold text-xs">Cranberries (蔓越莓)</div>
+                                </div>
+                            </label>
+
+                            <label onclick="updateCupState()" class="ingredient-card bg-white border-2 border-oat-200 hover:border-oat-400 rounded-2xl p-3 flex items-center gap-3 cursor-pointer select-none">
+                                <input type="checkbox" id="ing-chocolate" checked class="accent-oat-600 w-4 h-4">
+                                <span class="text-2xl">🍫</span>
+                                <div>
+                                    <div class="font-bold text-xs">Chocolate (巧克力)</div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Seeds -->
+                    <div>
+                        <h4 class="font-display text-sm text-oat-700 uppercase tracking-wider mb-3">
+                            3. 能量種子 Power Seeds
+                        </h4>
+                        <div class="grid grid-cols-2 gap-3">
+                            <label onclick="updateCupState()" class="ingredient-card bg-white border-2 border-oat-200 hover:border-oat-400 rounded-2xl p-3 flex items-center gap-3 cursor-pointer select-none">
+                                <input type="checkbox" id="ing-pumpkin" checked class="accent-oat-600 w-4 h-4">
+                                <span class="text-2xl">🎃</span>
+                                <div>
+                                    <div class="font-bold text-xs">Pumpkin Seeds (南瓜子)</div>
+                                </div>
+                            </label>
+
+                            <label onclick="updateCupState()" class="ingredient-card bg-white border-2 border-oat-200 hover:border-oat-400 rounded-2xl p-3 flex items-center gap-3 cursor-pointer select-none">
+                                <input type="checkbox" id="ing-sunflower" checked class="accent-oat-600 w-4 h-4">
+                                <span class="text-2xl">🌻</span>
+                                <div>
+                                    <div class="font-bold text-xs">Sunflower Seeds (葵花子)</div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Nuts -->
+                    <div>
+                        <h4 class="font-display text-sm text-oat-700 uppercase tracking-wider mb-3">
+                            4. 堅果夥伴 Nut Companions (*Subject to availability)
+                        </h4>
+                        <div class="grid grid-cols-2 gap-3">
+                            <label onclick="updateCupState()" class="nut-card ingredient-card bg-white border-2 border-oat-200 hover:border-oat-400 rounded-2xl p-3 flex items-center justify-between cursor-pointer select-none">
+                                <div class="flex items-center gap-2">
+                                    <input type="checkbox" id="ing-walnut" checked class="nut-checkbox accent-oat-600 w-4 h-4">
+                                    <span class="text-xl">🧠</span>
+                                    <span class="font-bold text-xs">Walnuts (核桃)</span>
+                                </div>
+                                <span class="text-[9px] bg-amber-100 text-amber-800 font-bold px-2 py-0.5 rounded-full">Nut</span>
+                            </label>
+
+                            <label onclick="updateCupState()" class="nut-card ingredient-card bg-white border-2 border-oat-200 hover:border-oat-400 rounded-2xl p-3 flex items-center justify-between cursor-pointer select-none">
+                                <div class="flex items-center gap-2">
+                                    <input type="checkbox" id="ing-pecan" checked class="nut-checkbox accent-oat-600 w-4 h-4">
+                                    <span class="text-xl">🌰</span>
+                                    <span class="font-bold text-xs">Pecans (胡桃)</span>
+                                </div>
+                                <span class="text-[9px] bg-amber-100 text-amber-800 font-bold px-2 py-0.5 rounded-full">Nut</span>
+                            </label>
+
+                            <label onclick="updateCupState()" class="nut-card ingredient-card bg-white border-2 border-oat-200 hover:border-oat-400 rounded-2xl p-3 flex items-center justify-between cursor-pointer select-none">
+                                <div class="flex items-center gap-2">
+                                    <input type="checkbox" id="ing-pistachio" checked class="nut-checkbox accent-oat-600 w-4 h-4">
+                                    <span class="text-xl">🥑</span>
+                                    <span class="font-bold text-xs">Pistachios (開心果)</span>
+                                </div>
+                                <span class="text-[9px] bg-amber-100 text-amber-800 font-bold px-2 py-0.5 rounded-full">Nut</span>
+                            </label>
+
+                            <label onclick="updateCupState()" class="nut-card ingredient-card bg-white border-2 border-oat-200 hover:border-oat-400 rounded-2xl p-3 flex items-center justify-between cursor-pointer select-none">
+                                <div class="flex items-center gap-2">
+                                    <input type="checkbox" id="ing-cashew" checked class="nut-checkbox accent-oat-600 w-4 h-4">
+                                    <span class="text-xl">🥜</span>
+                                    <span class="font-bold text-xs">Cashews (腰果)</span>
+                                </div>
+                                <span class="text-[9px] bg-amber-100 text-amber-800 font-bold px-2 py-0.5 rounded-full">Nut</span>
+                            </label>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Realtime Energy Cup Graphic & Stats -->
+            <div class="lg:col-span-5 sticky top-24 space-y-6">
+                
+                <div class="bg-gradient-to-b from-amber-400 via-oat-400 to-oat-500 rounded-3xl p-6 shadow-2xl text-white border-4 border-white">
+                    <div class="flex items-center justify-between border-b border-white/30 pb-3 mb-4">
+                        <span class="font-display text-lg tracking-wide"><i class="fa-solid fa-mug-hot mr-2"></i>即時造型 Live Cup Render</span>
+                        <span id="superpowerBadge" class="bg-white text-choco font-bold text-xs px-3 py-1 rounded-full shadow-sm">
+                            Explorer Fuel 🚀
+                        </span>
+                    </div>
+
+                    <!-- Visual Cup Graphic -->
+                    <div class="relative w-48 h-48 mx-auto my-6 flex flex-col justify-end items-center">
+                        <div id="toppingIcons" class="absolute top-0 w-full flex justify-center gap-2 text-2xl z-20 transition-all duration-300">
+                            <span>🍒</span><span>🍫</span><span>🍂</span>
+                        </div>
+
+                        <div class="relative w-44 h-36 bg-gradient-to-b from-oat-100 to-amber-200 border-4 border-amber-800 rounded-b-3xl rounded-t-lg overflow-hidden shadow-inner flex flex-col justify-end p-2">
+                            <div id="layer-toppings" class="cup-layer w-full h-8 bg-amber-700/60 rounded-t-md flex items-center justify-center text-xs font-bold text-white overflow-hidden">
+                                🍒 🍫 🎃 🌰
+                            </div>
+
+                            <div id="layer-binder" class="cup-layer w-full h-10 bg-amber-800/80 flex items-center justify-center text-[10px] font-bold text-amber-200 border-t border-amber-600">
+                                🍯 Peanut Butter &amp; Honey
+                            </div>
+
+                            <div id="layer-base" class="cup-layer w-full h-14 bg-amber-300 flex items-center justify-center text-xs font-bold text-amber-900 border-t border-amber-400">
+                                🌾 Rolled Oats Base
+                            </div>
+                        </div>
+
+                        <div class="w-48 h-4 bg-amber-900/30 rounded-full blur-sm -mt-1"></div>
+                    </div>
+
+                    <!-- Stats Bars -->
+                    <div class="bg-white/10 backdrop-blur-md rounded-2xl p-4 space-y-3 font-semibold text-xs">
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span>酥脆度 (Crunchiness)</span>
+                                <span id="statCrunch">85%</span>
+                            </div>
+                            <div class="w-full bg-white/20 h-2.5 rounded-full overflow-hidden">
+                                <div id="barCrunch" class="bg-white h-full transition-all duration-500" style="width: 85%;"></div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span>甜美能量 (Sweetness &amp; Energy)</span>
+                                <span id="statSweet">90%</span>
+                            </div>
+                            <div class="w-full bg-white/20 h-2.5 rounded-full overflow-hidden">
+                                <div id="barSweet" class="bg-amber-200 h-full transition-all duration-500" style="width: 90%;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 pt-3 border-t border-white/20">
+                        <label class="block text-xs font-bold mb-1 opacity-90">為你的燕麥能量杯命名 (Name Your Cup):</label>
+                        <input type="text" id="cupNameInput" value="Captain Oaty's Power Cup" class="w-full bg-white text-choco font-bold text-sm px-4 py-2.5 rounded-xl border-none focus:ring-2 focus:ring-white outline-none">
+                    </div>
+
+                    <button onclick="generateRecipeCard()" class="w-full mt-4 bg-choco hover:bg-black text-white font-display text-sm py-3 rounded-xl shadow-lg bounce-hover flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-address-card"></i> 生成故事食譜小卡 (Generate Pass)
+                    </button>
+
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 3: Sensory Word Bank & Soundboard -->
+    <section id="wordbank" class="py-14 bg-gradient-to-b from-oat-100 to-amber-100 border-y-2 border-oat-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-10">
+                <span class="bg-white text-oat-700 font-bold px-4 py-1.5 rounded-full text-sm border border-oat-200">英語發音互動 Soundboard</span>
+                <h2 class="text-3xl sm:text-4xl font-display text-choco mt-2">感官單字庫與發音板 Sensory Word Bank 🗣️🔊</h2>
+                <p class="text-amber-900/80 font-medium mt-2">點擊單字卡，即可聆聽英語標準發音！</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6">
+                <!-- Group 1: Textures -->
+                <div class="bg-white rounded-3xl p-6 shadow-md border-2 border-oat-200">
+                    <div class="flex items-center gap-2 font-display text-lg text-oat-700 mb-4 pb-2 border-b border-oat-100">
+                        <span class="text-2xl">✨</span> 口感單字 (Texture Words)
+                    </div>
+                    <div class="space-y-2.5">
+                        <button onclick="speakWord('Crunchy')" class="w-full bg-oat-50 hover:bg-oat-200 p-3 rounded-2xl flex items-center justify-between text-left transition group">
+                            <div>
+                                <span class="font-bold text-choco text-sm group-hover:text-oat-700">Crunchy</span>
+                                <span class="text-xs text-gray-500 block">酥脆的</span>
+                            </div>
+                            <i class="fa-solid fa-volume-high text-oat-400 group-hover:text-oat-600"></i>
+                        </button>
+
+                        <button onclick="speakWord('Chewy')" class="w-full bg-oat-50 hover:bg-oat-200 p-3 rounded-2xl flex items-center justify-between text-left transition group">
+                            <div>
+                                <span class="font-bold text-choco text-sm group-hover:text-oat-700">Chewy</span>
+                                <span class="text-xs text-gray-500 block">有咬勁的 / Q彈的</span>
+                            </div>
+                            <i class="fa-solid fa-volume-high text-oat-400 group-hover:text-oat-600"></i>
+                        </button>
+
+                        <button onclick="speakWord('Sticky')" class="w-full bg-oat-50 hover:bg-oat-200 p-3 rounded-2xl flex items-center justify-between text-left transition group">
+                            <div>
+                                <span class="font-bold text-choco text-sm group-hover:text-oat-700">Sticky</span>
+                                <span class="text-xs text-gray-500 block">黏黏的</span>
+                            </div>
+                            <i class="fa-solid fa-volume-high text-oat-400 group-hover:text-oat-600"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Group 2: Flavors -->
+                <div class="bg-white rounded-3xl p-6 shadow-md border-2 border-oat-200">
+                    <div class="flex items-center gap-2 font-display text-lg text-amber-700 mb-4 pb-2 border-b border-oat-100">
+                        <span class="text-2xl">🍯</span> 風味香氣 (Flavor &amp; Aroma)
+                    </div>
+                    <div class="space-y-2.5">
+                        <button onclick="speakWord('Nutty')" class="w-full bg-amber-50 hover:bg-amber-200 p-3 rounded-2xl flex items-center justify-between text-left transition group">
+                            <div>
+                                <span class="font-bold text-choco text-sm group-hover:text-amber-700">Nutty</span>
+                                <span class="text-xs text-gray-500 block">堅果香濃的</span>
+                            </div>
+                            <i class="fa-solid fa-volume-high text-amber-400 group-hover:text-amber-600"></i>
+                        </button>
+
+                        <button onclick="speakWord('Sweet')" class="w-full bg-amber-50 hover:bg-amber-200 p-3 rounded-2xl flex items-center justify-between text-left transition group">
+                            <div>
+                                <span class="font-bold text-choco text-sm group-hover:text-amber-700">Sweet</span>
+                                <span class="text-xs text-gray-500 block">甜美的</span>
+                            </div>
+                            <i class="fa-solid fa-volume-high text-amber-400 group-hover:text-amber-600"></i>
+                        </button>
+
+                        <button onclick="speakWord('Tangy')" class="w-full bg-amber-50 hover:bg-amber-200 p-3 rounded-2xl flex items-center justify-between text-left transition group">
+                            <div>
+                                <span class="font-bold text-choco text-sm group-hover:text-amber-700">Tangy</span>
+                                <span class="text-xs text-gray-500 block">酸甜清爽的</span>
+                            </div>
+                            <i class="fa-solid fa-volume-high text-amber-400 group-hover:text-amber-600"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Group 3: Action Verbs -->
+                <div class="bg-white rounded-3xl p-6 shadow-md border-2 border-oat-200">
+                    <div class="flex items-center gap-2 font-display text-lg text-orange-700 mb-4 pb-2 border-b border-oat-100">
+                        <span class="text-2xl">🥣</span> 手作動詞 (Action Verbs)
+                    </div>
+                    <div class="space-y-2.5">
+                        <button onclick="speakWord('Drizzle')" class="w-full bg-orange-50 hover:bg-orange-200 p-3 rounded-2xl flex items-center justify-between text-left transition group">
+                            <div>
+                                <span class="font-bold text-choco text-sm group-hover:text-orange-700">Drizzle</span>
+                                <span class="text-xs text-gray-500 block">細絲淋上</span>
+                            </div>
+                            <i class="fa-solid fa-volume-high text-orange-400 group-hover:text-orange-600"></i>
+                        </button>
+
+                        <button onclick="speakWord('Mix together')" class="w-full bg-orange-50 hover:bg-orange-200 p-3 rounded-2xl flex items-center justify-between text-left transition group">
+                            <div>
+                                <span class="font-bold text-choco text-sm group-hover:text-orange-700">Mix together</span>
+                                <span class="text-xs text-gray-500 block">攪拌混合</span>
+                            </div>
+                            <i class="fa-solid fa-volume-high text-orange-400 group-hover:text-orange-600"></i>
+                        </button>
+
+                        <button onclick="speakWord('Press firmly')" class="w-full bg-orange-50 hover:bg-orange-200 p-3 rounded-2xl flex items-center justify-between text-left transition group">
+                            <div>
+                                <span class="font-bold text-choco text-sm group-hover:text-orange-700">Press firmly</span>
+                                <span class="text-xs text-gray-500 block">緊緊壓入模具</span>
+                            </div>
+                            <i class="fa-solid fa-volume-high text-orange-400 group-hover:text-orange-600"></i>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 4: Teacher's Showcase & 40-Min Lesson Plan -->
+    <section id="showcase" class="py-14 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="bg-white border-4 border-oat-300 rounded-3xl p-6 sm:p-10 shadow-2xl space-y-8">
+            
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-oat-200 pb-6">
+                <div>
+                    <span class="bg-oat-500 text-white font-display text-xs px-3 py-1 rounded-full uppercase tracking-wider">教師課程規劃 Teacher's Breakdown</span>
+                    <h2 class="text-3xl font-display text-choco mt-1">40 分鐘課堂時間軸 40-Minute Class Timeline ⏱️</h2>
+                    <p class="text-sm text-gray-600 font-medium">課程 Course: <strong>漫遊故事林 To Wander in Stories</strong> | 活動 Activity: 燕麥大冒險 (Oats Energy Cups)</p>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span class="bg-amber-100 text-amber-800 font-bold text-xs px-3 py-1.5 rounded-xl">⚡ 緊湊高效 Fast-Paced</span>
+                    <span class="bg-green-100 text-green-800 font-bold text-xs px-3 py-1.5 rounded-xl">免烤箱 No Baking</span>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-4 gap-6">
+                <div class="bg-oat-50 rounded-2xl p-4 border border-oat-200">
+                    <div class="font-display text-oat-600 text-lg mb-1">00-05 Min</div>
+                    <div class="font-bold text-choco text-sm mb-2">1. 暖身導讀 (Warm-up)</div>
+                    <p class="text-xs text-gray-600 leading-relaxed">介紹主角 Oaty 的登場。提問：<em>"What fuel gives an explorer power?"</em></p>
+                </div>
+
+                <div class="bg-amber-50 rounded-2xl p-4 border border-amber-200">
+                    <div class="font-display text-amber-600 text-lg mb-1">05-15 Min</div>
+                    <div class="font-bold text-choco text-sm mb-2">2. 故事與單字 (Story &amp; Vocab)</div>
+                    <p class="text-xs text-gray-600 leading-relaxed">朗讀第 1-4 章。引導感官單字（crunchy, chewy, drizzle）並確認堅果過敏狀況。</p>
+                </div>
+
+                <div class="bg-orange-50 rounded-2xl p-4 border border-orange-200">
+                    <div class="font-display text-orange-600 text-lg mb-1">15-30 Min</div>
+                    <div class="font-bold text-choco text-sm mb-2">3. 動手製作 (Hands-on)</div>
+                    <p class="text-xs text-gray-600 leading-relaxed">學生於碗中混合燕麥、花生醬、蜂蜜、種子與果乾。壓實於杯子模具成型！</p>
+                </div>
+
+                <div class="bg-green-50 rounded-2xl p-4 border border-green-200">
+                    <div class="font-display text-green-600 text-lg mb-1">30-40 Min</div>
+                    <div class="font-bold text-choco text-sm mb-2">4. 展示與品嚐 (Show &amp; Taste)</div>
+                    <p class="text-xs text-gray-600 leading-relaxed">學生分享能量杯名稱與口感發表：<em>"My cup is sweet and crunchy!"</em></p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Modal: Recipe Pass Generator -->
+    <div id="recipeModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white border-4 border-oat-400 rounded-3xl max-w-md w-full p-6 shadow-2xl relative animate-float">
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-choco text-xl">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div class="text-center">
+                <div class="inline-block bg-oat-100 text-oat-800 font-display text-xs px-3 py-1 rounded-full mb-2">
+                    漫遊故事林 To Wander in Stories • Pass
+                </div>
+                <h3 class="text-2xl font-display text-choco" id="modalCupTitle">Captain Oaty's Power Cup</h3>
+                <p class="text-xs text-gray-500 mt-1">探險家食譜通行證 Adventurer Recipe Pass</p>
+            </div>
+
+            <div class="mt-4 bg-gradient-to-b from-oat-50 to-amber-50 rounded-2xl p-4 border-2 border-dashed border-oat-300 space-y-3 text-xs">
+                <div>
+                    <span class="font-bold text-oat-700">選擇配料 Selected Ingredients:</span>
+                    <p id="modalIngredientsList" class="text-gray-700 mt-0.5">Oats, Peanut Butter, Honey, Cinnamon, Cranberries, Pumpkin Seeds</p>
+                </div>
+                <div class="grid grid-cols-2 gap-2 pt-2 border-t border-oat-200">
+                    <div>
+                        <span class="font-bold text-amber-700">酥脆度 Crunchiness:</span>
+                        <div id="modalCrunchVal" class="font-bold text-sm">85%</div>
+                    </div>
+                    <div>
+                        <span class="font-bold text-amber-700">甜美度 Sweetness:</span>
+                        <div id="modalSweetVal" class="font-bold text-sm">90%</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-5 flex gap-3">
+                <button onclick="window.print()" class="flex-1 bg-oat-500 hover:bg-oat-600 text-white font-bold text-xs py-3 rounded-xl transition flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-print"></i> 列印食譜小卡 Print
+                </button>
+                <button onclick="closeModal()" class="flex-1 bg-gray-100 hover:bg-gray-200 text-choco font-bold text-xs py-3 rounded-xl transition">
+                    關閉 Close
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JS Code -->
+    <script>
+        let allNutsAvailable = true;
+
+        function toggleAllNutsAvailability() {
+            allNutsAvailable = !allNutsAvailable;
+            const nutCards = document.querySelectorAll('.nut-card');
+            const nutCheckboxes = document.querySelectorAll('.nut-checkbox');
+            const btn = document.getElementById('toggleNutsBtn');
+
+            nutCheckboxes.forEach(cb => {
+                cb.disabled = !allNutsAvailable;
+                if (!allNutsAvailable) cb.checked = false;
+            });
+
+            nutCards.forEach(card => {
+                if (!allNutsAvailable) {
+                    card.classList.add('opacity-40', 'bg-gray-100');
+                } else {
+                    card.classList.remove('opacity-40', 'bg-gray-100');
+                }
+            });
+
+            btn.innerText = allNutsAvailable ? "關閉堅果選項 (Disable Nuts)" : "開啟堅果選項 (Enable Nuts)";
+            btn.classList.toggle('bg-red-50', !allNutsAvailable);
+
+            updateCupState();
+        }
+
+        function updateCupState() {
+            let crunch = 50;
+            let sweet = 60;
+            let toppingIcons = ['🌾'];
+
+            if (document.getElementById('ing-cinnamon').checked) { sweet += 5; }
+            if (document.getElementById('ing-cranberry').checked) { sweet += 15; toppingIcons.push('🍒'); }
+            if (document.getElementById('ing-chocolate').checked) { sweet += 15; crunch += 5; toppingIcons.push('🍫'); }
+            if (document.getElementById('ing-pumpkin').checked) { crunch += 10; toppingIcons.push('🎃'); }
+            if (document.getElementById('ing-sunflower').checked) { crunch += 10; toppingIcons.push('🌻'); }
+
+            if (document.getElementById('ing-walnut').checked && !document.getElementById('ing-walnut').disabled) { crunch += 8; }
+            if (document.getElementById('ing-pecan').checked && !document.getElementById('ing-pecan').disabled) { crunch += 8; }
+            if (document.getElementById('ing-pistachio').checked && !document.getElementById('ing-pistachio').disabled) { crunch += 8; }
+            if (document.getElementById('ing-cashew').checked && !document.getElementById('ing-cashew').disabled) { crunch += 8; }
+
+            crunch = Math.min(crunch, 98);
+            sweet = Math.min(sweet, 98);
+
+            document.getElementById('statCrunch').innerText = crunch + '%';
+            document.getElementById('barCrunch').style.width = crunch + '%';
+
+            document.getElementById('statSweet').innerText = sweet + '%';
+            document.getElementById('barSweet').style.width = sweet + '%';
+
+            const toppingContainer = document.getElementById('toppingIcons');
+            toppingContainer.innerHTML = toppingIcons.slice(0, 5).map(icon => `<span>${icon}</span>`).join('');
+        }
+
+        function speakWord(text) {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'en-US';
+                utterance.rate = 0.9;
+                window.speechSynthesis.speak(utterance);
+            }
+        }
+
+        function playChapterSound(num) {
+            const titles = [
+                "Chapter 1: The Departure!",
+                "Chapter 2: Meeting Allies in the forest!",
+                "Chapter 3: Crossing the Golden Sticky River!",
+                "Chapter 4: Reaching the Energy Cup Fortress!"
+            ];
+            speakWord(titles[num-1]);
+        }
+
+        function scrollToBuilder() {
+            document.getElementById('builder').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function generateRecipeCard() {
+            const name = document.getElementById('cupNameInput').value || "My Oats Energy Cup";
+            document.getElementById('modalCupTitle').innerText = name;
+            document.getElementById('modalCrunchVal').innerText = document.getElementById('statCrunch').innerText;
+            document.getElementById('modalSweetVal').innerText = document.getElementById('statSweet').innerText;
+
+            let selected = ["Oats Base", "Peanut Butter", "Honey"];
+            if (document.getElementById('ing-cinnamon').checked) selected.push("Cinnamon");
+            if (document.getElementById('ing-cranberry').checked) selected.push("Cranberries");
+            if (document.getElementById('ing-chocolate').checked) selected.push("Chocolate");
+            if (document.getElementById('ing-pumpkin').checked) selected.push("Pumpkin Seeds");
+            if (document.getElementById('ing-sunflower').checked) selected.push("Sunflower Seeds");
+            if (document.getElementById('ing-walnut').checked && !document.getElementById('ing-walnut').disabled) selected.push("Walnuts");
+            if (document.getElementById('ing-pecan').checked && !document.getElementById('ing-pecan').disabled) selected.push("Pecans");
+
+            document.getElementById('modalIngredientsList').innerText = selected.join(", ");
+            document.getElementById('recipeModal').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('recipeModal').classList.add('hidden');
+        }
+
+        window.onload = function() {
+            updateCupState();
+        }
+    </script>
+</body>
+</html>
