@@ -12,16 +12,16 @@
 box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 *{box-sizing:inherit;margin:0}
 html,body{height:100%}
-body{background:#1d0508;color:var(--cream);font-family:var(--tx);display:flex;flex-direction:column;overflow:hidden;position:relative}
+body{background:#2b0d17;color:var(--cream);font-family:var(--tx);display:flex;flex-direction:column;overflow:hidden;position:relative}
 button{font:inherit;color:inherit;cursor:pointer;background:none;border:0}
 button:focus-visible{outline:2px solid var(--or);outline-offset:2px}
 /* aurora */
 .aur{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
 .aur i{position:absolute;width:55vmax;height:55vmax;border-radius:50%;filter:blur(90px);opacity:.75;animation:drift 22s ease-in-out infinite alternate}
-.aur i:nth-child(1){background:#a3191f;left:-15vmax;top:-20vmax}
-.aur i:nth-child(2){background:#ff8a1f;right:-20vmax;top:5vmax;opacity:.5;animation-duration:28s;animation-delay:-8s}
-.aur i:nth-child(3){background:#7d1f55;left:25vw;bottom:-30vmax;animation-duration:25s;animation-delay:-4s}
-.aur i:nth-child(4){background:#e6b655;right:15vw;bottom:-35vmax;opacity:.35;animation-duration:31s}
+.aur i:nth-child(1){background:#7c2a41;left:-15vmax;top:-20vmax}
+.aur i:nth-child(2){background:#d9792b;right:-20vmax;top:5vmax;opacity:.26;animation-duration:28s;animation-delay:-8s}
+.aur i:nth-child(3){background:#611f37;left:25vw;bottom:-30vmax;animation-duration:25s;animation-delay:-4s}
+.aur i:nth-child(4){background:#e6b655;right:15vw;bottom:-35vmax;opacity:.18;animation-duration:31s}
 @keyframes drift{to{transform:translate(12vmax,8vmax) rotate(40deg) scale(1.15)}}
 .aur::after{content:"";position:absolute;inset:-50%;background:conic-gradient(from 0deg at 50% 50%,transparent,rgba(255,220,150,.08),transparent 30%,rgba(255,140,60,.07),transparent 60%);animation:spin 40s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
@@ -46,7 +46,7 @@ nav button.on{background:linear-gradient(135deg,#f3d493,var(--gold));color:#3a0d
 .orb svg{width:100%;height:100%;overflow:visible}
 @keyframes float{50%{transform:translateY(-3px)}}
 .timer.run .orb{animation:beat 1s cubic-bezier(.3,.7,.4,1) infinite}
-.timer.run.warn .orb{animation-duration:.5s}
+.timer.run.fast .orb{animation-duration:.5s}
 @keyframes beat{0%,100%{transform:translateY(0) scale(1.1,.9)}25%{transform:translateY(-9px) scale(.95,1.08) rotate(-5deg)}50%{transform:translateY(0) scale(1.1,.9)}75%{transform:translateY(-6px) scale(.97,1.05) rotate(5deg)}}
 #ring{transition:stroke .3s}
 #tm{font:800 3.4rem/1 var(--hd);font-variant-numeric:tabular-nums;min-width:4.2ch;display:inline-block;text-shadow:0 2px 20px rgba(255,154,31,.4)}
@@ -116,7 +116,7 @@ main{flex:1;min-height:0}
 .w2 i:last-child{flex:1;min-width:30px;background:linear-gradient(90deg,var(--gold),transparent)}
 .ttl{position:relative;z-index:1;text-align:center;padding:8px 16px 0}
 .l1{display:flex;justify-content:center;align-items:center;gap:clamp(12px,2vw,30px);flex-wrap:wrap}
-.yr{display:inline-flex;flex-direction:column;align-items:center;line-height:1;padding:6px 14px 7px;border:2px solid var(--gold);border-radius:16px;background:linear-gradient(145deg,rgba(190,30,36,.75),rgba(110,12,20,.75));box-shadow:0 8px 26px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.4);transform:rotate(-5deg)}
+.yr{display:inline-flex;flex-direction:column;align-items:center;line-height:1;padding:6px 14px 7px;border:2px solid var(--gold);border-radius:16px;background:linear-gradient(145deg,rgba(128,42,62,.9),rgba(84,22,40,.9));box-shadow:0 8px 26px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.4);transform:rotate(-5deg)}
 .yr b{font:800 clamp(1.5rem,min(3.4vw,5.6vh),3.2rem) var(--hd);color:#ffe7b0}
 .yr i{font:900 clamp(.8rem,min(1.4vw,2.4vh),1.3rem) var(--tc);font-style:normal;color:var(--gold);letter-spacing:.2em;margin-top:3px}
 .m{font:900 clamp(2rem,min(6.2vw,10.5vh),5.8rem)/1.1 var(--tc);letter-spacing:.14em;margin-right:-.14em;background:linear-gradient(100deg,#fff3d6 0%,#f3cf86 28%,#ffa530 50%,#f3cf86 72%,#fff3d6 100%);background-size:260% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shine 7s linear infinite;filter:drop-shadow(0 4px 20px rgba(255,140,30,.4))}
@@ -126,6 +126,13 @@ main{flex:1;min-height:0}
 .rule:last-child{transform:scaleX(-1)}
 .s{font:900 clamp(1.3rem,min(3.4vw,5.6vh),3.1rem) var(--tc);color:var(--or);letter-spacing:.32em;margin-right:-.32em;text-shadow:0 0 26px rgba(255,154,31,.6)}
 .en2{font:italic 600 clamp(1rem,min(2.2vw,3.8vh),1.9rem) var(--hd);color:var(--cream);opacity:.85;letter-spacing:.06em}
+.hg{width:44px;height:66px;flex:none;filter:drop-shadow(0 4px 10px rgba(0,0,0,.35))}
+.hg.flip{animation:flip .8s cubic-bezier(.5,0,.2,1)}
+@keyframes flip{to{transform:rotate(360deg)}}
+#js{opacity:0;transition:opacity .2s;animation:flow .45s linear infinite}
+.timer.run #js{opacity:1}
+@keyframes flow{to{stroke-dashoffset:-5.5}}
+@media(prefers-reduced-motion:reduce){.hg.flip,#js{animation:none}}
 @media(prefers-reduced-motion:reduce){.m{animation:none}}
 @media(prefers-reduced-motion:reduce){.leaves{display:none}}
 @media(max-width:820px){.sg{grid-template-columns:1fr;height:auto}body{overflow:auto}.top{border-radius:28px}}
@@ -145,6 +152,7 @@ main{flex:1;min-height:0}
   </nav>
   <div class="timer" id="timer">
     <div class="orb"><svg viewBox="0 0 60 60" aria-hidden="true"><defs><radialGradient id="og" cx=".35" cy=".3"><stop offset="0" stop-color="#ffc04d"/><stop offset="1" stop-color="#f27a00"/></radialGradient></defs><circle cx="30" cy="30" r="28" fill="none" stroke="rgba(255,255,255,.18)" stroke-width="2.5"/><circle id="ring" cx="30" cy="30" r="28" fill="none" stroke="#e6c27a" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="175.9" stroke-dashoffset="0" transform="rotate(-90 30 30)"/><circle cx="30" cy="33" r="19" fill="url(#og)"/><path d="M30 15c-1-5 3-7 8-6-1 4-3 6-8 6z" fill="#5fae4a"/><ellipse cx="23" cy="26" rx="5" ry="3" fill="#fff" opacity=".4" transform="rotate(-30 23 26)"/><g stroke="#fff" stroke-opacity=".3" stroke-width="1.5"><path d="M30 33v17M30 33l-15 8M30 33l15 8"/></g></svg></div>
+    <svg class="hg" id="hg" viewBox="0 0 60 90" aria-hidden="true"><defs><linearGradient id="jg" x1="0" x2="1"><stop offset="0" stop-color="#ffc04d"/><stop offset=".6" stop-color="#ff9a1f"/><stop offset="1" stop-color="#e86f00"/></linearGradient><clipPath id="gc"><path d="M12 10H48C48 30 36 38 32 45C36 52 48 60 48 80H12C12 60 24 52 28 45C24 38 12 30 12 10Z"/></clipPath></defs><rect x="6" y="3" width="48" height="7" rx="3.5" fill="#e6c27a"/><rect x="6" y="80" width="48" height="7" rx="3.5" fill="#e6c27a"/><path d="M12 10H48C48 30 36 38 32 45C36 52 48 60 48 80H12C12 60 24 52 28 45C24 38 12 30 12 10Z" fill="rgba(255,255,255,.1)"/><g clip-path="url(#gc)"><rect id="ju" x="0" y="10" width="60" height="36" fill="url(#jg)"/><rect id="jl" x="0" y="80" width="60" height="0" fill="url(#jg)"/></g><line id="js" x1="30" y1="42" x2="30" y2="80" stroke="#ff9a1f" stroke-width="1.8" stroke-dasharray="3 2.5"/><path d="M12 10H48C48 30 36 38 32 45C36 52 48 60 48 80H12C12 60 24 52 28 45C24 38 12 30 12 10Z" fill="none" stroke="rgba(255,255,255,.75)" stroke-width="1.6" stroke-linejoin="round"/><path d="M17 14C17 28 25 35 27 42" stroke="rgba(255,255,255,.55)" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M43 66C43 70 42 74 41 77" stroke="rgba(255,255,255,.4)" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
     <span id="tm">02:00</span>
     <button class="tb" id="tgo" aria-label="Start or pause">▶</button>
     <button class="tb g" id="trs" aria-label="Reset timer">↺</button>
@@ -195,7 +203,7 @@ main{flex:1;min-height:0}
         <li><b>Pronunciation &amp; intonation</b>Clear sounds, accurate stress, natural rise and fall.</li>
         <li><b>Fluency &amp; phrasing</b>Smooth pace and sensible pauses between meaning groups.</li>
         <li><b>Expression &amp; emotion</b>A voice that carries the meaning and feeling of the text.</li>
-        <li><b>Stage presence</b>Posture,confidence and use of the two minutes.</li></ul></div>
+        <li><b>Stage presence</b>Posture, confidence and use of the two minutes.</li></ul></div>
     </div>
   </section>
 </main>
@@ -244,17 +252,23 @@ const D=120000,C=175.9;let left=D,run=false,t0=0,iv=null,ac=null,lastS=-1;
 function paint(ms){const s=Math.ceil(ms/1000);
   $('#tm').textContent=String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');
   if(run&&s!==lastS){const t=$('#tm');t.classList.remove('pop');void t.offsetWidth;t.classList.add('pop');}
-  lastS=s;$('#ring').style.strokeDashoffset=C*(1-ms/D);$('#timer').classList.toggle('warn',ms<=30000&&ms>0);}
+  lastS=s;$('#ring').style.strokeDashoffset=C*(1-ms/D);hg(ms/D);$('#timer').classList.toggle('warn',ms<=30000&&ms>0);$('#timer').classList.toggle('fast',ms<=10000&&ms>0);}
+function hg(p){const yu=10+(1-p)*34,yl=80-(1-p)*34;
+  $('#ju').setAttribute('y',yu);$('#ju').setAttribute('height',Math.max(0,46-yu));
+  $('#jl').setAttribute('y',yl);$('#jl').setAttribute('height',p>=.999?0:81-yl);
+  $('#js').setAttribute('y2',yl);$('#js').style.display=p>.01?'':'none';}
+let dinged=false;function ding(){try{ac=ac||new(window.AudioContext||window.webkitAudioContext)();const o=ac.createOscillator(),g=ac.createGain(),t=ac.currentTime;o.type='sine';o.frequency.value=1318;o.connect(g);g.connect(ac.destination);g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.11,t+.02);g.gain.exponentialRampToValueAtTime(.0001,t+1.4);o.start(t);o.stop(t+1.45);}catch(e){}}
+function say(){try{if(!window.speechSynthesis)return;speechSynthesis.cancel();const u=new SpeechSynthesisUtterance("Time's up!");u.lang='en-US';u.rate=.95;speechSynthesis.speak(u);}catch(e){}}
 function beep(){try{ac=ac||new(window.AudioContext||window.webkitAudioContext)();
   [0,.35,.7].forEach(d=>{const o=ac.createOscillator(),g=ac.createGain();o.connect(g);g.connect(ac.destination);o.frequency.value=880;
   g.gain.setValueAtTime(.25,ac.currentTime+d);g.gain.exponentialRampToValueAtTime(.001,ac.currentTime+d+.3);o.start(ac.currentTime+d);o.stop(ac.currentTime+d+.32);});}catch(e){}}
 function stop(){clearInterval(iv);run=false;$('#tgo').textContent='▶';$('#timer').classList.remove('run');}
-function tick(){const rem=left-(Date.now()-t0);
-  if(rem<=0){stop();left=0;paint(0);$('#timer').classList.add('end');beep();return;}
+function tick(){const rem=left-(Date.now()-t0);if(rem<=30000&&rem>0&&!dinged){dinged=true;ding();}
+  if(rem<=0){stop();left=0;paint(0);$('#timer').classList.add('end');beep();setTimeout(say,1000);return;}
   paint(rem);}
 function toggle(){if(run){left-=Date.now()-t0;stop();return;}
   if(left<=0)return;$('#timer').classList.remove('end');run=true;t0=Date.now();$('#tgo').textContent='❚❚';$('#timer').classList.add('run');iv=setInterval(tick,100);}
-function reset(){stop();left=D;lastS=-1;$('#timer').classList.remove('end','warn');paint(D);}
+function reset(){stop();left=D;lastS=-1;dinged=false;const h=$('#hg');h.classList.remove('flip');void h.offsetWidth;h.classList.add('flip');$('#timer').classList.remove('end','warn');paint(D);}
 $('#tgo').onclick=toggle;$('#trs').onclick=reset;
 document.addEventListener('keydown',e=>{if(e.code==='Space'&&!e.target.closest('button')){e.preventDefault();toggle();}});
 paint(D);
