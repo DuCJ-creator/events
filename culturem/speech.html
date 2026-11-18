@@ -71,6 +71,7 @@ main{flex:1;min-height:0}
 .badge{font:600 1.15rem var(--hd);color:var(--gold);letter-spacing:.04em}
 .big{font:900 clamp(3rem,min(9vw,15vh),8rem)/1.1 var(--tc);margin:8px 0 2px;text-shadow:0 4px 30px rgba(255,120,160,.35)}
 .big.spin{opacity:.6;filter:blur(1.5px)}
+.nm.drawing .big{font-size:clamp(2.4rem,min(6.3vw,8vh),4.4rem)}.nm.drawing .en{font-size:clamp(1.8rem,min(4.8vw,6vh),3.2rem)}
 #dcls{margin-top:14px;padding:.18em .9em .24em;border-radius:22px;font:italic 800 clamp(1.7rem,min(4.4vw,7vh),3.4rem)/1.2 var(--hd);letter-spacing:.08em;color:#fff;
 background:linear-gradient(135deg,rgba(63,148,64,.72),rgba(31,84,38,.78) 55%,rgba(47,107,50,.7));
 backdrop-filter:blur(4px) saturate(150%);-webkit-backdrop-filter:blur(4px) saturate(150%);
@@ -388,7 +389,7 @@ let nameFitFrame=0;
 let stageFitFrame=0;
 function ensureDrawVisible(reset=false){cancelAnimationFrame(stageFitFrame);if(reset)document.body.classList.remove('stage-tight');stageFitFrame=requestAnimationFrame(()=>{if(!$('#v-stage').classList.contains('on'))return;const visibleHeight=window.visualViewport?window.visualViewport.height:window.innerHeight;if($('#dgo').getBoundingClientRect().bottom>visibleHeight-8)document.body.classList.add('stage-tight');});}
 function fitDrawName(){cancelAnimationFrame(nameFitFrame);const wrap=$('.nm'),cn=$('#dname'),en=$('#den');cn.style.fontSize='';en.style.fontSize='';nameFitFrame=requestAnimationFrame(()=>{const available=wrap.getBoundingClientRect().width-8,style=getComputedStyle(wrap),gap=parseFloat(style.columnGap)||0,needed=cn.getBoundingClientRect().width+en.getBoundingClientRect().width+gap;if(available&&needed>available){const scale=Math.max(.52,available/needed);cn.style.fontSize=(parseFloat(getComputedStyle(cn).fontSize)*scale)+'px';en.style.fontSize=(parseFloat(getComputedStyle(en).fontSize)*scale)+'px';}ensureDrawVisible();});}
-function setDrawIdentity(r){$('#dname').textContent=r[2];$('#den').textContent=r[3];$('#dcls').textContent=r[1];fitDrawName();}
+function setDrawIdentity(r,fit=true){$('#dname').textContent=r[2];$('#den').textContent=r[3];$('#dcls').textContent=r[1];if(fit)fitDrawName();}
 function setNow(i){const r=R[i];$('.who').classList.add('live');
   setDrawIdentity(r);
   $('#dbadge').textContent='No. '+(drawn.indexOf(i)+1)+' · '+r[0];}
@@ -398,10 +399,10 @@ $('#grp').onclick=e=>{const g=e.target.dataset.g;if(!g)return;grp=g;
   document.querySelectorAll('#grp .pill').forEach(b=>b.classList.toggle('on',b===e.target));};
 $('#dgo').onclick=()=>{if(busy)return;const p=pool();
   if(!p.length){$('#dbadge').textContent='Everyone in this group has been drawn';return;}
-  busy=true;$('.who').classList.add('live');$('#dgo').disabled=true;$('#dname').classList.add('spin');$('#dbadge').textContent='Drawing…';$('#dcls').textContent='';
+  busy=true;$('.who').classList.add('live');$('.nm').classList.add('drawing');$('#dname').style.fontSize='';$('#den').style.fontSize='';$('#dgo').disabled=true;$('#dname').classList.add('spin');$('#dbadge').textContent='Drawing…';$('#dcls').textContent='';
   const win=p[Math.floor(Math.random()*p.length)];
-  const iv=setInterval(()=>{const r=R[p[Math.floor(Math.random()*p.length)]];setDrawIdentity(r);},60);
-  setTimeout(()=>{clearInterval(iv);drawn.push(win);save();$('#dname').classList.remove('spin');setNow(win);busy=false;$('#dgo').disabled=false;updateFinaleButton();},900);};
+  const iv=setInterval(()=>{const r=R[p[Math.floor(Math.random()*p.length)]];setDrawIdentity(r,false);},75);
+  setTimeout(()=>{clearInterval(iv);drawn.push(win);save();$('.nm').classList.remove('drawing');$('#dname').classList.remove('spin');setNow(win);busy=false;$('#dgo').disabled=false;updateFinaleButton();},520);};
 $('#drs').onclick=()=>{if(!busy)$('#modal').classList.add('on');};
 $('#no').onclick=()=>$('#modal').classList.remove('on');
 $('#yes').onclick=()=>{$('#modal').classList.remove('on');drawn=[];save();$('.who').classList.remove('live');updateFinaleButton();reset();};
