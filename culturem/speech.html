@@ -73,11 +73,11 @@ main{flex:1;min-height:0}
 .big.spin{opacity:.6;filter:blur(1.5px)}
 .nm.drawing .big{font-size:clamp(2.4rem,min(6.3vw,8vh),4.4rem)}.nm.drawing .en{font-size:clamp(1.8rem,min(4.8vw,6vh),3.2rem)}
 #dcls{margin-top:14px;padding:.18em .9em .24em;border-radius:22px;font:italic 800 clamp(1.7rem,min(4.4vw,7vh),3.4rem)/1.2 var(--hd);letter-spacing:.08em;color:#fff;
-background:linear-gradient(135deg,rgba(63,148,64,.72),rgba(31,84,38,.78) 55%,rgba(47,107,50,.7));
+background:linear-gradient(135deg,rgba(137,18,57,.96),rgba(65,7,27,.97) 55%,rgba(111,13,46,.94));
 backdrop-filter:blur(4px) saturate(150%);-webkit-backdrop-filter:blur(4px) saturate(150%);
-border:1.5px solid rgba(143,209,106,.8);
-box-shadow:0 12px 32px rgba(10,40,16,.5),0 0 28px rgba(63,148,64,.4),inset 0 1.5px 0 rgba(255,255,255,.55),inset 0 -1.5px 0 rgba(255,255,255,.12),inset 0 0 22px rgba(124,195,90,.22);
-text-shadow:0 2px 0 rgba(10,50,18,.7),0 0 16px rgba(255,255,255,.55),0 4px 14px rgba(10,50,18,.7)}
+border:1.5px solid rgba(244,202,114,.86);
+box-shadow:0 12px 32px rgba(31,2,13,.52),0 0 30px rgba(137,18,57,.44),inset 0 1.5px 0 rgba(255,243,213,.5),inset 0 -1.5px 0 rgba(255,255,255,.1),inset 0 0 22px rgba(196,54,91,.2);
+text-shadow:0 2px 0 rgba(52,3,21,.78),0 0 16px rgba(255,244,219,.5),0 4px 14px rgba(31,2,13,.72)}
 #dcls:empty{display:none}
 #dbadge{font:800 clamp(1.6rem,min(3.4vw,5.5vh),2.8rem)/1.2 var(--hd);letter-spacing:.04em;color:#ffe2a0;text-shadow:0 0 18px rgba(255,214,120,.9),0 0 48px rgba(255,170,60,.55)}
 .nm{display:flex;flex-wrap:nowrap;align-items:baseline;justify-content:center;gap:0 .4em;width:100%;min-width:0;padding-inline:clamp(4px,1vw,14px);overflow:visible}
@@ -261,6 +261,48 @@ text-shadow:0 2px 0 rgba(10,50,18,.7),0 0 16px rgba(255,255,255,.55),0 4px 14px 
 }
 @media(max-width:820px){.sg{grid-template-columns:1fr;height:auto}body{overflow:auto}.top{border-radius:24px;justify-content:center}.view{padding-inline:10px}.who{border-radius:24px 46px}.topic{padding:14px 18px}.finale-launch{padding:9px 17px;font-size:.85rem}}
 body.stage-tight .top{margin-top:4px;padding-block:4px;justify-content:center}body.stage-tight .top .brand{display:none}body.stage-tight .ttl{padding-top:0}body.stage-tight .ttl .yr{display:none}body.stage-tight .m{font-size:clamp(1.55rem,min(4.3vw,5.5vh),2.9rem)}body.stage-tight #idle svg{width:64px}body.stage-tight .ld{margin-top:0;font-size:.92rem}body.stage-tight .who{padding-block:5px}body.stage-tight .ctl{margin-top:4px}
+/* Speech identity — ChungHsin red masthead, citrus-grove stage. */
+:root{
+  --gold:#f4ca72;--or:#ff9818;--cream:#fff8e8;--mut:#d9ddc5;--line:rgba(255,226,160,.24);
+  --forest-950:#02140e;--forest-900:#05251a;--forest-800:#093522;--leaf:#356b3b;--brand-red:#75102f
+}
+body{background:var(--forest-950)}
+.aur i:nth-child(1){background:#0a3826;opacity:.82}
+.aur i:nth-child(2){background:#e59a25;opacity:.09}
+.aur i:nth-child(3){background:#145035;opacity:.58}
+.aur i:nth-child(4){background:#ff9818;opacity:.075}
+.aur::after{background:conic-gradient(from 0deg at 50% 50%,transparent,rgba(255,197,83,.045),transparent 30%,rgba(62,119,72,.06),transparent 60%)}
+.aur::before{background:radial-gradient(closest-side,rgba(220,154,44,.09),rgba(24,80,49,.07) 55%,transparent)}
+.glass{background:linear-gradient(135deg,rgba(16,71,46,.32),rgba(2,24,16,.58) 55%,rgba(255,145,24,.045));border-color:rgba(208,229,188,.34);box-shadow:0 18px 44px rgba(0,10,6,.58),inset 0 1.5px 0 rgba(229,245,214,.36),inset 0 -1.5px 0 rgba(255,176,66,.08),inset 0 0 36px rgba(41,104,61,.08)}
+.glass::before{background:linear-gradient(180deg,rgba(237,255,219,.14),rgba(237,255,219,.025) 70%,transparent)}
+.glass::after{background:linear-gradient(115deg,transparent 43%,rgba(255,219,143,.2) 50%,transparent 57%);background-size:260% 100%}
+/* Institutional masthead remains unmistakably ChungHsin red. */
+.top{background:linear-gradient(120deg,rgba(117,16,47,.97),rgba(65,7,27,.97) 60%,rgba(117,16,47,.93));border-color:rgba(255,220,159,.58);box-shadow:0 14px 40px rgba(28,2,12,.42),inset 0 1.5px 0 rgba(255,242,211,.4),inset 0 -1.5px 0 rgba(255,178,94,.14)}
+.top::before{background:linear-gradient(180deg,rgba(255,243,217,.15),rgba(255,255,255,.02) 70%,transparent)}
+.ttl::before{content:"";position:absolute;z-index:-1;inset:0 max(8px,2.4vw) -3px;border-top:1px solid rgba(244,202,114,.35);border-bottom:1px solid rgba(244,202,114,.22);background:linear-gradient(90deg,transparent,rgba(117,16,47,.78) 15%,rgba(74,8,28,.9) 50%,rgba(117,16,47,.78) 85%,transparent);box-shadow:0 14px 38px rgba(36,3,15,.24)}
+nav,.timer{background:rgba(1,16,10,.7)}
+nav button.on{background:linear-gradient(135deg,#ffe0a0,var(--or));color:#18321f;box-shadow:0 4px 16px rgba(255,152,24,.28)}
+.timer{border-color:rgba(255,202,105,.27)}
+.tb{color:#15311f}.tb.g{background:rgba(224,245,207,.12);color:var(--cream)}
+.who,.topic{border-color:rgba(255,193,78,.42)}
+.big{text-shadow:0 4px 30px rgba(255,154,31,.24)}
+.pill{background:rgba(219,244,207,.06)}
+.pill.on{background:rgba(255,152,24,.2);border-color:var(--or);box-shadow:inset 0 0 18px rgba(255,179,64,.08)}
+.p.sel{border-color:#ffc55d;background:linear-gradient(135deg,rgba(255,152,24,.38),rgba(46,120,70,.28));box-shadow:0 0 0 2px rgba(255,205,111,.68),0 0 52px rgba(255,152,24,.38),0 20px 50px rgba(0,18,10,.42)}
+.chip{background:rgba(224,245,207,.07)}
+.modal{background:rgba(2,18,12,.68)}
+.finale{background:var(--forest-950)}
+.finale-bg{background:radial-gradient(circle at 50% 18%,rgba(255,145,24,.2),transparent 31%),radial-gradient(circle at 8% 92%,rgba(22,83,47,.66),transparent 40%),radial-gradient(circle at 92% 88%,rgba(9,53,34,.84),transparent 42%),linear-gradient(145deg,#082d1e,#010d09 60%,#052419)}
+.finale-bg::before{background:conic-gradient(from 20deg,transparent 0 8deg,rgba(255,204,105,.08) 8deg 14deg,transparent 14deg 27deg)}
+.finale-bg::after{background-image:radial-gradient(circle,rgba(255,225,159,.9) 0 1px,transparent 1.5px)}
+.finale-burst{background:repeating-conic-gradient(from 0deg at 50% 20%,rgba(255,197,91,.12) 0deg 1deg,transparent 1.2deg 12deg)}
+.finale-close,.finale-arrow{background:rgba(2,29,18,.55);border-color:rgba(255,215,137,.38)}
+.finale-close:hover,.finale-arrow:hover,.finale-arrow:focus-visible{background:rgba(255,152,24,.18);border-color:rgba(255,220,150,.66)}
+.remarks-quote{border-color:rgba(255,200,94,.38);background:linear-gradient(140deg,rgba(19,74,47,.5),rgba(2,22,14,.62));box-shadow:0 24px 60px rgba(0,10,6,.55),inset 0 1px rgba(237,255,222,.14)}
+.encourage div{border-top-color:rgba(255,190,68,.4)}
+.finale-name{border-color:rgba(255,197,84,.4);background:linear-gradient(150deg,rgba(18,73,46,.52),rgba(2,22,14,.68));box-shadow:0 14px 35px rgba(0,9,5,.52),inset 0 1px rgba(239,255,224,.13)}
+.finale-class{border-color:rgba(255,213,127,.72);background:linear-gradient(135deg,rgba(255,145,18,.94),rgba(166,76,4,.94));color:#fffbea;box-shadow:0 4px 16px rgba(0,20,11,.34),inset 0 1px rgba(255,255,255,.24)}
+.finale-footer{color:rgba(244,237,202,.78)}
 @media(prefers-reduced-motion:reduce){.aur i,.aur::after,.glass::after,.orb,.timer.run .orb,.timer.end,.finale-launch,.finale-bg::before,.finale-burst,.finale-title,.finale-name,.finale-name::after,.spark,.finale-page,.remarks-celebrate,.remarks-celebrate .party,.remarks-eyebrow,.remarks-title,.remarks-zh,.remarks-quote,.encourage{animation:none}.finale-kicker,.finale-title,.finale-sub,.finale-name,.remarks-celebrate,.remarks-eyebrow,.remarks-title,.remarks-zh,.remarks-quote,.encourage{opacity:1}.spark{display:none}}
 </style>
 </head>
@@ -373,7 +415,7 @@ body.stage-tight .top{margin-top:4px;padding-block:4px;justify-content:center}bo
 </section>
 
 <script>
-const R=[["高中組","2028GGa","葉向恩","Sean"],["高中組","2028TCLIPa","郭芯瑄","Sandra"],["高中組","2028TCLIPb","許庭睿","Timothy"],["高中組","2028TCLIPc","林歆恬","Cynthia"],["高中組","2028ZCa","曾宇謙","Tseng Yu-Chien"],["高中組","2029GGa","馬詠安","Evangel"],["高中組","2029TCLIPa","陳泑臻","Reese"],["高中組","2029TCLIPb","康博荏","Aaron"],["高中組","2029TCLIPc","李翎瑄","Angeline"],["高中組","2029ZCa","蔡沛恩","Yoni"],["初中組","2031MSa","陳湜","Elise"],["初中組","2031MSb","鄭沛婕","Melody"],["初中組","2032MSa","楊千瑩","Abby"],["初中組","2032MSb","江明潔","Minna"]];
+const R=[["高中組","2028GGa","葉向恩","Sean"],["高中組","2028TCLIPa","郭芯瑄","Sandra"],["高中組","2028TCLIPb","許庭睿","Timothy"],["高中組","2028TCLIPc","林歆恬","Cynthia"],["高中組","2028ZCa","曾宇謙","Yu-Chien"],["高中組","2029GGa","馬詠安","Evangel"],["高中組","2029TCLIPa","陳泑臻","Reese"],["高中組","2029TCLIPb","康博荏","Aaron"],["高中組","2029TCLIPc","李翎瑄","Angeline"],["高中組","2029ZCa","蔡沛恩","Yoni"],["初中組","2031MSa","陳湜","Elise"],["初中組","2031MSb","鄭沛婕","Melody"],["初中組","2032MSa","楊千瑩","Abby"],["初中組","2032MSb","江明潔","Minna"]];
 const $=s=>document.querySelector(s);
 $('#nav').onclick=e=>{const v=e.target.dataset.v;if(!v)return;
   document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('on',b===e.target));
